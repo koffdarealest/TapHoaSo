@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 public class Users {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-
     private Long UserID;
     private String Username;
 

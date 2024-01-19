@@ -18,11 +18,13 @@ public class User_Transaction_History {
     @Column(columnDefinition = "TEXT")
     private String Description;
     private String Status;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createAt;
+    private boolean isDelete;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date deleteAt;
 
-    public User_Transaction_History() {
-    }
-
-    public User_Transaction_History(Long transactionID, Users userID, Date transactionDate, Long amount, String transactionType, String description, String status) {
+    public User_Transaction_History(Long transactionID, Users userID, Date transactionDate, Long amount, String transactionType, String description, String status, Date createAt, boolean isDelete, Date deleteAt) {
         TransactionID = transactionID;
         UserID = userID;
         TransactionDate = transactionDate;
@@ -30,6 +32,9 @@ public class User_Transaction_History {
         TransactionType = transactionType;
         Description = description;
         Status = status;
+        this.createAt = createAt;
+        this.isDelete = isDelete;
+        this.deleteAt = deleteAt;
     }
 
     public Long getTransactionID() {
@@ -86,5 +91,29 @@ public class User_Transaction_History {
 
     public void setStatus(String status) {
         Status = status;
+    }
+
+    public Date getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
+    }
+
+    public Date getDeleteAt() {
+        return deleteAt;
+    }
+
+    public void setDeleteAt(Date deleteAt) {
+        this.deleteAt = deleteAt;
     }
 }
