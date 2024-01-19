@@ -2,6 +2,8 @@ package model;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 
 @Entity
 public class Users {
@@ -9,20 +11,20 @@ public class Users {
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Long UserID;
     private String Username;
-
     private String Password;
-
     private String Email;
-
     private String Nickname;
     private Boolean isAdmin;
     private Long Balance;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updateAt;
+    private boolean isDelete;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date deleteAt;
 
-
-    public Users() {
-    }
-
-    public Users(Long userID, String username, String password, String email, String nickname, Boolean isAdmin, Long balance) {
+    public Users(Long userID, String username, String password, String email, String nickname, Boolean isAdmin, Long balance, Date createAt, Date updateAt, boolean isDelete, Date deleteAt) {
         UserID = userID;
         Username = username;
         Password = password;
@@ -30,6 +32,10 @@ public class Users {
         Nickname = nickname;
         this.isAdmin = isAdmin;
         Balance = balance;
+        this.createAt = createAt;
+        this.updateAt = updateAt;
+        this.isDelete = isDelete;
+        this.deleteAt = deleteAt;
     }
 
     public Long getUserID() {
@@ -86,5 +92,37 @@ public class Users {
 
     public void setBalance(Long balance) {
         Balance = balance;
+    }
+
+    public Date getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
+    }
+
+    public Date getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Date updateAt) {
+        this.updateAt = updateAt;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
+    }
+
+    public Date getDeleteAt() {
+        return deleteAt;
+    }
+
+    public void setDeleteAt(Date deleteAt) {
+        this.deleteAt = deleteAt;
     }
 }

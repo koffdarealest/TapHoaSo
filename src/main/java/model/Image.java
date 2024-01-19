@@ -1,5 +1,6 @@
 package model;
 
+import model.Post;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -9,6 +10,7 @@ public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ImageID;
+    @ManyToOne
     private Post PostID;
     private byte[] image;
 
