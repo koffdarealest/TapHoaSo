@@ -53,7 +53,8 @@
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
                     <a href="index.html" class="logo">
-                        <img src="assets/images/logo.png" alt="" style="width: 158px;">
+                        <img src="assets/images/logo.png" alt=""
+                             style="width: 158px;">
                     </a>
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
@@ -86,135 +87,48 @@
     </div>
 </div>
 
-<!-- <div class="contact-page section">
-              <div class="container">
-                       <div class="row">
-                                <div class="col-lg-6 align-self-center">
-                                         <div class="left-text">
-                                                  <div class="section-heading">
-                                                           <h6>Contact Us</h6>
-                                                           <h2>Say Hello!</h2>
-                                                  </div>
-                                                  <p>LUGX Gaming Template is based on the latest Bootstrap 5 CSS
-                                                           framework. This template is provided by TemplateMo and it
-                                                           is suitable for your gaming shop ecommerce websites. Feel
-                                                           free to use this for any purpose. Thank you.</p>
-                                                  <ul>
-                                                           <li><span>Address</span> Sunny Isles Beach, FL 33160,
-                                                                    United States</li>
-                                                           <li><span>Phone</span> +123 456 7890</li>
-                                                           <li><span>Email</span> lugx@contact.com</li>
-                                                  </ul>
-                                         </div>
-                                </div>
-                                <div class="col-lg-6">
-                                         <div class="right-content">
-                                                  <div class="row">
-                                                           <div class="col-lg-12">
-                                                                    <div id="map">
-                                                                             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12469.776493332698!2d-80.14036379941481!3d25.907788681148624!2m3!1f357.26927939317244!2f20.870722720054623!3f0!3m2!1i1024!2i768!4f35!3m3!1m2!1s0x88d9add4b4ac788f%3A0xe77469d09480fcdb!2sSunny%20Isles%20Beach!5e1!3m2!1sen!2sth!4v1642869952544!5m2!1sen!2sth"
-                                                                                      width="100%" height="325px"
-                                                                                      frameborder="0"
-                                                                                      style="border:0; border-radius: 23px;"
-                                                                                      allowfullscreen=""></iframe>
-                                                                    </div>
-                                                           </div>
-                                                           <div class="col-lg-12">
-                                                                    <form id="contact-form" action="" method="post">
-                                                                             <div class="row">
-                                                                                      <div class="col-lg-6">
-                                                                                               <fieldset>
-                                                                                                        <input type="name"
-                                                                                                                 name="name"
-                                                                                                                 id="name"
-                                                                                                                 placeholder="Your Name..."
-                                                                                                                 autocomplete="on"
-                                                                                                                 required>
-                                                                                               </fieldset>
-                                                                                      </div>
-                                                                                      <div class="col-lg-6">
-                                                                                               <fieldset>
-                                                                                                        <input type="surname"
-                                                                                                                 name="surname"
-                                                                                                                 id="surname"
-                                                                                                                 placeholder="Your Surname..."
-                                                                                                                 autocomplete="on"
-                                                                                                                 required>
-                                                                                               </fieldset>
-                                                                                      </div>
-                                                                                      <div class="col-lg-6">
-                                                                                               <fieldset>
-                                                                                                        <input type="text"
-                                                                                                                 name="email"
-                                                                                                                 id="email"
-                                                                                                                 pattern="[^ @]*@[^ @]*"
-                                                                                                                 placeholder="Your E-mail..."
-                                                                                                                 required="">
-                                                                                               </fieldset>
-                                                                                      </div>
-                                                                                      <div class="col-lg-6">
-                                                                                               <fieldset>
-                                                                                                        <input type="subject"
-                                                                                                                 name="subject"
-                                                                                                                 id="subject"
-                                                                                                                 placeholder="Subject..."
-                                                                                                                 autocomplete="on">
-                                                                                               </fieldset>
-                                                                                      </div>
-                                                                                      <div class="col-lg-12">
-                                                                                               <fieldset>
-                                                                                                        <textarea name="message"
-                                                                                                                 id="message"
-                                                                                                                 placeholder="Your Message"></textarea>
-                                                                                               </fieldset>
-                                                                                      </div>
-                                                                                      <div class="col-lg-12">
-                                                                                               <fieldset>
-                                                                                                        <button type="submit"
-                                                                                                                 id="form-submit"
-                                                                                                                 class="orange-button">Send
-                                                                                                                 Message
-                                                                                                                 Now</button>
-                                                                                               </fieldset>
-                                                                                      </div>
-                                                                             </div>
-                                                                    </form>
-                                                           </div>
-                                                  </div>
-                                         </div>
-                                </div>
-                       </div>
-              </div>
-     </div> -->
 <div class="row justify-content-center">
     <div class="login-wrap p-4 p-md-5 col-lg-4">
         <div class="col-lg-10 mx-auto">
             <div class="card-header text-center p-3 mb-4">
-                <h2 class="m-0">SIGN IN</h2>
+                <h2 class="m-0">SIGN UP</h2>
             </div>
-            <form action="login" method="post">
+            <form action="/signup" method="post">
+
                 <div class="form-group mb-3">
-                    <label class="label">Username</label>
-                    <input type="text" class="form-control" placeholder="Username" required name="userName">
+                    <label class="label" >Fullname</label>
+                    <input type="text" class="form-control" placeholder="Fullname"
+                           required name="fullname">
+                </div>
+                <div class="form-group mb-3">
+                    <label class="label" >Gmail</label>
+                    <input type="email" class="form-control" placeholder="Email"
+                           required name="email">
+                </div>
+                <div class="form-group mb-3">
+                    <label class="label" >Username</label>
+                    <input type="text" class="form-control" placeholder="Username"
+                           required name="userName">
                 </div>
                 <div class="form-group mb-4">
-                    <label class="label">Password</label>
-                    <input type="password" class="form-control" placeholder="Password" required name="password">
+                    <label class="label" >Password</label>
+                    <input type="password" class="form-control" placeholder="Password"
+                           required name="password">
                 </div>
+                <div class="form-group mb-4">
+                    <label class="label">Re-Password</label>
+                    <input type="password" class="form-control" placeholder="Re-password"
+                           required name="re-password">
+                </div>
+
                 <!-- <h6 class="text-danger">${sessionScope.mess}</h6> -->
                 <div class="form-group mb-3 text-center">
-                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Sign In</button>
+                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg">SIGN UP</button>
                 </div>
-                <div class="form-group d-md-flex mb-3">
-                    <div class="w-50 text-left">
-                        <label class="">Remember Me <input type="checkbox"><span class="checkmark"></span></label>
-                    </div>
-                    <div class="w-50" style="text-align: end;">
-                        <a href="#">Forgot Password</a>
-                    </div>
-                </div>
+
             </form>
-            <p class="text-center" style="font-size: 15px;">Not a member? <a data-toggle="tab" href="signup.html">Sign Up Here</a></p>
+            <p class="text-center" style="font-size: 15px;">Already have an account?  <a data-toggle="tab"
+                                                                                         href="signin.html">Back to Sign In</a></p>
         </div>
     </div>
 </div>
@@ -222,8 +136,9 @@
 <footer>
     <div class="container">
         <div class="col-lg-12">
-            <p>Copyright © 2048 LUGX Gaming Company. All rights reserved. &nbsp;&nbsp; <a rel="nofollow"
-                                                                                          href="https://templatemo.com" target="_blank">Design: TemplateMo</a></p>
+            <p>Copyright © 2048 LUGX Gaming Company. All rights reserved. &nbsp;&nbsp; <a
+                    rel="nofollow" href="https://templatemo.com"
+                    target="_blank">Design: TemplateMo</a></p>
         </div>
     </div>
 </footer>
@@ -236,6 +151,7 @@
 <script src="../assets/js/owl-carousel.js"></script>
 <script src="../assets/js/counter.js"></script>
 <script src="../assets/js/custom.js"></script>
+
 
 </body>
 
