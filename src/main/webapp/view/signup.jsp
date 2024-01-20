@@ -194,11 +194,11 @@
             </div>
             <form action="login" method="post">
                 <div class="form-group mb-3">
-                    <label class="label" for="name">Username</label>
+                    <label class="label">Username</label>
                     <input type="text" class="form-control" placeholder="Username" required name="userName">
                 </div>
                 <div class="form-group mb-4">
-                    <label class="label" for="password">Password</label>
+                    <label class="label">Password</label>
                     <input type="password" class="form-control" placeholder="Password" required name="password">
                 </div>
                 <!-- <h6 class="text-danger">${sessionScope.mess}</h6> -->
