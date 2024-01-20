@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet">
 
-    <title>Sign in & Sign up</title>
+    <title>Sign in</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -102,7 +102,7 @@
                     <label class="label">Password</label>
                     <input type="password" class="form-control" placeholder="Password" required name="password">
                 </div>
-                <!-- <h6 class="text-danger">${sessionScope.mess}</h6> -->
+                <h6 class="text-danger">${error}</h6>
                 <div class="form-group mb-3 text-center">
                     <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Sign In</button>
                 </div>
