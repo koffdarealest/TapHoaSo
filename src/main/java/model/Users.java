@@ -24,6 +24,10 @@ public class Users {
     @Temporal(TemporalType.TIMESTAMP)
     private Date deleteAt;
 
+
+    public Users() {
+    }
+
     public Users(Long userID, String username, String password, String email, String nickname, Boolean isAdmin, Long balance, Date createAt, Date updateAt, boolean isDelete, Date deleteAt) {
         UserID = userID;
         Username = username;
