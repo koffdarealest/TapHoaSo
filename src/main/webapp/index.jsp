@@ -6,7 +6,7 @@
 <body>
 <p>Test</p>
 
-<a href="signin">signin</a>
+<a href="signup">signup</a>
 </body>
 
 </html>

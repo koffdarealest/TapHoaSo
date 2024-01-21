@@ -8,15 +8,17 @@
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/demodatabase?useSSL=false&amp;serverTimezone=UTC</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/taphoaso?useSSL=false&amp;serverTimezone=UTC</property>
         <property name="connection.username">root</property>
         <property name="connection.password">12345678</property>
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
-        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
 
         <!-- Names the annotated model class -->
-
+        <mapping class="DAO.UserDAO"/>
+        <mapping class="model.Users"/>
+        <mapping class="controller.signupController"/>
     </session-factory>
 </hibernate-configuration>

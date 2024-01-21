@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"/signin"})
+@WebServlet(name = "signin", urlPatterns = {"/signin"})
 
 public class signinController extends HttpServlet {
     @Override
