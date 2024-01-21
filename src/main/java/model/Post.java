@@ -1,47 +1,30 @@
 package model;
 
 import jakarta.persistence.*;
-import model.Users;
-
-import java.util.Date;
 
 @Entity
-public class Post {
+public class Post extends AuditableBase{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postID;
-
     @ManyToOne
-    private Users sellerID;
-
+    private User sellerID;
     private String tradingCode;
     private String topic;
     private Long price;
     private Long fee;
     private Boolean sellerPayFee;
-
     @Column(columnDefinition = "TEXT")
     private String describe;
-    private String describeImage;
     private String contact;
-
     @Column(columnDefinition = "TEXT")
     private String hidden;
     private Boolean isPublic;
 
-    // Thêm các trường mới
-    private boolean isDelete; //trường đánh dấu xóa mềm
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+    public Post() {
+    }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
-
-    @ManyToOne
-    private Users updatedBy;
-
-    public Post(Long postID, Users sellerID, String tradingCode, String topic, Long price, Long fee, Boolean sellerPayFee, String describe, String describeImage, String contact, String hidden, Boolean isPublic, boolean isDelete, Date createdAt, Date updatedAt, Users updatedBy) {
-        this.postID = postID;
+    public Post(User sellerID, String tradingCode, String topic, Long price, Long fee, Boolean sellerPayFee, String describe, String contact, String hidden, Boolean isPublic) {
         this.sellerID = sellerID;
         this.tradingCode = tradingCode;
         this.topic = topic;
@@ -49,14 +32,9 @@ public class Post {
         this.fee = fee;
         this.sellerPayFee = sellerPayFee;
         this.describe = describe;
-        this.describeImage = describeImage;
         this.contact = contact;
         this.hidden = hidden;
         this.isPublic = isPublic;
-        this.isDelete = isDelete;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.updatedBy = updatedBy;
     }
 
     public Long getPostID() {
@@ -67,11 +45,11 @@ public class Post {
         this.postID = postID;
     }
 
-    public Users getSellerID() {
+    public User getSellerID() {
         return sellerID;
     }
 
-    public void setSellerID(Users sellerID) {
+    public void setSellerID(User sellerID) {
         this.sellerID = sellerID;
     }
 
@@ -123,14 +101,6 @@ public class Post {
         this.describe = describe;
     }
 
-    public String getDescribeImage() {
-        return describeImage;
-    }
-
-    public void setDescribeImage(String describeImage) {
-        this.describeImage = describeImage;
-    }
-
     public String getContact() {
         return contact;
     }
@@ -153,37 +123,5 @@ public class Post {
 
     public void setPublic(Boolean aPublic) {
         isPublic = aPublic;
-    }
-
-    public boolean isDelete() {
-        return isDelete;
-    }
-
-    public void setDelete(boolean delete) {
-        isDelete = delete;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Users getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(Users updatedBy) {
-        this.updatedBy = updatedBy;
     }
 }

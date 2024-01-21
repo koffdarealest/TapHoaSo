@@ -1,111 +1,45 @@
 package model;
 
-import model.Post;
 import jakarta.persistence.*;
 
-import java.util.Date;
-
 @Entity
-public class Image {
+public class Image extends AuditableBase{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ImageID;
+    private Long imageID;
     @ManyToOne
-    private Post PostID;
-    private byte[] image;
+    private Post postID;
+    private String image;
 
-    // Thêm các trường mới
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
-    private String createBy;
-    private boolean isDelete; //them truong xoa mem
-    @Temporal(TemporalType.TIMESTAMP)
-    private String deletedAt;
-    private String deletedBy;
+    public Image() {
+    }
 
-    public Image(Long imageID, Post postID, byte[] image, Date createdAt, Date updatedAt, String createBy, boolean isDelete, String deletedAt, String deletedBy) {
-        ImageID = imageID;
-        PostID = postID;
+    public Image(Post postID, String image) {
+        this.postID = postID;
         this.image = image;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.createBy = createBy;
-        this.isDelete = isDelete;
-        this.deletedAt = deletedAt;
-        this.deletedBy = deletedBy;
     }
 
     public Long getImageID() {
-        return ImageID;
+        return imageID;
     }
 
     public void setImageID(Long imageID) {
-        ImageID = imageID;
+        this.imageID = imageID;
     }
 
     public Post getPostID() {
-        return PostID;
+        return postID;
     }
 
     public void setPostID(Post postID) {
-        PostID = postID;
+        this.postID = postID;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public String getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
-
-    public boolean isDelete() {
-        return isDelete;
-    }
-
-    public void setDelete(boolean delete) {
-        isDelete = delete;
-    }
-
-    public String getDeletedAt() {
-        return deletedAt;
-    }
-
-    public void setDeletedAt(String deletedAt) {
-        this.deletedAt = deletedAt;
-    }
-
-    public String getDeletedBy() {
-        return deletedBy;
-    }
-
-    public void setDeletedBy(String deletedBy) {
-        this.deletedBy = deletedBy;
     }
 }

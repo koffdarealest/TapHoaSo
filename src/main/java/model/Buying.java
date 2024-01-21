@@ -1,54 +1,57 @@
 package model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
-public class Buying {
+public class Buying extends AuditableBase{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long BuyID;
-    @OneToOne
-    private Post PostID;
-    @ManyToOne
-    private Users BuyerID;
-    private String Status;
+    private Long buyID;
+    private Post postID;
+    private User buyerID;
+    private String status;
 
-    public Buying(Long buyID, Post postID, Users buyerID, String status) {
-        BuyID = buyID;
-        PostID = postID;
-        BuyerID = buyerID;
-        Status = status;
+    public Buying() {
+    }
+
+    public Buying(Post postID, User buyerID, String status) {
+        this.postID = postID;
+        this.buyerID = buyerID;
+        this.status = status;
     }
 
     public Long getBuyID() {
-        return BuyID;
+        return buyID;
     }
 
     public void setBuyID(Long buyID) {
-        BuyID = buyID;
+        this.buyID = buyID;
     }
 
     public Post getPostID() {
-        return PostID;
+        return postID;
     }
 
     public void setPostID(Post postID) {
-        PostID = postID;
+        this.postID = postID;
     }
 
-    public Users getBuyerID() {
-        return BuyerID;
+    public User getBuyerID() {
+        return buyerID;
     }
 
-    public void setBuyerID(Users buyerID) {
-        BuyerID = buyerID;
+    public void setBuyerID(User buyerID) {
+        this.buyerID = buyerID;
     }
 
     public String getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(String status) {
-        Status = status;
+        this.status = status;
     }
 }

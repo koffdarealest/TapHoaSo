@@ -1,119 +1,88 @@
 package model;
 
 import jakarta.persistence.*;
-import org.hibernate.boot.model.relational.SqlStringGenerationContext;
 
 import java.util.Date;
 
 @Entity
-public class User_Transaction_History {
+public class User_Transaction_History extends AuditableBase{
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-    private Long TransactionID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long transactionID;
     @ManyToOne
-    private Users UserID;
-    private Date TransactionDate;
-    private Long Amount;
-    private String TransactionType;
+    private User userID;
+    private Date transactionDate;
+    private Long amount;
+    private String type;
     @Column(columnDefinition = "TEXT")
-    private String Description;
-    private String Status;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createAt;
-    private boolean isDelete;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date deleteAt;
+    private String description;
+    private String status;
 
-    public User_Transaction_History(Long transactionID, Users userID, Date transactionDate, Long amount, String transactionType, String description, String status, Date createAt, boolean isDelete, Date deleteAt) {
-        TransactionID = transactionID;
-        UserID = userID;
-        TransactionDate = transactionDate;
-        Amount = amount;
-        TransactionType = transactionType;
-        Description = description;
-        Status = status;
-        this.createAt = createAt;
-        this.isDelete = isDelete;
-        this.deleteAt = deleteAt;
+    public User_Transaction_History() {
+    }
+
+    public User_Transaction_History(User userID, Date transactionDate, Long amount, String type, String description, String status) {
+        this.userID = userID;
+        this.transactionDate = transactionDate;
+        this.amount = amount;
+        this.type = type;
+        this.description = description;
+        this.status = status;
     }
 
     public Long getTransactionID() {
-        return TransactionID;
+        return transactionID;
     }
 
     public void setTransactionID(Long transactionID) {
-        TransactionID = transactionID;
+        this.transactionID = transactionID;
     }
 
-    public Users getUserID() {
-        return UserID;
+    public User getUserID() {
+        return userID;
     }
 
-    public void setUserID(Users userID) {
-        UserID = userID;
+    public void setUserID(User userID) {
+        this.userID = userID;
     }
 
     public Date getTransactionDate() {
-        return TransactionDate;
+        return transactionDate;
     }
 
     public void setTransactionDate(Date transactionDate) {
-        TransactionDate = transactionDate;
+        this.transactionDate = transactionDate;
     }
 
     public Long getAmount() {
-        return Amount;
+        return amount;
     }
 
     public void setAmount(Long amount) {
-        Amount = amount;
+        this.amount = amount;
     }
 
-    public String getTransactionType() {
-        return TransactionType;
+    public String getType() {
+        return type;
     }
 
-    public void setTransactionType(String transactionType) {
-        TransactionType = transactionType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
     public String getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(String status) {
-        Status = status;
-    }
-
-    public Date getCreateAt() {
-        return createAt;
-    }
-
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
-    }
-
-    public boolean isDelete() {
-        return isDelete;
-    }
-
-    public void setDelete(boolean delete) {
-        isDelete = delete;
-    }
-
-    public Date getDeleteAt() {
-        return deleteAt;
-    }
-
-    public void setDeleteAt(Date deleteAt) {
-        this.deleteAt = deleteAt;
+        this.status = status;
     }
 }
