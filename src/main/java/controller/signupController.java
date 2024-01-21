@@ -11,22 +11,21 @@ import model.Users;
 import java.io.IOException;
 import java.util.Date;
 
-@WebServlet(urlPatterns = {"/signup"})
+@WebServlet(name = "signup", urlPatterns = {"/signup"})
 public class signupController extends HttpServlet {
-    public signupController() {
-        super();
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        super.doGet(req, resp);
+        // Remove the following line, as it's not necessary
+        //super.doGet(req, resp);
+        req.getRequestDispatcher("view/signup.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Users users = new Users();
         UserDAO userDAO = new UserDAO();
+
         String fullname = req.getParameter("fullname");
         String email = req.getParameter("email");
         String username = req.getParameter("userName");
@@ -37,7 +36,6 @@ public class signupController extends HttpServlet {
             String encodePassword = userDAO.encodePassword(password);
 
             users.setNickname(fullname);
-
             users.setEmail(email);
             users.setPassword(encodePassword);
             users.setUsername(username);
@@ -48,13 +46,15 @@ public class signupController extends HttpServlet {
             users.setDeleteAt(null);
             users.setDelete(false);
 
-
-
             userDAO.inserUser(users);
-            resp.sendRedirect("index.jsp");
+
+            resp.sendRedirect(req.getContextPath() + "/index.jsp");
+
         } else {
-            req.setAttribute("mess", "password anf rePassword doesn't match");
-            req.getRequestDispatcher("TapHoaSo/view/signup.jsp").forward(req, resp);
+            req.setAttribute("mess", "Password and Re-password don't match");
+            req.getRequestDispatcher("view/signup.jsp").forward(req, resp);
         }
+
+
     }
 }

@@ -119,6 +119,10 @@ public class UserDAO {
 
 
     public static void main(String[] args) {
+        Users users = new Users();
+        UserDAO userDAO = new UserDAO();
+
+
 
     }
 }

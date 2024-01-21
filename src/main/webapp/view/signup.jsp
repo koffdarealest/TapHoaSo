@@ -93,8 +93,7 @@
             <div class="card-header text-center p-3 mb-4">
                 <h2 class="m-0">SIGN UP</h2>
             </div>
-            <form action="/signup" method="post">
-
+            <form action="user" method="post" name="signup">
                 <div class="form-group mb-3">
                     <label class="label" >Fullname</label>
                     <input type="text" class="form-control" placeholder="Fullname"
@@ -125,7 +124,6 @@
                 <div class="form-group mb-3 text-center">
                     <button type="submit" class="col-lg-8 btn btn-primary btn-lg">SIGN UP</button>
                 </div>
-
             </form>
             <p class="text-center" style="font-size: 15px;">Already have an account?  <a data-toggle="tab"
                                                                                          href="signin.html">Back to Sign In</a></p>
