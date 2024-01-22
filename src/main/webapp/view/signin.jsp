@@ -96,7 +96,7 @@
             <form action="login" method="post">
                 <div class="form-group mb-3">
                     <label class="label">Username</label>
-                    <input type="text" class="form-control" placeholder="Username" required name="userName">
+                    <input type="text" class="form-control" placeholder="Username" required name="username">
                 </div>
                 <div class="form-group mb-4">
                     <label class="label">Password</label>
@@ -108,14 +108,14 @@
                 </div>
                 <div class="form-group d-md-flex mb-3">
                     <div class="w-50 text-left">
-                        <label class="">Remember Me <input type="checkbox"><span class="checkmark"></span></label>
+                        <label class="">Remember Me <input type="checkbox" name="remember"><span class="checkmark"></span></label>
                     </div>
                     <div class="w-50" style="text-align: end;">
                         <a href="#">Forgot Password</a>
                     </div>
                 </div>
             </form>
-            <p class="text-center" style="font-size: 15px;">Not a member? <a data-toggle="tab" href="signup.html">Sign
+            <p class="text-center" style="font-size: 15px;">Not a member? <a data-toggle="tab" href="signup">Sign
                 Up Here</a></p>
         </div>
     </div>

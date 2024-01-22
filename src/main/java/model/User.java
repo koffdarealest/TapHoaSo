@@ -1,8 +1,8 @@
 package model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.UUID;
 
 @Entity
 public class User extends AuditableBase{
@@ -15,6 +15,9 @@ public class User extends AuditableBase{
     private String nickname;
     private Long balance;
     private Boolean isAdmin;
+    @GeneratedValue(generator = "uuid2")
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID secretKey;
 
     public User() {
     }
@@ -82,5 +85,9 @@ public class User extends AuditableBase{
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
+    }
+
+    public UUID getSecretKey() {
+        return secretKey;
     }
 }
