@@ -93,7 +93,7 @@
             <div class="card-header text-center p-3 mb-4">
                 <h2 class="m-0">SIGN IN</h2>
             </div>
-            <form action="login" method="post">
+            <form action="signin" method="post">
                 <div class="form-group mb-3">
                     <label class="label">Username</label>
                     <input type="text" class="form-control" placeholder="Username" required name="username">

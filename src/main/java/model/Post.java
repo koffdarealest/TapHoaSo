@@ -7,7 +7,7 @@ public class Post extends AuditableBase{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postID;
-    @ManyToOne
+    @OneToOne
     private User sellerID;
     private String tradingCode;
     private String topic;
@@ -15,7 +15,7 @@ public class Post extends AuditableBase{
     private Long fee;
     private Boolean sellerPayFee;
     @Column(columnDefinition = "TEXT")
-    private String describe;
+    private String description;
     private String contact;
     @Column(columnDefinition = "TEXT")
     private String hidden;
@@ -24,14 +24,14 @@ public class Post extends AuditableBase{
     public Post() {
     }
 
-    public Post(User sellerID, String tradingCode, String topic, Long price, Long fee, Boolean sellerPayFee, String describe, String contact, String hidden, Boolean isPublic) {
+    public Post(User sellerID, String tradingCode, String topic, Long price, Long fee, Boolean sellerPayFee, String description, String contact, String hidden, Boolean isPublic) {
         this.sellerID = sellerID;
         this.tradingCode = tradingCode;
         this.topic = topic;
         this.price = price;
         this.fee = fee;
         this.sellerPayFee = sellerPayFee;
-        this.describe = describe;
+        this.description = description;
         this.contact = contact;
         this.hidden = hidden;
         this.isPublic = isPublic;
@@ -94,11 +94,11 @@ public class Post extends AuditableBase{
     }
 
     public String getDescribe() {
-        return describe;
+        return description;
     }
 
     public void setDescribe(String describe) {
-        this.describe = describe;
+        this.description = describe;
     }
 
     public String getContact() {

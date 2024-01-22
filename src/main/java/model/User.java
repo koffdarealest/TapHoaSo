@@ -1,13 +1,16 @@
 package model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+import DAO.userDAO;
+import util.Encryption;
 
 import java.util.UUID;
 
 @Entity
 public class User extends AuditableBase{
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userID;
     private String username;
     private String password;
@@ -15,22 +18,20 @@ public class User extends AuditableBase{
     private String nickname;
     private Long balance;
     private Boolean isAdmin;
-    @GeneratedValue(generator = "uuid2")
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID secretKey;
+    private byte[] secretKey;
 
     public User() {
     }
 
-    public User(String username, String password, String email, String nickname, Long balance, Boolean isAdmin) {
+    public User(String username, String password, String email, String nickname, Long balance, Boolean isAdmin, byte[] secretKey) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.nickname = nickname;
         this.balance = balance;
         this.isAdmin = isAdmin;
+        this.secretKey = secretKey;
     }
-
     public Long getUserID() {
         return userID;
     }
@@ -87,7 +88,8 @@ public class User extends AuditableBase{
         isAdmin = admin;
     }
 
-    public UUID getSecretKey() {
+    public byte[] getSecretKey() {
         return secretKey;
     }
+
 }

@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.Factory;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -38,7 +39,15 @@ public class userDAO {
         return false;
     }
 
-    public UUID getSecretKey(String username) {
+    public String randomString(int length) {
+        byte[] bytes = new byte[length];
+        SecureRandom random = new SecureRandom();
+        random.nextBytes(bytes);
+        String str = bytes.toString();
+        return str;
+    }
+
+    public byte[] getSecretKey(String username) {
         List<User> listUsers = getAllUser();
         for (User user : listUsers) {
             if (user.getUsername().equals(username)) {
@@ -47,4 +56,5 @@ public class userDAO {
         }
         return null;
     }
+
 }

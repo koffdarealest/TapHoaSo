@@ -14,9 +14,15 @@
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
 
         <!-- Names the annotated model class -->
         <mapping class="model.User"/>
+        <mapping class="model.User_Transaction_History"/>
+        <mapping class="model.Post"/>
+        <mapping class="model.Image"/>
+        <mapping class="model.Buying"/>
+        <mapping class="model.Notice"/>
+<!--        <mapping class="model.Conflict_History"/>-->
     </session-factory>
 </hibernate-configuration>

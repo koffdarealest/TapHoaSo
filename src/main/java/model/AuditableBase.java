@@ -1,5 +1,6 @@
 package model;
 
+
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import org.springframework.data.annotation.CreatedBy;
@@ -25,11 +26,33 @@ public class AuditableBase {
     @LastModifiedDate
     private Timestamp modifiedDt;
 
-    private boolean isDelete;
+    private Boolean isDelete;
 
     private String deleteBy;
 
     private Timestamp deleteDt;
 
+    public Boolean getDelete() {
+        return isDelete;
+    }
 
+    public void setDelete(Boolean delete) {
+        isDelete = delete;
+    }
+
+    public String getDeleteBy() {
+        return deleteBy;
+    }
+
+    public void setDeleteBy(String deleteBy) {
+        this.deleteBy = deleteBy;
+    }
+
+    public Timestamp getDeleteDt() {
+        return deleteDt;
+    }
+
+    public void setDeleteDt(Timestamp deleteDt) {
+        this.deleteDt = deleteDt;
+    }
 }

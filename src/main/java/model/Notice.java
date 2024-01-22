@@ -11,16 +11,13 @@ public class Notice extends AuditableBase{
     private Buying buyID;
     private String content;
     private Boolean isAdminReceive;
-    private User userReceive;
-
     public Notice() {
     }
 
-    public Notice(Buying buyID, String content, Boolean isAdminReceive, User userReceive) {
+    public Notice(Buying buyID, String content, Boolean isAdminReceive) {
         this.buyID = buyID;
         this.content = content;
         this.isAdminReceive = isAdminReceive;
-        this.userReceive = userReceive;
     }
 
     public Long getNoticeID() {
@@ -53,13 +50,5 @@ public class Notice extends AuditableBase{
 
     public void setAdminReceive(Boolean adminReceive) {
         isAdminReceive = adminReceive;
-    }
-
-    public User getUserReceive() {
-        return userReceive;
-    }
-
-    public void setUserReceive(User userReceive) {
-        this.userReceive = userReceive;
     }
 }

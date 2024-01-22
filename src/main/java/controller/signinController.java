@@ -17,7 +17,6 @@ import java.security.NoSuchAlgorithmException;
 public class signinController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("error", "Wrong username or ");
         req.getRequestDispatcher("/view/signin.jsp").forward(req, resp);
     }
 
@@ -32,16 +31,16 @@ public class signinController extends HttpServlet {
         if (userDAO.checkValidUser(username, password)) {
             req.getSession().setAttribute("username", username);
             String sessionID = req.getSession().getId();
-            String key = userDAO.getSecretKey(username).toString();
+            byte[] key = userDAO.getSecretKey(username);
             try {                                                               //encrypt sessionID and send it to client
-                String eSID = encryption.encrypt(sessionID, key.getBytes());
+                String eSID = encryption.encrypt(sessionID, key);
                 Cookie sessionIDCookie = new Cookie("sID", eSID);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
             if (remember != null) {                                             //if remember me is checked, encrypt password and send it to client
                 try {
-                    String ePwd = encryption.encrypt(password, key.getBytes());
+                    String ePwd = encryption.encrypt(password, key);
                     Cookie passwordCookie = new Cookie("pwd", ePwd);
                 }
                 catch (Exception e) {

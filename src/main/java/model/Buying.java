@@ -1,16 +1,15 @@
 package model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Buying extends AuditableBase{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long buyID;
+    @OneToOne
     private Post postID;
+    @ManyToOne
     private User buyerID;
     private String status;
 
