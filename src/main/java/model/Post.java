@@ -7,7 +7,7 @@ public class Post extends AuditableBase{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postID;
-    @OneToOne
+    @ManyToOne
     private User sellerID;
     private String tradingCode;
     private String topic;
