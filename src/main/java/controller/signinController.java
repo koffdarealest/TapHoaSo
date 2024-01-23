@@ -1,5 +1,6 @@
 package controller;
 
+
 import DAO.userDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,6 +9,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import util.Encryption;
+
 import java.io.IOException;
 
 
@@ -31,9 +33,8 @@ public class signinController extends HttpServlet {
                 }
             }
         }
-        if(user.equals("") || ePwd.equals("")) {
+        if (user.equals("") || ePwd.equals("")) {
             req.getRequestDispatcher("/view/signin.jsp").forward(req, resp);
-            return;
         } else {
             try {
                 req.setAttribute("username", user);
@@ -41,7 +42,7 @@ public class signinController extends HttpServlet {
                 String password = encryption.decrypt(ePwd, key);
                 req.setAttribute("password", password);
                 req.getRequestDispatcher("/view/signin.jsp").forward(req, resp);
-            }catch (Exception e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
@@ -56,20 +57,22 @@ public class signinController extends HttpServlet {
         userDAO userDAO = new userDAO();
         Encryption encryption = new Encryption();
         if (userDAO.CheckValidUser(username, password)) {
-            req.getSession().setAttribute("username", username);
-            byte[] key = userDAO.getSecretKey(username);
-            if (remember != null) {                                             //if remember me is checked, encrypt password and send it to client
-                try {
-                    String ePwd = encryption.encrypt(password, key);
-                    Cookie usernameCookie = new Cookie("userC", username);
-                    Cookie passwordCookie = new Cookie("pwdC", ePwd);
-                    usernameCookie.setMaxAge(60 * 60 * 24);
-                    passwordCookie.setMaxAge(60 * 60 * 24);
-                    resp.addCookie(usernameCookie);
-                    resp.addCookie(passwordCookie);
-                }
-                catch (Exception e) {
-                    throw new RuntimeException(e);
+            boolean isDeletedUser = userDAO.getUserByUsername(username).getDelete();
+            if (isDeletedUser == false) {
+                req.getSession().setAttribute("username", username);
+                byte[] key = userDAO.getSecretKey(username);
+                if (remember != null) {                                             //if remember me is checked, encrypt password and send it to client
+                    try {
+                        String ePwd = encryption.encrypt(password, key);
+                        Cookie usernameCookie = new Cookie("userC", username);
+                        Cookie passwordCookie = new Cookie("pwdC", ePwd);
+                        usernameCookie.setMaxAge(60 * 60 * 24);
+                        passwordCookie.setMaxAge(60 * 60 * 24);
+                        resp.addCookie(usernameCookie);
+                        resp.addCookie(passwordCookie);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
             resp.sendRedirect(req.getContextPath() + "/home");

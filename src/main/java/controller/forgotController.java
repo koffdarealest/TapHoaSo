@@ -1,5 +1,6 @@
 package controller;
 
+import DAO.userDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,6 +21,12 @@ public class forgotController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
+        userDAO userDAO = new userDAO();
+        if(!userDAO.checkExistEmail(email)) {
+            req.setAttribute("mess", "Email does not exist! Try again!");
+            req.getRequestDispatcher("/view/forgot.jsp").forward(req, resp);
+            return;
+        }
         EmailUtility emailUtility = new EmailUtility();
         String hostname = "smtp.gmail.com";
         int port = 587; // Use the appropriate port for your SMTP server
