@@ -93,8 +93,7 @@
             <div class="card-header text-center p-3 mb-4">
                 <h2 class="m-0">SIGN UP</h2>
             </div>
-            <form action="login" method="post">
-
+            <form action="signup" method="post" name="signup">
                 <div class="form-group mb-3">
                     <label class="label" >Fullname</label>
                     <input type="text" class="form-control" placeholder="Fullname"
@@ -104,11 +103,6 @@
                     <label class="label" >Gmail</label>
                     <input type="email" class="form-control" placeholder="Email"
                            required name="email">
-                </div>
-                <div class="form-group mb-3">
-                    <label class="label" >Phone</label>
-                    <input type="tel" class="form-control" placeholder="Phone Number"
-                           required name="phone" pattern="[0-9]{10}" title="Please enter a 10-digit phone number!">
                 </div>
                 <div class="form-group mb-3">
                     <label class="label" >Username</label>
@@ -130,7 +124,6 @@
                 <div class="form-group mb-3 text-center">
                     <button type="submit" class="col-lg-8 btn btn-primary btn-lg">SIGN UP</button>
                 </div>
-
             </form>
             <p class="text-center" style="font-size: 15px;">Already have an account?  <a data-toggle="tab"
                                                                                          href="signin">Back to Sign In</a></p>
