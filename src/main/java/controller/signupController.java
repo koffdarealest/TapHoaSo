@@ -31,7 +31,16 @@ public class signupController extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         String rePassword = req.getParameter("re-password");
-
+        if(userDAO.checkExistEmail(email)) {
+            req.setAttribute("mess", "Email already exists! Try again!");
+            req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
+            return;
+        }
+        if(userDAO.checkExistUsername(username)) {
+            req.setAttribute("mess", "Username already exists! Try again!");
+            req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
+            return;
+        }
         if(password.equals(rePassword)) {
             byte[] key;
             try {

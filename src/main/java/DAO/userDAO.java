@@ -139,6 +139,25 @@ public class userDAO {
         return null;
     }
 
+    public boolean checkExistUsername(String username) {
+        List<User> listUsers = getAllUser();
+        for (User user : listUsers) {
+            if (user.getUsername().equals(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkExistEmail(String email) {
+        List<User> listUsers = getAllUser();
+        for (User user : listUsers) {
+            if (user.getEmail().equals(email)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         User users = new User();

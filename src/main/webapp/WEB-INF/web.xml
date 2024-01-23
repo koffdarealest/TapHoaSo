@@ -24,7 +24,4 @@
 		<param-value>YOUR_PASSWORD</param-value>
 	</context-param>
 
-	<welcome-file-list>
-		<welcome-file>EmailForm.jsp</welcome-file>
-	</welcome-file-list>
 </web-app>

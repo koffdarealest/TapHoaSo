@@ -1,4 +1,4 @@
-package Utility;
+package util;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -48,14 +48,14 @@ public class EmailUtility {
     public static void main(String[] args) {
             String hostname = "smtp.gmail.com";
             int port = 587; // Use the appropriate port for your SMTP server
-            String userName = "Sonhxhe172036@fpt.edu.vn";
-            char[] password = "tjbg bmfk brch edxl".toCharArray();
-            String toAddress = "hson512475@gmail.com";
-            String subject = "Test Email";
-            String message = "This is a test email.";
+            String username = "";
+            char[] password = "yygb zruf iamu vmtg".toCharArray();
+            String toAddress = "";
+            String subject = "";
+            String message = "";
 
             try {
-                sendEmail(hostname, String.valueOf(port), userName, password, toAddress, subject, message);
+                sendEmail(hostname, String.valueOf(port), username, password, toAddress, subject, message);
             } catch (Exception e) {
                 System.out.println("Failed to send email: " + e.getMessage());
                 e.printStackTrace();
