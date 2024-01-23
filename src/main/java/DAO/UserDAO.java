@@ -122,7 +122,19 @@ public class UserDAO {
         Users users = new Users();
         UserDAO userDAO = new UserDAO();
 
+        users.setNickname("xuanson");
+        users.setEmail("hson@gmail.com");
+        users.setPassword("encodePassword");
+        users.setUsername("username");
+        users.setAdmin(false);
+        users.setBalance(0L);
+        users.setCreateAt(new Date());
+        users.setUpdateAt(null);
+        users.setDeleteAt(null);
+        users.setDelete(false);
 
+        userDAO.inserUser(users);
+        System.out.println("succ");
 
     }
 }
