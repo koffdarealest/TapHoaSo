@@ -33,11 +33,10 @@ public class signupController extends HttpServlet {
         String rePassword = req.getParameter("re-password");
 
         if(password.equals(rePassword)){
-            String encodePassword = userDAO.encodePassword(password);
 
             users.setNickname(fullname);
             users.setEmail(email);
-            users.setPassword(encodePassword);
+            users.setPassword(password);
             users.setUsername(username);
             users.setAdmin(false);
             users.setBalance(0L);
