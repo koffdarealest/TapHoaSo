@@ -33,8 +33,10 @@ public class userDAO {
         try (Session session = Factory.getSessionFactory().openSession()){
             transaction = session.beginTransaction();
 
-            users = session.get(User.class, username);
-
+//            users = session.get(User.class, username);
+            users = (User) session.createQuery("from User where username = :username")
+                    .setParameter("username", username)
+                    .uniqueResult();
             transaction.commit();
         } catch (Exception ex){
             if(transaction == null){
@@ -142,6 +144,8 @@ public class userDAO {
         User users = new User();
         userDAO userDAO = new userDAO();
 
+        users = userDAO.getUserByUsername("tuta");
+        System.out.println(users);
 
 
     }

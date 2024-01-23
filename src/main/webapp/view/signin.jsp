@@ -59,11 +59,11 @@
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="shop.html">Our Shop</a></li>
-                        <li><a href="product-details.html">Product Details</a>
+                        <li><a href="index.html">##</a></li>
+                        <li><a href="shop.html">###</a></li>
+                        <li><a href="product-details.html">####</a>
                         </li>
-                        <li><a href="contact.html" class="active">Contact Us</a>
+                        <li><a href="contact.html">Contact Us</a>
                         </li>
                         <li><a href="#">Sign In</a></li>
                     </ul>
@@ -102,7 +102,7 @@
                     <label class="label">Password</label>
                     <input type="password" class="form-control" placeholder="Password" required name="password">
                 </div>
-                <h6 class="text-danger">${error}</h6>
+                <h6 class="text-danger mb-2">${error}</h6>
                 <div class="form-group mb-3 text-center">
                     <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Sign In</button>
                 </div>
@@ -123,11 +123,11 @@
 
 <footer>
     <div class="container">
-        <div class="col-lg-12">
-            <p>Copyright © 2048 LUGX Gaming Company. All rights reserved. &nbsp;&nbsp; <a rel="nofollow"
-                                                                                          href="https://templatemo.com"
-                                                                                          target="_blank">Design:
-                TemplateMo</a></p>
+        <div class="row justify-content-center">
+            <div class="d-md-flex col-lg-12 align-self-center">
+                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-left: auto; margin-top: 10px;">Powered by: TapHoaSo © 2024.</p>
+                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-right: auto; margin-top: 10px;">Email Contact: taphoaso@gmail.com</p>
+            </div>
         </div>
     </div>
 </footer>
