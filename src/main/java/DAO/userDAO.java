@@ -39,14 +39,6 @@ public class userDAO {
         return false;
     }
 
-    public String randomString(int length) {
-        byte[] bytes = new byte[length];
-        SecureRandom random = new SecureRandom();
-        random.nextBytes(bytes);
-        String str = bytes.toString();
-        return str;
-    }
-
     public byte[] getSecretKey(String username) {
         List<User> listUsers = getAllUser();
         for (User user : listUsers) {
