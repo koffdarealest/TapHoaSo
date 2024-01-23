@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import Utility.*;
 
 import java.io.IOException;
 
@@ -21,6 +22,20 @@ public class forgotController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        EmailUtility emailUtility = new EmailUtility();
+        String hostname = "smtp.gmail.com";
+        int port = 587; // Use the appropriate port for your SMTP server
+        String userName = "Sonhxhe172036@fpt.edu.vn";
+        char[] password = "tjbg bmfk brch edxl".toCharArray();
+        String toAddress = "hson512475@gmail.com";
+        String subject = "Test Email";
+        String message = "This is a test email.";
+
+        try {
+            emailUtility.sendEmail(hostname, String.valueOf(port), userName, password, toAddress, subject, message);
+        } catch (Exception e) {
+            System.out.println("Failed to send email: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
