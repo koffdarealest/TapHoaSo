@@ -98,6 +98,7 @@ public class UserDAO {
             ex.printStackTrace();
         }
     }
+
     public String encodePassword(String password){
         MessageDigest md;
         String result = "";

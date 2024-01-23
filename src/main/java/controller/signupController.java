@@ -7,9 +7,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Users;
+import org.apache.catalina.User;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 @WebServlet(name = "signup", urlPatterns = {"/signup"})
 public class signupController extends HttpServlet {
@@ -26,35 +28,56 @@ public class signupController extends HttpServlet {
         Users users = new Users();
         UserDAO userDAO = new UserDAO();
 
+        List<Users> listUser = userDAO.getAllListUser();
+
         String fullname = req.getParameter("fullname");
         String email = req.getParameter("email");
         String username = req.getParameter("userName");
         String password = req.getParameter("password");
         String rePassword = req.getParameter("re-password");
 
-        if(password.equals(rePassword)){
-            String encodePassword = userDAO.encodePassword(password);
-
-            users.setNickname(fullname);
-            users.setEmail(email);
-            users.setPassword(encodePassword);
-            users.setUsername(username);
-            users.setAdmin(false);
-            users.setBalance(0L);
-            users.setCreateAt(new Date());
-            users.setUpdateAt(null);
-            users.setDeleteAt(null);
-            users.setDelete(false);
-
-            userDAO.inserUser(users);
-
-            resp.sendRedirect(req.getContextPath() + "/index.jsp");
-
-        } else {
-            req.setAttribute("mess", "Password and Re-password don't match");
+        if(checkExistEmailAndUsername(email, username)){
+            req.setAttribute("mess", "Username or Email is exist. Please check again");
             req.getRequestDispatcher("view/signup.jsp").forward(req, resp);
+        } else {
+            if(password.equals(rePassword)){
+                String encodePassword = userDAO.encodePassword(password);
+
+                users.setNickname(fullname);
+                users.setEmail(email);
+                users.setPassword(encodePassword);
+                users.setUsername(username);
+                users.setAdmin(false);
+                users.setBalance(0L);
+                users.setCreateAt(new Date());
+                users.setUpdateAt(null);
+                users.setDeleteAt(null);
+                users.setDelete(false);
+
+                userDAO.inserUser(users);
+
+                resp.sendRedirect(req.getContextPath() + "/index.jsp");
+
+            } else {
+                req.setAttribute("mess", "Password and Re-password don't match");
+                req.getRequestDispatcher("view/signup.jsp").forward(req, resp);
+            }
         }
 
 
+    }
+    public boolean checkExistEmailAndUsername(String email, String username){
+        UserDAO userDAO = new UserDAO();
+        boolean check = false;
+        List<Users> listUser = userDAO.getAllListUser();
+
+        for(Users users : listUser){
+            if(users.getEmail().equals(email) && users.getUsername().equals(username)){
+                check = true;
+            } else{
+                check = false;
+            }
+        }
+        return check;
     }
 }
