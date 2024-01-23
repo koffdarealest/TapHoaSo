@@ -3,7 +3,7 @@ package model;
 import jakarta.persistence.*;
 
 @Entity
-public class Image extends AuditableBase{
+public class Image extends BaseAuditable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long imageID;

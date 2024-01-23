@@ -3,7 +3,7 @@ package model;
 import jakarta.persistence.*;
 
 
-public class Conflict_History extends AuditableBase{
+public class Conflict_History extends BaseAuditable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long conflictID;

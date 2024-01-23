@@ -8,7 +8,7 @@ import util.Encryption;
 import java.util.UUID;
 
 @Entity
-public class User extends AuditableBase{
+public class User extends BaseAuditable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userID;

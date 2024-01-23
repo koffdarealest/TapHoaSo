@@ -3,7 +3,7 @@ package model;
 import jakarta.persistence.*;
 
 @Entity
-public class Buying extends AuditableBase{
+public class Buying extends BaseAuditable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long buyID;
