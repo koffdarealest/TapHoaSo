@@ -93,7 +93,7 @@
             <div class="card-header text-center p-3 mb-4">
                 <h2 class="m-0">SIGN UP</h2>
             </div>
-            <form action="user" method="post" name="signup">
+            <form action="signup" method="post" name="signup">
                 <div class="form-group mb-3">
                     <label class="label" >Fullname</label>
                     <input type="text" class="form-control" placeholder="Fullname"
