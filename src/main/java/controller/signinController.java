@@ -27,7 +27,7 @@ public class signinController extends HttpServlet {
 
         userDAO userDAO = new userDAO();
         Encryption encryption = new Encryption();
-        if (userDAO.checkValidUser(username, password)) {
+        if (userDAO.CheckValidUser(username, password)) {
             req.getSession().setAttribute("username", username);
             String sessionID = req.getSession().getId();
             byte[] key = userDAO.getSecretKey(username);
