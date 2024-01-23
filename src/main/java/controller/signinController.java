@@ -16,7 +16,35 @@ import java.io.IOException;
 public class signinController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/view/signin.jsp").forward(req, resp);
+        userDAO userDAO = new userDAO();
+        Encryption encryption = new Encryption();
+        Cookie arrCookie[] = req.getCookies();
+        String user = "";
+        String ePwd = "";
+        if (arrCookie != null) {
+            for (Cookie cookie : arrCookie) {
+                if (cookie.getName().equals("userC")) {
+                    user = cookie.getValue();
+                }
+                if (cookie.getName().equals("pwdC")) {
+                    ePwd = cookie.getValue();
+                }
+            }
+        }
+        if(user.equals("") || ePwd.equals("")) {
+            req.getRequestDispatcher("/view/signin.jsp").forward(req, resp);
+            return;
+        } else {
+            try {
+                req.setAttribute("username", user);
+                byte[] key = userDAO.getSecretKey(user);
+                String password = encryption.decrypt(ePwd, key);
+                req.setAttribute("password", password);
+                req.getRequestDispatcher("/view/signin.jsp").forward(req, resp);
+            }catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @Override
@@ -29,18 +57,16 @@ public class signinController extends HttpServlet {
         Encryption encryption = new Encryption();
         if (userDAO.CheckValidUser(username, password)) {
             req.getSession().setAttribute("username", username);
-            String sessionID = req.getSession().getId();
             byte[] key = userDAO.getSecretKey(username);
-            try {                                                               //encrypt sessionID and send it to client
-                String eSID = encryption.encrypt(sessionID, key);
-                Cookie sessionIDCookie = new Cookie("sID", eSID);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
             if (remember != null) {                                             //if remember me is checked, encrypt password and send it to client
                 try {
                     String ePwd = encryption.encrypt(password, key);
-                    Cookie passwordCookie = new Cookie("pwd", ePwd);
+                    Cookie usernameCookie = new Cookie("userC", username);
+                    Cookie passwordCookie = new Cookie("pwdC", ePwd);
+                    usernameCookie.setMaxAge(60 * 60 * 24);
+                    passwordCookie.setMaxAge(60 * 60 * 24);
+                    resp.addCookie(usernameCookie);
+                    resp.addCookie(passwordCookie);
                 }
                 catch (Exception e) {
                     throw new RuntimeException(e);
