@@ -61,7 +61,7 @@ public class signupController extends HttpServlet {
 
             userDAO.insertUser(user);
 
-            resp.sendRedirect(req.getContextPath() + "/index.jsp");
+            req.getRequestDispatcher("/view/signin.jsp").forward(req, resp);
 
         } else {
             req.setAttribute("mess", "Passwords don't match! Try again!");
