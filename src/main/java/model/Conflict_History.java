@@ -9,14 +9,13 @@ public class Conflict_History extends BaseAuditable{
     private Long conflictID;
     @ManyToOne
     private Buying buyID;
-    private User userSend;
-
+    private String content;
     public Conflict_History() {
     }
 
-    public Conflict_History(Buying buyID, User userSend) {
+    public Conflict_History(Buying buyID, String content) {
         this.buyID = buyID;
-        this.userSend = userSend;
+        this.content = content;
     }
 
     public Long getConflictID() {
@@ -35,11 +34,11 @@ public class Conflict_History extends BaseAuditable{
         this.buyID = buyID;
     }
 
-    public User getUserSend() {
-        return userSend;
+    public String getContent() {
+        return content;
     }
 
-    public void setUserSend(User userSend) {
-        this.userSend = userSend;
+    public void setContent(String content) {
+        this.content = content;
     }
 }
