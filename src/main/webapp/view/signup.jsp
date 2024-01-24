@@ -119,7 +119,7 @@
                     <input type="password" class="form-control" placeholder="Re-password"
                            required name="re-password">
                 </div>
-                <div class="g-recaptcha" data-sitekey="6LeIV1gpAAAAAN-g1_A6MNU4BsbewNhjMD8i0lxq"></div>
+                <div class="g-recaptcha mb-2" data-sitekey="6LeIV1gpAAAAAN-g1_A6MNU4BsbewNhjMD8i0lxq"></div>
                 <div class="mb-2" id="error"></div>
                 <h6 class="text-danger mb-2">${mess}</h6>
                 <div class="form-group mb-3 text-center">
