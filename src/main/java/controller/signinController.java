@@ -57,25 +57,32 @@ public class signinController extends HttpServlet {
         userDAO userDAO = new userDAO();
         Encryption encryption = new Encryption();
         if (userDAO.CheckValidUser(username, password)) {
-            boolean isDeletedUser = userDAO.getUserByUsername(username).getDelete();
-            if (isDeletedUser == false) {
+            boolean isAdmin = userDAO.getUserByUsername(username).isAdmin();
+            if (isAdmin) {
                 req.getSession().setAttribute("username", username);
-                byte[] key = userDAO.getSecretKey(username);
-                if (remember != null) {                                             //if remember me is checked, encrypt password and send it to client
-                    try {
-                        String ePwd = encryption.encrypt(password, key);
-                        Cookie usernameCookie = new Cookie("userC", username);
-                        Cookie passwordCookie = new Cookie("pwdC", ePwd);
-                        usernameCookie.setMaxAge(60 * 60 * 24);
-                        passwordCookie.setMaxAge(60 * 60 * 24);
-                        resp.addCookie(usernameCookie);
-                        resp.addCookie(passwordCookie);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
+                resp.sendRedirect(req.getContextPath() + "/admin");
+            } else {
+                boolean isDeletedUser = userDAO.getUserByUsername(username).getDelete();
+                if (!isDeletedUser) {
+                    req.getSession().setAttribute("username", username);
+                    byte[] key = userDAO.getSecretKey(username);
+                    if (remember != null) {                                             //if remember me is checked, encrypt password and send it to client
+                        try {
+                            String ePwd = encryption.encrypt(password, key);
+                            Cookie usernameCookie = new Cookie("userC", username);
+                            Cookie passwordCookie = new Cookie("pwdC", ePwd);
+                            usernameCookie.setMaxAge(60 * 60 * 24);
+                            passwordCookie.setMaxAge(60 * 60 * 24);
+                            resp.addCookie(usernameCookie);
+                            resp.addCookie(passwordCookie);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
+                resp.sendRedirect(req.getContextPath() + "/home");
             }
-            resp.sendRedirect(req.getContextPath() + "/home");
+
         } else {
             req.setAttribute("error", "Wrong username or password");
             req.getRequestDispatcher("/view/signin.jsp").forward(req, resp);
