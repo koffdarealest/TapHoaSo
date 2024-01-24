@@ -41,12 +41,5 @@ public class test {
 //    }
 
     public static void main(String[] args) {
-        User user = new User();
-        userDAO userDAO = new userDAO();
-        user = userDAO.getUserByUsername("tuta");
-        System.out.println("user: " + user);
-        System.out.println("user: " + user.getUsername() + "---user" + user.getNickname());
-        user.setNickname("tamkhongancutnua");
-        userDAO.updateUser(user);
     }
 }

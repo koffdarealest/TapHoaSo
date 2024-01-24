@@ -113,7 +113,7 @@
                         <label class="">Remember Me <input type="checkbox" name="remember"><span class="checkmark"></span></label>
                     </div>
                     <div class="w-50" style="text-align: end;">
-                        <a href="#">Forgot Password</a>
+                        <a href="forgot">Forgot Password</a>
                     </div>
                 </div>
             </form>
