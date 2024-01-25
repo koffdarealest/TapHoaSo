@@ -34,7 +34,7 @@ public class forgotController extends HttpServlet {
         char[] password = "yygb zruf iamu vmtg".toCharArray();
         String toAddress = email;
         String subject = "Test Email";
-        String message = "This is a test email.";
+        String message = "This is a test email." <a href"localhost:----/reset?key=sadhfjasjdfhjjajshdfhj">;
 
         try {
             emailUtility.sendEmail(hostname, String.valueOf(port), username, password, toAddress, subject, message);

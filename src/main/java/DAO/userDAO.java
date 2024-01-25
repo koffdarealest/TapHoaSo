@@ -1,5 +1,6 @@
 package DAO;
 
+import model.Token;
 import model.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -98,25 +99,32 @@ public class userDAO {
         }
     }
 
-//    public String encodePassword(String password){
-//        MessageDigest md;
-//        String result = "";
-//        try {
-//            md = MessageDigest.getInstance("MD5");
-//            md.update(password.getBytes());
-//            BigInteger bi = new BigInteger(1, md.digest());
-//
-//            result = bi.toString(16);
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        }
-//        return result;
-//    }
+    public void updatePassword(String gmail,String newPassword){
+        Transaction transaction = null;
+        try (Session session = Factory.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
 
-//    public boolean verifyPassword(String enteredPassword, String storedHash) {
-//        String enteredHash = encodePassword(enteredPassword);
-//        return enteredHash.equals(storedHash);
-//    }
+            User user = getUserByGmail(gmail);
+
+            user.setPassword(newPassword);
+            session.update(user);
+
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction == null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+
+        }
+    }
+
+    public User getUserByGmail(String gmail){
+        User users = null;
+        Transaction transaction = null;
+        try (Session session = Factory.getSessionFactory().openSession()){
+            transaction = session.beginTransaction();
+
 
     public boolean CheckValidUser(String username, String password) {
         User user = getUserByUsername(username);
@@ -158,6 +166,13 @@ public class userDAO {
         }
         return false;
     }
+
+    public boolean isTokenExpired(String token) {
+        Session session = Factory.getSessionFactory().openSession();
+        Token token1 = session.get(Token.class, token);
+    }
+
+
 
     public static void main(String[] args) {
         User users = new User();
