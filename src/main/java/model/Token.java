@@ -11,7 +11,7 @@ public class Token {
     @Id
     private String token;
     private String email;
-    @CreationTimestamp
+
     private LocalDateTime expTime;
 
     public Token() {

@@ -3,12 +3,14 @@ package DAO;
 import model.Token;
 import model.User;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import util.*;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class userDAO {
@@ -120,10 +122,24 @@ public class userDAO {
     }
 
     public User getUserByGmail(String gmail){
-        User users = null;
+        User user = null;
         Transaction transaction = null;
         try (Session session = Factory.getSessionFactory().openSession()){
             transaction = session.beginTransaction();
+
+            user = (User) session.createQuery("from User where email = :email")
+                    .setParameter("email", gmail)
+                    .uniqueResult();
+
+            transaction.commit();
+        } catch (Exception ex){
+            if(transaction != null){
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        }
+        return user;
+    }
 
 
     public boolean CheckValidUser(String username, String password) {
@@ -167,20 +183,7 @@ public class userDAO {
         return false;
     }
 
-    public boolean isTokenExpired(String token) {
-        Session session = Factory.getSessionFactory().openSession();
-        Token token1 = session.get(Token.class, token);
-    }
 
 
 
-    public static void main(String[] args) {
-        User users = new User();
-        userDAO userDAO = new userDAO();
-
-        users = userDAO.getUserByUsername("tuta");
-        System.out.println(users);
-
-
-    }
 }

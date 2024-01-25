@@ -50,7 +50,7 @@ public class test {
                     Transaction tr = session.beginTransaction();
                     Token token = new Token();
                     token.setToken(UUID.randomUUID().toString());
-                    token.setEmail("dinhsontung153@gmail.com");
+                    token.setEmail("dig@gmail.com");
                     token.setExpTime(java.time.LocalDateTime.now().plusMinutes(5));
                     session.save(token);
                     session.getTransaction().commit();
