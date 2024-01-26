@@ -54,6 +54,10 @@ public class tokenDAO {
         return tk.getEmail();
     }
 
+    public String generateToken() {
+        return java.util.UUID.randomUUID().toString();
+    }
+
     public static void main(String[] args) {
         tokenDAO tokenDAO = new tokenDAO();
         String a = tokenDAO.getEmailByToken("1fb31a77-7ffe-4c6a-b59f-6caa8b8a84a4");

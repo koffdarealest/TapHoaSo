@@ -29,8 +29,8 @@ public class forgotController extends HttpServlet {
             req.getRequestDispatcher("/view/forgot.jsp").forward(req, resp);
             return;
         }
-        String token = UUID.randomUUID().toString();
         tokenDAO tokenDAO = new tokenDAO();
+        String token = tokenDAO.generateToken();
         tokenDAO.saveToken(email, token);
         EmailUtility emailUtility = new EmailUtility();
         String hostname = "smtp.gmail.com";
@@ -40,7 +40,7 @@ public class forgotController extends HttpServlet {
         String toAddress = email;
         String subject = "[TapHoaSo] RESET YOUR PASSWORD";
         String message = "We received your password reset request." + "<br>" + "<br>" +
-                "Please <a href=" + "'http://localhost:8080/verify?tk=" + token + "'" + "> Click here</a> below to reset your password. " + "<br>" +
+                "Please <a href=" + "'http://localhost:8080/verifyForgot?tk=" + token + "'" + "> Click here</a> below to reset your password. " + "<br>" +
                 "The link will be expired in 5 minutes. " + "<br>" +
                 "If you did not request a password reset, please ignore this email.";
 

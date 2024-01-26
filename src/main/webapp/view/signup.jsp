@@ -121,7 +121,8 @@
                 </div>
                 <div class="g-recaptcha mb-2" data-sitekey="6LeIV1gpAAAAAN-g1_A6MNU4BsbewNhjMD8i0lxq"></div>
                 <div class="text-danger mb-2" id="error"></div>
-                <h6 class="text-danger mb-2">${mess}</h6>
+                <h6 class="text-danger mb-2">${error}</h6>
+                <h6 class="mb-2">${mess}</h6>
                 <div class="form-group mb-3 text-center">
                     <button type="submit" class="col-lg-8 btn btn-primary btn-lg">SIGN UP</button>
                 </div>
