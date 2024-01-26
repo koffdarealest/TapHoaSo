@@ -11,10 +11,12 @@ public class verifyForgotController extends HttpServlet {
         tokenDAO tokenDAO = new tokenDAO();
         try {
             if(tokenDAO.isTokenExpired(tk)) {
+                tokenDAO.deleteToken(tk);
                 req.setAttribute("mess", "Your link is expired or unvalid! Try again!");
                 req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
             } else {
                 req.setAttribute("token", tk);
+                tokenDAO.deleteToken(tk);
                 req.getRequestDispatcher("/view/resetPassword.jsp").forward(req, resp);
             }
         } catch (Exception e) {
