@@ -20,7 +20,11 @@ public class verifySignupController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String tk = req.getParameter("tk");
         tokenDAO tokenDAO = new tokenDAO();
-
+//        if(tk == null) {
+//            req.setAttribute("mess", "Your link is expired or unvalid! Try again!");
+//            req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
+//            return;
+//        }
         try {
             if(tokenDAO.isTokenExpired(tk)) {
                 tokenDAO.deleteToken(tk);
