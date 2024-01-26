@@ -25,8 +25,9 @@ public class verifySignupController extends HttpServlet {
                 req.setAttribute("mess", "Your link is expired or unvalid! Try again!");
                 req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
             } else {
+
                 String jsonUser = req.getParameter("user");
-                String userString = URLDecoder.decode(jsonUser, "UTF-8");
+                String userString = tokenDAO.decodeToken(jsonUser);
                 Gson gson = new Gson();
                 User user = gson.fromJson(userString, User.class);
                 userDAO userDAO = new userDAO();

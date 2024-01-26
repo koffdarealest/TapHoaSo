@@ -4,6 +4,7 @@ import DAO.tokenDAO;
 import DAO.userDAO;
 import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,18 +37,18 @@ public class signupController extends HttpServlet {
         String password = req.getParameter("password");
         String rePassword = req.getParameter("re-password");
 
-        if(userDAO.checkExistEmail(email)) {
+        if (userDAO.checkExistEmail(email)) {
             req.setAttribute("error", "Email already exists! Try again!");
             req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
             return;
         }
-        if(userDAO.checkExistUsername(username)) {
+        if (userDAO.checkExistUsername(username)) {
             req.setAttribute("error", "Username already exists! Try again!");
             req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
             return;
         }
 
-        if(password.equals(rePassword)) {
+        if (password.equals(rePassword)) {
             tokenDAO tokenDAO = new tokenDAO();
             String token = tokenDAO.generateToken();
             tokenDAO.saveToken(email, token);
@@ -69,7 +70,10 @@ public class signupController extends HttpServlet {
             user.setDelete(false);
             Gson gson = new Gson();
             String json = gson.toJson(user);
-            String encodeUser = URLEncoder.encode(json, "UTF-8");
+            //String encodeUser = URLEncoder.encode(json, "UTF-8");
+            String encodedToken = DAO.tokenDAO.encodeToken(json);
+
+            //String hashUser = tokenDAO.encodeUser(json);
             EmailUtility emailUtility = new EmailUtility();
             String hostname = "smtp.gmail.com";
             int port = 587; // Use the appropriate port for your SMTP server
@@ -78,9 +82,12 @@ public class signupController extends HttpServlet {
             String toAddress = email;
             String subject = "[TapHoaSo] VERIFY YOUR EMAIL";
             String message = "We received your sign up request." + "<br>" + "<br>" +
-                    "Please <a href=" + "'http://localhost:8080/verifySignup?tk=" + token + "&user=" + encodeUser + "'" + "> Click here</a> below to reset your password. " + "<br>" +
+                    "Please <a href=" + "'http://localhost:8080/verifySignup?tk=" + token + "&user=" + encodedToken + "'" + "> Click here</a> below to reset your password. " + "<br>" +
                     "The link will be expired in 5 minutes. " + "<br>" +
                     "If you did not request a account sign up, please ignore this email.";
+            System.out.println("json: " + json);
+            System.out.println("encodedToken: " + encodedToken);
+            System.out.println("decodedToken: " + tokenDAO.decodeToken(encodedToken));
 
             try {
                 emailUtility.sendEmail(hostname, String.valueOf(port), from, pwd, toAddress, subject, message);
