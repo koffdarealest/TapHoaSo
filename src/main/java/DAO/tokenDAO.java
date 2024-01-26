@@ -17,13 +17,17 @@ import java.util.Base64;
 
 public class tokenDAO {
     public boolean isTokenExpired(String token) {
-        Session session = Factory.getSessionFactory().openSession();
-        Token tk = session.get(Token.class, token);
-        session.close();
-        if (token == null) {
+        try {
+            Session session = Factory.getSessionFactory().openSession();
+            Token tk = session.get(Token.class, token);
+            session.close();
+            if (token == null) {
+                return true;
+            }
+            return tk.getExpTime().isBefore(LocalDateTime.now());
+        } catch (Exception e) {
             return true;
         }
-        return tk.getExpTime().isBefore(LocalDateTime.now());
     }
 
     public void saveToken(String gmail, String token1) {
@@ -61,13 +65,19 @@ public class tokenDAO {
     }
 
     public void deleteToken(String token) {
-        Session session = Factory.getSessionFactory().openSession();
-        Token tk = session.get(Token.class, token);
-        session.close();
-        if (token == null) {
-            return;
+        Transaction transaction = null;
+        try (Session session = Factory.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            session.delete(session.get(Token.class, token));
+
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction == null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
         }
-        session.delete(tk);
     }
 
     public String generateToken() {

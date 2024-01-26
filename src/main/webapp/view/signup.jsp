@@ -100,7 +100,7 @@
                            required name="fullname" value="${sessionScope.username}">
                 </div>
                 <div class="form-group mb-3">
-                    <label class="label" >Gmail</label>
+                    <label class="label" >Email</label>
                     <input type="email" class="form-control" placeholder="Email"
                            required name="email" value="${sessionScope.email}" readonly>
                 </div>
