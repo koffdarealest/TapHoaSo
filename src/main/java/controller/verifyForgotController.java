@@ -4,8 +4,8 @@ import DAO.tokenDAO;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 
-@WebServlet(urlPatterns = {"/verify"})
-public class verifyController extends HttpServlet {
+@WebServlet(urlPatterns = {"/verifyForgot"})
+public class verifyForgotController extends HttpServlet {
     protected void doGet(jakarta.servlet.http.HttpServletRequest req, jakarta.servlet.http.HttpServletResponse resp) throws jakarta.servlet.ServletException, java.io.IOException {
         String tk = req.getParameter("tk");
         tokenDAO tokenDAO = new tokenDAO();

@@ -1,15 +1,20 @@
 package controller;
 
+import DAO.tokenDAO;
 import DAO.userDAO;
+import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.User;
+import util.EmailUtility;
 import util.Encryption;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
@@ -31,17 +36,22 @@ public class signupController extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
         String rePassword = req.getParameter("re-password");
-        if(userDAO.checkExistEmail(email)) {
-            req.setAttribute("mess", "Email already exists! Try again!");
+
+        if (userDAO.checkExistEmail(email)) {
+            req.setAttribute("error", "Email already exists! Try again!");
             req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
             return;
         }
-        if(userDAO.checkExistUsername(username)) {
-            req.setAttribute("mess", "Username already exists! Try again!");
+        if (userDAO.checkExistUsername(username)) {
+            req.setAttribute("error", "Username already exists! Try again!");
             req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
             return;
         }
-        if(password.equals(rePassword)) {
+
+        if (password.equals(rePassword)) {
+            tokenDAO tokenDAO = new tokenDAO();
+            String token = tokenDAO.generateToken();
+            tokenDAO.saveToken(email, token);
             byte[] key;
             try {
                 key = encryption.genAESKey();
@@ -58,13 +68,40 @@ public class signupController extends HttpServlet {
                     key
             );
             user.setDelete(false);
+            Gson gson = new Gson();
+            String json = gson.toJson(user);
+            //String encodeUser = URLEncoder.encode(json, "UTF-8");
+            String encodedToken = DAO.tokenDAO.encodeToken(json);
 
-            userDAO.insertUser(user);
+            //String hashUser = tokenDAO.encodeUser(json);
+            EmailUtility emailUtility = new EmailUtility();
+            String hostname = "smtp.gmail.com";
+            int port = 587; // Use the appropriate port for your SMTP server
+            String from = "taphoaso391@gmail.com";
+            char[] pwd = "yygb zruf iamu vmtg".toCharArray();
+            String toAddress = email;
+            String subject = "[TapHoaSo] VERIFY YOUR EMAIL";
+            String message = "We received your sign up request." + "<br>" + "<br>" +
+                    "Please <a href=" + "'http://localhost:8080/verifySignup?tk=" + token + "&user=" + encodedToken + "'" + "> Click here</a> below to reset your password. " + "<br>" +
+                    "The link will be expired in 5 minutes. " + "<br>" +
+                    "If you did not request a account sign up, please ignore this email.";
+            System.out.println("json: " + json);
+            System.out.println("encodedToken: " + encodedToken);
+            System.out.println("decodedToken: " + tokenDAO.decodeToken(encodedToken));
+
+            try {
+                emailUtility.sendEmail(hostname, String.valueOf(port), from, pwd, toAddress, subject, message);
+                req.setAttribute("mess", "Please check your email to verify your account!");
+                req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
+            } catch (Exception e) {
+                System.out.println("Failed to send email: " + e.getMessage());
+                e.printStackTrace();
+            }
 
             req.getRequestDispatcher("/view/signin.jsp").forward(req, resp);
 
         } else {
-            req.setAttribute("mess", "Passwords don't match! Try again!");
+            req.setAttribute("error", "Passwords don't match! Try again!");
             req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
         }
     }
