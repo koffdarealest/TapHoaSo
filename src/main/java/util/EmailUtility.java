@@ -33,7 +33,8 @@ public class EmailUtility {
 
             // set email subject and message
             mimeMessage.setSubject(subject);
-            mimeMessage.setText(message);
+            String htmlText = message;
+            mimeMessage.setContent(htmlText, "text/html");
 
             // send the email
             Transport.send(mimeMessage);

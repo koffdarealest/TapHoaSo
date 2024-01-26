@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: Tung
-  Date: 1/20/2024
-  Time: 3:02 PM
+  Date: 1/26/2024
+  Time: 3:00 AM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet">
 
-    <title>Sign in</title>
+    <title>Sign up</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -29,7 +29,6 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/swiper-bundle.min.css"/>
 </head>
-
 
 <body>
 
@@ -54,7 +53,8 @@
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
                     <a href="index.html" class="logo">
-                        <img src="" alt="" style="width: 158px;">
+                        <img src="" alt=""
+                             style="width: 158px;">
                     </a>
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
@@ -65,7 +65,7 @@
                         </li>
                         <li><a href="contact.html">Contact Us</a>
                         </li>
-                        <li><a href="#">Sign In</a></li>
+                        <li><a href="signin">Sign In</a></li>
                     </ul>
                     <a class='menu-trigger'>
                         <span>Menu</span>
@@ -91,34 +91,25 @@
     <div class="login-wrap p-4 p-md-5 col-lg-4">
         <div class="col-lg-10 mx-auto">
             <div class="card-header text-center p-3 mb-4">
-                <h2 class="m-0">SIGN IN</h2>
+                <h2 class="m-0">Reset Password</h2>
             </div>
-            <form action="signin" method="post" id="captcha">
-                <div class="form-group mb-3">
-                    <label class="label">Username</label>
-                    <input type="text" class="form-control" placeholder="Username" required name="username" value="${username}">
+            <form action="reset" method="post" name="signup">
+                <div class="form-group mb-4">
+                    <label class="label" >Password</label>
+                    <input type="password" class="form-control" placeholder="Password"
+                           required name="password">
                 </div>
                 <div class="form-group mb-4">
-                    <label class="label">Password</label>
-                    <input type="password" class="form-control" placeholder="Password" required name="password" value="${password}">
+                    <label class="label">Re-Password</label>
+                    <input type="password" class="form-control" placeholder="Re-password"
+                           required name="re-password">
                 </div>
-                <div class="g-recaptcha mb-2" data-sitekey="6LeIV1gpAAAAAN-g1_A6MNU4BsbewNhjMD8i0lxq"></div>
-                <div class="text-danger mb-2" id="error"></div>
-                <h6 class="text-danger mb-2">${error}</h6>
+                <input type="hidden" name="token" value="${token}">
+                <h6 class="text-danger mb-2">${mess}</h6>
                 <div class="form-group mb-3 text-center">
-                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Sign In</button>
-                </div>
-                <div class="form-group d-md-flex mb-3">
-                    <div class="w-50 text-left">
-                        <label class="">Remember Me <input type="checkbox" name="remember"><span class="checkmark"></span></label>
-                    </div>
-                    <div class="w-50" style="text-align: end;">
-                        <a href="forgot">Forgot Password</a>
-                    </div>
+                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Reset Password</button>
                 </div>
             </form>
-            <p class="text-center" style="font-size: 15px;">Not a member? <a data-toggle="tab" href="signup">Sign
-                Up Here</a></p>
         </div>
     </div>
 </div>
@@ -135,26 +126,8 @@
 </footer>
 
 <!-- Scripts -->
-<script>
-    window.onload = function (){
-        let isValid = false;
-        const form = document.getElementById("captcha");
-        const error = document.getElementById("error");
-
-        form.addEventListener("submit", function (event){
-            event.preventDefault();
-            const response = grecaptcha.getResponse();
-            if (response){
-                form.submit();
-            } else {
-                error.innerHTML = "Please verify the CAPTCHA! ";
-            }
-        });
-    }
-</script>
-
 <!-- Bootstrap core JavaScript -->
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 <script src="../vendor/jquery/jquery.min.js"></script>
 <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="../assets/js/isotope.min.js"></script>
