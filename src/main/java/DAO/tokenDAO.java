@@ -122,13 +122,19 @@ public class tokenDAO {
     }
 
     public void deleteToken(String token) {
-        Session session = Factory.getSessionFactory().openSession();
-        Token tk = session.get(Token.class, token);
-        session.close();
-        if (token == null) {
-            return;
+        Transaction transaction = null;
+        try (Session session = Factory.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            session.delete(session.get(Token.class, token));
+
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction == null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
         }
-        session.delete(tk);
     }
 
     public String generateToken() {
