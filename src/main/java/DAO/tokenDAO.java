@@ -60,6 +60,16 @@ public class tokenDAO {
         return tk.getEmail();
     }
 
+    public void deleteToken(String token) {
+        Session session = Factory.getSessionFactory().openSession();
+        Token tk = session.get(Token.class, token);
+        session.close();
+        if (token == null) {
+            return;
+        }
+        session.delete(tk);
+    }
+
     public String generateToken() {
         return java.util.UUID.randomUUID().toString();
     }

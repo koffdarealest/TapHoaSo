@@ -17,12 +17,12 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
         <!-- Names the annotated model class -->
         <mapping class="model.User"/>
-<!--        <mapping class="model.User_Transaction_History"/>-->
-<!--        <mapping class="model.Post"/>-->
-<!--        <mapping class="model.Image"/>-->
-<!--        <mapping class="model.Buying"/>-->
-<!--        <mapping class="model.Conflict_History"/>-->
-<!--        <mapping class="model.Notice"/>-->
+        <mapping class="model.User_Transaction_History"/>
+        <mapping class="model.Post"/>
+        <mapping class="model.Image"/>
+        <mapping class="model.Buying"/>
+        <mapping class="model.Conflict_History"/>
+        <mapping class="model.Notice"/>
         <mapping class="model.Token"/>
 
     </session-factory>

@@ -57,10 +57,10 @@
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li><a href="index.html" class="active">Home</a></li>
-                        <li><a href="shop.html">Our Shop</a></li>
-                        <li><a href="product-details.html">Product Details</a></li>
-                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="index.html" class="active">#</a></li>
+                        <li><a href="shop.html">##</a></li>
+                        <li><a href="product-details.html">###</a></li>
+                        <li><a href="contact.html">####</a></li>
                         <li><a href="signin">Sign In</a></li>
                     </ul>
                     <a class='menu-trigger'>
