@@ -21,7 +21,6 @@ public class verifyForgotController extends HttpServlet {
                 req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
             } else {
                 req.setAttribute("token", tk);
-                tokenDAO.deleteToken(tk);
                 req.getRequestDispatcher("/view/resetPassword.jsp").forward(req, resp);
             }
         } catch (Exception e) {

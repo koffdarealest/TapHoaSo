@@ -37,6 +37,7 @@ public class resetPwdController extends HttpServlet {
             User user =  userDAO.getUserByGmail(email);
             user.setPassword(password);
             userDAO.updateUser(user);
+            tokenDAO.deleteToken(token);
             req.setAttribute("mess", "Reset password successfully!");
             req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
         } else {
