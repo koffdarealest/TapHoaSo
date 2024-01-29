@@ -1,13 +1,16 @@
 package DAO;
 
+import model.Token;
 import model.User;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import util.*;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class userDAO {
@@ -98,25 +101,46 @@ public class userDAO {
         }
     }
 
-//    public String encodePassword(String password){
-//        MessageDigest md;
-//        String result = "";
-//        try {
-//            md = MessageDigest.getInstance("MD5");
-//            md.update(password.getBytes());
-//            BigInteger bi = new BigInteger(1, md.digest());
-//
-//            result = bi.toString(16);
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        }
-//        return result;
-//    }
+    public void updatePassword(String gmail,String newPassword){
+        Transaction transaction = null;
+        try (Session session = Factory.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
 
-//    public boolean verifyPassword(String enteredPassword, String storedHash) {
-//        String enteredHash = encodePassword(enteredPassword);
-//        return enteredHash.equals(storedHash);
-//    }
+            User user = getUserByGmail(gmail);
+
+            user.setPassword(newPassword);
+            session.update(user);
+
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction == null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+
+        }
+    }
+
+    public User getUserByGmail(String gmail){
+        User user = null;
+        Transaction transaction = null;
+        try (Session session = Factory.getSessionFactory().openSession()){
+            transaction = session.beginTransaction();
+
+            user = (User) session.createQuery("from User where email = :email")
+                    .setParameter("email", gmail)
+                    .uniqueResult();
+
+            transaction.commit();
+        } catch (Exception ex){
+            if(transaction != null){
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        }
+        return user;
+    }
+
 
     public boolean CheckValidUser(String username, String password) {
         User user = getUserByUsername(username);
@@ -159,13 +183,7 @@ public class userDAO {
         return false;
     }
 
-    public static void main(String[] args) {
-        User users = new User();
-        userDAO userDAO = new userDAO();
-
-        users = userDAO.getUserByUsername("tuta");
-        System.out.println(users);
 
 
-    }
+
 }

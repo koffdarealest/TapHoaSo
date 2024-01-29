@@ -103,7 +103,7 @@
                     <input type="password" class="form-control" placeholder="Password" required name="password" value="${password}">
                 </div>
                 <div class="g-recaptcha mb-2" data-sitekey="6LeIV1gpAAAAAN-g1_A6MNU4BsbewNhjMD8i0lxq"></div>
-                <div class="mb-2" id="error"></div>
+                <div class="text-danger mb-2" id="error"></div>
                 <h6 class="text-danger mb-2">${error}</h6>
                 <div class="form-group mb-3 text-center">
                     <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Sign In</button>
@@ -147,7 +147,7 @@
             if (response){
                 form.submit();
             } else {
-                error.innerHTML = "Please enter captcha! ";
+                error.innerHTML = "Please verify the CAPTCHA! ";
             }
         });
     }
