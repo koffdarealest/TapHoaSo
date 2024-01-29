@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.User;
+import util.EmailSender;
 import util.EmailUtility;
 import util.Encryption;
 
@@ -68,6 +69,8 @@ public class signupController extends HttpServlet {
                     key
             );
             user.setDelete(false);
+            req.setAttribute("mess", "Your sign up information has been recorded! Please check your email to verify your account");
+            req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
             Gson gson = new Gson();
             String json = gson.toJson(user);
             //String encodeUser = URLEncoder.encode(json, "UTF-8");
@@ -88,17 +91,17 @@ public class signupController extends HttpServlet {
             System.out.println("json: " + json);
             System.out.println("encodedToken: " + encodedToken);
             System.out.println("decodedToken: " + tokenDAO.decodeToken(encodedToken));
+            EmailSender emailSender = new EmailSender(hostname, String.valueOf(port), from, pwd, toAddress, subject, message);
+            emailSender.start();
 
-            try {
-                emailUtility.sendEmail(hostname, String.valueOf(port), from, pwd, toAddress, subject, message);
-                req.setAttribute("mess", "Please check your email to verify your account!");
-                req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
-            } catch (Exception e) {
-                System.out.println("Failed to send email: " + e.getMessage());
-                e.printStackTrace();
-            }
-
-            req.getRequestDispatcher("/view/signin.jsp").forward(req, resp);
+//            try {
+//                emailUtility.sendEmail(hostname, String.valueOf(port), from, pwd, toAddress, subject, message);
+//                req.setAttribute("mess", "Please check your email to verify your account!");
+//                req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
+//            } catch (Exception e) {
+//                System.out.println("Failed to send email: " + e.getMessage());
+//                e.printStackTrace();
+//            }
 
         } else {
             req.setAttribute("error", "Passwords don't match! Try again!");
