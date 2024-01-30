@@ -9,8 +9,14 @@ public class verifyForgotController extends HttpServlet {
     protected void doGet(jakarta.servlet.http.HttpServletRequest req, jakarta.servlet.http.HttpServletResponse resp) throws jakarta.servlet.ServletException, java.io.IOException {
         String tk = req.getParameter("tk");
         tokenDAO tokenDAO = new tokenDAO();
+//        if(tk == null) {
+//            req.setAttribute("mess", "Your link is expired or unvalid! Try again!");
+//            req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
+//            return;
+//        }
         try {
             if(tokenDAO.isTokenExpired(tk)) {
+                tokenDAO.deleteToken(tk);
                 req.setAttribute("mess", "Your link is expired or unvalid! Try again!");
                 req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
             } else {
