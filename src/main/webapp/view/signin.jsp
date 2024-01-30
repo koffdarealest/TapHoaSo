@@ -33,7 +33,7 @@
 </head>
 
 
-<body>
+<body onload="createCaptcha()">
 
 <!-- ***** Preloader Start ***** -->
 <div id="js-preloader" class="js-preloader">
@@ -106,8 +106,8 @@
                     <input type="password" class="form-control" placeholder="Password" required name="password"
                            value="${password}">
                 </div>
-        </div>
-      <body  onload="createCaptcha()">
+
+
         <div class="login-wrap p-4 p-md-5 col-lg-4">
             <div class="content">
                 <div id="captcha"></div>
@@ -158,7 +158,7 @@
 
 
 <!-- Bootstrap core JavaScript -->
-<script src="src/main/webapp/assets/js/captcha.js"></script>
+<script src="../assets/js/captcha.js"></script>
 <script src="../vendor/jquery/jquery.min.js"></script>
 <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="../assets/js/isotope.min.js"></script>
