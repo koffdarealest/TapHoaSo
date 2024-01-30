@@ -15,7 +15,7 @@
     justify-content: center;
 }
 
-input[type="text"] {
+input[type="captchaText"] {
     padding: 12px 20px;
     display: inline-block;
     border: 1px solid #ccc;
