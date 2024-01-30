@@ -95,7 +95,7 @@
             <div class="card-header text-center p-3 mb-4">
                 <h2 class="m-0">SIGN IN</h2>
             </div>
-            <form action="signin" method="post" id="user">
+            <form action="signin" method="post" onsubmit="return validateCaptcha()">
                 <div class="form-group mb-3">
                     <label class="label">Username</label>
                     <input type="text" class="form-control" placeholder="Username" required name="username"
@@ -107,35 +107,35 @@
                            value="${password}">
                 </div>
 
+                <div class="form-group mb-2">
+                    <label class="label">Captcha</label>
+                    <div class="content">
+                        <div id="captcha"></div>
+                        <button class="regenerateCaptcha" style="width: 5rem;" onclick="resetCaptcha(event)">
+                            <i class="fas fa-redo"></i>
+                        </button>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Captcha" id="inputCaptcha"/>
+                </div>
 
-        <div class="login-wrap p-4 p-md-5 col-lg-4">
-            <div class="content">
-                <div id="captcha"></div>
-                <button class="regenerateCaptcha" style="width: 5rem;" onclick="createCaptcha()">
-                    <i class="fas fa-redo"></i>
-                </button>
-            </div>
-            <input type="text" placeholder="Enter Captcha" id="captchaText"/>
+                <h6 class="text-danger mb-2">${error}</h6>
+                <div class="form-group mb-3 text-center">
+                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Sign In</button>
+                </div>
+                <div class="form-group d-md-flex mb-3">
+                    <div class="w-50 text-left">
+                        <label class="">Remember Me <input type="checkbox" name="remember"><span
+                                class="checkmark"></span></label>
+                    </div>
+                    <div class="w-50" style="text-align: end;">
+                        <a href="forgot">Forgot Password</a>
+                    </div>
+                </div>
+            </form>
+            <p class="text-center" style="font-size: 15px;">Not a member? <a data-toggle="tab" href="signup">Sign
+                Up Here</a></p>
         </div>
-
-        <h6 class="text-danger mb-2">${error}</h6>
-        <div class="form-group mb-3 text-center">
-            <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Sign In</button>
-        </div>
-        <div class="form-group d-md-flex mb-3">
-            <div class="w-50 text-left">
-                <label class="">Remember Me <input type="checkbox" name="remember"><span
-                        class="checkmark"></span></label>
-            </div>
-            <div class="w-50" style="text-align: end;">
-                <a href="forgot">Forgot Password</a>
-            </div>
-        </div>
-        </form>
-        <p class="text-center" style="font-size: 15px;">Not a member? <a data-toggle="tab" href="signup">Sign
-            Up Here</a></p>
     </div>
-</div>
 
 </div>
 
@@ -154,8 +154,6 @@
 </footer>
 
 <!-- Scripts -->
-
-
 
 <!-- Bootstrap core JavaScript -->
 <script src="../assets/js/captcha.js"></script>
