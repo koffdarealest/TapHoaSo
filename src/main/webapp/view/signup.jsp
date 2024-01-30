@@ -100,7 +100,7 @@
                            required name="fullname">
                 </div>
                 <div class="form-group mb-3">
-                    <label class="label" >Email</label>
+                    <label class="label" >Gmail</label>
                     <input type="email" class="form-control" placeholder="Email"
                            required name="email">
                 </div>
@@ -119,10 +119,11 @@
                     <input type="password" class="form-control" placeholder="Re-password"
                            required name="re-password">
                 </div>
-                <div class="g-recaptcha mb-2" data-sitekey="6LeIV1gpAAAAAN-g1_A6MNU4BsbewNhjMD8i0lxq"></div>
-                <div class="text-danger mb-2" id="error"></div>
-                <h6 class="text-danger mb-2">${error}</h6>
-                <h6 class="mb-2">${mess}</h6>
+
+
+
+
+                <h6 class="text-danger mb-2">${mess}</h6>
                 <div class="form-group mb-3 text-center">
                     <button type="submit" class="col-lg-8 btn btn-primary btn-lg">SIGN UP</button>
                 </div>
@@ -145,25 +146,8 @@
 </footer>
 
 <!-- Scripts -->
-<script>
-    window.onload = function (){
-        let isValid = false;
-        const form = document.getElementById("captcha");
-        const error = document.getElementById("error");
 
-        form.addEventListener("submit", function (event){
-            event.preventDefault();
-            const response = grecaptcha.getResponse();
-            if (response){
-                form.submit();
-            } else {
-                error.innerHTML = "Please verify the CAPTCHA! ";
-            }
-        });
-    }
-</script>
 <!-- Bootstrap core JavaScript -->
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script src="../vendor/jquery/jquery.min.js"></script>
 <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="../assets/js/isotope.min.js"></script>
