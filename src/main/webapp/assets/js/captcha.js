@@ -1,5 +1,5 @@
 
-(function createCaptcha() {
+function createCaptcha() {
     document.getElementById('captcha').innerHTML = "";
     var charsArray =
         "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@!#$%^&*";
@@ -24,7 +24,7 @@
     //storing captcha so that can validate you can save it somewhere else according to your specific requirements
     code = captcha.join("");
     document.getElementById("captcha").appendChild(canvas);
-});
+};
 
 function validateCaptcha(e) {
     if (document.getElementById("captchaText").value == code) {
@@ -34,4 +34,4 @@ function validateCaptcha(e) {
         alert("Invalid Captcha. try Again");
         createCaptcha();
     }
-};
+}

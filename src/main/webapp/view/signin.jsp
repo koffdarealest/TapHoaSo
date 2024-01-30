@@ -33,7 +33,7 @@
 </head>
 
 
-<body  onload="createCaptcha()">
+<body>
 
 <!-- ***** Preloader Start ***** -->
 <div id="js-preloader" class="js-preloader">
@@ -91,21 +91,24 @@
 
 <div class="row justify-content-center">
     <div class="login-wrap p-4 p-md-5 col-lg-4">
-        <div class="card-header text-center p-3 mb-4">
-            <h2 class="m-0">SIGN IN</h2>
+        <div class="col-lg-10 mx-auto">
+            <div class="card-header text-center p-3 mb-4">
+                <h2 class="m-0">SIGN IN</h2>
+            </div>
+            <form action="signin" method="post" id="user">
+                <div class="form-group mb-3">
+                    <label class="label">Username</label>
+                    <input type="text" class="form-control" placeholder="Username" required name="username"
+                           value="${username}">
+                </div>
+                <div class="form-group mb-4">
+                    <label class="label">Password</label>
+                    <input type="password" class="form-control" placeholder="Password" required name="password"
+                           value="${password}">
+                </div>
         </div>
-        <form action="signin" method="post">
-            <div class="form-group mb-3">
-                <label class="label">Username</label>
-                <input type="text" class="form-control" placeholder="Username" required name="username"
-                       value="${username}">
-            </div>
-            <div class="form-group mb-4">
-                <label class="label">Password</label>
-                <input type="password" class="form-control" placeholder="Password" required name="password"
-                       value="${password}">
-            </div>
-            <div class="login-wrap p-4 p-md-5 col-lg-4">
+      <body  onload="createCaptcha()">
+        <div class="login-wrap p-4 p-md-5 col-lg-4">
             <div class="content">
                 <div id="captcha"></div>
                 <button class="regenerateCaptcha" style="width: 5rem;" onclick="createCaptcha()">
@@ -153,8 +156,9 @@
 <!-- Scripts -->
 
 
+
 <!-- Bootstrap core JavaScript -->
-<script src="../assets/js/captcha.js"></script>
+<script src="src/main/webapp/assets/js/captcha.js"></script>
 <script src="../vendor/jquery/jquery.min.js"></script>
 <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="../assets/js/isotope.min.js"></script>
