@@ -95,7 +95,7 @@
             <div class="card-header text-center p-3 mb-4">
                 <h2 class="m-0">SIGN IN</h2>
             </div>
-            <form action="signin" method="post" id="captcha">
+            <form action="signin" method="post" id="user">
                 <div class="form-group mb-3">
                     <label class="label">Username</label>
                     <input type="text" class="form-control" placeholder="Username" required name="username"
@@ -156,8 +156,9 @@
 <!-- Scripts -->
 
 
+
 <!-- Bootstrap core JavaScript -->
-<script src="src/main/webapp/fixcapt/captcha.js"></script>
+<script src="src/main/webapp/assets/js/captcha.js"></script>
 <script src="../vendor/jquery/jquery.min.js"></script>
 <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="../assets/js/isotope.min.js"></script>
