@@ -1,62 +1,55 @@
-.login-wrap {
-         position: relative;
-         box-shadow: rgba(0, 0, 0, 0.24) 0px 10px 100px -15px;
-         background: rgb(255, 255, 255);
-         border-radius: 30px;
+
+.container {
+    width: 20rem;
+    background: white;
+    border-radius: 10px;
+    padding: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    /* box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 8px 10px -6px rgb(0 0 0 / 0.1); */
 }
 
-.form-group {
-         position: relative;
+.content {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
-.form-group .label {
-         font-family: 'Poppins', sans-serif;
-         font-size: 12px;
-         text-transform: uppercase;
-         letter-spacing: 1px;
-         color: rgb(70, 70, 70);
-         font-weight: 700;
+#captcha {
+    border-radius: 5px;
+    border: 1px solid gainsboro;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.form-group a {
-         color: gray;
+input[type="text"] {
+    padding: 12px 20px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 12px 0;
+    font-size: 16px;
 }
 
-.form-control {
-         height: 48px;
-         background: #fff;
-         color: #000;
-         font-size: 16px;
-         border-radius: 5px;
-         -webkit-box-shadow: none;
-         box-shadow: none;
-         border: 1px solid rgba(0, 0, 0, 0.1);
+button {
+    background-color: #2446a0;
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 18px;
 }
 
-.form-control::-webkit-input-placeholder {
-         /* Chrome/Opera/Safari */
-         color: rgba(0, 0, 0, 0.2) !important;
-}
-
-.form-control::-moz-placeholder {
-         /* Firefox 19+ */
-         color: rgba(0, 0, 0, 0.2) !important;
-}
-
-.form-control:-ms-input-placeholder {
-         /* IE 10+ */
-         color: rgba(0, 0, 0, 0.2) !important;
-}
-
-.form-control:-moz-placeholder {
-         /* Firefox 18- */
-         color: rgba(0, 0, 0, 0.2) !important;
-}
-
-.form-control:focus,
-.form-control:active {
-         outline: none !important;
-         -webkit-box-shadow: none;
-         box-shadow: none;
-         border: 1px solid #e3b04b;
-}
+/* canvas {
+pointer-events: none;
+}  */
