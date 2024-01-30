@@ -28,6 +28,8 @@
     <link rel="stylesheet" href="../assets/css/animate.css">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/swiper-bundle.min.css"/>
+
+
 </head>
 
 
@@ -96,72 +98,66 @@
             <form action="signin" method="post" id="captcha">
                 <div class="form-group mb-3">
                     <label class="label">Username</label>
-                    <input type="text" class="form-control" placeholder="Username" required name="username" value="${username}">
+                    <input type="text" class="form-control" placeholder="Username" required name="username"
+                           value="${username}">
                 </div>
                 <div class="form-group mb-4">
                     <label class="label">Password</label>
-                    <input type="password" class="form-control" placeholder="Password" required name="password" value="${password}">
+                    <input type="password" class="form-control" placeholder="Password" required name="password"
+                           value="${password}">
                 </div>
-                <div class="g-recaptcha mb-2" data-sitekey="6LeIV1gpAAAAAN-g1_A6MNU4BsbewNhjMD8i0lxq"></div>
-                <div class="text-danger mb-2" id="error"></div>
-                <h6 class="text-danger mb-2">${error}</h6>
-                <div class="form-group mb-3 text-center">
-                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Sign In</button>
-                </div>
-                <div class="form-group d-md-flex mb-3">
-                    <div class="w-50 text-left">
-                        <label class="">Remember Me <input type="checkbox" name="remember"><span class="checkmark"></span></label>
-                    </div>
-                    <div class="w-50" style="text-align: end;">
-                        <a href="forgot">Forgot Password</a>
-                    </div>
-                </div>
-            </form>
-            <p class="text-center" style="font-size: 15px;">Not a member? <a data-toggle="tab" href="signup">Sign
-                Up Here</a></p>
-            <div style="margin: 20px auto; width: fit-content; text-align: center;">
-                <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid&redirect_uri=http://localhost:8080/LoginGoogleHandler&response_type=code
-                        &client_id=293107367869-bh6aqb9gm4vb6sq0hesk9nbnfbltbgtj.apps.googleusercontent.com&approval_prompt=force"
-                   style="border: 1px solid #333; border-radius: 20px; text-decoration: none; padding: 1% 4%;">
-                    <img src="./assets/images/Google__G__Logo.svg.png" style="width: 4%;"> Login With Google
-                </a>
+        </div>
+      <body  onload="createCaptcha()">
+        <div class="login-wrap p-4 p-md-5 col-lg-4">
+            <div class="content">
+                <div id="captcha"></div>
+                <button class="regenerateCaptcha" style="width: 5rem;" onclick="createCaptcha()">
+                    <i class="fas fa-redo"></i>
+                </button>
+            </div>
+            <input type="text" placeholder="Enter Captcha" id="captchaText"/>
+        </div>
+
+        <h6 class="text-danger mb-2">${error}</h6>
+        <div class="form-group mb-3 text-center">
+            <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Sign In</button>
+        </div>
+        <div class="form-group d-md-flex mb-3">
+            <div class="w-50 text-left">
+                <label class="">Remember Me <input type="checkbox" name="remember"><span
+                        class="checkmark"></span></label>
+            </div>
+            <div class="w-50" style="text-align: end;">
+                <a href="forgot">Forgot Password</a>
             </div>
         </div>
+        </form>
+        <p class="text-center" style="font-size: 15px;">Not a member? <a data-toggle="tab" href="signup">Sign
+            Up Here</a></p>
     </div>
 </div>
+
+</div>
+
 
 <footer>
     <div class="container">
         <div class="row justify-content-center">
             <div class="d-md-flex col-lg-12 align-self-center">
-                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-left: auto; margin-top: 10px;">Powered by: TapHoaSo © 2024.</p>
-                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-right: auto; margin-top: 10px;">Email Contact: taphoaso@gmail.com</p>
+                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-left: auto; margin-top: 10px;">Powered
+                    by: TapHoaSo © 2024.</p>
+                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-right: auto; margin-top: 10px;">Email
+                    Contact: taphoaso@gmail.com</p>
             </div>
         </div>
     </div>
 </footer>
 
 <!-- Scripts -->
-<script>
-    window.onload = function (){
-        let isValid = false;
-        const form = document.getElementById("captcha");
-        const error = document.getElementById("error");
 
-        form.addEventListener("submit", function (event){
-            event.preventDefault();
-            const response = grecaptcha.getResponse();
-            if (response){
-                form.submit();
-            } else {
-                error.innerHTML = "Please verify the CAPTCHA! ";
-            }
-        });
-    }
-</script>
 
 <!-- Bootstrap core JavaScript -->
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="src/main/webapp/fixcapt/captcha.js"></script>
 <script src="../vendor/jquery/jquery.min.js"></script>
 <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="../assets/js/isotope.min.js"></script>
