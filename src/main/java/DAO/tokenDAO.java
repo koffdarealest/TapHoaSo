@@ -30,7 +30,7 @@ public class tokenDAO {
         }
     }
 
-    public void saveToken(String gmail, String token1) {
+    public static void saveToken(String gmail, String token1) {
         try {
             SessionFactory sessionFactory = Factory.getSessionFactory();
             if (sessionFactory != null) {
@@ -64,7 +64,7 @@ public class tokenDAO {
         return tk.getEmail();
     }
 
-    public void deleteToken(String token) {
+    public static void deleteToken(String token) {
         Transaction transaction = null;
         try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -80,7 +80,7 @@ public class tokenDAO {
         }
     }
 
-    public String generateToken() {
+    public static String generateToken() {
         return java.util.UUID.randomUUID().toString();
     }
     /*public static String encodeToken(String token) {

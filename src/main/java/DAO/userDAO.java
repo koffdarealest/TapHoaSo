@@ -146,8 +146,7 @@ public class userDAO {
         User user = getUserByUsername(username);
         if (user != null) {
             String userPassword = user.getPassword();
-
-            if (verifyPassword(password, userPassword)) {
+            if (userPassword.equals(password)) {
                 return true;
             }
         }
@@ -183,29 +182,27 @@ public class userDAO {
         }
         return false;
     }
-
-    public String encodePassword(String password){
+     public static String encodePassword(String password){
         MessageDigest md;
         String result = "";
         try {
-            md = MessageDigest.getInstance("MD5");
-            md.update(password.getBytes());
-            BigInteger bi = new BigInteger(1, md.digest());
+           md = MessageDigest.getInstance("MD5");
+           md.update(password.getBytes());
+           BigInteger bi = new BigInteger(1, md.digest());
 
-            result = bi.toString(16);
+           result = bi.toString(16);
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+          e.printStackTrace();
         }
         return result;
-    }
+   }
 
-    public boolean verifyPassword(String enteredPassword, String storedHash) {
+   public static boolean verifyPassword(String enteredPassword, String storedHash) {
         String enteredHash = encodePassword(enteredPassword);
         return enteredHash.equals(storedHash);
-    }
+   }
 
     public static void main(String[] args) {
-        userDAO userDAO = new userDAO();
         String test = userDAO.encodePassword("123456");
         System.out.println(test);
         boolean check = userDAO.verifyPassword("123456", test);
