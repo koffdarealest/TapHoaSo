@@ -94,32 +94,27 @@ public class tokenDAO {
     public static String decodeToken(String encodedToken) throws Exception {
         return URLDecoder.decode(encodedToken, "UTF-8");
     }*/
-    public static String encodeToken(String token) {
-        return Base64.getEncoder().encodeToString(token.getBytes(StandardCharsets.UTF_8));
-    }
+//    public static String encodeToken(String token) {
+//        return Base64.getEncoder().encodeToString(token.getBytes(StandardCharsets.UTF_8));
+//    }
+//
+//    public static String decodeToken(String encodedToken) {
+//        byte[] decodedBytes = Base64.getDecoder().decode(encodedToken);
+//        return new String(decodedBytes, StandardCharsets.UTF_8);
+//    }
+//    public String encodeUser(String password){
+//        MessageDigest md;
+//        String result = "";
+//        try {
+//            md = MessageDigest.getInstance("MD5");
+//            md.update(password.getBytes());
+//            BigInteger bi = new BigInteger(1, md.digest());
+//
+//            result = bi.toString(16);
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        }
+//        return result;
+//    }
 
-    public static String decodeToken(String encodedToken) {
-        byte[] decodedBytes = Base64.getDecoder().decode(encodedToken);
-        return new String(decodedBytes, StandardCharsets.UTF_8);
-    }
-    public String encodeUser(String password){
-        MessageDigest md;
-        String result = "";
-        try {
-            md = MessageDigest.getInstance("MD5");
-            md.update(password.getBytes());
-            BigInteger bi = new BigInteger(1, md.digest());
-
-            result = bi.toString(16);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-    public static void main(String[] args) {
-        tokenDAO tokenDAO = new tokenDAO();
-        String a = tokenDAO.getEmailByToken("1fb31a77-7ffe-4c6a-b59f-6caa8b8a84a4");
-        System.out.println(a);
-
-    }
 }
