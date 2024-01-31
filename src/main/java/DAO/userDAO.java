@@ -146,8 +146,7 @@ public class userDAO {
         User user = getUserByUsername(username);
         if (user != null) {
             String userPassword = user.getPassword();
-
-            if (verifyPassword(password, userPassword)) {
+            if (userPassword.equals(password)) {
                 return true;
             }
         }

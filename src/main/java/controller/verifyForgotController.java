@@ -6,27 +6,34 @@ import jakarta.servlet.http.HttpServlet;
 
 @WebServlet(urlPatterns = {"/verifyForgot"})
 public class verifyForgotController extends HttpServlet {
+
     protected void doGet(jakarta.servlet.http.HttpServletRequest req, jakarta.servlet.http.HttpServletResponse resp) throws jakarta.servlet.ServletException, java.io.IOException {
         String tk = req.getParameter("tk");
+        handleTokenVerification(req, resp, tk);
+    }
+
+    private void handleTokenVerification(jakarta.servlet.http.HttpServletRequest req, jakarta.servlet.http.HttpServletResponse resp, String tk) throws jakarta.servlet.ServletException, java.io.IOException {
         tokenDAO tokenDAO = new tokenDAO();
-//        if(tk == null) {
-//            req.setAttribute("mess", "Your link is expired or unvalid! Try again!");
-//            req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
-//            return;
-//        }
         try {
-            if(tokenDAO.isTokenExpired(tk)) {
-                tokenDAO.deleteToken(tk);
-                req.setAttribute("mess", "Your link is expired or unvalid! Try again!");
-                req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
+            if (tokenDAO.isTokenExpired(tk)) {
+                handleExpiredToken(req, resp, tk);
             } else {
-                req.setAttribute("token", tk);
-                req.getRequestDispatcher("/view/resetPassword.jsp").forward(req, resp);
+                handleValidToken(req, resp, tk);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    private void handleExpiredToken(jakarta.servlet.http.HttpServletRequest req, jakarta.servlet.http.HttpServletResponse resp, String tk) throws jakarta.servlet.ServletException, java.io.IOException {
+        tokenDAO tokenDAO = new tokenDAO();
+        tokenDAO.deleteToken(tk);
+        req.setAttribute("mess", "Your link is expired or invalid! Try again!");
+        req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
+    }
 
+    private void handleValidToken(jakarta.servlet.http.HttpServletRequest req, jakarta.servlet.http.HttpServletResponse resp, String tk) throws jakarta.servlet.ServletException, java.io.IOException {
+        req.setAttribute("token", tk);
+        req.getRequestDispatcher("/view/resetPassword.jsp").forward(req, resp);
     }
 }
