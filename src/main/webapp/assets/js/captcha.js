@@ -24,22 +24,42 @@ function createCaptcha() {
     //storing captcha so that can validate you can save it somewhere else according to your specific requirements
     code = captcha.join("");
     document.getElementById("captcha").appendChild(canvas);
-};
+    // document.getElementById("captchaa") = code;
+}
 
 function validateCaptcha() {
-    var inputCaptcha = document.getElementById("inputCaptcha").value;
-
+    let inputCaptcha = document.getElementById("inputCaptcha").value;
     if (inputCaptcha == code) {
         document.getElementById("inputCaptcha").value = "";
-        alert("Captcha Matched");
         return true;
     } else {
-        document.getElementById("error").innerText = "Invalid Captcha. Please try again.";
-        alert("Captcha did not match")
+        document.getElementById("error").innerText = "Invalid Captcha! Please try again!";
         return false;
     }
 }
+// function validateCaptcha() {
+//     if (document.getElementById("captchaText").value == code) {
+//         alert("Valid Captcha")
+//         document.getElementById("captchaText").value =""
+//     } else {
+//         alert("Invalid Captcha. try Again");
+//         createCaptcha();
+//     }
+// }
 
+// function validateCaptcha() {
+//     var captchaInput = document.getElementById("inputCaptcha").value;
+//     var actualCaptcha = document.getElementById("captcha").innerText;
+//
+//     if (captchaInput === actualCaptcha) {
+//         console.log("Captcha right");
+//         return true; // Captcha đúng, cho phép gửi yêu cầu đăng nhập
+//     } else {
+//         document.getElementById("error").innerText = "Invalid Captcha. Please try again.";
+//         console.log("Captcha wrong");
+//         return false; // Captcha không đúng, ngăn chặn gửi yêu cầu đăng nhập
+//     }
+// }
 function resetCaptcha(event) {
     event.preventDefault(); // Ngăn chặn hành vi mặc định của button (submit form)
     createCaptcha(); // Gọi hàm tạo mới captcha ở đây

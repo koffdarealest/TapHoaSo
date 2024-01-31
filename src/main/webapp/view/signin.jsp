@@ -96,32 +96,41 @@
                 <h2 class="m-0">SIGN IN</h2>
             </div>
             <form action="signin" method="post" onsubmit="return validateCaptcha()">
+                <%-- information field --%>
                 <div class="form-group mb-3">
                     <label class="label">Username</label>
                     <input type="text" class="form-control" placeholder="Username" required name="username"
                            value="${username}">
                 </div>
-                <div class="form-group mb-4">
+                <div class="form-group mb-3">
                     <label class="label">Password</label>
                     <input type="password" class="form-control" placeholder="Password" required name="password"
                            value="${password}">
                 </div>
 
-                <div class="form-group mb-2">
+                <%-- captcha field --%>
+                <div class="form-group mb-3">
                     <label class="label">Captcha</label>
                     <div class="content">
                         <div id="captcha"></div>
-                        <button class="regenerateCaptcha" style="width: 5rem;" onclick="resetCaptcha(event)">
+                        <button type="button" class="regenerateCaptcha btn btn-primary" style="width: 5rem;" onclick="resetCaptcha(event)">
                             <i class="fas fa-redo"></i>
                         </button>
+<%--                        <input type="hidden" name="captcha" id="captchaa">--%>
                     </div>
-                    <input type="text" class="form-control" placeholder="Captcha" id="inputCaptcha"/>
+                    <input type="text" class="form-control" placeholder="Captcha" required name="captcha" id="inputCaptcha"/>
                 </div>
 
+                <%-- error field --%>
                 <h6 class="text-danger mb-2">${error}</h6>
+                <h6 class="text-danger mb-2" id="error"></h6>
+
+                <%-- submit button --%>
                 <div class="form-group mb-3 text-center">
                     <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Sign In</button>
                 </div>
+
+                <%-- remember me and forgot password --%>
                 <div class="form-group d-md-flex mb-3">
                     <div class="w-50 text-left">
                         <label class="">Remember Me <input type="checkbox" name="remember"><span
@@ -154,7 +163,6 @@
 </footer>
 
 <!-- Scripts -->
-
 <!-- Bootstrap core JavaScript -->
 <script src="../assets/js/captcha.js"></script>
 <script src="../vendor/jquery/jquery.min.js"></script>
