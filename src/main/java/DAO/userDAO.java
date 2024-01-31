@@ -182,7 +182,32 @@ public class userDAO {
         }
         return false;
     }
+     public static String encodePassword(String password){
+        MessageDigest md;
+        String result = "";
+        try {
+           md = MessageDigest.getInstance("MD5");
+           md.update(password.getBytes());
+           BigInteger bi = new BigInteger(1, md.digest());
 
+           result = bi.toString(16);
+        } catch (NoSuchAlgorithmException e) {
+          e.printStackTrace();
+        }
+        return result;
+   }
+
+   public static boolean verifyPassword(String enteredPassword, String storedHash) {
+        String enteredHash = encodePassword(enteredPassword);
+        return enteredHash.equals(storedHash);
+   }
+
+    public static void main(String[] args) {
+        String test = userDAO.encodePassword("123456");
+        System.out.println(test);
+        boolean check = userDAO.verifyPassword("123456", test);
+        System.out.println(check);
+    }
 
 
 
