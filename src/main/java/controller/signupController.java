@@ -42,7 +42,7 @@ public class signupController extends HttpServlet {
         //check password and re-password
         CheckPasswordAndRePassword(req, resp, getParameters);
         //Hash password with MD5 althorithm
-        String hashPass = DAO.userDAO.encodePassword(getParameters.get("password"));
+        String hashPass = userDAO.encodePassword(getParameters.get("password"));
         //hanlde successful signup
         handleSuccessfulSignup(req, resp, user, userDAO, encryption, getParameters, hashPass);
     }
