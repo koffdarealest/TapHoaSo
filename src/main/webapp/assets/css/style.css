@@ -62,43 +62,43 @@
 }
 
 
-.content {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-}
+/*.content {*/
+/*    width: 100%;*/
+/*    display: flex;*/
+/*    justify-content: space-between;*/
+/*}*/
 
-#captcha {
-    border-radius: 5px;
-    border: 1px solid gainsboro;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+/*#captcha {*/
+/*    border-radius: 5px;*/
+/*    border: 1px solid gainsboro;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*}*/
 
-input[type="captchaText"] {
-    padding: 12px 20px;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    width: 100%;
-    margin: 12px 0;
-    font-size: 16px;
-}
+/*input[type="captchaText"] {*/
+/*    padding: 12px 20px;*/
+/*    display: inline-block;*/
+/*    border: 1px solid #ccc;*/
+/*    border-radius: 5px;*/
+/*    box-sizing: border-box;*/
+/*    width: 100%;*/
+/*    margin: 12px 0;*/
+/*    font-size: 16px;*/
+/*}*/
 
-button {
-    background-color: #2446a0;
-    border: none;
-    color: white;
-    padding: 12px 30px;
-    text-decoration: none;
-    margin: 4px 2px;
-    cursor: pointer;
-    width: 100%;
-    border-radius: 5px;
-    font-size: 18px;
-}
+/*button {*/
+/*    background-color: #2446a0;*/
+/*    border: none;*/
+/*    color: white;*/
+/*    padding: 12px 30px;*/
+/*    text-decoration: none;*/
+/*    margin: 4px 2px;*/
+/*    cursor: pointer;*/
+/*    width: 100%;*/
+/*    border-radius: 5px;*/
+/*    font-size: 18px;*/
+/*}*/
 
 /* canvas {
 pointer-events: none;
