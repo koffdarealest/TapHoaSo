@@ -135,7 +135,7 @@ public class signinController extends HttpServlet {
         HashMap<String, String> map = getParameter(req, resp);
         String username = map.get("username");
         userDAO userDAO = new userDAO();
-        boolean isAdmin = userDAO.getUserByUsername(username).isAdmin();
+        boolean isAdmin = userDAO.getUserByUsername(username).getAdmin();
         return isAdmin;
     }
 

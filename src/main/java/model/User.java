@@ -19,11 +19,11 @@ public class User extends BaseAuditable{
     private Long balance;
     private Boolean isAdmin;
     private Boolean isActivated;
-
+    private byte[] secretKey;
     public User() {
     }
 
-    public User(String username, String password, String email, String nickname, Long balance, Boolean isAdmin, boolean isActivated) {
+    public User(String username, String password, String email, String nickname, Long balance, Boolean isAdmin, boolean isActivated, byte[] secretKey) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -31,6 +31,7 @@ public class User extends BaseAuditable{
         this.balance = balance;
         this.isAdmin = isAdmin;
         this.isActivated = isActivated;
+        this.secretKey = secretKey;
     }
     public Long getUserID() {
         return userID;
@@ -80,8 +81,12 @@ public class User extends BaseAuditable{
         this.balance = balance;
     }
 
-    public boolean isAdmin() {
+    public Boolean getAdmin() {
         return isAdmin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
     }
 
     public Boolean getActivated() {
@@ -90,5 +95,9 @@ public class User extends BaseAuditable{
 
     public void setActivated(Boolean activated) {
         isActivated = activated;
+    }
+
+    public byte[] getSecretKey() {
+        return secretKey;
     }
 }
