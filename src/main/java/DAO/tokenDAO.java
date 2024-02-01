@@ -30,7 +30,7 @@ public class tokenDAO {
         }
     }
 
-    public static void saveToken(String gmail, String token1) {
+    public static void saveForgotToken(User user, String tokenValue) {
         try {
             SessionFactory sessionFactory = Factory.getSessionFactory();
             if (sessionFactory != null) {
@@ -38,9 +38,10 @@ public class tokenDAO {
                 try {
                     Transaction tr = session.beginTransaction();
                     Token token = new Token();
-                    token.setToken(token1);
-                    token.setEmail(gmail);
+                    token.setToken(tokenValue);
+                    token.setUserID(user);
                     token.setExpTime(java.time.LocalDateTime.now().plusMinutes(2));
+                    token.setTokenType("forgot");
                     session.save(token);
                     session.getTransaction().commit();
                 } catch (Exception e) {
@@ -54,14 +55,69 @@ public class tokenDAO {
         }
     }
 
-    public String getEmailByToken(String token) {
-        Session session = Factory.getSessionFactory().openSession();
-        Token tk = session.get(Token.class, token);
-        session.close();
-        if (token == null) {
+    public static void saveVerifyEmailToken(User user, String tokenValue) {
+        try {
+            SessionFactory sessionFactory = Factory.getSessionFactory();
+            if (sessionFactory != null) {
+                Session session = sessionFactory.openSession();
+                try {
+                    Transaction tr = session.beginTransaction();
+                    Token token = new Token();
+                    token.setToken(tokenValue);
+                    token.setUserID(user);
+                    token.setExpTime(java.time.LocalDateTime.now().plusMinutes(2));
+                    token.setTokenType("verifyEmail");
+                    session.save(token);
+                    session.getTransaction().commit();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    session.close();
+                }
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
+
+    public static void saveWithdrawToken(User user, String tokenValue) {
+        try {
+            SessionFactory sessionFactory = Factory.getSessionFactory();
+            if (sessionFactory != null) {
+                Session session = sessionFactory.openSession();
+                try {
+                    Transaction tr = session.beginTransaction();
+                    Token token = new Token();
+                    token.setToken(tokenValue);
+                    token.setUserID(user);
+                    token.setExpTime(java.time.LocalDateTime.now().plusMinutes(2));
+                    token.setTokenType("withdraw");
+                    session.save(token);
+                    session.getTransaction().commit();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    session.close();
+                }
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
+
+
+    public User getUserByToken(String token) {
+        try {
+            Session session = Factory.getSessionFactory().openSession();
+            Token tk = session.get(Token.class, token);
+            session.close();
+            if (token == null) {
+                return null;
+            }
+            return tk.getUserID();
+        } catch (Exception e) {
             return null;
         }
-        return tk.getEmail();
     }
 
     public static void deleteToken(String token) {
