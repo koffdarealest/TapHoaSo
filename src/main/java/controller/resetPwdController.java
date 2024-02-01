@@ -68,8 +68,8 @@ public class resetPwdController extends HttpServlet {
         if(password.equals(rePassword)) {
             tokenDAO tokenDAO = new tokenDAO();
             userDAO userDAO = new userDAO();
-            String email = tokenDAO.getEmailByToken(token);
-            User user =  userDAO.getUserByGmail(email);
+//            String email = tokenDAO.getEmailByToken(token);
+            User user = tokenDAO.getUserByToken(token);
             user.setPassword(password);
             userDAO.updateUser(user);
             tokenDAO.deleteToken(token);
