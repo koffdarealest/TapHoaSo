@@ -83,7 +83,7 @@ public class tokenDAO {
     public static String generateToken() {
         return java.util.UUID.randomUUID().toString();
     }
-    /*public static String encodeToken(String token) {
+    public static String encodeToken(String token) {
         StringBuilder encodedToken = new StringBuilder();
         for (char c : token.toCharArray()) {
             // Mã hóa từng ký tự bằng mã ASCII và thêm vào chuỗi mã hóa
@@ -93,7 +93,7 @@ public class tokenDAO {
     }
     public static String decodeToken(String encodedToken) throws Exception {
         return URLDecoder.decode(encodedToken, "UTF-8");
-    }*/
+    }
 //    public static String encodeToken(String token) {
 //        return Base64.getEncoder().encodeToString(token.getBytes(StandardCharsets.UTF_8));
 //    }

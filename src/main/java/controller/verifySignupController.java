@@ -41,7 +41,7 @@ public class verifySignupController extends HttpServlet {
         req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
     }
 
-    private void handleValidSignupToken(HttpServletRequest req, HttpServletResponse resp, String tk) throws IOException, ServletException {
+    private void handleValidSignupToken(HttpServletRequest req, HttpServletResponse resp, String tk) throws Exception {
         String jsonUser = req.getParameter("user");
         String userString = tokenDAO.decodeToken(jsonUser);
         Gson gson = new Gson();

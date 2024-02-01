@@ -44,10 +44,14 @@ public class signupController extends HttpServlet {
         //Hash password with MD5 althorithm
         String hashPass = userDAO.encodePassword(getParameters.get("password"));
         //hanlde successful signup
-        handleSuccessfulSignup(req, resp, user, userDAO, encryption, getParameters, hashPass);
+        try {
+            handleSuccessfulSignup(req, resp, user, userDAO, encryption, getParameters, hashPass);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private void handleSuccessfulSignup(HttpServletRequest req, HttpServletResponse resp, User user, userDAO userDAO, Encryption encryption, Map<String, String> getParameters, String hashPass) throws ServletException, IOException {
+    private void handleSuccessfulSignup(HttpServletRequest req, HttpServletResponse resp, User user, userDAO userDAO, Encryption encryption, Map<String, String> getParameters, String hashPass) throws Exception {
         String token = tokenDAO.generateToken();
         tokenDAO.saveToken(getParameters.get("email"), token);
 
@@ -72,7 +76,7 @@ public class signupController extends HttpServlet {
         sendEmailToVerifyAccount(req, resp, userDAO, encryption, getParameters, user);
     }
 
-    private void sendEmailToVerifyAccount(HttpServletRequest req, HttpServletResponse resp, userDAO userDAO, Encryption token, Map<String, String> getParameters, User user) throws ServletException, IOException {
+    private void sendEmailToVerifyAccount(HttpServletRequest req, HttpServletResponse resp, userDAO userDAO, Encryption token, Map<String, String> getParameters, User user) throws Exception {
         req.setAttribute("mess", "Please check your email to verify your account! If you don't see the email, try again!");
         req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
 

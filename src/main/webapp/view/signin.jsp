@@ -108,27 +108,24 @@
                            value="${password}">
                 </div>
 
-                <%-- captcha field --%>
-                <div class="form-group mb-3">
+                <%-- captcha start --%>
+                <form action="verifyCaptcha" method="post">
                     <label class="label">Captcha</label>
+                    <input type="button" onclick="reloadCaptcha()" value="reload"></input>
+
                     <div class="content">
-                        <div id="captcha"></div>
-                        <button type="button" class="regenerateCaptcha btn btn-primary" style="width: 5rem;" onclick="resetCaptcha(event)">
-                            <i class="fas fa-redo"></i>
-                        </button>
-<%--                        <input type="hidden" name="captcha" id="captchaa">--%>
+                        <img style="height: 50px; width: 200px" src="generateCaptcha" alt="Captcha Image" id="captchaImage">
                     </div>
-                    <input type="text" class="form-control" placeholder="Captcha" required name="captcha" id="inputCaptcha"/>
-                </div>
+                    <input type="text" name="captcha" placeholder="Enter Captcha"/>
+                    <%-- error field --%>
+                    <h6 class="text-danger mb-2">${error}</h6>
+                    <h6 class="text-danger mb-2" id="error"></h6>
 
-                <%-- error field --%>
-                <h6 class="text-danger mb-2">${error}</h6>
-                <h6 class="text-danger mb-2" id="error"></h6>
-
-                <%-- submit button --%>
-                <div class="form-group mb-3 text-center">
-                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Sign In</button>
-                </div>
+                    <%-- submit button --%>
+                    <div class="form-group mb-3 text-center">
+                        <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Sign In</button>
+                    </div>
+                </form>
 
                 <%-- remember me and forgot password --%>
                 <div class="form-group d-md-flex mb-3">
@@ -163,8 +160,27 @@
 </footer>
 
 <!-- Scripts -->
+<script>
+    function reloadCaptcha() {
+        // Assuming you have an image element with the id "captchaImage"
+        var captchaImage = document.getElementById('captchaImage');
+        // Create a new XMLHttpRequest object
+        var xhr = new XMLHttpRequest();
+        // Specify the request type, URL, and set it to asynchronous
+        xhr.open('POST', 'generateCaptcha', true);
+        // Define the callback function that will be called when the request is complete
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                // If the request is successful, update the captcha image source
+                captchaImage.src = xhr.responseText;
+            }
+        };
+        // Send the request
+        xhr.send();
+    }
+</script>
+
 <!-- Bootstrap core JavaScript -->
-<script src="../assets/js/captcha.js"></script>
 <script src="../vendor/jquery/jquery.min.js"></script>
 <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="../assets/js/isotope.min.js"></script>
