@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="login-google">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../../SWP/login-google" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$PROJECT_DIR$/../../SWP/login-google" recursive="false" />
+  </library>
+</component>
