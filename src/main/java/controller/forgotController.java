@@ -104,7 +104,6 @@ public class forgotController extends HttpServlet {
     }
 
     private void saveToken(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String email = getEmail(req, resp);
         tokenDAO tokenDAO = new tokenDAO();
         User user = getUser(req, resp);
         String token = generateToken();

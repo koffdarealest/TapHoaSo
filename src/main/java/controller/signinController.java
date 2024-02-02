@@ -48,6 +48,7 @@ public class signinController extends HttpServlet {
         } else {
             req.setAttribute("error", "Wrong username or password");
             req.getRequestDispatcher("/view/signin.jsp").forward(req, resp);
+            return;
         }
     }
 
