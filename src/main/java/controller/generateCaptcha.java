@@ -25,6 +25,8 @@ public class generateCaptcha extends HttpServlet {
         Captcha captchaGenerator = new Captcha();
         BufferedImage biImage = captchaGenerator.generateCaptchaImage();
 
+        request.getSession().setAttribute("captcha", biImage);
+
         OutputStream osImage = response.getOutputStream();
         ImageIO.write(biImage, "jpg", osImage);
     }

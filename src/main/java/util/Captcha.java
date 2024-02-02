@@ -55,5 +55,9 @@ public class Captcha {
     public void reloadCaptcha() {
         generateCaptchaImage();
     }
+    public void verifyCaptcha(String captcha) {
+        //verify captcha
+
+    }
 
 }

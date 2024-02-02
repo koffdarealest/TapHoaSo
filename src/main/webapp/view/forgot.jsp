@@ -98,6 +98,17 @@
                     <label class="label">Email</label>
                     <input type="email" class="form-control" placeholder="Email" required name="email">
                 </div>
+                <%-- captcha start --%>
+                <label class="label">Captcha</label>
+                <%--<input type="button" onclick="reloadCaptcha()" value="reload"></input>--%>
+                <button class="input-group-prepend" onclick="reloadCaptcha()">
+                    <i class="fa fa-refresh"></i>
+                </button>
+                <div class="content">
+                    <img style="height: 50px; width: 200px" src="generateCaptcha" alt="Captcha Image"
+                         id="captchaImage">
+                </div>
+                <input type="text" name="captcha" placeholder="Enter Captcha"/>
 
 
                 <h6 class="text-danger mb-2">${error}</h6>
@@ -123,7 +134,13 @@
 </footer>
 
 <!-- Scripts -->
-
+<script>
+    function reloadCaptcha() {
+        var timestamp = new Date().getTime();
+        var captchaImage = document.getElementById('captchaImage');
+        captchaImage.src = 'generateCaptcha?' + timestamp;
+    }
+</script>
 <!-- Bootstrap core JavaScript -->
 
 <script src="../vendor/jquery/jquery.min.js"></script>
