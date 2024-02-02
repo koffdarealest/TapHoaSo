@@ -28,6 +28,8 @@ public class generateCaptcha extends HttpServlet {
 
         request.getSession().setAttribute("captcha", code);
 
+        request.getSession().setAttribute("captcha", biImage);
+
         OutputStream osImage = response.getOutputStream();
         ImageIO.write(biImage, "jpg", osImage);
     }

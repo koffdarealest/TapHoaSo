@@ -24,14 +24,4 @@
 		<param-value>YOUR_PASSWORD</param-value>
 	</context-param>
 
-	<servlet>
-		<servlet-name>validateCaptcha</servlet-name>
-		<servlet-class>controller.validateCaptcha</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>validateCaptcha</servlet-name>
-		<url-pattern>/captcha-image.jpg</url-pattern>
-	</servlet-mapping>
-
 </web-app>
