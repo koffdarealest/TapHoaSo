@@ -1,10 +1,13 @@
 <component name="libraryTable">
   <library name="login-google">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../../SWP/login-google" />
+      <root url="jar://$PROJECT_DIR$/../../SWP/login-google/commons-logging-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../SWP/login-google/fluent-hc-4.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../SWP/login-google/gson-2.8.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../SWP/login-google/httpclient-4.5.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../SWP/login-google/httpcore-4.4.9.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
-    <jarDirectory url="file://$PROJECT_DIR$/../../SWP/login-google" recursive="false" />
   </library>
 </component>

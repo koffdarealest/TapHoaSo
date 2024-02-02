@@ -29,55 +29,21 @@ public class loginGoogleHandler extends HttpServlet {
         String code = request.getParameter("code");
         String accessToken = getToken(code);
         UserGoogleDTO userGoogleDTO = getUserInfo(accessToken);
-        userDAO userDAO = new userDAO();
 
-//        User userDTO = User.builder().email(userGoogleDTO.getEmail())
+//        request.setAttribute("id", userGoogleDTO.getId());
+//        request.setAttribute("name", userGoogleDTO.getName());
+//        request.setAttribute("email", userGoogleDTO.getEmail());
+
+//        userDAO userDAO = new userDAO();
+//
+//        User userDTO = User.builder()
+//                .email(userGoogleDTO.getEmail())
 //                .username(userGoogleDTO.getName())
 //                .build();
-//        HttpSession session = request.getSession();
-        System.out.println("Code:" + code);
-        System.out.println("Access Token:" + accessToken);
-        System.out.println("GG:" + userGoogleDTO);
-//        response.sendRedirect("view/signup.jsp");
-//        //Check email tồn tại chưa, được tạo, đã thay đổi pass
-//        if (userDAO.checkExistEmail(userGoogleDTO.getEmail()) == true && userDAO.checkUserSetDate(userGoogleDTO.getEmail()) == true && userDAO.checkUserSetChangePassWord(userGoogleDTO.getEmail()) == true) {
-//            User u = userDAO.getUserByGmail(userGoogleDTO.getEmail());
-////            session.setAttribute("account", u);
-////            response.sendRedirect("home");
-//
-//        }
-//        //Check email tồn tại chưa, chưa được tạo, đã thay đổi pass
-//        else if (userDAO.checkExistEmail(userGoogleDTO.getEmail()) == true && userDAO.checkUserSetDate(userGoogleDTO.getEmail()) == false && userDAO.checkUserSetChangePassWord(userGoogleDTO.getEmail()) == true) {
-//            User u = userDAO.getUserByGmail(userGoogleDTO.getEmail());
-////            session.setAttribute("account", u);
-////            session.setAttribute("msgSetDate", "You must set your day of birth!!");
-////            response.sendRedirect("user-account-new.jsp");
-//
-//
-//        }
-//        //Check email tồn tại chưa, chưa được tạo, chưa thay pass
-//        else if (userDAO.checkExistEmail(userGoogleDTO.getEmail()) == true && userDAO.checkUserSetDate(userGoogleDTO.getEmail()) == false && userDAO.checkUserSetChangePassWord(userGoogleDTO.getEmail()) == false) {
-//            String key = userDAO.checkRegisterGmail(userDTO, userGoogleDTO.getId(), 1);
-//            User u = userDAO.getUserByGmail(userGoogleDTO.getEmail());
-////            session.setAttribute("account", u);
-////            HttpSession session1 = request.getSession();
-////            session1.setAttribute("keyGoogle", u.getEmail() + "-" + key);
-////            request.setAttribute("message", "The link to verify account has been sent to your email.");
-////            request.getRequestDispatcher("redirect-mail-message.jsp").forward(request, response);
-//
-//
-//
-//        } else {
-//            String key = userDAO.register(userDTO, userGoogleDTO.getId(), 1);
-//            User u = userDAO.getUserGoogleRaw(userDTO.getEmail(), userGoogleDTO.getId());
-////            session.setAttribute("account", u);
-////            HttpSession session1 = request.getSession();
-////            session1.setAttribute("keyGoogle", u.getEmail() + "-" + key);
-////            request.setAttribute("message", "The link to verify account has been sent to your email.");
-////            request.getRequestDispatcher("redirect-mail-message.jsp").forward(request, response);
-//
-//
-//        }
+        HttpSession session = request.getSession();
+        session.setAttribute("username", userGoogleDTO.getName());
+        session.setAttribute("email", userGoogleDTO.getEmail());
+        request.getRequestDispatcher("view/signup.jsp").forward(request, response);
     }
     public static String getToken(String code) throws ClientProtocolException, IOException {
         // call api to get token
