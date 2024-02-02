@@ -95,7 +95,7 @@
             <div class="card-header text-center p-3 mb-4">
                 <h2 class="m-0">SIGN IN</h2>
             </div>
-            <form action="signin" method="post" onsubmit="return validateCaptcha()">
+            <form action="signin" method="post">
                 <%-- information field --%>
                 <div class="form-group mb-3">
                     <label class="label">Username</label>
@@ -107,20 +107,23 @@
                     <input type="password" class="form-control" placeholder="Password" required name="password"
                            value="${password}">
                 </div>
+            </form>
 
-                <%-- captcha start --%>
-                <form action="verifyCaptcha" method="post">
-                    <label class="label">Captcha</label>
-                    <input type="button" onclick="reloadCaptcha()" value="reload"></input>
-
-                    <div class="content">
-                        <img style="height: 50px; width: 200px" src="generateCaptcha" alt="Captcha Image" id="captchaImage">
-                    </div>
-                    <input type="text" name="captcha" placeholder="Enter Captcha"/>
-                    <%-- error field --%>
-                    <h6 class="text-danger mb-2">${error}</h6>
-                    <h6 class="text-danger mb-2" id="error"></h6>
-
+            <%-- captcha start --%>
+                <label class="label">Captcha</label>
+                <%--<input type="button" onclick="reloadCaptcha()" value="reload"></input>--%>
+                <button class="input-group-prepend" onclick="reloadCaptcha()">
+                    <i class="fa fa-refresh"></i>
+                </button>
+                <div class="content">
+                    <img style="height: 50px; width: 200px" src="generateCaptcha" alt="Captcha Image"
+                         id="captchaImage">
+                </div>
+                <input type="text" name="captcha" placeholder="Enter Captcha"/>
+                <%-- error field --%>
+                <h6 class="text-danger mb-2">${error}</h6>
+                <h6 class="text-danger mb-2" id="error"></h6>
+                <form action="signin" method="post">
                     <%-- submit button --%>
                     <div class="form-group mb-3 text-center">
                         <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Sign In</button>
@@ -137,12 +140,10 @@
                         <a href="forgot">Forgot Password</a>
                     </div>
                 </div>
-            </form>
             <p class="text-center" style="font-size: 15px;">Not a member? <a data-toggle="tab" href="signup">Sign
                 Up Here</a></p>
         </div>
     </div>
-
 </div>
 
 
@@ -162,24 +163,11 @@
 <!-- Scripts -->
 <script>
     function reloadCaptcha() {
-        // Assuming you have an image element with the id "captchaImage"
+        var timestamp = new Date().getTime();
         var captchaImage = document.getElementById('captchaImage');
-        // Create a new XMLHttpRequest object
-        var xhr = new XMLHttpRequest();
-        // Specify the request type, URL, and set it to asynchronous
-        xhr.open('POST', 'generateCaptcha', true);
-        // Define the callback function that will be called when the request is complete
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                // If the request is successful, update the captcha image source
-                captchaImage.src = xhr.responseText;
-            }
-        };
-        // Send the request
-        xhr.send();
+        captchaImage.src = 'generateCaptcha?' + timestamp;
     }
 </script>
-
 <!-- Bootstrap core JavaScript -->
 <script src="../vendor/jquery/jquery.min.js"></script>
 <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>

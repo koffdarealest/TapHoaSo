@@ -119,11 +119,21 @@
                     <input type="password" class="form-control" placeholder="Re-password"
                            required name="re-password">
                 </div>
+                <%-- captcha start --%>
+                <label class="label">Captcha</label>
+                <%--<input type="button" onclick="reloadCaptcha()" value="reload"></input>--%>
+                <button class="input-group-prepend" onclick="reloadCaptcha()">
+                    <i class="fa fa-refresh"></i>
+                </button>
+                <div class="content">
+                    <img style="height: 50px; width: 200px" src="generateCaptcha" alt="Captcha Image"
+                         id="captchaImage">
+                </div>
+                <input type="text" name="captcha" placeholder="Enter Captcha"/>
 
 
 
-
-                <h6 class="text-danger mb-2">${mess}</h6>
+                <h6 class="text-danger mb-2">${error}</h6>
                 <div class="form-group mb-3 text-center">
                     <button type="submit" class="col-lg-8 btn btn-primary btn-lg">SIGN UP</button>
                 </div>
@@ -146,7 +156,13 @@
 </footer>
 
 <!-- Scripts -->
-
+<script>
+    function reloadCaptcha() {
+        var timestamp = new Date().getTime();
+        var captchaImage = document.getElementById('captchaImage');
+        captchaImage.src = 'generateCaptcha?' + timestamp;
+    }
+</script>
 <!-- Bootstrap core JavaScript -->
 <script src="../vendor/jquery/jquery.min.js"></script>
 <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
