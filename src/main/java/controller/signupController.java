@@ -51,14 +51,19 @@ public class signupController extends HttpServlet {
 
     private static void VerifyCaptcha(HttpServletRequest req, HttpServletResponse resp, Map<String, String> getParameters) {
         if (!getParameters.get("captcha").equals(req.getSession().getAttribute("captcha"))) {
+            System.out.println("captcha entered" + getParameters.get("captcha"));
+            System.out.println("captcha session" + req.getSession().getAttribute("captcha"));
             req.setAttribute("error", "Captcha is not correct! Try again!");
+
             try {
-                req.getRequestDispatcher("signup").forward(req, resp);
+                req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
             } catch (ServletException | IOException e) {
                 e.printStackTrace();
             }
             return;
         }
+        System.out.println("captcha entered" + getParameters.get("captcha"));
+        System.out.println("captcha session" + req.getSession().getAttribute("captcha"));
     }
 
     private void handleSuccessfulSignup(HttpServletRequest req, HttpServletResponse resp, User user, userDAO userDAO, Encryption encryption, Map<String, String> getParameters, String hashPass) throws Exception {
