@@ -6,7 +6,13 @@ import java.util.Random;
 
 public class Captcha {
 
-    public BufferedImage generateCaptchaImage() {
+    public String generateCaptcha() {
+        Random randChars = new Random();
+        return generateCode(6, randChars);
+    }
+
+
+    public BufferedImage generateCaptchaImage(String sImageCode) {
         int iTotalChars = 6;
         int iHeight = 40;
         int iWidth = 150;
@@ -15,7 +21,6 @@ public class Captcha {
         Font fntStyle2 = new Font("Verdana", Font.BOLD, 20);
 
         Random randChars = new Random();
-        String sImageCode = generateCode(iTotalChars, randChars);
 
         BufferedImage biImage = new BufferedImage(iWidth, iHeight, BufferedImage.TYPE_INT_RGB);
         Graphics2D g2dImage = (Graphics2D) biImage.getGraphics();
@@ -51,9 +56,6 @@ public class Captcha {
             captchaCode.append((char) (randChars.nextInt(26) + 'A'));
         }
         return captchaCode.toString();
-    }
-    public void reloadCaptcha() {
-        generateCaptchaImage();
     }
     public void verifyCaptcha(String captcha) {
         //verify captcha
