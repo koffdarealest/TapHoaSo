@@ -1,5 +1,6 @@
 package controller;
 
+
 import DAO.userDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -7,6 +8,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import util.Encryption;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -79,7 +81,6 @@ public class signinController extends HttpServlet {
         String password = map.get("password");
         userDAO userDAO = new userDAO();
         boolean isValid = userDAO.CheckValidUser(username, password);
-        System.out.println(isValid);
         return isValid;
     }
 
