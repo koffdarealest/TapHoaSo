@@ -122,7 +122,7 @@
                 <%-- captcha start --%>
                 <label class="label">Captcha</label>
                 <%--<input type="button" onclick="reloadCaptcha()" value="reload"></input>--%>
-                <button class="input-group-prepend" onclick="reloadCaptcha()">
+                <button class="input-group-prepend" onclick="resetCaptcha(event)">
                     <i class="fa fa-refresh"></i>
                 </button>
                 <div class="content">
@@ -161,6 +161,13 @@
         var timestamp = new Date().getTime();
         var captchaImage = document.getElementById('captchaImage');
         captchaImage.src = 'generateCaptcha?' + timestamp;
+    }
+</script>
+
+<script>
+    function resetCaptcha(event) {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định của button (submit form)
+        reloadCaptcha(); // Gọi hàm tạo mới captcha ở đây
     }
 </script>
 <!-- Bootstrap core JavaScript -->

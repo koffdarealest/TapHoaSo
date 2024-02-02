@@ -34,11 +34,24 @@ public class signupController extends HttpServlet {
         //get Parameters from signup.jsp
         Map<String, String> getParameters = getParameters(req);
         //check exist username and email
-        CheckExistUsernameAndEmail(req, resp, userDAO, getParameters);
+        if(CheckExistUsernameAndEmail(req, resp, userDAO, getParameters)) {
+            req.setAttribute("error", "Username or gmail already exists! Try again!");
+            req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
+            return;
+        }
         //check password and re-password
-        CheckPasswordAndRePassword(req, resp, getParameters);
-        // verify captcha
-        VerifyCaptcha(req, resp, getParameters);
+        if (!CheckPasswordAndRePassword(req, resp, getParameters)) {
+            req.setAttribute("error", "Password and Re-Password are not the same! Try again!");
+            req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
+            return;
+        }
+
+        //verify captcha
+        if(!VerifyCaptcha(req, resp, getParameters)){
+            req.setAttribute("error", "Captcha is not correct! Try again!");
+            req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
+            return;
+        }
         //Hash password with MD5 althorithm
         String hashPass = userDAO.encodePassword(getParameters.get("password"));
         //hanlde successful signup
@@ -49,26 +62,23 @@ public class signupController extends HttpServlet {
         }
     }
 
-    private static void VerifyCaptcha(HttpServletRequest req, HttpServletResponse resp, Map<String, String> getParameters) {
-        if (!getParameters.get("captcha").equals(req.getSession().getAttribute("captcha"))) {
-            System.out.println("captcha entered" + getParameters.get("captcha"));
-            System.out.println("captcha session" + req.getSession().getAttribute("captcha"));
-            req.setAttribute("error", "Captcha is not correct! Try again!");
-
+    private boolean VerifyCaptcha(HttpServletRequest req, HttpServletResponse resp, Map<String, String> getParameters) {
+        String enteredCaptcha = getParameters.get("captcha");
+        String captcha = (String) req.getSession().getAttribute("captcha");
+        if (!enteredCaptcha.equals(captcha)) {
+            System.out.println("captcha entered   " + enteredCaptcha);
+            System.out.println("captcha session" + captcha);
             try {
-                req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
-            } catch (ServletException | IOException e) {
+
+                return false;
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-            return;
         }
-        System.out.println("captcha entered" + getParameters.get("captcha"));
-        System.out.println("captcha session" + req.getSession().getAttribute("captcha"));
+        return true;
     }
 
     private void handleSuccessfulSignup(HttpServletRequest req, HttpServletResponse resp, User user, userDAO userDAO, Encryption encryption, Map<String, String> getParameters, String hashPass) throws Exception {
-        String token = tokenDAO.generateToken();
-        tokenDAO.saveToken(getParameters.get("email"), token);
 
         byte[] key;
         try {
@@ -87,6 +97,9 @@ public class signupController extends HttpServlet {
         user.setUpdatedAt(new Date());
         user.setActivated(false);
         userDAO.insertUser(user);
+        String token = tokenDAO.generateToken();
+        tokenDAO.saveVerifyEmailToken(user, token);
+
 
         //send email to verify account
         sendEmailToVerifyAccount(req, resp, userDAO, encryption, getParameters, user);
@@ -122,40 +135,24 @@ public class signupController extends HttpServlet {
     }
 
 
-    private void CheckPasswordAndRePassword(HttpServletRequest req, HttpServletResponse resp, Map<String, String> getParameters) {
+    private boolean CheckPasswordAndRePassword(HttpServletRequest req, HttpServletResponse resp, Map<String, String> getParameters) {
         if (!getParameters.get("password").equals(getParameters.get("rePassword"))) {
-            req.setAttribute("error", "Password and Re-Password are not the same! Try again!");
-            try {
-                req.getRequestDispatcher("signup").forward(req, resp);
-            } catch (ServletException | IOException e) {
-                e.printStackTrace();
-            }
-            return;
+
+
+                return false;
+
         }
+        return true;
     }
 
-    private void CheckExistUsernameAndEmail(HttpServletRequest req, HttpServletResponse resp, userDAO userDAO, Map<String, String> getParameters) {
+    private boolean CheckExistUsernameAndEmail(HttpServletRequest req, HttpServletResponse resp, userDAO userDAO, Map<String, String> getParameters) {
         if (userDAO.checkExistUsername(getParameters.get("username"))) {
-            req.setAttribute("error", "Username already exists! Try again!");
-            try {
-                req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
-                return;
-            } catch (ServletException | IOException e) {
-                e.printStackTrace();
-            }
-            return;
+            return true;
         }
         if (userDAO.checkExistEmail(getParameters.get("email"))) {
-            req.setAttribute("error", "Email already exists! Try again!");
-            System.out.println("Email already exists! Try again!");
-            try {
-                req.getRequestDispatcher("signup").forward(req, resp);
-                return;
-            } catch (ServletException | IOException e) {
-                e.printStackTrace();
-            }
-            return;
+            return true;
         }
+        return false;
     }
 
     private Map<String, String> getParameters(HttpServletRequest req) {
@@ -168,6 +165,9 @@ public class signupController extends HttpServlet {
         parameters.put("captcha", req.getParameter("captcha"));
         return parameters;
     }
+
+
+
 
 
 }
