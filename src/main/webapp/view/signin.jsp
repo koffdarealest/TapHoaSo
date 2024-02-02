@@ -95,7 +95,7 @@
             <div class="card-header text-center p-3 mb-4">
                 <h2 class="m-0">SIGN IN</h2>
             </div>
-            <form action="signin" method="post" onsubmit="return validateCaptcha()">
+            <form action="signin" method="post">
                 <%-- information field --%>
                 <div class="form-group mb-3">
                     <label class="label">Username</label>
@@ -107,28 +107,28 @@
                     <input type="password" class="form-control" placeholder="Password" required name="password"
                            value="${password}">
                 </div>
+            </form>
 
-                <%-- captcha field --%>
-                <div class="form-group mb-3">
-                    <label class="label">Captcha</label>
-                    <div class="content">
-                        <div id="captcha"></div>
-                        <button type="button" class="regenerateCaptcha btn btn-primary" style="width: 5rem;" onclick="resetCaptcha(event)">
-                            <i class="fas fa-redo"></i>
-                        </button>
-<%--                        <input type="hidden" name="captcha" id="captchaa">--%>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Captcha" required name="captcha" id="inputCaptcha"/>
+            <%-- captcha start --%>
+                <label class="label">Captcha</label>
+                <%--<input type="button" onclick="reloadCaptcha()" value="reload"></input>--%>
+                <button class="input-group-prepend" onclick="reloadCaptcha()">
+                    <i class="fa fa-refresh"></i>
+                </button>
+                <div class="content">
+                    <img style="height: 50px; width: 200px" src="generateCaptcha" alt="Captcha Image"
+                         id="captchaImage">
                 </div>
-
+                <input type="text" name="captcha" placeholder="Enter Captcha"/>
                 <%-- error field --%>
                 <h6 class="text-danger mb-2">${error}</h6>
                 <h6 class="text-danger mb-2" id="error"></h6>
-
-                <%-- submit button --%>
-                <div class="form-group mb-3 text-center">
-                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Sign In</button>
-                </div>
+                <form action="signin" method="post">
+                    <%-- submit button --%>
+                    <div class="form-group mb-3 text-center">
+                        <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Sign In</button>
+                    </div>
+                </form>
 
                 <%-- remember me and forgot password --%>
                 <div class="form-group d-md-flex mb-3">
@@ -140,12 +140,10 @@
                         <a href="forgot">Forgot Password</a>
                     </div>
                 </div>
-            </form>
             <p class="text-center" style="font-size: 15px;">Not a member? <a data-toggle="tab" href="signup">Sign
                 Up Here</a></p>
         </div>
     </div>
-
 </div>
 
 
@@ -163,8 +161,14 @@
 </footer>
 
 <!-- Scripts -->
+<script>
+    function reloadCaptcha() {
+        var timestamp = new Date().getTime();
+        var captchaImage = document.getElementById('captchaImage');
+        captchaImage.src = 'generateCaptcha?' + timestamp;
+    }
+</script>
 <!-- Bootstrap core JavaScript -->
-<script src="../assets/js/captcha.js"></script>
 <script src="../vendor/jquery/jquery.min.js"></script>
 <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="../assets/js/isotope.min.js"></script>
