@@ -51,6 +51,8 @@ public class signinController extends HttpServlet {
 
     private boolean verifyCaptcha(HttpServletRequest req, HttpServletResponse resp, Map<String, String> getParameters) {
         if (!getParameters.get("captcha").equals(req.getSession().getAttribute("captcha"))) {
+            System.out.println("captcha entered" + getParameters.get("captcha"));
+            System.out.println("captcha session" + req.getSession().getAttribute("captcha"));
             req.setAttribute("error", "Captcha is not correct! Try again!");
             try {
                 req.getRequestDispatcher("signin").forward(req, resp);
