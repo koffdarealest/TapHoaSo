@@ -93,7 +93,8 @@
             <div class="card-header text-center p-3 mb-4">
                 <h2 class="m-0">Reset Password</h2>
             </div>
-            <form action="reset" method="post" name="signup">
+            <form action="reset" method="post" id="form">
+                <!-- --------------input field-------------- -->
                 <div class="form-group mb-4">
                     <label class="label" >Password</label>
                     <input type="password" class="form-control" placeholder="Password"
@@ -105,7 +106,23 @@
                            required name="re-password">
                 </div>
                 <input type="hidden" name="token" value="${token}">
-                <h6 class="text-danger mb-2">${mess}</h6>
+                <!-- --------------captcha field-------------- -->
+                <div class="form-group mb-3">
+                    <label class="label">Captcha</label>
+                    <div class="d-flex align-content-center">
+                        <div class="content">
+                            <img style="height: 48px; width: 200px; border-radius: 5px" src="generateCaptcha" alt="Captcha Image"
+                                 id="captchaImage">
+                        </div>
+                        <button class="btn input-group-prepend" onclick="resetCaptcha(event)">
+                            <i class="fa fa-refresh"></i>
+                        </button>
+                        <input type="text" class="form-control" name="captcha" required placeholder="Enter Captcha"/>
+                    </div>
+                </div>
+                <!-- --------------message-------------- -->
+                <h6 class="text-danger mb-2">${error}</h6>
+                <!-- --------------submit button-------------- -->
                 <div class="form-group mb-3 text-center">
                     <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Reset Password</button>
                 </div>
@@ -126,6 +143,19 @@
 </footer>
 
 <!-- Scripts -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var form = document.getElementById("form");
+        var sendButton = document.querySelector("#form [type=submit]");
+
+        form.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                sendButton.click();
+            }
+        });
+    });
+</script>
 <!-- Bootstrap core JavaScript -->
 
 <script src="../vendor/jquery/jquery.min.js"></script>

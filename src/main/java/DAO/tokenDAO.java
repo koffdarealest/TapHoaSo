@@ -30,7 +30,7 @@ public class tokenDAO {
         }
     }
 
-    public void saveToken(String gmail, String token1) {
+    public static void saveForgotToken(User user, String tokenValue) {
         try {
             SessionFactory sessionFactory = Factory.getSessionFactory();
             if (sessionFactory != null) {
@@ -38,9 +38,10 @@ public class tokenDAO {
                 try {
                     Transaction tr = session.beginTransaction();
                     Token token = new Token();
-                    token.setToken(token1);
-                    token.setEmail(gmail);
+                    token.setToken(tokenValue);
+                    token.setUserID(user);
                     token.setExpTime(java.time.LocalDateTime.now().plusMinutes(2));
+                    token.setTokenType("forgot");
                     session.save(token);
                     session.getTransaction().commit();
                 } catch (Exception e) {
@@ -54,17 +55,57 @@ public class tokenDAO {
         }
     }
 
-    public String getEmailByToken(String token) {
-        Session session = Factory.getSessionFactory().openSession();
-        Token tk = session.get(Token.class, token);
-        session.close();
-        if (token == null) {
-            return null;
+    public static void saveSignUpToken(User user, String tokenValue) {
+        try {
+            SessionFactory sessionFactory = Factory.getSessionFactory();
+            if (sessionFactory != null) {
+                Session session = sessionFactory.openSession();
+                try {
+                    Transaction tr = session.beginTransaction();
+                    Token token = new Token();
+                    token.setToken(tokenValue);
+                    token.setUserID(user);
+                    token.setExpTime(java.time.LocalDateTime.now().plusMinutes(2));
+                    token.setTokenType("signup");
+                    session.save(token);
+                    session.getTransaction().commit();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    session.close();
+                }
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
         }
-        return tk.getEmail();
     }
 
-    public void deleteToken(String token) {
+    public static void saveWithdrawToken(User user, String tokenValue) {
+        try {
+            SessionFactory sessionFactory = Factory.getSessionFactory();
+            if (sessionFactory != null) {
+                Session session = sessionFactory.openSession();
+                try {
+                    Transaction tr = session.beginTransaction();
+                    Token token = new Token();
+                    token.setToken(tokenValue);
+                    token.setUserID(user);
+                    token.setExpTime(java.time.LocalDateTime.now().plusMinutes(2));
+                    token.setTokenType("withdraw");
+                    session.save(token);
+                    session.getTransaction().commit();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    session.close();
+                }
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
+
+    public static void deleteToken(String token) {
         Transaction transaction = null;
         try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -80,46 +121,52 @@ public class tokenDAO {
         }
     }
 
-    public String generateToken() {
+    public static String generateToken() {
         return java.util.UUID.randomUUID().toString();
     }
-    /*public static String encodeToken(String token) {
+/*    public static String encodeToken(String token) {
         StringBuilder encodedToken = new StringBuilder();
         for (char c : token.toCharArray()) {
             // Mã hóa từng ký tự bằng mã ASCII và thêm vào chuỗi mã hóa
             encodedToken.append(String.format("%%%02X", (int) c));
         }
         return encodedToken.toString();
-    }
+    }*/
     public static String decodeToken(String encodedToken) throws Exception {
         return URLDecoder.decode(encodedToken, "UTF-8");
-    }*/
+    }
     public static String encodeToken(String token) {
         return Base64.getEncoder().encodeToString(token.getBytes(StandardCharsets.UTF_8));
     }
 
-    public static String decodeToken(String encodedToken) {
-        byte[] decodedBytes = Base64.getDecoder().decode(encodedToken);
-        return new String(decodedBytes, StandardCharsets.UTF_8);
-    }
-    public String encodeUser(String password){
-        MessageDigest md;
-        String result = "";
+    public String getTokenType(String tk) {
         try {
-            md = MessageDigest.getInstance("MD5");
-            md.update(password.getBytes());
-            BigInteger bi = new BigInteger(1, md.digest());
-
-            result = bi.toString(16);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            Session session = Factory.getSessionFactory().openSession();
+            Token token = session.get(Token.class, tk);
+            session.close();
+            return token.getTokenType();
+        } catch (Exception e) {
+            return null;
         }
-        return result;
     }
-    public static void main(String[] args) {
-        tokenDAO tokenDAO = new tokenDAO();
-        String a = tokenDAO.getEmailByToken("1fb31a77-7ffe-4c6a-b59f-6caa8b8a84a4");
-        System.out.println(a);
+//
+//    public static String decodeToken(String encodedToken) {
+//        byte[] decodedBytes = Base64.getDecoder().decode(encodedToken);
+//        return new String(decodedBytes, StandardCharsets.UTF_8);
+//    }
+//    public String encodeUser(String password){
+//        MessageDigest md;
+//        String result = "";
+//        try {
+//            md = MessageDigest.getInstance("MD5");
+//            md.update(password.getBytes());
+//            BigInteger bi = new BigInteger(1, md.digest());
+//
+//            result = bi.toString(16);
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        }
+//        return result;
+//    }
 
-    }
 }

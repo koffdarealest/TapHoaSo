@@ -31,7 +31,7 @@
 </head>
 
 
-<body>
+<body onload="reloadCaptcha()">
 
 <!-- ***** Preloader Start ***** -->
 <div id="js-preloader" class="js-preloader">
@@ -93,21 +93,35 @@
             <div class="card-header text-center p-3 mb-4">
                 <h2 class="m-0">FORGOT PASSWORD</h2>
             </div>
-            <h5 class="text-danger mb-3">${invalidresetmess}</h5>
-            <form action="forgot" method="post" id="captcha">
+            <form action="forgot" method="post" id="form">
+                <!-- ---------------input email---------------- -->
                 <div class="form-group mb-3">
                     <label class="label">Email</label>
                     <input type="email" class="form-control" placeholder="Email" required name="email">
                 </div>
-                <div class="g-recaptcha mb-2" data-sitekey="6LeIV1gpAAAAAN-g1_A6MNU4BsbewNhjMD8i0lxq"></div>
-                <div class="text-danger mb-2" id="error"></div>
+                <!-- ---------------captcha---------------- -->
+                <div class="form-group mb-3">
+                    <label class="label">Captcha</label>
+                    <div class="d-flex align-content-center">
+                        <div class="content">
+                            <img style="height: 48px; width: 200px; border-radius: 5px" src="generateCaptcha" alt="Captcha Image"
+                                 id="captchaImage">
+                        </div>
+                        <button class="btn input-group-prepend" onclick="resetCaptcha(event)">
+                            <i class="fa fa-refresh"></i>
+                        </button>
+                        <input type="text" class="form-control" name="captcha" required placeholder="Enter Captcha"/>
+                    </div>
+                </div>
+                <!-- ---------------message---------------- -->
                 <h6 class="text-danger mb-2">${error}</h6>
-                <h6 class="mb-2" style="color: #06a500">${mess}</h6>
+                <h6 class="text-success mb-2">${mess}</h6>
+                <!-- ---------------submit button---------------- -->
                 <div class="form-group mb-3 text-center">
                     <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Send to email</button>
                 </div>
             </form>
-            <p class="text-center" style="font-size: 15px;">Remember? <a data-toggle="tab" href="signin">Sign
+            <p class="text-center" style="font-size: 15px;">Still remember? <a data-toggle="tab" href="signin">Sign
                 In Here</a></p>
         </div>
     </div>
@@ -126,24 +140,30 @@
 
 <!-- Scripts -->
 <script>
-    window.onload = function (){
-        let isValid = false;
-        const form = document.getElementById("captcha");
-        const error = document.getElementById("error");
+    function reloadCaptcha() {
+        var timestamp = new Date().getTime();
+        var captchaImage = document.getElementById('captchaImage');
+        captchaImage.src = 'generateCaptcha?' + timestamp;
+    }
+    function resetCaptcha(event) {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định của button (submit form)
+        reloadCaptcha(); // Gọi hàm tạo mới captcha ở đây
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+        var form = document.getElementById("form");
+        var sendButton = document.querySelector("#form [type=submit]");
 
-        form.addEventListener("submit", function (event){
-            event.preventDefault();
-            const response = grecaptcha.getResponse();
-            if (response){
-                form.submit();
-            } else {
-                error.innerHTML = "Please verify the CAPTCHA! ";
+        form.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                sendButton.click();
             }
         });
-    }
+    });
+
 </script>
 <!-- Bootstrap core JavaScript -->
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 <script src="../vendor/jquery/jquery.min.js"></script>
 <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="../assets/js/isotope.min.js"></script>

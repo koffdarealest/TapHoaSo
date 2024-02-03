@@ -1,23 +1,29 @@
 package controller;
 
 import DAO.tokenDAO;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/verifyForgot"})
 public class verifyForgotController extends HttpServlet {
-    protected void doGet(jakarta.servlet.http.HttpServletRequest req, jakarta.servlet.http.HttpServletResponse resp) throws jakarta.servlet.ServletException, java.io.IOException {
+
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws jakarta.servlet.ServletException, IOException {
         String tk = req.getParameter("tk");
+        handleTokenVerification(req, resp, tk);
+    }
+
+    private void handleTokenVerification(HttpServletRequest req, HttpServletResponse resp, String tk) throws ServletException, IOException {
         tokenDAO tokenDAO = new tokenDAO();
-//        if(tk == null) {
-//            req.setAttribute("mess", "Your link is expired or unvalid! Try again!");
-//            req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
-//            return;
-//        }
         try {
-            if(tokenDAO.isTokenExpired(tk)) {
-                tokenDAO.deleteToken(tk);
-                req.setAttribute("mess", "Your link is expired or unvalid! Try again!");
+            if (tokenDAO.isTokenExpired(tk)) {
+                handleExpiredToken(req, resp, tk);
+            } else if (!isValidTokenType(tk)) {
+                req.setAttribute("mess", "Your link is invalid! Try again!");
                 req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
             } else {
                 req.setAttribute("token", tk);
@@ -26,7 +32,20 @@ public class verifyForgotController extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
+
+    private void handleExpiredToken(HttpServletRequest req, HttpServletResponse resp, String tk) throws ServletException, IOException {
+        tokenDAO tokenDAO = new tokenDAO();
+        tokenDAO.deleteToken(tk);
+        req.setAttribute("mess", "Your link is expired or invalid! Try again!");
+        req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
+    }
+
+
+    private boolean isValidTokenType(String tk) {
+        tokenDAO tokenDAO = new tokenDAO();
+        return tokenDAO.getTokenType(tk).equals("forgot");
+    }
+
+
 }
