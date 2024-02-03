@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="../assets/css/swiper-bundle.min.css"/>
 </head>
 
-<body>
+<body onload="reloadCaptcha()">
 
 <!-- ***** Preloader Start ***** -->
 <div id="js-preloader" class="js-preloader">
@@ -93,7 +93,8 @@
             <div class="card-header text-center p-3 mb-4">
                 <h2 class="m-0">SIGN UP</h2>
             </div>
-            <form action="signup" method="post" name="signup" id="captcha">
+            <form action="signup" method="post" name="signup" id="form">
+                <!-- ---------------input---------------- -->
                 <div class="form-group mb-3">
                     <label class="label" >Fullname</label>
                     <input type="text" class="form-control" placeholder="Fullname"
@@ -119,21 +120,23 @@
                     <input type="password" class="form-control" placeholder="Re-password"
                            required name="re-password">
                 </div>
-                <%-- captcha start --%>
-                <label class="label">Captcha</label>
-                <%--<input type="button" onclick="reloadCaptcha()" value="reload"></input>--%>
-                <button class="input-group-prepend" onclick="resetCaptcha(event)">
-                    <i class="fa fa-refresh"></i>
-                </button>
-                <div class="content">
-                    <img style="height: 50px; width: 200px" src="generateCaptcha" alt="Captcha Image"
-                         id="captchaImage">
+                <!-- ---------------captcha---------------- -->
+                <div class="form-group mb-3">
+                    <label class="label">Captcha</label>
+                    <div class="d-flex align-content-center">
+                        <div class="content">
+                            <img style="height: 48px; width: 200px; border-radius: 5px" src="generateCaptcha" alt="Captcha Image"
+                                 id="captchaImage">
+                        </div>
+                        <button class="btn input-group-prepend" onclick="resetCaptcha(event)">
+                            <i class="fa fa-refresh"></i>
+                        </button>
+                        <input type="text" class="form-control" name="captcha" required placeholder="Enter Captcha"/>
+                    </div>
                 </div>
-                <input type="text" name="captcha" placeholder="Enter Captcha"/>
-
-
-
+                <!-- ---------------error---------------- -->
                 <h6 class="text-danger mb-2">${error}</h6>
+                <!-- ---------------button---------------- -->
                 <div class="form-group mb-3 text-center">
                     <button type="submit" class="col-lg-8 btn btn-primary btn-lg">SIGN UP</button>
                 </div>
@@ -169,6 +172,18 @@
         event.preventDefault(); // Ngăn chặn hành vi mặc định của button (submit form)
         reloadCaptcha(); // Gọi hàm tạo mới captcha ở đây
     }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var form = document.getElementById("form");
+        var sendButton = document.querySelector("#form [type=submit]");
+
+        form.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                sendButton.click();
+            }
+        });
+    });
 </script>
 <!-- Bootstrap core JavaScript -->
 <script src="../vendor/jquery/jquery.min.js"></script>

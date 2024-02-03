@@ -100,4 +100,8 @@ public class User extends BaseAuditable{
     public byte[] getSecretKey() {
         return secretKey;
     }
+
+    public void setSecretKey(byte[] secretKey) {
+        this.secretKey = secretKey;
+    }
 }
