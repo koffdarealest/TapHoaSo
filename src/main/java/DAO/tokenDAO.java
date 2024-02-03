@@ -55,7 +55,7 @@ public class tokenDAO {
         }
     }
 
-    public static void saveVerifyEmailToken(User user, String tokenValue) {
+    public static void saveSignUpToken(User user, String tokenValue) {
         try {
             SessionFactory sessionFactory = Factory.getSessionFactory();
             if (sessionFactory != null) {
@@ -66,7 +66,7 @@ public class tokenDAO {
                     token.setToken(tokenValue);
                     token.setUserID(user);
                     token.setExpTime(java.time.LocalDateTime.now().plusMinutes(2));
-                    token.setTokenType("verifyEmail");
+                    token.setTokenType("signup");
                     session.save(token);
                     session.getTransaction().commit();
                 } catch (Exception e) {
@@ -105,21 +105,6 @@ public class tokenDAO {
         }
     }
 
-
-    public User getUserByToken(String token) {
-        try {
-            Session session = Factory.getSessionFactory().openSession();
-            Token tk = session.get(Token.class, token);
-            session.close();
-            if (token == null) {
-                return null;
-            }
-            return tk.getUserID();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
     public static void deleteToken(String token) {
         Transaction transaction = null;
         try (Session session = Factory.getSessionFactory().openSession()) {
@@ -152,6 +137,17 @@ public class tokenDAO {
     }
     public static String encodeToken(String token) {
         return Base64.getEncoder().encodeToString(token.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public String getTokenType(String tk) {
+        try {
+            Session session = Factory.getSessionFactory().openSession();
+            Token token = session.get(Token.class, tk);
+            session.close();
+            return token.getTokenType();
+        } catch (Exception e) {
+            return null;
+        }
     }
 //
 //    public static String decodeToken(String encodedToken) {

@@ -33,7 +33,7 @@
 </head>
 
 
-<body onload="createCaptcha()">
+<body onload="reloadCaptcha()">
 
 <!-- ***** Preloader Start ***** -->
 <div id="js-preloader" class="js-preloader">
@@ -95,8 +95,8 @@
             <div class="card-header text-center p-3 mb-4">
                 <h2 class="m-0">SIGN IN</h2>
             </div>
-            <form action="signin" method="post">
-                <%-- information field --%>
+            <form action="signin" method="post" id="form">
+                <!-- -----------------input field---------------- -->
                 <div class="form-group mb-3">
                     <label class="label">Username</label>
                     <input type="text" class="form-control" placeholder="Username" required name="username"
@@ -107,30 +107,28 @@
                     <input type="password" class="form-control" placeholder="Password" required name="password"
                            value="${password}">
                 </div>
-            </form>
-
-            <%-- captcha start --%>
-                <label class="label">Captcha</label>
-                <%--<input type="button" onclick="reloadCaptcha()" value="reload"></input>--%>
-                <button class="input-group-prepend" onclick="reloadCaptcha()">
-                    <i class="fa fa-refresh"></i>
-                </button>
-                <div class="content">
-                    <img style="height: 50px; width: 200px" src="generateCaptcha" alt="Captcha Image"
-                         id="captchaImage">
-                </div>
-                <input type="text" name="captcha" placeholder="Enter Captcha"/>
-                <%-- error field --%>
-                <h6 class="text-danger mb-2">${error}</h6>
-                <h6 class="text-danger mb-2" id="error"></h6>
-                <form action="signin" method="post">
-                    <%-- submit button --%>
-                    <div class="form-group mb-3 text-center">
-                        <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Sign In</button>
+                <!-- -----------------captcha field---------------- -->
+                <div class="form-group mb-3">
+                    <label class="label">Captcha</label>
+                    <div class="d-flex align-content-center">
+                        <div class="content">
+                            <img style="height: 48px; width: 200px; border-radius: 5px" src="generateCaptcha" alt="Captcha Image"
+                                 id="captchaImage">
+                        </div>
+                        <button class="btn input-group-prepend" onclick="resetCaptcha(event)">
+                            <i class="fa fa-refresh"></i>
+                        </button>
+                        <input type="text" class="form-control" name="captcha" required placeholder="Enter Captcha"/>
                     </div>
-                </form>
-
-                <%-- remember me and forgot password --%>
+                </div>
+                <!-- -----------------error field---------------- -->
+                <div class="text-danger mb-2" id="error"></div>
+                <h6 class="text-danger mb-2">${error}</h6>
+                <!-- -----------------sign in button---------------- -->
+                <div class="form-group mb-3 text-center">
+                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Sign In</button>
+                </div>
+                <!-- -----------------remember me and forgot---------------- -->
                 <div class="form-group d-md-flex mb-3">
                     <div class="w-50 text-left">
                         <label class="">Remember Me <input type="checkbox" name="remember"><span
@@ -140,6 +138,7 @@
                         <a href="forgot">Forgot Password</a>
                     </div>
                 </div>
+            </form>
             <p class="text-center" style="font-size: 15px;">Not a member? <a data-toggle="tab" href="signup">Sign
                 Up Here</a></p>
         </div>
@@ -167,6 +166,23 @@
         var captchaImage = document.getElementById('captchaImage');
         captchaImage.src = 'generateCaptcha?' + timestamp;
     }
+
+    function resetCaptcha(event) {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định của button (submit form)
+        reloadCaptcha(); // Gọi hàm tạo mới captcha ở đây
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var form = document.getElementById("form");
+        var sendButton = document.querySelector("#form [type=submit]");
+
+        form.addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                sendButton.click();
+            }
+        });
+    });
 </script>
 <!-- Bootstrap core JavaScript -->
 <script src="../vendor/jquery/jquery.min.js"></script>

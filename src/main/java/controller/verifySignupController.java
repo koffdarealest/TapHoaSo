@@ -26,6 +26,9 @@ public class verifySignupController extends HttpServlet {
         try {
             if (tokenDAO.isTokenExpired(tk)) {
                 handleExpiredToken(req, resp, tk);
+            } else if (!isValidTokenType(tk)) {
+                req.setAttribute("mess", "Your link is invalid! Try again!");
+                req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
             } else {
                 handleValidSignupToken(req, resp, tk);
             }
@@ -42,17 +45,18 @@ public class verifySignupController extends HttpServlet {
     }
 
     private void handleValidSignupToken(HttpServletRequest req, HttpServletResponse resp, String tk) throws Exception {
-        String jsonUser = req.getParameter("user");
-        String userString = tokenDAO.decodeToken(jsonUser);
-        Gson gson = new Gson();
-        User user = gson.fromJson(userString, User.class);
-
         userDAO userDAO = new userDAO();
-        userDAO.insertUser(user);
-
+        User user = userDAO.getUserByToken(tk);
+        user.setActivated(true);
+        userDAO.updateUser(user);
         tokenDAO.deleteToken(tk);
 
         req.setAttribute("mess", "Sign up successfully!");
         req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
+    }
+
+    private boolean isValidTokenType(String tk) {
+        tokenDAO tokenDAO = new tokenDAO();
+        return tokenDAO.getTokenType(tk).equals("signup");
     }
 }

@@ -22,8 +22,12 @@ public class verifyForgotController extends HttpServlet {
         try {
             if (tokenDAO.isTokenExpired(tk)) {
                 handleExpiredToken(req, resp, tk);
+            } else if (!isValidTokenType(tk)) {
+                req.setAttribute("mess", "Your link is invalid! Try again!");
+                req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
             } else {
-                handleValidToken(req, resp, tk);
+                req.setAttribute("token", tk);
+                req.getRequestDispatcher("/view/resetPassword.jsp").forward(req, resp);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -37,8 +41,11 @@ public class verifyForgotController extends HttpServlet {
         req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
     }
 
-    private void handleValidToken(HttpServletRequest req, HttpServletResponse resp, String tk) throws ServletException, IOException {
-        req.setAttribute("token", tk);
-        req.getRequestDispatcher("/view/resetPassword.jsp").forward(req, resp);
+
+    private boolean isValidTokenType(String tk) {
+        tokenDAO tokenDAO = new tokenDAO();
+        return tokenDAO.getTokenType(tk).equals("forgot");
     }
+
+
 }
