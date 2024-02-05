@@ -28,10 +28,12 @@
     <link rel="stylesheet" href="../assets/css/animate.css">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/swiper-bundle.min.css"/>
+
+
 </head>
 
 
-<body>
+<body onload="reloadCaptcha()">
 
 <!-- ***** Preloader Start ***** -->
 <div id="js-preloader" class="js-preloader">
@@ -93,24 +95,44 @@
             <div class="card-header text-center p-3 mb-4">
                 <h2 class="m-0">SIGN IN</h2>
             </div>
-            <form action="signin" method="post" id="captcha">
+            <form action="signin" method="post" id="form">
+                <!-- -----------------input field---------------- -->
                 <div class="form-group mb-3">
                     <label class="label">Username</label>
-                    <input type="text" class="form-control" placeholder="Username" required name="username" value="${username}">
+                    <input type="text" class="form-control" placeholder="Username" required name="username"
+                           value="${username}">
                 </div>
-                <div class="form-group mb-4">
+                <div class="form-group mb-3">
                     <label class="label">Password</label>
-                    <input type="password" class="form-control" placeholder="Password" required name="password" value="${password}">
+                    <input type="password" class="form-control" placeholder="Password" required name="password"
+                           value="${password}">
                 </div>
-                <div class="g-recaptcha mb-2" data-sitekey="6LeIV1gpAAAAAN-g1_A6MNU4BsbewNhjMD8i0lxq"></div>
+                <!-- -----------------captcha field---------------- -->
+                <div class="form-group mb-3">
+                    <label class="label">Captcha</label>
+                    <div class="d-flex align-content-center">
+                        <div class="content">
+                            <img style="height: 48px; width: 200px; border-radius: 5px" src="generateCaptcha" alt="Captcha Image"
+                                 id="captchaImage">
+                        </div>
+                        <button class="btn input-group-prepend" onclick="resetCaptcha(event)">
+                            <i class="fa fa-refresh"></i>
+                        </button>
+                        <input type="text" class="form-control" name="captcha" required placeholder="Enter Captcha"/>
+                    </div>
+                </div>
+                <!-- -----------------error field---------------- -->
                 <div class="text-danger mb-2" id="error"></div>
                 <h6 class="text-danger mb-2">${error}</h6>
+                <!-- -----------------sign in button---------------- -->
                 <div class="form-group mb-3 text-center">
                     <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Sign In</button>
                 </div>
+                <!-- -----------------remember me and forgot---------------- -->
                 <div class="form-group d-md-flex mb-3">
                     <div class="w-50 text-left">
-                        <label class="">Remember Me <input type="checkbox" name="remember"><span class="checkmark"></span></label>
+                        <label class="">Remember Me <input type="checkbox" name="remember"><span
+                                class="checkmark"></span></label>
                     </div>
                     <div class="w-50" style="text-align: end;">
                         <a href="forgot">Forgot Password</a>
@@ -123,12 +145,15 @@
     </div>
 </div>
 
+
 <footer>
     <div class="container">
         <div class="row justify-content-center">
             <div class="d-md-flex col-lg-12 align-self-center">
-                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-left: auto; margin-top: 10px;">Powered by: TapHoaSo © 2024.</p>
-                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-right: auto; margin-top: 10px;">Email Contact: taphoaso@gmail.com</p>
+                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-left: auto; margin-top: 10px;">Powered
+                    by: TapHoaSo © 2024.</p>
+                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-right: auto; margin-top: 10px;">Email
+                    Contact: taphoaso@gmail.com</p>
             </div>
         </div>
     </div>
@@ -136,25 +161,30 @@
 
 <!-- Scripts -->
 <script>
-    window.onload = function (){
-        let isValid = false;
-        const form = document.getElementById("captcha");
-        const error = document.getElementById("error");
+    function reloadCaptcha() {
+        var timestamp = new Date().getTime();
+        var captchaImage = document.getElementById('captchaImage');
+        captchaImage.src = 'generateCaptcha?' + timestamp;
+    }
 
-        form.addEventListener("submit", function (event){
-            event.preventDefault();
-            const response = grecaptcha.getResponse();
-            if (response){
-                form.submit();
-            } else {
-                error.innerHTML = "Please verify the CAPTCHA! ";
+    function resetCaptcha(event) {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định của button (submit form)
+        reloadCaptcha(); // Gọi hàm tạo mới captcha ở đây
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var form = document.getElementById("form");
+        var sendButton = document.querySelector("#form [type=submit]");
+
+        form.addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                sendButton.click();
             }
         });
-    }
+    });
 </script>
-
 <!-- Bootstrap core JavaScript -->
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script src="../vendor/jquery/jquery.min.js"></script>
 <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="../assets/js/isotope.min.js"></script>

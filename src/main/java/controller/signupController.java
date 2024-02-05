@@ -4,20 +4,19 @@ import DAO.tokenDAO;
 import DAO.userDAO;
 import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.User;
 import util.EmailSender;
-import util.EmailUtility;
 import util.Encryption;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet(name = "signup", urlPatterns = {"/signup"})
 public class signupController extends HttpServlet {
@@ -29,83 +28,144 @@ public class signupController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = new User();
         userDAO userDAO = new userDAO();
         Encryption encryption = new Encryption();
-        String fullname = req.getParameter("fullname");
-        String email = req.getParameter("email");
-        String username = req.getParameter("username");
-        String password = req.getParameter("password");
-        String rePassword = req.getParameter("re-password");
-
-        if (userDAO.checkExistEmail(email)) {
-            req.setAttribute("error", "Email already exists! Try again!");
+        //get Parameters from signup.jsp
+        Map<String, String> getParameters = getParameters(req);
+        //verify captcha
+        if(!isTrueCaptcha(req, resp, getParameters)){
+            req.setAttribute("error", "Captcha is not correct! Try again!");
             req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
             return;
         }
-        if (userDAO.checkExistUsername(username)) {
-            req.setAttribute("error", "Username already exists! Try again!");
+        //check exist username and email
+        if(CheckExistUsernameAndEmail(req, resp, userDAO, getParameters)) {
+            req.setAttribute("error", "Username or gmail already exists! Try again!");
             req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
             return;
         }
-
-        if (password.equals(rePassword)) {
-            tokenDAO tokenDAO = new tokenDAO();
-            String token = tokenDAO.generateToken();
-            tokenDAO.saveToken(email, token);
-            byte[] key;
-            try {
-                key = encryption.genAESKey();
-            } catch (NoSuchAlgorithmException e) {
-                throw new RuntimeException(e);
-            }
-            user = new User(
-                    username,
-                    password,
-                    email,
-                    fullname,
-                    0L,
-                    false,
-                    key
-            );
-            user.setDelete(false);
-            req.setAttribute("mess", "Your sign up information has been recorded! Please check your email to verify your account");
-            req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
-            Gson gson = new Gson();
-            String json = gson.toJson(user);
-            //String encodeUser = URLEncoder.encode(json, "UTF-8");
-            String encodedToken = DAO.tokenDAO.encodeToken(json);
-
-            //String hashUser = tokenDAO.encodeUser(json);
-            EmailUtility emailUtility = new EmailUtility();
-            String hostname = "smtp.gmail.com";
-            int port = 587; // Use the appropriate port for your SMTP server
-            String from = "taphoaso391@gmail.com";
-            char[] pwd = "yygb zruf iamu vmtg".toCharArray();
-            String toAddress = email;
-            String subject = "[TapHoaSo] VERIFY YOUR EMAIL";
-            String message = "We received your sign up request." + "<br>" + "<br>" +
-                    "Please <a href=" + "'http://localhost:8080/verifySignup?tk=" + token + "&user=" + encodedToken + "'" + "> Click here</a> below to reset your password. " + "<br>" +
-                    "The link will be expired in 5 minutes. " + "<br>" +
-                    "If you did not request a account sign up, please ignore this email.";
-            System.out.println("json: " + json);
-            System.out.println("encodedToken: " + encodedToken);
-            System.out.println("decodedToken: " + tokenDAO.decodeToken(encodedToken));
-            EmailSender emailSender = new EmailSender(hostname, String.valueOf(port), from, pwd, toAddress, subject, message);
-            emailSender.start();
-
-//            try {
-//                emailUtility.sendEmail(hostname, String.valueOf(port), from, pwd, toAddress, subject, message);
-//                req.setAttribute("mess", "Please check your email to verify your account!");
-//                req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
-//            } catch (Exception e) {
-//                System.out.println("Failed to send email: " + e.getMessage());
-//                e.printStackTrace();
-//            }
-
-        } else {
-            req.setAttribute("error", "Passwords don't match! Try again!");
+        //check password and re-password
+        if (!CheckPasswordAndRePassword(req, resp, getParameters)) {
+            req.setAttribute("error", "Password and Re-Password are not the same! Try again!");
             req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
+            return;
+        }
+        //Hash password with MD5 althorithm
+        String hashPass = userDAO.encodePassword(getParameters.get("password"));
+        //hanlde successful signup
+        try {
+            User user = createUser(req, resp, userDAO, encryption, getParameters, hashPass);
+            String token = saveToken(req, resp, user);
+            sendEmailToVerifyAccount(req, resp, token, user);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
+
+    private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp, Map<String, String> getParameters) {
+        String enteredCaptcha = getParameters.get("captcha");
+        String captcha = (String) req.getSession().getAttribute("captcha");
+        if (!enteredCaptcha.equals(captcha)) {
+            try {
+                return false;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
+
+    private User createUser(HttpServletRequest req, HttpServletResponse resp, userDAO userDAO, Encryption encryption, Map<String, String> getParameters, String hashPass) throws Exception {
+        User user = new User();
+        byte[] key;
+        try {
+            key = encryption.genAESKey();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+
+        user.setNickname(getParameters.get("fullname"));
+        user.setEmail(getParameters.get("email"));
+        user.setUsername(getParameters.get("username"));
+        user.setPassword(hashPass);
+        user.setAdmin(false);
+        user.setDelete(false);
+        user.setCreatedAt(new Date());
+        user.setUpdatedAt(new Date());
+        user.setActivated(false);
+        user.setSecretKey(key);
+        userDAO.insertUser(user);
+
+//        String token = tokenDAO.generateToken();
+//        tokenDAO.saveVerifyEmailToken(user, token);
+        return user;
+
+        //send email to verify account
+//        sendEmailToVerifyAccount(req, resp, userDAO, encryption, getParameters, user);
+    }
+
+    private void sendEmailToVerifyAccount(HttpServletRequest req, HttpServletResponse resp, String token, User user) throws Exception {
+        req.setAttribute("mess", "Please check your email to verify your account! If you don't see the email, try again!");
+        req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
+
+        // Gson to save user
+//        Gson gson = new Gson();
+//        String json = gson.toJson(user);
+//        String encodeUser = tokenDAO.encodeToken(json);
+
+        //send email
+        String hostname = "smtp.gmail.com";
+        int port = 587; // Use the appropriate port for your SMTP server
+        String from = "taphoaso391@gmail.com";
+        char[] pwd = "yygb zruf iamu vmtg".toCharArray();
+        String toAddress = user.getEmail();
+        String subject = "[TapHoaSo] VERIFY YOUR EMAIL";
+        String message = "We received your sign up request." + "<br>" + "<br>" +
+                "Please <a href=" + "'http://localhost:8080/verifySignup?tk=" + token + "'> Click here</a> below to verify your account. " + "<br>" +
+                "The link will be expired in 5 minutes. " + "<br>" +
+                "If you did not request a account sign up, please ignore this email.";
+        EmailSender emailSender = new EmailSender(hostname, String.valueOf(port), from, pwd, toAddress, subject, message);
+        emailSender.start();
+    }
+
+
+    private boolean CheckPasswordAndRePassword(HttpServletRequest req, HttpServletResponse resp, Map<String, String> getParameters) {
+        if (!getParameters.get("password").equals(getParameters.get("rePassword"))) {
+                return false;
+        }
+        return true;
+    }
+
+    private boolean CheckExistUsernameAndEmail(HttpServletRequest req, HttpServletResponse resp, userDAO userDAO, Map<String, String> getParameters) {
+        if (userDAO.checkExistUsername(getParameters.get("username"))) {
+            return true;
+        }
+        if (userDAO.checkExistEmail(getParameters.get("email"))) {
+            return true;
+        }
+        return false;
+    }
+
+    private Map<String, String> getParameters(HttpServletRequest req) {
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("fullname", req.getParameter("fullname"));
+        parameters.put("email", req.getParameter("email"));
+        parameters.put("username", req.getParameter("username"));
+        parameters.put("password", req.getParameter("password"));
+        parameters.put("rePassword", req.getParameter("re-password"));
+        parameters.put("captcha", req.getParameter("captcha"));
+        return parameters;
+    }
+
+    private String saveToken(HttpServletRequest req, HttpServletResponse resp, User user) {
+        tokenDAO tokenDAO = new tokenDAO();
+        String token = tokenDAO.generateToken();
+        tokenDAO.saveSignUpToken(user, token);
+        return token;
+    }
+
+
+
+
+
 }

@@ -2,6 +2,7 @@ package model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -10,17 +11,18 @@ import java.time.LocalDateTime;
 public class Token {
     @Id
     private String token;
-    private String email;
-
+    @ManyToOne
+    private User userID;
     private LocalDateTime expTime;
-
+    private String tokenType;
     public Token() {
     }
 
-    public Token(String token, String email, LocalDateTime expTime) {
+    public Token(String token, User userID, LocalDateTime expTime, String tokenType) {
         this.token = token;
-        this.email = email;
+        this.userID = userID;
         this.expTime = expTime;
+        this.tokenType = tokenType;
     }
 
     public String getToken() {
@@ -31,12 +33,12 @@ public class Token {
         this.token = token;
     }
 
-    public String getEmail() {
-        return email;
+    public User getUserID() {
+        return userID;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserID(User userID) {
+        this.userID = userID;
     }
 
     public LocalDateTime getExpTime() {
@@ -45,5 +47,13 @@ public class Token {
 
     public void setExpTime(LocalDateTime expTime) {
         this.expTime = expTime;
+    }
+
+    public String getTokenType() {
+        return tokenType;
+    }
+
+    public void setTokenType(String tokenType) {
+        this.tokenType = tokenType;
     }
 }

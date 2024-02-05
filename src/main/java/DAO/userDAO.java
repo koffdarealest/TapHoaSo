@@ -146,14 +146,13 @@ public class userDAO {
         User user = getUserByUsername(username);
         if (user != null) {
             String userPassword = user.getPassword();
-            if (userPassword.equals(password)) {
-                return true;
-            }
+            System.out.println(userPassword);
+            return verifyPassword(password, userPassword);
         }
         return false;
     }
 
-    public byte[] getSecretKey(String username) {
+    public byte[] getSecretKeyByUsername(String username) {
         List<User> listUsers = getAllUser();
         for (User user : listUsers) {
             if (user.getUsername().equals(username)) {
@@ -183,6 +182,51 @@ public class userDAO {
         return false;
     }
 
+    public String encodePassword(String password){
+        MessageDigest md;
+        String result = "";
+        try {
+            md = MessageDigest.getInstance("MD5");
+            md.update(password.getBytes());
+            BigInteger bi = new BigInteger(1, md.digest());
+
+            result = bi.toString(16);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public boolean verifyPassword(String enteredPassword, String storedHash) {
+        String enteredHash = encodePassword(enteredPassword);
+        return enteredHash.equals(storedHash);
+    }
+
+    public User getUserByToken(String token) {
+        User user = new User();
+        Transaction transaction = null;
+        try {
+            Session session = Factory.getSessionFactory().openSession();
+            transaction = session.beginTransaction();
+            String hql = "select u from User u join Token t on u.userID = CAST(t.userID as biginteger) where t.token = :token";
+            user = (User) session.createQuery(hql)
+                    .setParameter("token", token)
+                    .uniqueResult();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+        return user;
+    }
+    public static void main(String[] args) {
+        userDAO userDAO = new userDAO();
+        String token = "c375624c-ee2d-4b85-8e95-8627144f509b";
+        User user = userDAO.getUserByToken(token);
+        System.out.println(user.getNickname());
+    }
 
 
 
