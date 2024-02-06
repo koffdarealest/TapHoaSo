@@ -102,14 +102,14 @@
                 </div>
                 <div class="card-body">
                     <p class="text-muted mb-2">(*): Required</p>
-                    <form action="sell" method="post">
+                    <form action="sell" method="post" id="sellForm">
                         <!-- ---------------Title--------------- -->
                         <div class="d-flex mb-3 align-items-center">
                             <div class="label-form col-md-3">
                                 <label class="label">Title (*)</label>
                             </div>
                             <div class="col-md-9">
-                                <input type="text" name="title" class="form-control" required> <!-- input Title -->
+                                <input type="text" name="title" class="form-control" required>      <!-- input Title -->
                             </div>
                         </div>
                         <!-- ---------------Price--------------- -->
@@ -118,8 +118,7 @@
                                 <label class="label">Price (=>1000) (*)</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <input type="text" name="price" class="form-control" required id="price">
-                                <!-- input Price -->
+                                <input type="text" name="price" class="form-control" required id="price">   <!-- input Price -->
                                 <span class="text-muted"
                                       style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
                             </div>
@@ -136,8 +135,7 @@
                                 <label class="label">Fee (5% of Price)</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <input type="number" name="fee" class="form-control" required readonly id="fee">
-                                <!-- input Fee -->
+                                <input type="number" name="fee" class="form-control" required readonly id="fee">    <!-- input Fee -->
                                 <span class="text-muted"
                                       style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
                             </div>
@@ -163,8 +161,8 @@
                                     the legal basis for resolving complaints if any arise later</p>
                             </div>
                             <div class="col-md-9 form-group">
-                                <textarea class="form-control" name="description" id="description" required></textarea>
-                                <!-- input Description -->
+                                <textarea class="form-control" name="description" id="description" required></textarea>     <!-- input Description -->
+
                             </div>
                         </div>
                         <!-- ---------------Contact--------------- -->
@@ -173,8 +171,7 @@
                                 <label class="label">Contact</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <textarea class="form-control" name="contact" required></textarea>
-                                <!-- input Contact -->
+                                <textarea class="form-control" name="contact" required></textarea>  <!-- input Contact -->
                             </div>
                         </div>
                         <!-- ---------------Hidden--------------- -->
@@ -183,8 +180,21 @@
                                 <label class="label">Hidden content (*)</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <textarea class="form-control" name="hidden" id="hidden" required></textarea>
-                                <!-- input Hidden content -->
+                                <textarea class="form-control" name="hidden" id="hidden" required></textarea>       <!-- input Hidden content -->
+                            </div>
+                        </div>
+                        <!-- ---------------Confirm--------------- -->
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-10">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="confirmCheckBox" required> <!-- checkbox Confirm -->
+                                    <label class="form-check label" for="confirmCheckBox">
+                                        I confirm that the above information is true. I will be responsible if there is any incorrect information in the post.
+                                    </label>
+                                    <label class="text-muted form-check label">TapHoaSo will charge you 500 VND for your product post</label>
+                                    <!--<span id="confirmAlert" class="text-danger"></span> -->  <!-- ---------------Alert--------------- -->
+                                </div>
                             </div>
                         </div>
                         <!-- ---------------Submit--------------- -->
@@ -236,6 +246,18 @@
     price.addEventListener('input', function () {
         price.value = price.value.replace(/[^0-9]/g, '');
     });
+
+    // document.getElementById('sellForm').addEventListener('submit', function (e) {
+    //     var checkBox = document.getElementById('confirmCheckBox');
+    //     if (!checkBox.checked) {
+    //         e.preventDefault();
+    //         var confirmAlert = document.getElementById('confirmAlert');
+    //         confirmAlert.value= 'You must confirm before posting';
+    //         confirmAlert.style.display = 'block';
+    //     } else {
+    //         confirmAlert.style.display = 'none';
+    //     }
+    // });
 </script>
 
 <script>

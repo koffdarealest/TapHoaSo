@@ -131,10 +131,10 @@
                 <!-- -----------------remember me and forgot---------------- -->
                 <div class="form-group d-md-flex mb-3">
                     <div class="w-50 text-left">
-                        <label class="">Remember Me <input type="checkbox" name="remember"><span
+                        <label class="form-check text-muted">Remember Me <input class="form-check-input" type="checkbox" name="remember"><span
                                 class="checkmark"></span></label>
                     </div>
-                    <div class="w-50" style="text-align: end;">
+                    <div class="w-50 text-muted" style="text-align: end;">
                         <a href="forgot">Forgot Password</a>
                     </div>
                 </div>

@@ -23,8 +23,16 @@ public class sellController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        createPost(req, resp);
-        resp.sendRedirect("/home");
+        if (isBalanceEnough(req, resp)) {
+            payPrepostFee(req, resp);
+            createPost(req, resp);
+            resp.sendRedirect("/home");
+        } else {
+            req.setAttribute("error", "Your balance is not enough to create a post!");
+            req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
+            return;
+        }
+
     }
 
     private HashMap<String, String> getParams(HttpServletRequest req) {
@@ -46,7 +54,6 @@ public class sellController extends HttpServlet {
 
     private User getUser(HttpServletRequest req) {
         String username = (String) req.getSession().getAttribute("username");
-        System.out.println("-------usernameeeeeeeeeee: " + username);
         userDAO userDAO = new userDAO();
         User user = userDAO.getUserByUsername(username);
         return user;
@@ -59,7 +66,6 @@ public class sellController extends HttpServlet {
         String tradingCode = postDAO.createTradingCode();
         try {
             post.setSellerID(getUser(req));
-            System.out.println("-------sellerID: " + post.getSellerID() + "-------tradingCode: " + getUser(req).getUsername());
             post.setTradingCode(tradingCode);
             post.setTopic(params.get("title"));
             post.setPrice(Long.parseLong(params.get("price")));
@@ -72,6 +78,26 @@ public class sellController extends HttpServlet {
             postDAO.insertPost(post);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void payPrepostFee(HttpServletRequest req, HttpServletResponse resp) {
+        userDAO userDAO = new userDAO();
+        User user = getUser(req);
+        Long balance = user.getBalance();
+        Long fee = 500L;
+        userDAO.updateBalance(user, balance - fee);
+    }
+
+    private boolean isBalanceEnough(HttpServletRequest req, HttpServletResponse resp) {
+        User user = getUser(req);
+        postDAO postDAO = new postDAO();
+        Long price = 500L;
+        boolean isEnough = postDAO.isBalanceEnough(user, price);
+        if (isEnough) {
+            return true;
+        } else {
+            return false;
         }
     }
 
