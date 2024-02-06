@@ -94,6 +94,7 @@ public class signupController extends HttpServlet {
         user.setUpdatedAt(new Date());
         user.setActivated(false);
         user.setSecretKey(key);
+        user.setBalance(0L);
         userDAO.insertUser(user);
 
 //        String token = tokenDAO.generateToken();

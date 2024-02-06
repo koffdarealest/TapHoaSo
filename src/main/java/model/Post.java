@@ -13,9 +13,10 @@ public class Post extends BaseAuditable{
     private String topic;
     private Long price;
     private Long fee;
-    private Boolean sellerPayFee;
+    private String whoPayFee;
     @Column(columnDefinition = "TEXT")
     private String description;
+    @Column(columnDefinition = "TEXT")
     private String contact;
     @Column(columnDefinition = "TEXT")
     private String hidden;
@@ -24,13 +25,13 @@ public class Post extends BaseAuditable{
     public Post() {
     }
 
-    public Post(User sellerID, String tradingCode, String topic, Long price, Long fee, Boolean sellerPayFee, String description, String contact, String hidden, Boolean isPublic) {
+    public Post(User sellerID, String tradingCode, String topic, Long price, Long fee, String whoPayFee, String description, String contact, String hidden, Boolean isPublic) {
         this.sellerID = sellerID;
         this.tradingCode = tradingCode;
         this.topic = topic;
         this.price = price;
         this.fee = fee;
-        this.sellerPayFee = sellerPayFee;
+        this.whoPayFee = whoPayFee;
         this.description = description;
         this.contact = contact;
         this.hidden = hidden;
@@ -85,19 +86,19 @@ public class Post extends BaseAuditable{
         this.fee = fee;
     }
 
-    public Boolean getSellerPayFee() {
-        return sellerPayFee;
+    public String getWhoPayFee() {
+        return whoPayFee;
     }
 
-    public void setSellerPayFee(Boolean sellerPayFee) {
-        this.sellerPayFee = sellerPayFee;
+    public void setWhoPayFee(String whoPayFee) {
+        this.whoPayFee = whoPayFee;
     }
 
-    public String getDescribe() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescribe(String describe) {
+    public void setDescription(String describe) {
         this.description = describe;
     }
 
