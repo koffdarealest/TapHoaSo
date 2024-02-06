@@ -1,3 +1,5 @@
+/* Authen n author CSS */
+/* ------------------- */
 .login-wrap {
     position: relative;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 10px 100px -15px;
@@ -27,10 +29,10 @@
     background: #fff;
     color: #000;
     font-size: 16px;
-    border-radius: 5px;
+    border-radius: 10px;
     -webkit-box-shadow: none;
     box-shadow: none;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 2px solid rgba(41, 41, 41, 0.1);
 }
 
 .form-control::-webkit-input-placeholder {
@@ -61,45 +63,66 @@
     border: 1px solid #e3b04b;
 }
 
+/* Market CSS */
+/* ---------- */
+.market-wrap {
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 10px 100px -15px;
+    background: rgb(255, 255, 255);
+    border: 5px solid #98b5f5;
+    border-radius: 5px;
+    height: 600px;
+    overflow: auto;
+}
 
-/*.content {*/
-/*    width: 100%;*/
-/*    display: flex;*/
-/*    justify-content: space-between;*/
-/*}*/
+.table-scroll {
+    width: 100%; /* Chiều rộng 100% để lấp đầy không gian */
+    table-layout: fixed; /* Sử dụng bố cục bảng cố định */
+}
 
-/*#captcha {*/
-/*    border-radius: 5px;*/
-/*    border: 1px solid gainsboro;*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    justify-content: center;*/
-/*}*/
+.table-scroll tbody {
+    display: block; /* Hiển thị phần thân của bảng như một khối */
+    overflow-y: auto; /* Tạo thanh cuộn dọc cho phần thân */
+    max-height: 100%; /* Đặt chiều cao tối đa cho phần thân */
+}
 
-/*input[type="captchaText"] {*/
-/*    padding: 12px 20px;*/
-/*    display: inline-block;*/
-/*    border: 1px solid #ccc;*/
-/*    border-radius: 5px;*/
-/*    box-sizing: border-box;*/
-/*    width: 100%;*/
-/*    margin: 12px 0;*/
-/*    font-size: 16px;*/
-/*}*/
+.table-scroll thead,
+.table-scroll tbody tr {
+    display: table; /* Hiển thị các hàng như một bảng */
+    width: 100%; /* Chiều rộng bằng 100% */
+    table-layout: fixed; /* Sử dụng bố cục bảng cố định */
+}
 
-/*button {*/
-/*    background-color: #2446a0;*/
-/*    border: none;*/
-/*    color: white;*/
-/*    padding: 12px 30px;*/
-/*    text-decoration: none;*/
-/*    margin: 4px 2px;*/
-/*    cursor: pointer;*/
-/*    width: 100%;*/
-/*    border-radius: 5px;*/
-/*    font-size: 18px;*/
-/*}*/
+.sticky-header {
+    position: sticky; /* Hiển thị phần tiêu đề bảng cố định */
+    top: 0; /* Đặt vị trí cố định ở đầu trang */
+    z-index: 1; /* Đặt chỉ số z cao hơn để hiển thị phần tiêu đề trên cùng */
+    background-color: #98b5f5; /* Màu nền của phần tiêu đề */
+}
 
-/* canvas {
-pointer-events: none;
-}  */
+/* Sell product CSS */
+/* ---------------- */
+.sell-wrap {
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 10px 100px -15px;
+    background: rgb(255, 255, 255);
+    border-radius: 18px;
+}
+
+
+.label-form .label {
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgb(70, 70, 70);
+    font-weight: 700;
+
+}
+
+.label-form {
+    padding-right: 20px;
+    text-align: end;
+}
+
+

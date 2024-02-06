@@ -126,7 +126,7 @@
                 <h6 class="text-danger mb-2">${error}</h6>
                 <!-- -----------------sign in button---------------- -->
                 <div class="form-group mb-3 text-center">
-                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Sign In</button>
+                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg">SIGN IN</button>
                 </div>
                 <!-- -----------------remember me and forgot---------------- -->
                 <div class="form-group d-md-flex mb-3">
