@@ -14,6 +14,6 @@
 <h3>welcome! ${fullname}</h3>
 <h6>your balance: ${balance} VND</h6>
 <br>
-<a href="sell">Go to sell</a>
+<a href=sell>Go to sell</a>
 </body>
 </html>

@@ -16,12 +16,10 @@ public class homeController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             String username = (String) req.getSession().getAttribute("username");
-            System.out.println("--------------username: " + username);
             userDAO userDAO = new userDAO();
             User user = userDAO.getUserByUsername(username);
             Long balance = user.getBalance();
             String nickname = user.getNickname();
-            System.out.println("--------------balance: " + balance);
             req.setAttribute("balance", balance);
             req.setAttribute("fullname", nickname);
             req.getRequestDispatcher("/view/home.jsp").forward(req, resp);

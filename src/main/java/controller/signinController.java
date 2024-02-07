@@ -43,10 +43,13 @@ public class signinController extends HttpServlet {
                 resp.sendRedirect(req.getContextPath() + "/admin");
                 //-----------------check deleted user-----------------
             } else if (checkIsDeletedUser(req, resp)) {
-                resp.sendRedirect(req.getContextPath() + "/deletedUser");
+                req.setAttribute("notification", "Your account is banned or deleted! Please contact admin to get more information!");
+                req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
                 //-----------------check active user-----------------
             } else if (!IsActivated(req, resp)) {
-                resp.sendRedirect(req.getContextPath() + "/notActivated");
+                req.getSession().setAttribute("username", getParameters.get("username"));
+                req.setAttribute("notification", "Your account is not activated! <a href=" + "resendVerifyEmail" +">Click here</a> to send a new verify email!");
+                req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
             } else if (isRemember(req, resp)) {
                 setCookie(req, resp);
                 login(req, resp);

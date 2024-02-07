@@ -50,15 +50,16 @@ public class forgotController extends HttpServlet {
 //                "If you did not request a password reset, please ignore this email.";
 //        EmailSender emailSender = new EmailSender(hostname, String.valueOf(port), username, password, toAddress, subject, message);
 //        emailSender.start();
+        String email = getEmail(req, resp);
         if (!isTrueCaptcha(req, resp)) {
             req.setAttribute("error", "Captcha is not correct! Try again!");
             req.getRequestDispatcher("/view/forgot.jsp").forward(req, resp);
             return;
         }
-        if (checkEmail(req, resp)) {
+        if (checkEmail(req, resp, email)) {
             String token = generateToken();
             saveToken(req, resp, token);
-            sendEmail(req, resp, token);
+            sendEmail(req, resp, token, email);
             req.setAttribute("mess", "Please check your email to reset your password! If you don't see the email, try again!");
             req.getRequestDispatcher("/view/forgot.jsp").forward(req, resp);
         } else {
@@ -83,8 +84,7 @@ public class forgotController extends HttpServlet {
         return tokenDAO.generateToken();
     }
 
-    private boolean checkEmail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String email = getEmail(req, resp);
+    private boolean checkEmail(HttpServletRequest req, HttpServletResponse resp, String email) throws ServletException, IOException {
         userDAO userDAO = new userDAO();
         if (userDAO.checkExistEmail(email)) {
             return true;
@@ -93,8 +93,7 @@ public class forgotController extends HttpServlet {
         }
     }
 
-    private void sendEmail(HttpServletRequest req, HttpServletResponse resp, String token) throws ServletException, IOException {
-        String email = getEmail(req, resp);
+    private void sendEmail(HttpServletRequest req, HttpServletResponse resp, String token, String email) throws ServletException, IOException {
         String hostname = "smtp.gmail.com";
         int port = 587; // Use the appropriate port for your SMTP server
         String username = "taphoaso391@gmail.com";

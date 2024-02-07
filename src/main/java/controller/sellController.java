@@ -18,7 +18,12 @@ public class sellController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/view/sell.jsp").forward(req, resp);
+        String username = (String) req.getSession().getAttribute("username");
+        if (username == null) {
+            resp.sendRedirect("/signin");
+        } else {
+            req.getRequestDispatcher("/view/sell.jsp").forward(req, resp);
+        }
     }
 
     @Override
@@ -28,9 +33,8 @@ public class sellController extends HttpServlet {
             createPost(req, resp);
             resp.sendRedirect("/home");
         } else {
-            req.setAttribute("error", "Your balance is not enough to create a post!");
+            req.setAttribute("notification", "Your balance is not enough! Please <a href=" + "deposit>" + "top up</a> your balance!");
             req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
-            return;
         }
 
     }
@@ -48,14 +52,18 @@ public class sellController extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("-------fee" + params.get("fee"));
         return params;
     }
 
     private User getUser(HttpServletRequest req) {
-        String username = (String) req.getSession().getAttribute("username");
-        userDAO userDAO = new userDAO();
-        User user = userDAO.getUserByUsername(username);
+        User user = new User();
+        try {
+            String username = (String) req.getSession().getAttribute("username");
+            userDAO userDAO = new userDAO();
+            user = userDAO.getUserByUsername(username);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return user;
     }
 

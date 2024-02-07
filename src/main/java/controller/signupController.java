@@ -106,7 +106,7 @@ public class signupController extends HttpServlet {
     }
 
     private void sendEmailToVerifyAccount(HttpServletRequest req, HttpServletResponse resp, String token, User user) throws Exception {
-        req.setAttribute("mess", "Please check your email to verify your account! If you don't see the email, try again!");
+        req.setAttribute("notification", "Please check your email to verify your account! If you don't see the email, try again!");
         req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
 
         // Gson to save user
@@ -122,7 +122,7 @@ public class signupController extends HttpServlet {
         String toAddress = user.getEmail();
         String subject = "[TapHoaSo] VERIFY YOUR EMAIL";
         String message = "We received your sign up request." + "<br>" + "<br>" +
-                "Please <a href=" + "'http://localhost:8080/verifySignup?tk=" + token + "'> Click here</a> below to verify your account. " + "<br>" +
+                "Please <a href=" + "'http://localhost:8080/verifySignup?tk=" + token + "'> Click here</a> to verify your account. " + "<br>" +
                 "The link will be expired in 5 minutes. " + "<br>" +
                 "If you did not request a account sign up, please ignore this email.";
         EmailSender emailSender = new EmailSender(hostname, String.valueOf(port), from, pwd, toAddress, subject, message);
