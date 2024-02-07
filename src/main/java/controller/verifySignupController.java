@@ -2,7 +2,6 @@ package controller;
 
 import DAO.tokenDAO;
 import DAO.userDAO;
-import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;

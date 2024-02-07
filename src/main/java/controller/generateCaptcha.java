@@ -1,6 +1,5 @@
 package controller;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpSession;
 import util.Captcha;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;

@@ -9,11 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.User;
 import util.EmailSender;
-import util.EmailUtility;
-
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.UUID;
+
 
 @WebServlet(urlPatterns = {"/forgot"})
 public class forgotController extends HttpServlet {
