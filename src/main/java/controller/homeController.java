@@ -22,9 +22,9 @@ public class homeController extends HttpServlet {
             String nickname = user.getNickname();
             req.setAttribute("balance", balance);
             req.setAttribute("fullname", nickname);
-            req.getRequestDispatcher("/view/home.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/home.jsp").forward(req, resp);
         } catch (Exception e) {
-            req.getRequestDispatcher("/view/home.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/home.jsp").forward(req, resp);
             return;
         }
 

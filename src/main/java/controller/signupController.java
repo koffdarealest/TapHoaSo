@@ -23,7 +23,7 @@ public class signupController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/view/signup.jsp").forward(req, resp);
     }
 
     @Override
@@ -35,19 +35,19 @@ public class signupController extends HttpServlet {
         //verify captcha
         if(!isTrueCaptcha(req, resp, getParameters)){
             req.setAttribute("error", "Captcha is not correct! Try again!");
-            req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/signup.jsp").forward(req, resp);
             return;
         }
         //check exist username and email
         if(CheckExistUsernameAndEmail(req, resp, userDAO, getParameters)) {
             req.setAttribute("error", "Username or gmail already exists! Try again!");
-            req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/signup.jsp").forward(req, resp);
             return;
         }
         //check password and re-password
         if (!CheckPasswordAndRePassword(req, resp, getParameters)) {
             req.setAttribute("error", "Password and Re-Password are not the same! Try again!");
-            req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/signup.jsp").forward(req, resp);
             return;
         }
         //Hash password with MD5 althorithm
@@ -107,7 +107,7 @@ public class signupController extends HttpServlet {
 
     private void sendEmailToVerifyAccount(HttpServletRequest req, HttpServletResponse resp, String token, User user) throws Exception {
         req.setAttribute("notification", "Please check your email to verify your account! If you don't see the email, try again!");
-        req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
 
         // Gson to save user
 //        Gson gson = new Gson();

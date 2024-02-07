@@ -22,7 +22,7 @@ public class resetPwdController extends HttpServlet {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-        req.getRequestDispatcher("/view/resetPassword.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/view/resetPassword.jsp").forward(req, resp);
     }
 
     @Override
@@ -31,12 +31,12 @@ public class resetPwdController extends HttpServlet {
         if(!isTrueCaptcha(req, resp)) {
             req.setAttribute("error", "Captcha is not correct! Try again!");
             req.setAttribute("token", req.getParameter("token"));
-            req.getRequestDispatcher("/view/resetPassword.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/resetPassword.jsp").forward(req, resp);
             return;
         }
         if(isExpiredToken(req, resp, params)) {
             req.setAttribute("notification", "invalidToken");
-            req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
         } else {
             updatePassword(req, resp, params);
         }
@@ -70,11 +70,11 @@ public class resetPwdController extends HttpServlet {
             userDAO.updateUser(user);
             tokenDAO.deleteToken(token);
             req.setAttribute("notification", "Reset password successfully! <a href=" + "signin" + ">Back to sign in</a>");
-            req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
         } else {
             req.setAttribute("token", token);
             req.setAttribute("error", "Reset password failed! Passwords don't match!");
-            req.getRequestDispatcher("/view/resetPassword.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/resetPassword.jsp").forward(req, resp);
         }
     }
 

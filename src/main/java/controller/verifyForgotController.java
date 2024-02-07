@@ -24,10 +24,10 @@ public class verifyForgotController extends HttpServlet {
                 handleExpiredToken(req, resp, tk);
             } else if (!isValidTokenType(tk)) {
                 req.setAttribute("notification", "Your link is invalid! Try again!");
-                req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
             } else {
                 req.setAttribute("token", tk);
-                req.getRequestDispatcher("/view/resetPassword.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/view/resetPassword.jsp").forward(req, resp);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -38,7 +38,7 @@ public class verifyForgotController extends HttpServlet {
         tokenDAO tokenDAO = new tokenDAO();
         tokenDAO.deleteToken(tk);
         req.setAttribute("notification", "Your link is invalid! Try again!");
-        req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
     }
 
 

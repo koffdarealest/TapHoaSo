@@ -28,7 +28,7 @@ public class verifySignupController extends HttpServlet {
                 handleExpiredToken(req, resp, tk);
             } else if (!isValidTokenType(tk)) {
                 req.setAttribute("notification", "Your link is invalid! Try again!");
-                req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
+                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
             } else {
                 handleValidSignupToken(req, resp, tk);
             }
@@ -41,7 +41,7 @@ public class verifySignupController extends HttpServlet {
         tokenDAO tokenDAO = new tokenDAO();
         tokenDAO.deleteToken(tk);
         req.setAttribute("notification", "Your link is invalid! Try again!");
-        req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
     }
 
     private void handleValidSignupToken(HttpServletRequest req, HttpServletResponse resp, String tk) throws Exception {
@@ -53,7 +53,7 @@ public class verifySignupController extends HttpServlet {
         tokenDAO.deleteToken(tk);
 
         req.setAttribute("notification", "Sign up successfully! <a href=" + "signin" + ">Back to sign in</a>");
-        req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
     }
 
     private boolean isValidTokenType(String tk) {

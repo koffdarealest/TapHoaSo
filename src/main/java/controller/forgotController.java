@@ -20,7 +20,7 @@ public class forgotController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/view/forgot.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/view/forgot.jsp").forward(req, resp);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class forgotController extends HttpServlet {
         String email = getEmail(req, resp);
         if (!isTrueCaptcha(req, resp)) {
             req.setAttribute("error", "Captcha is not correct! Try again!");
-            req.getRequestDispatcher("/view/forgot.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/forgot.jsp").forward(req, resp);
             return;
         }
         if (checkEmail(req, resp, email)) {
@@ -61,10 +61,10 @@ public class forgotController extends HttpServlet {
             saveToken(req, resp, token);
             sendEmail(req, resp, token, email);
             req.setAttribute("mess", "Please check your email to reset your password! If you don't see the email, try again!");
-            req.getRequestDispatcher("/view/forgot.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/forgot.jsp").forward(req, resp);
         } else {
             req.setAttribute("error", "Email does not exist! Try again!");
-            req.getRequestDispatcher("/view/forgot.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/forgot.jsp").forward(req, resp);
         }
     }
 

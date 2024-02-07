@@ -22,7 +22,7 @@ public class sellController extends HttpServlet {
         if (username == null) {
             resp.sendRedirect("/signin");
         } else {
-            req.getRequestDispatcher("/view/sell.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/sell.jsp").forward(req, resp);
         }
     }
 
@@ -34,7 +34,7 @@ public class sellController extends HttpServlet {
             resp.sendRedirect("/home");
         } else {
             req.setAttribute("notification", "Your balance is not enough! Please <a href=" + "deposit>" + "top up</a> your balance!");
-            req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
         }
 
     }

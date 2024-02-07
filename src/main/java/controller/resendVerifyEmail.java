@@ -23,7 +23,7 @@ public class resendVerifyEmail extends HttpServlet {
         }
         resendVerificationEmail(req, resp, user);
         req.setAttribute("notification", "A new verification email has been sent to your email address. Please check your email and verify your account.");
-        req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
     }
 
     private User getUser(HttpServletRequest req) {
