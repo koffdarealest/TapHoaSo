@@ -1,6 +1,7 @@
 package DAO;
 
 import model.Post;
+import model.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.Factory;
@@ -78,6 +79,15 @@ public class postDAO {
     public String createTradingCode() {
         String tradingCode = UUID.randomUUID().toString();
         return tradingCode;
+    }
+
+    public boolean isBalanceEnough(User user, Long price) {
+        userDAO userDAO = new userDAO();
+        Long balance = user.getBalance();
+        if(balance < price) {
+            return false;
+        }
+        return true;
     }
 
 

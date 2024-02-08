@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: Tung
-  Date: 1/20/2024
-  Time: 3:02 PM
+  Date: 1/26/2024
+  Time: 3:00 AM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -16,22 +16,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet">
 
-    <title>Fotgot Password</title>
+    <title>Sign up</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="../assets/css/fontawesome.css">
-    <link rel="stylesheet" href="../assets/css/templatemo-lugx-gaming.css">
-    <link rel="stylesheet" href="../assets/css/owl.css">
-    <link rel="stylesheet" href="../assets/css/animate.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="../../assets/css/fontawesome.css">
+    <link rel="stylesheet" href="../../assets/css/templatemo-lugx-gaming.css">
+    <link rel="stylesheet" href="../../assets/css/owl.css">
+    <link rel="stylesheet" href="../../assets/css/animate.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/swiper-bundle.min.css"/>
 </head>
 
-
-<body onload="reloadCaptcha()">
+<body>
 
 <!-- ***** Preloader Start ***** -->
 <div id="js-preloader" class="js-preloader">
@@ -54,7 +53,8 @@
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
                     <a href="index.html" class="logo">
-                        <img src="" alt="" style="width: 158px;">
+                        <img src="" alt=""
+                             style="width: 158px;">
                     </a>
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
@@ -65,7 +65,7 @@
                         </li>
                         <li><a href="contact.html">Contact Us</a>
                         </li>
-                        <li><a href="#">Sign In</a></li>
+                        <li><a href="signin">Sign In</a></li>
                     </ul>
                     <a class='menu-trigger'>
                         <span>Menu</span>
@@ -91,15 +91,22 @@
     <div class="login-wrap p-4 p-md-5 col-lg-4">
         <div class="col-lg-10 mx-auto">
             <div class="card-header text-center p-3 mb-4">
-                <h2 class="m-0">FORGOT PASSWORD</h2>
+                <h2 class="m-0">Reset Password</h2>
             </div>
-            <form action="forgot" method="post" id="form">
-                <!-- ---------------input email---------------- -->
-                <div class="form-group mb-3">
-                    <label class="label">Email</label>
-                    <input type="email" class="form-control" placeholder="Email" required name="email">
+            <form action="reset" method="post" id="form">
+                <!-- --------------input field-------------- -->
+                <div class="form-group mb-4">
+                    <label class="label" >Password</label>
+                    <input type="password" class="form-control" placeholder="Password"
+                           required name="password">
                 </div>
-                <!-- ---------------captcha---------------- -->
+                <div class="form-group mb-4">
+                    <label class="label">Re-Password</label>
+                    <input type="password" class="form-control" placeholder="Re-password"
+                           required name="re-password">
+                </div>
+                <input type="hidden" name="token" value="${token}">
+                <!-- --------------captcha field-------------- -->
                 <div class="form-group mb-3">
                     <label class="label">Captcha</label>
                     <div class="d-flex align-content-center">
@@ -113,16 +120,13 @@
                         <input type="text" class="form-control" name="captcha" required placeholder="Enter Captcha"/>
                     </div>
                 </div>
-                <!-- ---------------message---------------- -->
+                <!-- --------------message-------------- -->
                 <h6 class="text-danger mb-2">${error}</h6>
-                <h6 class="text-success mb-2">${mess}</h6>
-                <!-- ---------------submit button---------------- -->
+                <!-- --------------submit button-------------- -->
                 <div class="form-group mb-3 text-center">
-                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Send to email</button>
+                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Reset Password</button>
                 </div>
             </form>
-            <p class="text-center" style="font-size: 15px;">Still remember? <a data-toggle="tab" href="signin">Sign
-                In Here</a></p>
         </div>
     </div>
 </div>
@@ -140,15 +144,6 @@
 
 <!-- Scripts -->
 <script>
-    function reloadCaptcha() {
-        var timestamp = new Date().getTime();
-        var captchaImage = document.getElementById('captchaImage');
-        captchaImage.src = 'generateCaptcha?' + timestamp;
-    }
-    function resetCaptcha(event) {
-        event.preventDefault(); // Ngăn chặn hành vi mặc định của button (submit form)
-        reloadCaptcha(); // Gọi hàm tạo mới captcha ở đây
-    }
     document.addEventListener("DOMContentLoaded", function() {
         var form = document.getElementById("form");
         var sendButton = document.querySelector("#form [type=submit]");
@@ -160,16 +155,16 @@
             }
         });
     });
-
 </script>
 <!-- Bootstrap core JavaScript -->
 
-<script src="../vendor/jquery/jquery.min.js"></script>
-<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="../assets/js/isotope.min.js"></script>
-<script src="../assets/js/owl-carousel.js"></script>
-<script src="../assets/js/counter.js"></script>
-<script src="../assets/js/custom.js"></script>
+<script src="../../vendor/jquery/jquery.min.js"></script>
+<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../assets/js/isotope.min.js"></script>
+<script src="../../assets/js/owl-carousel.js"></script>
+<script src="../../assets/js/counter.js"></script>
+<script src="../../assets/js/custom.js"></script>
+
 
 </body>
 
