@@ -17,9 +17,10 @@ import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
 
 import java.io.IOException;
-@WebServlet(name = "LoginGoogleHandler", urlPatterns = { "/LoginGoogleHandler" })
+
+@WebServlet(name = "LoginGoogleHandler", urlPatterns = {"/LoginGoogleHandler"})
 public class loginGoogleHandler extends HttpServlet {
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
@@ -34,17 +35,19 @@ public class loginGoogleHandler extends HttpServlet {
 //        request.setAttribute("name", userGoogleDTO.getName());
 //        request.setAttribute("email", userGoogleDTO.getEmail());
 
-//        userDAO userDAO = new userDAO();
-//
-//        User userDTO = User.builder()
-//                .email(userGoogleDTO.getEmail())
-//                .username(userGoogleDTO.getName())
-//                .build();
-        HttpSession session = request.getSession();
-        session.setAttribute("username", userGoogleDTO.getName());
-        session.setAttribute("email", userGoogleDTO.getEmail());
-        request.getRequestDispatcher("view/signup.jsp").forward(request, response);
+        userDAO userDAO = new userDAO();
+
+        if (userDAO.checkExistEmail(userGoogleDTO.getEmail()) == false) {
+            User userDTO = new User();
+            userDTO.setEmail(userGoogleDTO.getEmail());
+            userDTO.setNickname(userGoogleDTO.getName());
+            userDTO.setAdmin(false);
+            userDTO.setBalance(0L);
+            userDAO.insertUser(userDTO);
+        }
+        request.getRequestDispatcher("view/home.jsp").forward(request, response);
     }
+
     public static String getToken(String code) throws ClientProtocolException, IOException {
         // call api to get token
         String response = Request.Post(Constants.GOOGLE_LINK_GET_TOKEN)
@@ -61,6 +64,7 @@ public class loginGoogleHandler extends HttpServlet {
         String accessToken = jobj.get("access_token").toString().replaceAll("\"", "");
         return accessToken;
     }
+
     public static UserGoogleDTO getUserInfo(final String accessToken) throws ClientProtocolException, IOException {
         String link = Constants.GOOGLE_LINK_GET_USER_INFO + accessToken;
         String response = Request.Get(link).execute().returnContent().asString();
@@ -69,6 +73,7 @@ public class loginGoogleHandler extends HttpServlet {
 
         return googlePojo;
     }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

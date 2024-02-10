@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%--
   Created by IntelliJ IDEA.
   User: Tung
@@ -6,8 +8,34 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+
 <!DOCTYPE html>
 <html lang="en">
+<style>
+    td {
+        word-wrap: break-word;
+        max-width: 200px;
+    }
+
+    .custom-button {
+        background-color: #4CAF50; /* Màu xanh */
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition-duration: 0.4s;
+    }
+
+    .custom-button:hover {
+        background-color: #45a049; /* Màu xanh nhạt khi hover */
+    }
+</style>
 
 <head>
 
@@ -94,10 +122,11 @@
 <div class="container" style="max-width: 1700px;">
     <div class="market-wrap">
         <div>
-            <table class="table table-bordered table-scroll" id="marketTable" >
+            <table class="table table-bordered table-scroll" id="marketTable">
                 <thead class="sticky-header">
                 <tr>
                     <th>Trading code</th>
+                    <th>Title</th>
                     <th>Contact</th>
                     <th>Price</th>
                     <th>Fee payer</th>
@@ -110,47 +139,43 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>Row 1</td>
-                    <td>Filter 1</td>
-                    <td>Data 1</td>
-                    <td>Data 2</td>
-                    <td>Data 3</td>
-                    <td>Data 4</td>
-                    <td>Data 5</td>
-                    <td>Data 6</td>
-                    <td>Data 7</td>
-                    <td>Data 8</td>
-                    <td>Data 9</td>
-                </tr>
-                <tr>
-                    <td>Row 1</td>
-                    <td>Filter 1</td>
-                    <td>Data 1</td>
-                    <td>Data 2</td>
-                    <td>Data 3</td>
-                    <td>Data 4</td>
-                    <td>Data 5</td>
-                    <td>Data 6</td>
-                    <td>Data 7</td>
-                    <td>Data 8</td>
-                    <td>Data 9</td>
-                </tr>
-                <tr>
-                    <td>Row 1</td>
-                    <td>Filter 1</td>
-                    <td>Data 1</td>
-                    <td>Data 2</td>
-                    <td>Data 3</td>
-                    <td>Data 4</td>
-                    <td>Data 5</td>
-                    <td>Data 6</td>
-                    <td>Data 7</td>
-                    <td>Data 8</td>
-                    <td>Data 9</td>
-                </tr>
-
-
+                <c:forEach var="post" items="${lPosts}">
+                    <tr>
+                        <td>${post.tradingCode}</td>
+                        <td>${post.topic}</td>
+                        <td>${post.contact}</td>
+                        <td>${post.price}</td>
+                        <td>${post.whoPayFee}</td>
+                        <td>${post.fee}</td>
+                        <td><c:choose>
+                            <c:when test="${post.whoPayFee == 'buyer'}">
+                                ${post.price + post.fee}
+                            </c:when>
+                            <c:when test="${post.whoPayFee == 'half_half'}">
+                                ${post.price + post.fee * 0.5}
+                            </c:when>
+                            <c:otherwise>
+                                ${post.price}
+                            </c:otherwise>
+                        </c:choose></td>
+                        <td>${post.sellerID.username}</td>
+                        <td>
+                            <c:set var="createdAt" value="${post.createdAt}"/>
+                            <fmt:formatDate value="${createdAt}" pattern="dd/MM/yyyy HH:mm:ss"/>
+                        </td>
+                        <c:set var="updatedAt" value="${post.updatedAt}" />
+                        <td>
+                            <c:choose>
+                                <c:when test="${updatedAt != null}">
+                                    <fmt:formatDate value="${updatedAt}" pattern="dd/MM/yyyy HH:mm:ss" />
+                                </c:when>
+                                <c:otherwise>&nbsp;</c:otherwise>
+                            </c:choose>
+                        </td>
+                        <td><button class="custom-button" onclick="viewDetail('${post.postID}')">View Detail</button></td>
+                        <td>View Detail</td>
+                    </tr>
+                </c:forEach>
                 <!-- Repeat the above row for 20 records -->
                 </tbody>
             </table>
@@ -173,7 +198,7 @@
 
 <!-- Scripts -->
 <script>
-    window.onload = function() {
+    window.onload = function () {
         const table = document.getElementById('marketTable');
         const headers = table.getElementsByTagName('th');
         const maxRows = 30; // Số hàng tối đa
@@ -192,6 +217,7 @@
                 }
             }
         }
+
         addRowIfNeed();
 
 
@@ -202,7 +228,7 @@
 
             let startX, startWidth;
 
-            dragHandle.addEventListener('mousedown', function(e) {
+            dragHandle.addEventListener('mousedown', function (e) {
                 startX = e.pageX;
                 startWidth = header.offsetWidth;
                 dragHandle.style.backgroundColor = '#ddd'; // Optional: Change color on drag
@@ -238,7 +264,12 @@
 <script src="../../assets/js/counter.js"></script>
 <script src="../../assets/js/custom.js"></script>
 
-
+<script>
+    function viewDetail(postId) {
+        // Redirect to the detail page with the specific postId
+        window.location.href = 'view/detailPage.jsp?id=' + postId;
+    }
+</script>
 
 </body>
 

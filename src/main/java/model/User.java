@@ -7,7 +7,6 @@ import DAO.userDAO;
 import util.Encryption;
 
 import java.util.UUID;
-//@Builder
 @Entity
 public class User extends BaseAuditable{
     @Id
