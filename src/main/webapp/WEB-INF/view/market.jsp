@@ -1,5 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <%--
   Created by IntelliJ IDEA.
   User: Tung
@@ -8,35 +7,11 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
-<style>
-    td {
-        word-wrap: break-word;
-        max-width: 200px;
-    }
-
-    .custom-button {
-        background-color: #4CAF50; /* Màu xanh */
-        border: none;
-        color: white;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 5px;
-        transition-duration: 0.4s;
-    }
-
-    .custom-button:hover {
-        background-color: #45a049; /* Màu xanh nhạt khi hover */
-    }
-</style>
-
 <head>
 
     <meta charset="utf-8">
@@ -131,7 +106,7 @@
                     <th>Price</th>
                     <th>Fee payer</th>
                     <th>Fee</th>
-                    <th>Total</th>
+                    <th>Total spend</th>
                     <th>Seller</th>
                     <th>Create time</th>
                     <th>Last modify</th>
@@ -145,20 +120,28 @@
                         <td>${post.topic}</td>
                         <td>${post.contact}</td>
                         <td>${post.price}</td>
-                        <td>${post.whoPayFee}</td>
+                        <td><c:choose>
+                            <c:when test="${post.whoPayFee == 'half'}">
+                                half-half
+                            </c:when>
+                            <c:otherwise>
+                                ${post.whoPayFee}
+                            </c:otherwise>
+                            </c:choose>
+                        </td>
                         <td>${post.fee}</td>
                         <td><c:choose>
                             <c:when test="${post.whoPayFee == 'buyer'}">
                                 ${post.price + post.fee}
                             </c:when>
-                            <c:when test="${post.whoPayFee == 'half_half'}">
+                            <c:when test="${post.whoPayFee == 'half'}">
                                 ${post.price + post.fee * 0.5}
                             </c:when>
                             <c:otherwise>
                                 ${post.price}
                             </c:otherwise>
                         </c:choose></td>
-                        <td>${post.sellerID.username}</td>
+                        <td>${post.sellerID.nickname}</td>
                         <td>
                             <c:set var="createdAt" value="${post.createdAt}"/>
                             <fmt:formatDate value="${createdAt}" pattern="dd/MM/yyyy HH:mm:ss"/>
@@ -172,8 +155,8 @@
                                 <c:otherwise>&nbsp;</c:otherwise>
                             </c:choose>
                         </td>
-                        <td><button class="custom-button" onclick="viewDetail('${post.postID}')">View Detail</button></td>
-                        <td>View Detail</td>
+                        <td><button class="custom-button" onclick="viewPostDetail('${post.postID}')">Detail</button></td>
+                        <td>Detail</td>
                     </tr>
                 </c:forEach>
                 <!-- Repeat the above row for 20 records -->
@@ -255,6 +238,10 @@
             }
         }
     };
+
+    function viewPostDetail(postID) {
+        window.location.href = 'postDetail?postID=' + postID;
+    }
 </script>
 <!-- Bootstrap core JavaScript -->
 <script src="../../vendor/jquery/jquery.min.js"></script>
@@ -264,12 +251,6 @@
 <script src="../../assets/js/counter.js"></script>
 <script src="../../assets/js/custom.js"></script>
 
-<script>
-    function viewDetail(postId) {
-        // Redirect to the detail page with the specific postId
-        window.location.href = 'view/detailPage.jsp?id=' + postId;
-    }
-</script>
 
 </body>
 

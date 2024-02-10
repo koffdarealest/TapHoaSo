@@ -15,14 +15,16 @@ import java.util.List;
 public class marketController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        postDAO postDAO = new postDAO();
-        List<Post> getAllPost = postDAO.getAllPost();
-        req.setAttribute("lPosts",getAllPost);
-        req.getRequestDispatcher("WEB-INF/view/market.jsp").forward(req,resp);
+        if (req.getSession().getAttribute("username") == null) {
+            resp.sendRedirect("/signin");
+        } else {
+            postDAO postDAO = new postDAO();
+            List<Post> getAllPost = postDAO.getAllPost();
+            req.setAttribute("lPosts",getAllPost);
+            req.getRequestDispatcher("WEB-INF/view/market.jsp").forward(req,resp);
+        }
+
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-    }
 }

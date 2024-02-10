@@ -16,12 +16,6 @@ import java.util.HashMap;
 public class resetPwdController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        try {
-//            String token = req.getParameter("token");
-//            req.setAttribute("token", token);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
         req.getRequestDispatcher("/WEB-INF/view/resetPassword.jsp").forward(req, resp);
     }
 
