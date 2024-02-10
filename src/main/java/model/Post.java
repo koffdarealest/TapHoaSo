@@ -21,7 +21,6 @@ public class Post extends BaseAuditable{
     @Column(columnDefinition = "TEXT")
     private String hidden;
     private Boolean isPublic;
-
     public Post() {
     }
 

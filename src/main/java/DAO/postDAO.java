@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.Factory;
 
+import java.util.List;
 import java.util.UUID;
 
 public class postDAO {
@@ -90,5 +91,31 @@ public class postDAO {
         return true;
     }
 
+    public List<Post> getAllPost(){
+        List<Post> ListPosts = null;
+        Transaction transaction = null;
+        try (Session session = Factory.getSessionFactory().openSession()){
+            transaction = session.beginTransaction();
 
+            ListPosts = session.createQuery("from Post").getResultList();
+
+            transaction.commit();
+        } catch (Exception ex){
+            if(transaction == null){
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        }
+        return ListPosts;
+    }
+
+
+
+    public static void main(String[] args) {
+         postDAO postDAO = new postDAO();
+         List<Post> LP = postDAO.getAllPost();
+         for(Post p : LP){
+             System.out.println(p.getSellerID().getUsername());
+         }
+    }
 }

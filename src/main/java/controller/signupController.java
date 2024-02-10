@@ -154,6 +154,7 @@ public class signupController extends HttpServlet {
         parameters.put("password", req.getParameter("password"));
         parameters.put("rePassword", req.getParameter("re-password"));
         parameters.put("captcha", req.getParameter("captcha"));
+
         return parameters;
     }
 

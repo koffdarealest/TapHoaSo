@@ -241,9 +241,12 @@ public class userDAO {
 
     public static void main(String[] args) {
         userDAO userDAO = new userDAO();
-        String token = "c375624c-ee2d-4b85-8e95-8627144f509b";
-        User user = userDAO.getUserByToken(token);
-        System.out.println(user.getNickname());
+        //String token = "c375624c-ee2d-4b85-8e95-8627144f509b";
+        //User user = userDAO.getUserByToken(token);
+        List<User> lUsers = userDAO.getAllUser();
+        System.out.println(lUsers);
+
+
     }
 
 
