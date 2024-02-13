@@ -187,9 +187,9 @@
                                             <c:when test="${chosenPost.whoPayFee == 'half'}">
                                                 <option selected>Half - Half</option>
                                             </c:when>
-                                            <c:otherwise>
+                                            <c:when test="${chosenPost.whoPayFee == 'seller'}">
                                                 <option selected>Seller</option>
-                                            </c:otherwise>
+                                            </c:when>
                                         </c:choose>
                                     </select>
                                 </div>
