@@ -51,7 +51,7 @@ public class postDetailController extends HttpServlet {
     private void getAllPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
             postDAO postDAO = new postDAO();
-            List<Post> getAllPost = postDAO.getAllPost();
+            List<Post> getAllPost = postDAO.getAllPublicPost();
             req.setAttribute("lPosts",getAllPost);
         } catch (Exception e) {
             e.printStackTrace();

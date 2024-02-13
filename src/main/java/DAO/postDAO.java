@@ -110,13 +110,33 @@ public class postDAO {
         return true;
     }
 
-    public List<Post> getAllPost(){
+    public List<Post> getAllPublicPost(){
         List<Post> ListPosts = null;
         Transaction transaction = null;
         try (Session session = Factory.getSessionFactory().openSession()){
             transaction = session.beginTransaction();
 
-            ListPosts = session.createQuery("from Post").getResultList();
+            ListPosts = session.createQuery("from Post where buyerID is null").getResultList();
+
+            transaction.commit();
+        } catch (Exception ex){
+            if(transaction == null){
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        }
+        return ListPosts;
+    }
+
+    public List<Post> getAllPostBySeller(User user){
+        List<Post> ListPosts = null;
+        Transaction transaction = null;
+        try (Session session = Factory.getSessionFactory().openSession()){
+            transaction = session.beginTransaction();
+
+            ListPosts = session.createQuery("from Post where sellerID = :user")
+                    .setParameter("user", user)
+                    .getResultList();
 
             transaction.commit();
         } catch (Exception ex){
@@ -133,10 +153,9 @@ public class postDAO {
 
 
     public static void main(String[] args) {
-         postDAO postDAO = new postDAO();
-         String a = "4";
-         Long b = Long.parseLong(a);
-         Post post = postDAO.getPostByID(b);
-        System.out.println(post.getTopic());
+//         postDAO postDAO = new postDAO();
+//         List<Post> ls = postDAO.getAllPost();
+//         Post post = ls.getFirst();
+//         System.out.println(post.getTradingCode());
     }
 }

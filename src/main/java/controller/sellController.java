@@ -34,6 +34,11 @@ public class sellController extends HttpServlet {
             req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
             return;
         }
+        if (!isValidPrice(Long.parseLong(params.get("price")))) {
+            req.setAttribute("priceError", "Invalid price! Please try again!");
+            req.getRequestDispatcher("/WEB-INF/view/sell.jsp").forward(req, resp);
+            return;
+        }
         if (isBalanceEnough(req, resp)) {
             payPrepostFee(req, resp);
             createPost(req, resp, params);
@@ -42,7 +47,6 @@ public class sellController extends HttpServlet {
             req.setAttribute("notification", "Your balance is not enough! Please <a href=" + "deposit>" + "top up</a> your balance!");
             req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
         }
-
     }
 
     private HashMap<String, String> getParams(HttpServletRequest req) {
@@ -103,6 +107,11 @@ public class sellController extends HttpServlet {
             post.setContact(params.get("contact"));
             post.setHidden(params.get("hidden"));
             post.setPublic(true);
+            post.setStatus("readyToSell");
+            post.setTotalReceiveForSeller(params.get("feePayer"));
+            post.setTotalSpendForBuyer(params.get("feePayer"));
+            post.setUpdateable(true);
+            post.setCanBuyerComplain(false);
             postDAO.insertPost(post);
         } catch (Exception e) {
             e.printStackTrace();
@@ -123,6 +132,14 @@ public class sellController extends HttpServlet {
         Long price = 500L;
         boolean isEnough = postDAO.isBalanceEnough(user, price);
         if (isEnough) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isValidPrice(Long price) {
+        if (price % 1000L == 0 && price >= 1000L) {
             return true;
         } else {
             return false;

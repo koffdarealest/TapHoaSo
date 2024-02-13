@@ -18,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet">
 
-    <title>Sign in</title>
+    <title>Public Market</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -93,7 +93,7 @@
 
 <div class="container d-flex" style="max-width: 1700px;">
     <div class="col-lg-6">
-        <div class="detail-market-wrap">
+        <div class="detail-market-wrap sticky-table">
             <div>
                 <table class="table table-bordered table-scroll" id="marketTable">
                     <thead class="sticky-header">
@@ -110,19 +110,10 @@
                         <tr>
                             <td>${post.topic}</td>
                             <td>${post.fee}</td>
-                            <td><c:choose>
-                                <c:when test="${post.whoPayFee == 'buyer'}">
-                                    ${post.price + post.fee}
-                                </c:when>
-                                <c:when test="${post.whoPayFee == 'half'}">
-                                    ${post.price + post.fee * 0.5}
-                                </c:when>
-                                <c:otherwise>
-                                    ${post.price}
-                                </c:otherwise>
-                            </c:choose></td>
+                            <td>${post.totalSpendForBuyer}</td>
                             <td>${post.sellerID.nickname}</td>
-                            <td><button class="custom-button" onclick="viewPostDetail('${post.postID}')">Detail</button></td>
+                            <td><button class="custom-button btn btn-lg" onclick="viewPostDetail('${post.postID}')" style="font-size: small">
+                                <i class="fas fa-info-circle"></i> Detail</button></td>
                             <td>Detail</td>
                         </tr>
                     </c:forEach>
@@ -142,82 +133,129 @@
                         </div>
                     </div>
                     <div class="card-body">
-                            <!-- ---------------Title--------------- -->
-                            <div class="d-flex mb-3 align-items-center">
-                                <div class="label-form col-md-3">
-                                    <label class="label">Title </label>
-                                </div>
-                                <div class="col-md-9">
-                                    <input type="text" name="title" class="form-control" required readonly value="${chosenPost.topic}">      <!-- input Title -->
-                                </div>
+                        <!-- ---------------Trading Code--------------- -->
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="label-form col-md-3">
+                                <label class="label">Trading Code </label>
                             </div>
-                            <!-- ---------------Price--------------- -->
-                            <div class="d-flex mb-3 align-items-center">
-                                <div class="label-form col-md-3">
-                                    <label class="label">Price </label>
-                                </div>
-                                <div class="col-md-9 form-group">
-                                    <input type="text" name="price" class="form-control" required readonly id="price" value="${chosenPost.price}">   <!-- input Price -->
-                                    <span class="text-muted"
-                                          style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
-                                </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" disabled
+                                       value="${chosenPost.tradingCode}">
                             </div>
-                            <!-- ---------------Fee--------------- -->
-                            <div class="d-flex mb-3 align-items-center">
-                                <div class="label-form col-md-3">
-                                    <label class="label">Fee </label>
-                                </div>
-                                <div class="col-md-9 form-group">
-                                    <input type="number" name="fee" class="form-control" required readonly id="fee" value="${chosenPost.fee}">    <!-- input Fee -->
-                                    <span class="text-muted"
-                                          style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
-                                </div>
+                        </div>
+                        <!-- ---------------Seller--------------- -->
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="label-form col-md-3">
+                                <label class="label">Seller </label>
                             </div>
-                            <!-- ---------------Fee Payer--------------- -->
-                            <div class="d-flex mb-3 align-items-center">
-                                <div class="label-form col-md-3">
-                                    <label class="label">Fee Payer </label>
-                                </div>
-                                <div class="col-md-9 form-group">
-                                    <select class="form-control" name="feePayer" required readonly> <!-- select Fee Payer -->
-                                        <c:choose>
-                                            <c:when test="${chosenPost.whoPayFee == 'buyer'}">
-                                                <option selected>Buyer</option>
-                                            </c:when>
-                                            <c:when test="${chosenPost.whoPayFee == 'half'}">
-                                                <option selected>Half - Half</option>
-                                            </c:when>
-                                            <c:when test="${chosenPost.whoPayFee == 'seller'}">
-                                                <option selected>Seller</option>
-                                            </c:when>
-                                        </c:choose>
-                                    </select>
-                                </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" disabled
+                                       value="${chosenPost.sellerID.nickname}">      <!-- input Title -->
                             </div>
-                            <!-- ---------------Description--------------- -->
-                            <div class="d-flex mb-3 align-items-center">
-                                <div class="label-form col-md-3">
-                                    <label class="label">Description </label>
-                                </div>
-                                <div class="col-md-9 form-group">
-                                    <textarea class="form-control" name="description" id="description" required readonly >${chosenPost.description}</textarea>     <!-- input Description -->
-                                </div>
+                        </div>
+                        <!-- ---------------Title--------------- -->
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="label-form col-md-3">
+                                <label class="label">Title </label>
                             </div>
-                            <!-- ---------------Contact--------------- -->
-                            <div class="d-flex mb-3 align-items-center">
-                                <div class="label-form col-md-3">
-                                    <label class="label">Contact </label>
-                                </div>
-                                <div class="col-md-9 form-group">
-                                    <textarea class="form-control" name="contact" required readonly>${chosenPost.contact}</textarea>  <!-- input Contact -->
-                                </div>
+                            <div class="col-md-9">
+                                <input type="text" name="title" class="form-control" required readonly
+                                       value="${chosenPost.topic}">      <!-- input Title -->
                             </div>
-                            <!-- ---------------Submit--------------- -->
-                            <div class="d-flex mb-3 align-items-center">
-                                <div class="form-group col-md-12 text-center">
-                                    <button type="submit" class="col-md-3 btn btn-primary p-3">BUY</button>     <!-- Submit -->
-                                </div>
+                        </div>
+                        <!-- ---------------Price--------------- -->
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="label-form col-md-3">
+                                <label class="label">Price </label>
                             </div>
+                            <div class="col-md-9 form-group">
+                                <input type="text" name="price" class="form-control" required readonly id="price"
+                                       value="${chosenPost.price}">   <!-- input Price -->
+                                <span class="text-muted"
+                                      style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
+                            </div>
+                        </div>
+                        <!-- ---------------Fee--------------- -->
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="label-form col-md-3">
+                                <label class="label">Fee </label>
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <input type="number" name="fee" class="form-control" required readonly id="fee"
+                                       value="${chosenPost.fee}">    <!-- input Fee -->
+                                <span class="text-muted"
+                                      style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
+                            </div>
+                        </div>
+                        <!-- ---------------Fee Payer--------------- -->
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="label-form col-md-3">
+                                <label class="label">Fee Payer </label>
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <select class="form-control" name="feePayer" required readonly>
+                                    <!-- select Fee Payer -->
+                                    <c:choose>
+                                        <c:when test="${chosenPost.whoPayFee == 'buyer'}">
+                                            <option selected>Buyer</option>
+                                        </c:when>
+                                        <c:when test="${chosenPost.whoPayFee == 'half'}">
+                                            <option selected>Half - Half</option>
+                                        </c:when>
+                                        <c:when test="${chosenPost.whoPayFee == 'seller'}">
+                                            <option selected>Seller</option>
+                                        </c:when>
+                                    </c:choose>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- ---------------Description--------------- -->
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="label-form col-md-3">
+                                <label class="label">Description </label>
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <textarea class="form-control" name="description" id="description" required
+                                          readonly>${chosenPost.description}</textarea>     <!-- input Description -->
+                            </div>
+                        </div>
+                        <!-- ---------------Contact--------------- -->
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="label-form col-md-3">
+                                <label class="label">Contact </label>
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <textarea class="form-control" name="contact" required
+                                          readonly>${chosenPost.contact}</textarea>  <!-- input Contact -->
+                            </div>
+                        </div>
+                        <!-- ---------------Created At--------------- -->
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="label-form col-md-3">
+                                <label class="label">Created At </label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" id="createdAt" class="form-control" disabled
+                                       value="">
+                            </div>
+                        </div>
+                        <!-- ---------------Updated At--------------- -->
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="label-form col-md-3">
+                                <label class="label">Last Updated </label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" id="updatedAt" class="form-control" disabled
+                                       value="">      <!-- input Title -->
+                            </div>
+                        </div>
+                        <!-- ---------------Submit--------------- -->
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="form-group col-md-12 text-center">
+                                <button type="submit" class="col-md-3 btn btn-primary p-3">BUY</button>
+                                <!-- Submit -->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -234,13 +272,14 @@
                     by: TapHoaSo © 2024.</p>
                 <p class="w-50" style="font-weight: bold; font-size: 110%; margin-right: auto; margin-top: 10px;">
                     Email
-                    Contact: taphoaso@gmail.com</p>
+                    Contact: taphoaso391@gmail.com</p>
             </div>
         </div>
     </div>
 </footer>
 
 <!-- Scripts -->
+<!-- ----------------Table---------------- -->
 <script>
     window.onload = function () {
         const table = document.getElementById('marketTable');
@@ -262,7 +301,6 @@
             }
         }
         addRowIfNeed();
-
 
         for (let header of headers) {
             const dragHandle = document.createElement('div');
@@ -298,7 +336,9 @@
             }
         }
     };
-
+</script>
+<!-- ----------------TinyMCE---------------- -->
+<script>
     document.addEventListener("DOMContentLoaded", function () {
         tinymce.init({
             selector: '#description',
@@ -312,18 +352,38 @@
         tinymce.init({
             selector: '#hidden',
             setup: function (editor) {
-                // editor.on('change', function () {
-                //     editor.save();
-                // });
-                editor.setMode('readonly');
+                editor.on('change', function () {
+                    editor.save();
+                });
             }
         });
     });
-
+</script>
+<!-- ----------------View Post Detail button---------------- -->
+<script>
     function viewPostDetail(postID) {
         window.location.href = 'postDetail?postID=' + postID;
     }
 </script>
+<!-- ----------------Format Date---------------- -->
+<script>
+    var createdAt = new Date('${chosenPost.createdAt}');
+    var updatedAt = new Date('${chosenPost.updatedAt}');
+    var fmtCreatedAtDate = createdAt.getDate() + '/' + (createdAt.getMonth() + 1) + '/' + createdAt.getFullYear() + ' ' +
+        ('0' + createdAt.getHours()).slice(-2) + ':' +
+        ('0' + createdAt.getMinutes()).slice(-2) + ':' +
+        ('0' + createdAt.getSeconds()).slice(-2);
+    document.getElementById('createdAt').value = fmtCreatedAtDate;
+    if (updatedAt != null && !isNaN(updatedAt.getTime())) {
+        var fmtUpdatedAtDate = updatedAt.getDate() + '/' + (updatedAt.getMonth() + 1) + '/' + updatedAt.getFullYear() + ' ' +
+            ('0' + updatedAt.getHours()).slice(-2) + ':' +
+            ('0' + updatedAt.getMinutes()).slice(-2) + ':' +
+            ('0' + updatedAt.getSeconds()).slice(-2);
+        document.getElementById('updatedAt').value = fmtUpdatedAtDate;
+    }
+</script>
+
+
 <!-- Bootstrap core JavaScript -->
 <script src="https://cdn.tiny.cloud/1/qmw4wavlc4ekzay2c6m9pxxoyvi1ni12vki7sz9clkyfyyo2/tinymce/6/tinymce.min.js"
         referrerpolicy="origin"></script>

@@ -124,9 +124,14 @@
                             </div>
                         </div>
                         <!-- ---------------Price Error--------------- -->
-                        <div class="d-flex mb-3 align-items-center">
+                        <div class="d-flex align-items-center">
                             <div class="col-md-10" id="priceError" style="color: red; display: none;text-align: end;">
                                 Price must be divisible by 1000
+                            </div>
+                        </div>
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="col-md-10" id="priceErrorBackend" style="color: red; text-align: end;">
+                                ${priceError}
                             </div>
                         </div>
                         <!-- ---------------Fee--------------- -->
@@ -218,7 +223,7 @@
                 <p class="w-50" style="font-weight: bold; font-size: 110%; margin-left: auto; margin-top: 10px;">Powered
                     by: TapHoaSo © 2024.</p>
                 <p class="w-50" style="font-weight: bold; font-size: 110%; margin-right: auto; margin-top: 10px;">Email
-                    Contact: taphoaso@gmail.com</p>
+                    Contact: taphoaso391@gmail.com</p>
             </div>
         </div>
     </div>
@@ -229,7 +234,7 @@
     var price = document.getElementById('price');
     var fee = document.getElementById('fee');
     var priceError = document.getElementById('priceError');
-
+    var priceErrorBackend = document.getElementById('priceErrorBackend');
     price.addEventListener('input', function () {
         var priceValue = parseInt(price.value);
         if (priceValue % 1000 === 0 && priceValue >= 1000) {
@@ -240,6 +245,7 @@
         } else {
             fee.value = 0;
             priceError.style.display = 'block';
+            priceErrorBackend.style.display = 'none';
         }
     });
 

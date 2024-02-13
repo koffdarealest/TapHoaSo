@@ -152,7 +152,7 @@
         <div class="row justify-content-center">
             <div class="d-md-flex col-lg-12 align-self-center">
                 <p class="w-50" style="font-weight: bold; font-size: 110%; margin-left: auto; margin-top: 10px;">Powered by: TapHoaSo © 2024.</p>
-                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-right: auto; margin-top: 10px;">Email Contact: taphoaso@gmail.com</p>
+                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-right: auto; margin-top: 10px;">Email Contact: taphoaso391@gmail.com</p>
             </div>
         </div>
     </div>

@@ -1,9 +1,8 @@
-
 <%--
   Created by IntelliJ IDEA.
   User: Tung
-  Date: 2/8/2024
-  Time: 11:03 AM
+  Date: 2/13/2024
+  Time: 7:54 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -19,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet">
 
-    <title>Public Market</title>
+    <title>Selling Posts</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -87,7 +86,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h3>Public Market</h3>
+                <h3>Selling Product Post</h3>
 
             </div>
         </div>
@@ -130,7 +129,7 @@
                             <c:when test="${post.whoPayFee == 'buyer'}">
                                 Buyer
                             </c:when>
-                            </c:choose>
+                        </c:choose>
                         </td>
                         <td>${post.fee}</td>
                         <td>${post.totalSpendForBuyer}</td>
@@ -148,7 +147,7 @@
                                 <c:otherwise>&nbsp;</c:otherwise>
                             </c:choose>
                         </td>
-                        <td><button class="custom-button btn btn-lg" onclick="viewPostDetail('${post.postID}')" style="font-size: large">
+                        <td><button class="custom-button btn btn-lg" onclick="viewPostDetailUpdate('${post.postID}')" style="font-size: large">
                             <i class="fas fa-info-circle"></i> Detail</button></td>
                         <td>Detail</td>
                     </tr>
@@ -233,8 +232,8 @@
         }
     };
 
-    function viewPostDetail(postID) {
-        window.location.href = 'postDetail?postID=' + postID;
+    function viewPostDetailUpdate(postID) {
+        window.location.href = 'postDetailUpdate?postID=' + postID;
     }
 </script>
 <!-- Bootstrap core JavaScript -->
@@ -249,4 +248,3 @@
 </body>
 
 </html>
-
