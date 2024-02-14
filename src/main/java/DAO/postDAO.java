@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.Factory;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -85,7 +86,10 @@ public class postDAO {
         try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
-            session.delete(post);
+            post.setDelete(true);
+            post.setDeletedAt(new Date());
+
+            session.update(post);
 
             transaction.commit();
         } catch (Exception ex) {
@@ -116,7 +120,7 @@ public class postDAO {
         try (Session session = Factory.getSessionFactory().openSession()){
             transaction = session.beginTransaction();
 
-            ListPosts = session.createQuery("from Post where buyerID is null").getResultList();
+            ListPosts = session.createQuery("from Post where buyerID is null and (isDelete != true or isDelete is null)").getResultList();
 
             transaction.commit();
         } catch (Exception ex){
@@ -134,7 +138,7 @@ public class postDAO {
         try (Session session = Factory.getSessionFactory().openSession()){
             transaction = session.beginTransaction();
 
-            ListPosts = session.createQuery("from Post where sellerID = :user")
+            ListPosts = session.createQuery("from Post where sellerID = :user and (isDelete != true or isDelete is null)")
                     .setParameter("user", user)
                     .getResultList();
 
@@ -147,10 +151,6 @@ public class postDAO {
         }
         return ListPosts;
     }
-
-
-
-
 
     public static void main(String[] args) {
 //         postDAO postDAO = new postDAO();

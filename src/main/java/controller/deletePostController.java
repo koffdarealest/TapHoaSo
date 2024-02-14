@@ -9,27 +9,30 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.Post;
 
 import java.io.IOException;
-import java.util.List;
 
 
-@WebServlet(urlPatterns = {"/postDetail"})
-public class postDetailController extends HttpServlet {
-
+@WebServlet(urlPatterns = {"/deletePost"})
+public class deletePostController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getSession().getAttribute("username") == null) {
+        String username = (String) req.getSession().getAttribute("username");
+        if (username == null) {
             resp.sendRedirect("/signin");
         } else {
             Long id = getPostID(req, resp);
-            Post post = getPost(req, resp, id);
-            if(isDeletedPost(req,resp,post)){
+            Post post = getPostByID(req, resp, id);
+            if (isDeletedPost(req, resp, post)) {
                 req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
                 req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
-                return;
             }
-            req.setAttribute("chosenPost",post);
-            getAllPost(req, resp);
-            req.getRequestDispatcher("WEB-INF/view/postDetail.jsp").forward(req,resp);
+            if (!isValidUserToDeletePost(req, resp, post, username)) {
+                req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
+                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+            } else {
+                deletePost(req, resp, post);
+                req.setAttribute("notification", "Delete post successfully! <a href=sellingPost>Go back here</a>");
+                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+            }
         }
     }
 
@@ -44,22 +47,36 @@ public class postDetailController extends HttpServlet {
         return postID;
     }
 
-    private Post getPost(HttpServletRequest req, HttpServletResponse resp, Long id) {
+    private Post getPostByID(HttpServletRequest req, HttpServletResponse resp, Long id) {
         Post post = new Post();
         try {
             postDAO postDAO = new postDAO();
             post = postDAO.getPostByID(id);
-
+            return post;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return post;
     }
-    private void getAllPost(HttpServletRequest req, HttpServletResponse resp) {
+
+    private boolean isValidUserToDeletePost(HttpServletRequest req, HttpServletResponse resp, Post post, String username) {
+        try {
+            username = (String) req.getSession().getAttribute("username");
+            if (post.getSellerID().getUsername().equals(username)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private void deletePost(HttpServletRequest req, HttpServletResponse resp, Post post) {
         try {
             postDAO postDAO = new postDAO();
-            List<Post> getAllPost = postDAO.getAllPublicPost();
-            req.setAttribute("lPosts",getAllPost);
+            postDAO.deletePost(post);
         } catch (Exception e) {
             e.printStackTrace();
         }

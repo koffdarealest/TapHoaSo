@@ -23,8 +23,13 @@ public class updatePostController extends HttpServlet {
         } else {
             Long id = getPostID(req, resp);
             Post post = getPostByID(req, resp, id);
+            if (isDeletedPost(req, resp, post)) {
+                req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
+                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+                return;
+            }
             if (!isValidUserToViewPost(req, resp, post)) {
-                req.setAttribute("notification", "You are not allowed to update this post! <a href=sellingPost>Go back here</a>");
+                req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
                 req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
                 return;
             } else {
@@ -165,5 +170,16 @@ public class updatePostController extends HttpServlet {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private boolean isDeletedPost(HttpServletRequest req, HttpServletResponse resp, Post post) {
+        try {
+            if (post.getDelete()) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

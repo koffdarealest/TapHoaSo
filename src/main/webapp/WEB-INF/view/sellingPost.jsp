@@ -30,8 +30,6 @@
     <link rel="stylesheet" href="../../assets/css/animate.css">
     <link rel="stylesheet" href="../../assets/css/style.css">
     <link rel="stylesheet" href="../../assets/css/swiper-bundle.min.css"/>
-
-
 </head>
 
 
@@ -149,16 +147,15 @@
                         </td>
                         <td><button class="custom-button btn btn-lg" onclick="viewPostDetailUpdate('${post.postID}')" style="font-size: large">
                             <i class="fas fa-info-circle"></i> Detail</button></td>
-                        <td>Detail</td>
+                        <td><button class="custom-button btn btn-lg" onclick="openConfirmationPopup(${post.postID})" style="font-size: large; background: #d21300">
+                            <i class="fas fa-remove"></i> Delete</button></td>
                     </tr>
                 </c:forEach>
-                <!-- Repeat the above row for 20 records -->
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-
 <footer>
     <div class="container">
         <div class="row justify-content-center">
@@ -171,6 +168,16 @@
         </div>
     </div>
 </footer>
+<!-- -----------------Confirm Pop-up-----------------  -->
+<div id="overlay" class="overlay" onclick="closePopup()"></div>
+<div id="confirmationPopup" class="popup">
+    <div class="popup-content">
+        <h6 class="mb-1">Are you sure you want to delete this post?</h6>
+        <p class="mb-3">Deleted post cannot be recovered!</p>
+        <button onclick="deletePostConfirmed()" style="background: #d31e01">Yes</button>
+        <button onclick="closePopup()">No</button>
+    </div>
+</div>
 
 <!-- Scripts -->
 <script>
@@ -235,7 +242,32 @@
     function viewPostDetailUpdate(postID) {
         window.location.href = 'postDetailUpdate?postID=' + postID;
     }
+
+    // function deletePost(postID) {
+    //     if (confirm('Are you sure to delete this post?')) {
+    //         window.location.href = 'deletePost?postID=' + postID;
+    //     }
+    // }
 </script>
+<script>
+    var id;
+    function openConfirmationPopup(postID) {
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('confirmationPopup').style.display = 'block';
+        id = postID;
+    }
+
+    function deletePostConfirmed() {
+        window.location.href = 'deletePost?postID=' + id;
+    }
+
+    function closePopup() {
+        document.getElementById('confirmationPopup').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
+    }
+
+</script>
+
 <!-- Bootstrap core JavaScript -->
 <script src="../../vendor/jquery/jquery.min.js"></script>
 <script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
