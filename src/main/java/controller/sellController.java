@@ -71,7 +71,9 @@ public class sellController extends HttpServlet {
         String description = params.get("description");
         String contact = params.get("contact");
         String hidden = params.get("hidden");
-        if (title == null || price == null || feePayer == null || description == null || contact == null || hidden == null) {
+        if (title == null || price == null || feePayer == null || description == null || contact == null || hidden == null ||
+                title.trim().isEmpty() || price.trim().isEmpty() || feePayer.trim().isEmpty() ||
+                description.trim().isEmpty() || contact.trim().isEmpty() || hidden.trim().isEmpty()) {
             return false;
         } else {
             return true;

@@ -252,7 +252,7 @@
                         <!-- ---------------Submit--------------- -->
                         <div class="d-flex mb-3 align-items-center">
                             <div class="form-group col-md-12 text-center">
-                                <button type="submit" class="col-md-3 btn btn-primary p-3">BUY</button>
+                                <button type="submit" class="col-md-3 btn btn-primary p-3" onclick="buyPost('${post.postID}')">BUY</button>
                                 <!-- Submit -->
                             </div>
                         </div>
@@ -382,7 +382,12 @@
         document.getElementById('updatedAt').value = fmtUpdatedAtDate;
     }
 </script>
-
+<!-- ----------------Buy button---------------- -->
+<script>
+    function buyPost(postID) {
+        window.location.href = 'buyPost?postID=' + postID;
+    }
+</script>
 
 <!-- Bootstrap core JavaScript -->
 <script src="https://cdn.tiny.cloud/1/qmw4wavlc4ekzay2c6m9pxxoyvi1ni12vki7sz9clkyfyyo2/tinymce/6/tinymce.min.js"

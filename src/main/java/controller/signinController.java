@@ -64,16 +64,17 @@ public class signinController extends HttpServlet {
 
     private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         HashMap<String, String> map = getParameter(req, resp);
-        String enteredCaptcha = map.get("captcha");
-        String captcha = (String) req.getSession().getAttribute("captcha");
-        if (!enteredCaptcha.equals(captcha)) {
-            try {
-                return false;
-            } catch (Exception e) {
-                e.printStackTrace();
+        try {
+            String enteredCaptcha = map.get("captcha");
+            String captcha = (String) req.getSession().getAttribute("captcha");
+            if (enteredCaptcha.equals(captcha)) {
+                return true;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
-        return true;
+        return false;
     }
 
     private HashMap<String, String> getParameter(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

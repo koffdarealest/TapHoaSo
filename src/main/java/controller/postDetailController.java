@@ -17,7 +17,8 @@ public class postDetailController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getSession().getAttribute("username") == null) {
+        String username = (String) req.getSession().getAttribute("username");
+        if (username == null) {
             resp.sendRedirect("/signin");
         } else {
             Long id = getPostID(req, resp);
@@ -25,6 +26,10 @@ public class postDetailController extends HttpServlet {
             if(isDeletedPost(req,resp,post)){
                 req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
                 req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+                return;
+            }
+            if(isPostOwner(req,resp,post,username)) {
+                resp.sendRedirect("/postDetailUpdate?postID="+id);
                 return;
             }
             req.setAttribute("chosenPost",post);
@@ -75,4 +80,17 @@ public class postDetailController extends HttpServlet {
         }
         return false;
     }
+
+    private boolean isPostOwner(HttpServletRequest req, HttpServletResponse resp, Post post, String username) {
+        String postOwner = post.getSellerID().getUsername();
+        try {
+            if (username.equals(postOwner)) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }

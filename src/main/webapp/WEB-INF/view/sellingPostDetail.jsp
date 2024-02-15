@@ -114,7 +114,8 @@
                             <td>${post.sellerID.nickname}</td>
                             <td><button class="custom-button btn btn-lg" onclick="viewPostDetailUpdate('${post.postID}')" style="font-size: small">
                                 <i class="fas fa-info-circle"></i> Detail</button></td>
-                            <td>Detail</td>
+                            <td><button class="custom-button btn btn-lg" onclick="openConfirmationPopup(${post.postID})" style="font-size: small; background: #d21300">
+                                <i class="fas fa-remove"></i> Delete</button></td>
                         </tr>
                     </c:forEach>
                     <!-- Repeat the above row for 20 records -->
@@ -320,6 +321,17 @@
     </div>
 </footer>
 
+<!-- -----------------Confirm Pop-up-----------------  -->
+<div id="overlay" class="overlay" onclick="closePopup()"></div>
+<div id="confirmationPopup" class="popup">
+    <div class="popup-content">
+        <h6 class="mb-1">Are you sure you want to delete this post?</h6>
+        <p class="mb-3">Deleted post cannot be recovered!</p>
+        <button onclick="deletePostConfirmed()" style="background: #d31e01">Yes</button>
+        <button onclick="closePopup()">No</button>
+    </div>
+</div>
+
 <!-- Scripts -->
 <!-- ------------------Table------------------ -->
 <script>
@@ -444,6 +456,24 @@
             ('0' + updatedAt.getMinutes()).slice(-2) + ':' +
             ('0' + updatedAt.getSeconds()).slice(-2);
         document.getElementById('updatedAt').value = fmtUpdatedAtDate;
+    }
+</script>
+<!-- ------------------Confirmation Popup------------------ -->
+<script>
+    var id;
+    function openConfirmationPopup(postID) {
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('confirmationPopup').style.display = 'block';
+        id = postID;
+    }
+
+    function deletePostConfirmed() {
+        window.location.href = 'deletePost?postID=' + id;
+    }
+
+    function closePopup() {
+        document.getElementById('confirmationPopup').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
     }
 </script>
 
