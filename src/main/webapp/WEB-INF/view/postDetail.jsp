@@ -252,7 +252,7 @@
                         <!-- ---------------Submit--------------- -->
                         <div class="d-flex mb-3 align-items-center">
                             <div class="form-group col-md-12 text-center">
-                                <button type="submit" class="col-md-3 btn btn-primary p-3" onclick="buyPost('${post.postID}')">BUY</button>
+                                <button type="submit" class="col-md-3 btn btn-primary p-3" onclick="buyPost('${chosenPost.postID}')">BUY</button>
                                 <!-- Submit -->
                             </div>
                         </div>
@@ -385,7 +385,7 @@
 <!-- ----------------Buy button---------------- -->
 <script>
     function buyPost(postID) {
-        window.location.href = 'buyPost?postID=' + postID;
+        window.location.href = 'buy?postID=' + postID;
     }
 </script>
 

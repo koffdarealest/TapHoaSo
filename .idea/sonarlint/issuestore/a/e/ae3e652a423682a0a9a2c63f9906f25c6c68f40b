@@ -1,0 +1,23 @@
+
+f	java:S117,"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ú£Áü
+g	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(‰û®‘şÿÿÿÿ
+>
+java:S5411K"(Use a primitive boolean expression here.(Ó‰ëÈ
+h
+java:S1989"SHandle the following exception that could be thrown by "sendRedirect": IOException.(ÄŒö
+w
+java:S1989"aHandle the following exceptions that could be thrown by "forward": ServletException, IOException.(˜ı¸£
+i
+java:S1989 "SHandle the following exception that could be thrown by "sendRedirect": IOException.(ÁêİĞ
+|
+java:S1989%"aHandle the following exceptions that could be thrown by "forward": ServletException, IOException.(‡òÅ‹úÿÿÿÿ
+@
+java:S1172)"+Remove this unused method parameter "resp".(£‡¡
+I
+java:S11724"4Remove these unused method parameters "req", "resp".(øÏÜu
+A
+java:S1172?"+Remove this unused method parameter "resp".(£‘üÓ
+J
+java:S1172I"4Remove these unused method parameters "req", "resp".(éª€è
+O
+java:S1172T"4Remove these unused method parameters "req", "resp".(ÿ¾úÿÿÿÿ

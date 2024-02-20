@@ -1,0 +1,10 @@
+
+\	java:S107""BConstructor has 16 parameters, which is greater than 7 authorized.(ξδήέψÿÿÿÿ
+]
+java:S1854¤"FRemove this useless assignment to local variable "totalSpendForBuyer".(±ΰεν
+]
+java:S1117¤"FRename "totalSpendForBuyer" which hides the field declared at line 27.(±ΰεν
+e
+java:S1854µ"IRemove this useless assignment to local variable "totalReceiveForSeller".(ώΣ‡ιωÿÿÿÿ
+e
+java:S1117µ"IRename "totalReceiveForSeller" which hides the field declared at line 28.(ώΣ‡ιωÿÿÿÿ

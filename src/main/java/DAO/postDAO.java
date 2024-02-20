@@ -152,6 +152,27 @@ public class postDAO {
         return ListPosts;
     }
 
+    public void buyPost(Post post, User user){
+        Transaction transaction = null;
+        try (Session session = Factory.getSessionFactory().openSession()){
+            transaction = session.beginTransaction();
+
+            post.setBuyerID(user);
+            post.setStatus("buyerChecking");
+            post.setUpdateable(false);
+            post.setCanBuyerComplain(true);
+
+            session.update(post);
+
+            transaction.commit();
+        } catch (Exception ex){
+            if(transaction == null){
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
 //         postDAO postDAO = new postDAO();
 //         List<Post> ls = postDAO.getAllPost();

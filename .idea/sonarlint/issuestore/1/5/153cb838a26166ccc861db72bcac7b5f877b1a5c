@@ -1,0 +1,27 @@
+
+~
+java:S1488@"cImmediately return this expression instead of assigning it to the temporary variable "accessToken".(ßêè‘ÿÿÿÿÿ
+}
+java:S1488H"bImmediately return this expression instead of assigning it to the temporary variable "googlePojo".(ë³½Õøÿÿÿÿ
+a	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(þ€ƒ
+œ
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(È€’Âûÿÿÿÿ
+—
+java:S1186N"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(‹¨¯¿
+„
+java:S1989"iHandle the following exceptions that could be thrown by "getToken": ClientProtocolException, IOException.(àŸ¢Ýøÿÿÿÿ
+‚
+java:S1989 "lHandle the following exceptions that could be thrown by "getUserInfo": ClientProtocolException, IOException.(«ã‘Ø
+Q	java:S125""<This block of commented-out lines of code should be removed.(ˆß®’
+=
+java:S1125("'Remove the unnecessary boolean literal.(¨ÆÃ°
+|
+java:S19890"aHandle the following exceptions that could be thrown by "forward": ServletException, IOException.(°°ÊŒýÿÿÿÿ
+ 
+java:S11303"‰Remove the declaration of thrown exception 'org.apache.http.client.ClientProtocolException' which is a subclass of 'java.io.IOException'.(ßžÌË
+c
+java:S5361@"HReplace this call to "replaceAll()" by a call to the "replace()" method.(ßêè‘ÿÿÿÿÿ
+¥
+java:S1130D"‰Remove the declaration of thrown exception 'org.apache.http.client.ClientProtocolException' which is a subclass of 'java.io.IOException'.(Œ¼š×ûÿÿÿÿ
+R
+java:S1128"=Remove this unused import 'jakarta.servlet.http.HttpSession'.(Çê°
