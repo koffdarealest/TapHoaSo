@@ -22,7 +22,7 @@ public class viewProfileController extends HttpServlet {
         userDAO userDAO = new userDAO();
         User user = userDAO.getUserByUsername(username);
         req.setAttribute("user", user);
-        req.getRequestDispatcher("/view/viewProfile.jsp").forward(req, resp);
+        req.getRequestDispatcher("WEB-INF/view/viewProfile.jsp").forward(req, resp);
     }
 
     private boolean checkSession(String username, HttpServletResponse resp) throws IOException {

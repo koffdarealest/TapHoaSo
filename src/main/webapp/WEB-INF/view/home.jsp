@@ -13,15 +13,15 @@
     <title>TapHoaSo</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="../assets/css/fontawesome.css">
-    <link rel="stylesheet" href="../assets/css/templatemo-lugx-gaming.css">
-    <link rel="stylesheet" href="../assets/css/owl.css">
-    <link rel="stylesheet" href="../assets/css/animate.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="../../assets/css/fontawesome.css">
+    <link rel="stylesheet" href="../../assets/css/templatemo-lugx-gaming.css">
+    <link rel="stylesheet" href="../../assets/css/owl.css">
+    <link rel="stylesheet" href="../../assets/css/animate.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/swiper-bundle.min.css"/>
 </head>
 
 <body>
@@ -47,13 +47,13 @@
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
                     <a href="index.html" class="logo">
-                        <img src="assets/images/logo.png" alt="" style="width: 158px;">
+
                     </a>
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="/viewProfile">Welcome! ${user.nickname}</a></li>
-                        <li><a STYLE="font-size: 25px" href="">Your Balance ${user.balance}VND</a></li>
+                        <li><a href="">Your Balance ${user.balance}VND</a></li>
                         <li><a STYLE="font-size: 15px" href="/signOut">Log out</a></li>
                     </ul>
 
@@ -92,7 +92,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-6">
-                <a href="#">
+                <a href="sell">
                     <div class="item">
                         <div class="image">
                             <img src="assets/images/sell.png" alt="" style="max-width: 44px;">
@@ -102,12 +102,12 @@
                 </a>
             </div>
             <div class="col-lg-3 col-md-6">
-                <a href="#">
+                <a href="market">
                     <div class="item">
                         <div class="image">
                             <img src="assets/images/post.png" alt="" style="max-width: 44px;">
                         </div>
-                        <h4>View Post Product</h4>
+                        <h4>View Public Market</h4>
                     </div>
                 </a>
             </div>
@@ -145,7 +145,7 @@
                     by: TapHoaSo © 2024.</p>
                 <p class="w-50"
                    style="font-weight: bold; font-size: 110%; margin-right: auto; margin-top: 10px;">Email
-                    Contact: taphoaso@gmail.com</p>
+                    Contact: taphoaso391@gmail.com</p>
             </div>
         </div>
     </div>
@@ -154,12 +154,12 @@
 
 <!-- Scripts -->
 <!-- Bootstrap core JavaScript -->
-<script src="../vendor/jquery/jquery.min.js"></script>
-<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="../assets/js/isotope.min.js"></script>
-<script src="../assets/js/owl-carousel.js"></script>
-<script src="../assets/js/counter.js"></script>
-<script src="../assets/js/custom.js"></script>
+<script src="../../vendor/jquery/jquery.min.js"></script>
+<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../assets/js/isotope.min.js"></script>
+<script src="../../assets/js/owl-carousel.js"></script>
+<script src="../../assets/js/counter.js"></script>
+<script src="../../assets/js/custom.js"></script>
 
 </body>
 </html>
