@@ -121,22 +121,6 @@ public class tokenDAO {
         }
     }
 
-    public void deleteToken(String token) {
-        Transaction transaction = null;
-        try (Session session = Factory.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-
-            session.delete(session.get(Token.class, token));
-
-            transaction.commit();
-        } catch (Exception ex) {
-            if (transaction == null) {
-                transaction.rollback();
-            }
-            ex.printStackTrace();
-        }
-    }
-
     public String generateToken() {
         return java.util.UUID.randomUUID().toString();
     }

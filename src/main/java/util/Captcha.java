@@ -61,9 +61,5 @@ public class Captcha {
         //verify captcha
 
     }
-    public void verifyCaptcha(String captcha) {
-        //verify captcha
-
-    }
 
 }
