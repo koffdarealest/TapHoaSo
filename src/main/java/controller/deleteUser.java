@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.User;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class deleteUser  extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         userDAO userDAO = new userDAO();
-
+        List<User> list = userDAO.getAllUser();
         String[] selectedUser = req.getParameterValues("selectedUser");
         List<String> usersID = new ArrayList<>();
 
@@ -30,6 +31,12 @@ public class deleteUser  extends HttpServlet {
 
         for(String id : usersID){
             userDAO.deleteUser(id);
+        }
+
+        for(User user : list){
+            if(usersID.equals(user.getUserID())){
+                user.setDelete(true);
+            }
         }
 
         resp.sendRedirect(req.getContextPath() + "/userManage");
