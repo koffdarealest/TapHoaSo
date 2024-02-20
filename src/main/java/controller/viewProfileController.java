@@ -10,8 +10,8 @@ import java.io.IOException;
 import DAO.userDAO;
 import model.User;
 
-@WebServlet(urlPatterns = {"/home"})
-public class homeController extends HttpServlet {
+@WebServlet(urlPatterns = {"/viewProfile"})
+public class viewProfileController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -22,12 +22,12 @@ public class homeController extends HttpServlet {
         userDAO userDAO = new userDAO();
         User user = userDAO.getUserByUsername(username);
         req.setAttribute("user", user);
-        req.getRequestDispatcher("/WEB-INF/view/home.jsp").forward(req, resp);
+        req.getRequestDispatcher("WEB-INF/view/viewProfile.jsp").forward(req, resp);
     }
 
     private boolean checkSession(String username, HttpServletResponse resp) throws IOException {
         if (username == null) {
-            resp.sendRedirect("signin");
+            resp.sendRedirect("/signin");
             return false;
         }
         return true;
