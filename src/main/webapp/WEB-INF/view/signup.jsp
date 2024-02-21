@@ -59,10 +59,6 @@
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li><a href="index.html">##</a></li>
-                        <li><a href="shop.html">###</a></li>
-                        <li><a href="product-details.html">####</a>
-                        </li>
                         <li><a href="contact.html">Contact Us</a>
                         </li>
                         <li><a href="signin">Sign In</a></li>
