@@ -100,20 +100,106 @@
             <table class="table table-bordered table-scroll" id="marketTable">
                 <thead class="sticky-header">
                 <tr>
-                    <th>Trading code</th>
-                    <th>Title</th>
-                    <th>Contact</th>
-                    <th>Price</th>
-                    <th>Fee payer</th>
-                    <th>Fee</th>
-                    <th>Total spend</th>
-                    <th>Seller</th>
-                    <th>Create time</th>
-                    <th>Last modify</th>
+                    <th data-column-index="0">Trading code</th>
+                    <th data-column-index="1">Title</th>
+                    <th data-column-index="2">Contact</th>
+                    <th data-column-index="3">Price</th>
+                    <th data-column-index="4">Fee payer</th>
+                    <th data-column-index="5">Fee</th>
+                    <th data-column-index="6">Total spend</th>
+                    <th data-column-index="7">Seller</th>
+                    <th data-column-index="8">Create time</th>
+                    <th data-column-index="9">Last modify</th>
                     <th colspan="2">Action</th>
                 </tr>
+
+                <tr>
+                    <!-- Trading code -->
+                    <th>
+                        <input type="text" placeholder="Trading code" class="form-control">
+                    </th>
+                    <!-- Title -->
+                    <th>
+                        <input type="text" placeholder="Title" class="form-control">
+                    </th>
+                    <!-- Contact -->
+                    <th>
+                        <input type="text" placeholder="Contact" class="form-control">
+                    </th>
+                    <!-- Price -->
+                    <th>
+                        <div class="row">
+                            <div class="col" style="padding-right: 0px;">
+                                <input placeholder="Từ" type="text" class="form-control" id="minPrice" >
+                            </div>
+                            <div class="col" style="padding-left: 1px;">
+                                <input placeholder="Đến" type="text" class="form-control" id="maxPrice" >
+                            </div>
+                        </div>
+                    </th>
+                    <!-- Fee payer -->
+                    <th>
+                        <select class="form-control" id="FeePayer">
+                            <option value="All">All</option>
+                            <option value="Seller">Seller</option>
+                            <option value="Buyer">Buyer</option>
+                            <option value="Half - Half">Half - Half</option>
+                        </select>
+                    </th>
+                    <!-- Fee -->
+                    <th>
+                        <div class="row">
+                            <div class="col" style="padding-right: 0px;">
+                                <input placeholder="Từ" type="text" class="form-control" id="minFee">
+                            </div>
+                            <div class="col" style="padding-left: 1px;">
+                                <input placeholder="Đến" type="text" class="form-control" id="maxFee">
+                            </div>
+                        </div>
+                    </th>
+                    <!-- Total spend -->
+                    <th>
+                        <div class="row">
+                            <div class="col" style="padding-right: 0px;">
+                                <input placeholder="Từ" type="text" class="form-control" id="minTotalSpend">
+                            </div>
+                            <div class="col" style="padding-left: 1px;">
+                                <input placeholder="Đến" type="text" class="form-control" id="maxTotalSpend">
+                            </div>
+                        </div>
+                    </th>
+                    <!-- Seller -->
+                    <th>
+                        <input type="text" placeholder="Seller" class="form-control">
+                    </th>
+                    <!-- Create time -->
+                    <th>
+                        <input type="text" placeholder="Create time" class="form-control" readonly>
+                    </th>
+                    <!-- Last modify -->
+                    <th>
+                        <input type="text" placeholder="Last modify" class="form-control" readonly>
+                    </th>
+                    <!-- Action -->
+                    <th style="max-width: 200px;">
+                        <div class="rt-th rthfc-th-fixed rthfc-th-fixed-right rthfc-th-fixed-right-first">
+                            <button type="button" data-toggle="tooltip" title="Bỏ lọc" class="mr-1 btn btn-outline-danger" id="clearFilterButton" style="width: 100%;">
+                                <i class="fa fa-remove"></i> Bỏ lọc
+                            </button>
+                        </div>
+                    </th>
+                    <th style="max-width: 200px;">
+                        <div class="rt-th rthfc-th-fixed rthfc-th-fixed-right rthfc-th-fixed-right-first">
+                            <button type="button" data-toggle="tooltip" title="Thu gọn" class="mr-1 btn btn-outline-primary" style="width: 100%;">
+                                Thu gọn >
+                            </button>
+                        </div>
+                    </th>
+                </tr>
                 </thead>
+
                 <tbody>
+
                 <c:forEach var="post" items="${lPosts}">
                     <tr>
                         <td>${post.tradingCode}</td>
@@ -245,7 +331,107 @@
 <script src="../../assets/js/counter.js"></script>
 <script src="../../assets/js/custom.js"></script>
 
+<script>
 
+    document.addEventListener('DOMContentLoaded', function() {
+        let inputFields = document.querySelectorAll('input.form-control');
+        inputFields.forEach(function(input) {
+            input.addEventListener('input', function() {
+                let searchText = this.value.toLowerCase();
+                let columnIndex = this.closest('th').cellIndex;
+
+                // Kiểm tra chỉ số của cột để xử lý tìm kiếm
+                if (columnIndex === 0 || columnIndex === 1 || columnIndex === 2 || columnIndex === 7) {
+                    let rows = document.querySelectorAll('tbody tr');
+
+                    rows.forEach(function(row) {
+                        let cell = row.cells[columnIndex];
+                        if (cell.textContent.toLowerCase().includes(searchText)) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        let inputFields = document.querySelectorAll('input.form-control');
+        inputFields.forEach(function(input) {
+            input.addEventListener('input', function() {
+                let searchText = this.value.toLowerCase();
+                let columnIndex = this.closest('th').cellIndex;
+
+                // Kiểm tra chỉ số của cột để xử lý tìm kiếm
+                if (columnIndex === 3 || columnIndex === 5 || columnIndex === 6) {
+                    let minPrice = parseFloat(document.getElementById('minPrice').value);
+                    let maxPrice = parseFloat(document.getElementById('maxPrice').value);
+                    let minFee = parseFloat(document.getElementById('minFee').value);
+                    let maxFee = parseFloat(document.getElementById('maxFee').value);
+                    let minTotalSpend = parseFloat(document.getElementById('minTotalSpend').value);
+                    let maxTotalSpend = parseFloat(document.getElementById('maxTotalSpend').value);
+
+                    let rows = document.querySelectorAll('tbody tr');
+
+                    rows.forEach(function(row) {
+                        let priceCell = row.cells[3];
+                        let feeCell = row.cells[5];
+                        let totalSpendCell = row.cells[6];
+
+                        let priceValue = parseFloat(priceCell.textContent.trim());
+                        let feeValue = parseFloat(feeCell.textContent.trim());
+                        let totalSpendValue = parseFloat(totalSpendCell.textContent.trim());
+
+                        if (((isNaN(minPrice) || priceValue >= minPrice) && (isNaN(maxPrice) || priceValue <= maxPrice)) &&
+                            ((isNaN(minFee) || feeValue >= minFee) && (isNaN(maxFee) || feeValue <= maxFee)) &&
+                            ((isNaN(minTotalSpend) || totalSpendValue >= minTotalSpend) && (isNaN(maxTotalSpend) || totalSpendValue <= maxTotalSpend))) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                }
+            });
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropdown = document.getElementById('FeePayer');
+
+        dropdown.addEventListener('change', function() {
+            const selectedValue = dropdown.value.toLowerCase().trim();
+            const rows = document.querySelectorAll('tbody tr');
+
+            rows.forEach(function(row) {
+                const cell = row.cells[4]; // Lấy cột FeePayer
+                const cellValue = cell.textContent.toLowerCase().trim();
+
+                if (selectedValue === 'all' || cellValue === selectedValue) {
+                    row.style.display = ''; // Hiển thị hàng nếu giá trị được chọn là 'all' hoặc giá trị cột tương ứng trùng khớp
+                } else {
+                    row.style.display = 'none'; // Ẩn hàng nếu không trùng khớp
+                }
+            });
+        });
+    });
+
+
+    document.getElementById('clearFilterButton').addEventListener('click', function() {
+        let inputFields = document.querySelectorAll('input.form-control');
+        inputFields.forEach(function(input) {
+            input.value = ''; // Thiết lập giá trị của input thành rỗng
+        });
+
+        // Hiển thị lại tất cả các hàng trong bảng
+        let rows = document.querySelectorAll('tbody tr');
+        rows.forEach(function(row) {
+            row.style.display = '';
+        });
+    });
+
+</script>
 </body>
 
 </html>
