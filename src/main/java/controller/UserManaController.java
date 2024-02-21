@@ -31,6 +31,12 @@ public class UserManaController extends HttpServlet {
         List<User> users = userDAO.getAllUser();
         System.out.println(users.stream().count());
 
+        List<User> userNotDeleted = new ArrayList<>();
+        for (User user : users) {
+            if (!user.getDelete()) {
+                userNotDeleted.add(user);
+            }
+        }
         req.setAttribute("users", users);
         try {
             req.getRequestDispatcher("/view/ManageUser.jsp").forward(req, resp);
@@ -39,19 +45,5 @@ public class UserManaController extends HttpServlet {
         }
     }
 
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        userDAO userDAO = new userDAO();
 
-        String[] selectedUser = req.getParameterValues("selectedUser");
-        List<String> usersID = new ArrayList<>();
-
-        usersID.addAll(Arrays.asList(selectedUser));
-
-        for(String id : usersID){
-            userDAO.deleteUser(id);
-        }
-
-        req.getRequestDispatcher("/userManage").forward(req, resp);
-    }
 }

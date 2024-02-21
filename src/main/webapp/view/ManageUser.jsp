@@ -224,6 +224,7 @@
                 <div class="card shadow mb-4">
                     <div class="card-body">
                         <div class="table-responsive">
+                            <form action="deleteUser" method="get">
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                 <thead>
                                 <tr>
@@ -237,25 +238,31 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <c:forEach items="${users}" var="u">
-                                    <tr>
-                                        <td><input value="${u.userID}" name="selectedUser" type="checkbox"></td>
-                                        <td>${u.nickname}</td>
-                                        <td>${u.username}</td>
-                                        <td>${u.email}</td>
-                                        <td>${u.createdAt}</td>
-                                        <td>
-                                            <button style="border-radius: 2px; background-color: ${u.isOnline() ? 'rgb(82, 196, 82)' : 'rgb(255, 0, 0)'};">
-                                                    ${u.isOnline() ? "Online" : "Offline"}
-                                            </button>
-                                        </td>
-                                        <td><a href="#">Edit</a></td>
-                                    </tr>
-                                </c:forEach>
-                                </tbody>
-                            </table>
-                            <button class="btn btn-danger" href="/deleteUser" formmethod="post">Delete Selected</button>
+                                    <c:forEach items="${users}" var="u">
+                                        <tr>
+                                            <td>
+                                                <label>
+                                                    <input value="${u.getUserID()}" name="selectedUser" type="checkbox">
+                                                </label>
+                                            </td>
+                                            <td>${u.nickname}</td>
+                                            <td>${u.username}</td>
+                                            <td>${u.email}</td>
+                                            <td>${u.createdAt}</td>
+                                            <td>
+                                                <button style="border-radius: 2px; background-color: ${u.isOnline() ? 'rgb(82, 196, 82)' : 'rgb(255, 0, 0)'};">
+                                                        ${u.isOnline() ? "Online" : "Offline"}
+                                                </button>
+                                            </td>
+                                            <td><a href="#">Edit</a></td>
+                                        </tr>
+                                    </c:forEach>
+                                    </tbody>
+                                </table>
+                                <button class="btn btn-danger">Delete Selected</button>
+                            </form>
                         </div>
+
                     </div>
                 </div>
 
