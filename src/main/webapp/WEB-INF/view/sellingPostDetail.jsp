@@ -61,13 +61,13 @@
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li><a href="index.html">##</a></li>
-                        <li><a href="shop.html">###</a></li>
-                        <li><a href="product-details.html">####</a>
+                        <li><a href="home">Home</a></li>
+                        <li><a href="market">Public market</a></li>
+                        <li><a href="sellingPost">Selling posts</a>
                         </li>
-                        <li><a href="contact.html">Contact Us</a>
+                        <li><a href="">Contact Us</a>
                         </li>
-                        <li><a href="#">Sign In</a></li>
+                        <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
                         <span>Menu</span>
@@ -101,7 +101,7 @@
                         <th>Title</th>
                         <th>Fee</th>
                         <th>Total spend</th>
-                        <th>Seller</th>
+                        <th>Status</th>
                         <th colspan="2">Action</th>
                     </tr>
                     </thead>
@@ -111,7 +111,7 @@
                             <td>${post.topic}</td>
                             <td>${post.fee}</td>
                             <td>${post.totalSpendForBuyer}</td>
-                            <td>${post.sellerID.nickname}</td>
+                            <td>${post.status}</td>
                             <td><button class="custom-button btn btn-lg" onclick="viewPostDetailUpdate('${post.postID}')" style="font-size: small">
                                 <i class="fas fa-info-circle"></i> Detail</button></td>
                             <td><button class="custom-button btn btn-lg" onclick="openConfirmationPopup(${post.postID})" style="font-size: small; background: #d21300">

@@ -8,10 +8,12 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.User;
 import util.Encryption;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -31,7 +33,6 @@ public class signinController extends HttpServlet {
         //-----------------verify captcha-----------------
         if (!isTrueCaptcha(req, resp)) {
             req.setAttribute("error", "Captcha is not correct! Try again!");
-//            req.getRequestDispatcher("/signin").forward(req, resp);
             doGet(req, resp);
             return;
         }
@@ -40,7 +41,7 @@ public class signinController extends HttpServlet {
             //-----------------check admin-----------------
             if (checkIsAdmin(req, resp)) {
                 req.getSession().setAttribute("username", getParameters.get("username"));
-                resp.sendRedirect(req.getContextPath() + "/admin");
+                resp.sendRedirect(req.getContextPath() + "/userManage");
                 //-----------------check deleted user-----------------
             } else if (checkIsDeletedUser(req, resp)) {
                 req.setAttribute("notification", "Your account is banned or deleted! Please contact admin to get more information!");
@@ -61,6 +62,7 @@ public class signinController extends HttpServlet {
             req.getRequestDispatcher("/WEB-INF/view/signin.jsp").forward(req, resp);
         }
     }
+
 
     private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         HashMap<String, String> map = getParameter(req, resp);
@@ -128,6 +130,7 @@ public class signinController extends HttpServlet {
         String username = map.get("username");
         String password = map.get("password");
         userDAO userDAO = new userDAO();
+        List<User> users = userDAO.getAllUser();
         Encryption encryption = new Encryption();
         byte[] key = userDAO.getSecretKeyByUsername(username);
         String encryptedPassword = "";
@@ -137,6 +140,12 @@ public class signinController extends HttpServlet {
             throw new RuntimeException(e);
         }
         try {
+            for(User user : users) {
+                if (user.getUsername().equals(username)) {
+                    user.setOnline(true);
+                    break;
+                }
+            }
             Cookie usernameCookie = new Cookie("userC", username);
             Cookie passwordCookie = new Cookie("pwdC", encryptedPassword);
             usernameCookie.setMaxAge(60 * 60 * 24);

@@ -41,11 +41,13 @@
 
                     </a>
                     <ul class="nav">
-                        <li><a href="/home">Home</a></li>
-                        <li><a href="shop.html">###</a></li>
-                        <li><a href="product-details.html">####</a></li>
-                        <li><a href="contact.html">Contact Us</a></li>
-                        <li><a href="/signOut">Log Out</a></li>
+                        <li><a href="home">Home</a></li>
+                        <li><a href="market">Public market</a></li>
+                        <li><a href="sellingPost">Selling posts</a>
+                        </li>
+                        <li><a href="">Contact Us</a>
+                        </li>
+                        <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
                         <span>Menu</span>

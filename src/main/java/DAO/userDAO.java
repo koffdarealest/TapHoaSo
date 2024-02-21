@@ -91,7 +91,6 @@ public class userDAO {
             transaction = session.beginTransaction();
 
             session.update(userUpdate);
-
             transaction.commit();
         } catch (Exception ex){
             if(transaction == null){

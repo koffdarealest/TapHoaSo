@@ -60,6 +60,11 @@ public class updatePostController extends HttpServlet {
             req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
             return;
         }
+        if (!isUpdateable(req, resp, post)) {
+            req.setAttribute("notification", "This post is not updateable! <a href=sellingPost>Go back here</a>");
+            req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+            return;
+        }
         updatePost(req, resp, params, postID);
         req.setAttribute("notification", "Update post successfully! <a href=sellingPost>Go back here</a>");
         req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
@@ -175,6 +180,17 @@ public class updatePostController extends HttpServlet {
     private boolean isDeletedPost(HttpServletRequest req, HttpServletResponse resp, Post post) {
         try {
             if (post.getDelete()) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private boolean isUpdateable(HttpServletRequest req, HttpServletResponse resp, Post post) {
+        try {
+            if (post.getUpdateable()) {
                 return true;
             }
         } catch (Exception e) {
