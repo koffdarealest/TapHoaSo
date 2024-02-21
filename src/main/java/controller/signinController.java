@@ -30,15 +30,9 @@ public class signinController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //-----------------get parameter-----------------
         Map<String, String> getParameters = getParameter(req, resp);
-        if(!checkAdminAccount(getParameters)){
-            req.setAttribute("error", "Wrong username or password");
-            doGet(req, resp);
-            return;
-        }
         //-----------------verify captcha-----------------
         if (!isTrueCaptcha(req, resp)) {
             req.setAttribute("error", "Captcha is not correct! Try again!");
-//            req.getRequestDispatcher("/signin").forward(req, resp);
             doGet(req, resp);
             return;
         }
@@ -47,7 +41,7 @@ public class signinController extends HttpServlet {
             //-----------------check admin-----------------
             if (checkIsAdmin(req, resp)) {
                 req.getSession().setAttribute("username", getParameters.get("username"));
-                resp.sendRedirect(req.getContextPath() + "/admin");
+                resp.sendRedirect(req.getContextPath() + "/userManage");
                 //-----------------check deleted user-----------------
             } else if (checkIsDeletedUser(req, resp)) {
                 req.setAttribute("notification", "Your account is banned or deleted! Please contact admin to get more information!");
@@ -67,15 +61,6 @@ public class signinController extends HttpServlet {
             req.setAttribute("error", "Wrong username or password");
             req.getRequestDispatcher("/WEB-INF/view/signin.jsp").forward(req, resp);
         }
-    }
-
-    private boolean checkAdminAccount(Map<String, String> getParameters) {
-        if (getParameters.get("username") != null && getParameters.get("username").equals("admin")) {
-            if (getParameters.get("password") != null && getParameters.get("password").equals("admin123")) {
-                return true;
-            }
-        }
-        return false;
     }
 
 

@@ -29,7 +29,6 @@ public class UserManaController extends HttpServlet {
 
     private void getAllUser(HttpServletRequest req, HttpServletResponse resp, userDAO userDAO) {
         List<User> users = userDAO.getAllUser();
-        System.out.println(users.stream().count());
 
         List<User> userNotDeleted = new ArrayList<>();
         for (User user : users) {
@@ -39,7 +38,7 @@ public class UserManaController extends HttpServlet {
         }
         req.setAttribute("users", users);
         try {
-            req.getRequestDispatcher("/view/ManageUser.jsp").forward(req, resp);
+            req.getRequestDispatcher("WEB-INF/view/ManageUser.jsp").forward(req, resp);
         } catch (Exception e) {
             e.printStackTrace();
         }

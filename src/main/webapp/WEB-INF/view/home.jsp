@@ -95,7 +95,7 @@
                 <a href="sell">
                     <div class="item">
                         <div class="image">
-                            <img src="assets/images/sell.png" alt="" style="max-width: 44px;">
+                            <img src="../../assets/images/sell.png" alt="" style="max-width: 44px;">
                         </div>
                         <h4>Sell Product</h4>
                     </div>
@@ -105,7 +105,7 @@
                 <a href="market">
                     <div class="item">
                         <div class="image">
-                            <img src="assets/images/post.png" alt="" style="max-width: 44px;">
+                            <img src="../../assets/images/post.png" alt="" style="max-width: 44px;">
                         </div>
                         <h4>View Public Market</h4>
                     </div>
@@ -115,7 +115,7 @@
                 <a href="#">
                     <div class="item">
                         <div class="image">
-                            <img src="assets/images/dolla.png" alt="" style="max-width: 44px;">
+                            <img src="../../assets/images/dolla.png" alt="" style="max-width: 44px;">
                         </div>
                         <h4>View Balance</h4>
                     </div>
@@ -125,7 +125,7 @@
                 <a href="/viewProfile">
                     <div class="item">
                         <div class="image">
-                            <img src="assets/images/user.png" alt="" style="max-width: 44px;">
+                            <img src="../../assets/images/user.png" alt="" style="max-width: 44px;">
                         </div>
                         <h4>Account Profile</h4>
                     </div>
