@@ -71,7 +71,7 @@
     background: rgb(255, 255, 255);
     border: 5px solid #98b5f5;
     border-radius: 5px;
-    height: 600px;
+    height: 850px;
     overflow: auto;
 }
 
@@ -100,6 +100,53 @@
     background-color: #98b5f5; /* Màu nền của phần tiêu đề */
 }
 
+td {
+    text-align: left;
+    font-size: smaller;
+}
+
+.custom-button {
+    background-color: #4CAF50; /* Màu xanh */
+    border: none;
+    color: white;
+    /*padding: 10px 20px;*/
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: small;
+    cursor: pointer;
+    border-radius: 5px;
+    transition-duration: 0.4s;
+}
+
+.custom-button:hover {
+    background-color: #45a049; /* Màu xanh nhạt khi hover */
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+
+    text-align: center;
+}
+
+th {
+    position: relative;
+}
+
+.dragHandle {
+    background-color: #ffffff;
+    cursor: col-resize;
+    height: 100%;
+    position: absolute;
+    width: 3px; /* Kích thước của handle */
+    top: 0;
+    right: -2px;
+    z-index: 999;
+}
 /* Sell product CSS */
 /* ---------------- */
 .sell-wrap {
@@ -125,4 +172,83 @@
     text-align: end;
 }
 
+/* Detail CSS */
+/* ----------- */
+
+.detail-market-wrap {
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 10px 100px -15px;
+    background: rgb(255, 255, 255);
+    border: 6px solid #98b5f5;
+    border-radius: 5px;
+    height: 730px;
+    overflow: auto;
+}
+
+.detail-post-wrap {
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 10px 30px -15px;
+    background: rgb(255, 255, 255);
+    border-radius: 18px;
+}
+
+/* Detail Selling CSS */
+/* ----------- */
+
+.detail-selling-market-wrap {
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 10px 100px -15px;
+    background: rgb(255, 255, 255);
+    border: 6px solid #98b5f5;
+    border-radius: 5px;
+    height: 600px;
+    overflow: auto;
+}
+
+.sticky-table {
+    position: sticky; /* Hiển thị phần tiêu đề bảng cố định */
+    top: 130px; /* Đặt vị trí cố định ở đầu trang */
+    z-index: 1; /* Đặt chỉ số z cao hơn để hiển thị phần tiêu đề trên cùng */
+}
+
+/* Pop-up confirm CSS */
+/* ------------------- */
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    z-index: 9999;
+}
+
+.popup-content {
+    color: black;
+}
+
+.popup button {
+    margin: 5px 25px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 7px;
+}
 

@@ -30,7 +30,7 @@ public class tokenDAO {
         }
     }
 
-    public static void saveForgotToken(User user, String tokenValue) {
+    public void saveForgotToken(User user, String tokenValue) {
         try {
             SessionFactory sessionFactory = Factory.getSessionFactory();
             if (sessionFactory != null) {
@@ -55,7 +55,7 @@ public class tokenDAO {
         }
     }
 
-    public static void saveSignUpToken(User user, String tokenValue) {
+    public void saveSignUpToken(User user, String tokenValue) {
         try {
             SessionFactory sessionFactory = Factory.getSessionFactory();
             if (sessionFactory != null) {
@@ -80,7 +80,7 @@ public class tokenDAO {
         }
     }
 
-    public static void saveWithdrawToken(User user, String tokenValue) {
+    public void saveWithdrawToken(User user, String tokenValue) {
         try {
             SessionFactory sessionFactory = Factory.getSessionFactory();
             if (sessionFactory != null) {
@@ -105,7 +105,7 @@ public class tokenDAO {
         }
     }
 
-    public static void deleteToken(String token) {
+    public void deleteToken(String token) {
         Transaction transaction = null;
         try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -121,7 +121,7 @@ public class tokenDAO {
         }
     }
 
-    public static String generateToken() {
+    public String generateToken() {
         return java.util.UUID.randomUUID().toString();
     }
 /*    public static String encodeToken(String token) {
@@ -132,10 +132,10 @@ public class tokenDAO {
         }
         return encodedToken.toString();
     }*/
-    public static String decodeToken(String encodedToken) throws Exception {
+    public String decodeToken(String encodedToken) throws Exception {
         return URLDecoder.decode(encodedToken, "UTF-8");
     }
-    public static String encodeToken(String token) {
+    public String encodeToken(String token) {
         return Base64.getEncoder().encodeToString(token.getBytes(StandardCharsets.UTF_8));
     }
 

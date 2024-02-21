@@ -16,18 +16,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet">
 
-    <title>Fotgot Password</title>
+    <title>Sign in</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="../assets/css/fontawesome.css">
-    <link rel="stylesheet" href="../assets/css/templatemo-lugx-gaming.css">
-    <link rel="stylesheet" href="../assets/css/owl.css">
-    <link rel="stylesheet" href="../assets/css/animate.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="../../assets/css/fontawesome.css">
+    <link rel="stylesheet" href="../../assets/css/templatemo-lugx-gaming.css">
+    <link rel="stylesheet" href="../../assets/css/owl.css">
+    <link rel="stylesheet" href="../../assets/css/animate.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/swiper-bundle.min.css"/>
+
+
 </head>
 
 
@@ -91,15 +93,21 @@
     <div class="login-wrap p-4 p-md-5 col-lg-4">
         <div class="col-lg-10 mx-auto">
             <div class="card-header text-center p-3 mb-4">
-                <h2 class="m-0">FORGOT PASSWORD</h2>
+                <h2 class="m-0">SIGN IN</h2>
             </div>
-            <form action="forgot" method="post" id="form">
-                <!-- ---------------input email---------------- -->
+            <form action="signin" method="post" id="form">
+                <!-- -----------------input field---------------- -->
                 <div class="form-group mb-3">
-                    <label class="label">Email</label>
-                    <input type="email" class="form-control" placeholder="Email" required name="email">
+                    <label class="label">Username</label>
+                    <input type="text" class="form-control" placeholder="Username" required name="username"
+                           value="${username}">
                 </div>
-                <!-- ---------------captcha---------------- -->
+                <div class="form-group mb-3">
+                    <label class="label">Password</label>
+                    <input type="password" class="form-control" placeholder="Password" required name="password"
+                           value="${password}">
+                </div>
+                <!-- -----------------captcha field---------------- -->
                 <div class="form-group mb-3">
                     <label class="label">Captcha</label>
                     <div class="d-flex align-content-center">
@@ -113,26 +121,39 @@
                         <input type="text" class="form-control" name="captcha" required placeholder="Enter Captcha"/>
                     </div>
                 </div>
-                <!-- ---------------message---------------- -->
+                <!-- -----------------error field---------------- -->
+                <div class="text-danger mb-2" id="error"></div>
                 <h6 class="text-danger mb-2">${error}</h6>
-                <h6 class="text-success mb-2">${mess}</h6>
-                <!-- ---------------submit button---------------- -->
+                <!-- -----------------sign in button---------------- -->
                 <div class="form-group mb-3 text-center">
-                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Send to email</button>
+                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg">SIGN IN</button>
+                </div>
+                <!-- -----------------remember me and forgot---------------- -->
+                <div class="form-group d-md-flex mb-3">
+                    <div class="w-50 text-left">
+                        <label class="form-check text-muted">Remember Me <input class="form-check-input" type="checkbox" name="remember"><span
+                                class="checkmark"></span></label>
+                    </div>
+                    <div class="w-50 text-muted" style="text-align: end;">
+                        <a href="forgot">Forgot Password</a>
+                    </div>
                 </div>
             </form>
-            <p class="text-center" style="font-size: 15px;">Still remember? <a data-toggle="tab" href="signin">Sign
-                In Here</a></p>
+            <p class="text-center" style="font-size: 15px;">Not a member? <a data-toggle="tab" href="signup">Sign
+                Up Here</a></p>
         </div>
     </div>
 </div>
+
 
 <footer>
     <div class="container">
         <div class="row justify-content-center">
             <div class="d-md-flex col-lg-12 align-self-center">
-                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-left: auto; margin-top: 10px;">Powered by: TapHoaSo © 2024.</p>
-                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-right: auto; margin-top: 10px;">Email Contact: taphoaso@gmail.com</p>
+                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-left: auto; margin-top: 10px;">Powered
+                    by: TapHoaSo © 2024.</p>
+                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-right: auto; margin-top: 10px;">Email
+                    Contact: taphoaso391@gmail.com</p>
             </div>
         </div>
     </div>
@@ -145,31 +166,32 @@
         var captchaImage = document.getElementById('captchaImage');
         captchaImage.src = 'generateCaptcha?' + timestamp;
     }
+
     function resetCaptcha(event) {
         event.preventDefault(); // Ngăn chặn hành vi mặc định của button (submit form)
         reloadCaptcha(); // Gọi hàm tạo mới captcha ở đây
     }
-    document.addEventListener("DOMContentLoaded", function() {
+
+    document.addEventListener("DOMContentLoaded", function () {
         var form = document.getElementById("form");
         var sendButton = document.querySelector("#form [type=submit]");
 
-        form.addEventListener("keypress", function(event) {
+        form.addEventListener("keypress", function (event) {
             if (event.key === "Enter") {
                 event.preventDefault();
                 sendButton.click();
             }
         });
     });
-
 </script>
 <!-- Bootstrap core JavaScript -->
+<script src="../../vendor/jquery/jquery.min.js"></script>
+<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../assets/js/isotope.min.js"></script>
+<script src="../../assets/js/owl-carousel.js"></script>
+<script src="../../assets/js/counter.js"></script>
+<script src="../../assets/js/custom.js"></script>
 
-<script src="../vendor/jquery/jquery.min.js"></script>
-<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="../assets/js/isotope.min.js"></script>
-<script src="../assets/js/owl-carousel.js"></script>
-<script src="../assets/js/counter.js"></script>
-<script src="../assets/js/custom.js"></script>
 
 </body>
 

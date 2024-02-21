@@ -221,12 +221,34 @@ public class userDAO {
         }
         return user;
     }
+
+    public void updateBalance(User user, Long balance) {
+        Transaction transaction = null;
+        try (Session session = Factory.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            user.setBalance(balance);
+            session.update(user);
+
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction == null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         userDAO userDAO = new userDAO();
-        String userName = "phuclygoodboiz";
-        User user = userDAO.getUserByUsername(userName);
-        System.out.println(user.getBalance());
+        //String token = "c375624c-ee2d-4b85-8e95-8627144f509b";
+        //User user = userDAO.getUserByToken(token);
+        List<User> lUsers = userDAO.getAllUser();
+        System.out.println(lUsers);
+
+
     }
+
 
 
 

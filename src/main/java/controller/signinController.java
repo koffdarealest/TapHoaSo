@@ -43,10 +43,13 @@ public class signinController extends HttpServlet {
                 resp.sendRedirect(req.getContextPath() + "/admin");
                 //-----------------check deleted user-----------------
             } else if (checkIsDeletedUser(req, resp)) {
-                resp.sendRedirect(req.getContextPath() + "/deletedUser");
+                req.setAttribute("notification", "Your account is banned or deleted! Please contact admin to get more information!");
+                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
                 //-----------------check active user-----------------
             } else if (!IsActivated(req, resp)) {
-                resp.sendRedirect(req.getContextPath() + "/notActivated");
+                req.getSession().setAttribute("username", getParameters.get("username"));
+                req.setAttribute("notification", "Your account is not activated! <a href=" + "resendVerifyEmail" +">Click here</a> to send a new verify email!");
+                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
             } else if (isRemember(req, resp)) {
                 setCookie(req, resp);
                 login(req, resp);
@@ -55,22 +58,23 @@ public class signinController extends HttpServlet {
             }
         } else {
             req.setAttribute("error", "Wrong username or password");
-            req.getRequestDispatcher("/view/signin.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/signin.jsp").forward(req, resp);
         }
     }
 
     private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         HashMap<String, String> map = getParameter(req, resp);
-        String enteredCaptcha = map.get("captcha");
-        String captcha = (String) req.getSession().getAttribute("captcha");
-        if (!enteredCaptcha.equals(captcha)) {
-            try {
-                return false;
-            } catch (Exception e) {
-                e.printStackTrace();
+        try {
+            String enteredCaptcha = map.get("captcha");
+            String captcha = (String) req.getSession().getAttribute("captcha");
+            if (enteredCaptcha.equals(captcha)) {
+                return true;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
-        return true;
+        return false;
     }
 
     private HashMap<String, String> getParameter(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -182,7 +186,7 @@ public class signinController extends HttpServlet {
         String password = getPasswordCookieValue(req, resp);
 
         if (username.equals("") || password.equals("")) {
-            req.getRequestDispatcher("/view/signin.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/signin.jsp").forward(req, resp);
         } else {
             try {
                 userDAO userDAO = new userDAO();
@@ -194,7 +198,7 @@ public class signinController extends HttpServlet {
                 throw new RuntimeException(e);
             }
             req.setAttribute("username", username);
-            req.getRequestDispatcher("/view/signin.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/signin.jsp").forward(req, resp);
         }
     }
 
@@ -217,6 +221,7 @@ public class signinController extends HttpServlet {
         }
         return false;
     }
+
 
 
 }

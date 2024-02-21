@@ -22,12 +22,12 @@ public class homeController extends HttpServlet {
         userDAO userDAO = new userDAO();
         User user = userDAO.getUserByUsername(username);
         req.setAttribute("user", user);
-        req.getRequestDispatcher("/view/home.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/view/home.jsp").forward(req, resp);
     }
 
     private boolean checkSession(String username, HttpServletResponse resp) throws IOException {
         if (username == null) {
-            resp.sendRedirect("login.jsp");
+            resp.sendRedirect("signin");
             return false;
         }
         return true;

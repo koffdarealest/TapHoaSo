@@ -20,7 +20,7 @@ public class editProfileController extends HttpServlet {
         userDAO userDAO = new userDAO();
         User user = userDAO.getUserByUsername(username);
         request.setAttribute("user", user);
-        request.getRequestDispatcher("/view/editProfile.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/view/editProfile.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

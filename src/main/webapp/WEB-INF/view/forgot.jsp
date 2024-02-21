@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: Tung
   Date: 1/20/2024
-  Time: 10:50 PM
+  Time: 3:02 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -16,19 +16,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet">
 
-    <title>Sign up</title>
+    <title>Fotgot Password</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="../assets/css/fontawesome.css">
-    <link rel="stylesheet" href="../assets/css/templatemo-lugx-gaming.css">
-    <link rel="stylesheet" href="../assets/css/owl.css">
-    <link rel="stylesheet" href="../assets/css/animate.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="../../assets/css/fontawesome.css">
+    <link rel="stylesheet" href="../../assets/css/templatemo-lugx-gaming.css">
+    <link rel="stylesheet" href="../../assets/css/owl.css">
+    <link rel="stylesheet" href="../../assets/css/animate.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/swiper-bundle.min.css"/>
 </head>
+
 
 <body onload="reloadCaptcha()">
 
@@ -53,8 +54,7 @@
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
                     <a href="index.html" class="logo">
-                        <img src="" alt=""
-                             style="width: 158px;">
+                        <img src="" alt="" style="width: 158px;">
                     </a>
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
@@ -65,7 +65,7 @@
                         </li>
                         <li><a href="contact.html">Contact Us</a>
                         </li>
-                        <li><a href="signin">Sign In</a></li>
+                        <li><a href="#">Sign In</a></li>
                     </ul>
                     <a class='menu-trigger'>
                         <span>Menu</span>
@@ -91,34 +91,13 @@
     <div class="login-wrap p-4 p-md-5 col-lg-4">
         <div class="col-lg-10 mx-auto">
             <div class="card-header text-center p-3 mb-4">
-                <h2 class="m-0">SIGN UP</h2>
+                <h2 class="m-0">FORGOT PASSWORD</h2>
             </div>
-            <form action="signup" method="post" name="signup" id="form">
-                <!-- ---------------input---------------- -->
+            <form action="forgot" method="post" id="form">
+                <!-- ---------------input email---------------- -->
                 <div class="form-group mb-3">
-                    <label class="label" >Fullname</label>
-                    <input type="text" class="form-control" placeholder="Fullname"
-                           required name="fullname">
-                </div>
-                <div class="form-group mb-3">
-                    <label class="label" >Email</label>
-                    <input type="email" class="form-control" placeholder="Email"
-                           required name="email">
-                </div>
-                <div class="form-group mb-3">
-                    <label class="label" >Username</label>
-                    <input type="text" class="form-control" placeholder="Username"
-                           required name="username">
-                </div>
-                <div class="form-group mb-4">
-                    <label class="label" >Password</label>
-                    <input type="password" class="form-control" placeholder="Password"
-                           required name="password">
-                </div>
-                <div class="form-group mb-4">
-                    <label class="label">Re-Password</label>
-                    <input type="password" class="form-control" placeholder="Re-password"
-                           required name="re-password">
+                    <label class="label">Email</label>
+                    <input type="email" class="form-control" placeholder="Email" required name="email">
                 </div>
                 <!-- ---------------captcha---------------- -->
                 <div class="form-group mb-3">
@@ -134,15 +113,16 @@
                         <input type="text" class="form-control" name="captcha" required placeholder="Enter Captcha"/>
                     </div>
                 </div>
-                <!-- ---------------error---------------- -->
+                <!-- ---------------message---------------- -->
                 <h6 class="text-danger mb-2">${error}</h6>
-                <!-- ---------------button---------------- -->
+                <h6 class="text-success mb-2">${mess}</h6>
+                <!-- ---------------submit button---------------- -->
                 <div class="form-group mb-3 text-center">
-                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg">SIGN UP</button>
+                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Send to email</button>
                 </div>
             </form>
-            <p class="text-center" style="font-size: 15px;">Already have an account?  <a data-toggle="tab"
-                                                                                         href="signin">Back to Sign In</a></p>
+            <p class="text-center" style="font-size: 15px;">Still remember? <a data-toggle="tab" href="signin">Sign
+                In Here</a></p>
         </div>
     </div>
 </div>
@@ -152,7 +132,7 @@
         <div class="row justify-content-center">
             <div class="d-md-flex col-lg-12 align-self-center">
                 <p class="w-50" style="font-weight: bold; font-size: 110%; margin-left: auto; margin-top: 10px;">Powered by: TapHoaSo © 2024.</p>
-                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-right: auto; margin-top: 10px;">Email Contact: taphoaso@gmail.com</p>
+                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-right: auto; margin-top: 10px;">Email Contact: taphoaso391@gmail.com</p>
             </div>
         </div>
     </div>
@@ -165,14 +145,10 @@
         var captchaImage = document.getElementById('captchaImage');
         captchaImage.src = 'generateCaptcha?' + timestamp;
     }
-</script>
-
-<script>
     function resetCaptcha(event) {
         event.preventDefault(); // Ngăn chặn hành vi mặc định của button (submit form)
         reloadCaptcha(); // Gọi hàm tạo mới captcha ở đây
     }
-
     document.addEventListener("DOMContentLoaded", function() {
         var form = document.getElementById("form");
         var sendButton = document.querySelector("#form [type=submit]");
@@ -184,15 +160,16 @@
             }
         });
     });
+
 </script>
 <!-- Bootstrap core JavaScript -->
-<script src="../vendor/jquery/jquery.min.js"></script>
-<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="../assets/js/isotope.min.js"></script>
-<script src="../assets/js/owl-carousel.js"></script>
-<script src="../assets/js/counter.js"></script>
-<script src="../assets/js/custom.js"></script>
 
+<script src="../../vendor/jquery/jquery.min.js"></script>
+<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../assets/js/isotope.min.js"></script>
+<script src="../../assets/js/owl-carousel.js"></script>
+<script src="../../assets/js/counter.js"></script>
+<script src="../../assets/js/custom.js"></script>
 
 </body>
 
