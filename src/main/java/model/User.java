@@ -1,12 +1,12 @@
 package model;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import org.hibernate.annotations.GenericGenerator;
 import DAO.userDAO;
 import util.Encryption;
 
 import java.util.UUID;
-
 @Entity
 public class User extends BaseAuditable{
     @Id

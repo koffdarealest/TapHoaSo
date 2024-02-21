@@ -30,15 +30,9 @@ public class signinController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //-----------------get parameter-----------------
         Map<String, String> getParameters = getParameter(req, resp);
-        if(!checkAdminAccount(getParameters)){
-            req.setAttribute("error", "Wrong username or password");
-            doGet(req, resp);
-            return;
-        }
         //-----------------verify captcha-----------------
         if (!isTrueCaptcha(req, resp)) {
             req.setAttribute("error", "Captcha is not correct! Try again!");
-//            req.getRequestDispatcher("/signin").forward(req, resp);
             doGet(req, resp);
             return;
         }
@@ -47,13 +41,16 @@ public class signinController extends HttpServlet {
             //-----------------check admin-----------------
             if (checkIsAdmin(req, resp)) {
                 req.getSession().setAttribute("username", getParameters.get("username"));
-                resp.sendRedirect(req.getContextPath() + "/admin");
+                resp.sendRedirect(req.getContextPath() + "/userManage");
                 //-----------------check deleted user-----------------
             } else if (checkIsDeletedUser(req, resp)) {
-                resp.sendRedirect(req.getContextPath() + "/deletedUser");
+                req.setAttribute("notification", "Your account is banned or deleted! Please contact admin to get more information!");
+                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
                 //-----------------check active user-----------------
             } else if (!IsActivated(req, resp)) {
-                resp.sendRedirect(req.getContextPath() + "/notActivated");
+                req.getSession().setAttribute("username", getParameters.get("username"));
+                req.setAttribute("notification", "Your account is not activated! <a href=" + "resendVerifyEmail" +">Click here</a> to send a new verify email!");
+                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
             } else if (isRemember(req, resp)) {
                 setCookie(req, resp);
                 login(req, resp);
@@ -62,32 +59,24 @@ public class signinController extends HttpServlet {
             }
         } else {
             req.setAttribute("error", "Wrong username or password");
-            req.getRequestDispatcher("/view/signin.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/signin.jsp").forward(req, resp);
         }
-    }
-
-    private boolean checkAdminAccount(Map<String, String> getParameters) {
-        if (getParameters.get("username") != null && getParameters.get("username").equals("admin")) {
-            if (getParameters.get("password") != null && getParameters.get("password").equals("admin123")) {
-                return true;
-            }
-        }
-        return false;
     }
 
 
     private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         HashMap<String, String> map = getParameter(req, resp);
-        String enteredCaptcha = map.get("captcha");
-        String captcha = (String) req.getSession().getAttribute("captcha");
-        if (!enteredCaptcha.equals(captcha)) {
-            try {
-                return false;
-            } catch (Exception e) {
-                e.printStackTrace();
+        try {
+            String enteredCaptcha = map.get("captcha");
+            String captcha = (String) req.getSession().getAttribute("captcha");
+            if (enteredCaptcha.equals(captcha)) {
+                return true;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
-        return true;
+        return false;
     }
 
     private HashMap<String, String> getParameter(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -206,7 +195,7 @@ public class signinController extends HttpServlet {
         String password = getPasswordCookieValue(req, resp);
 
         if (username.equals("") || password.equals("")) {
-            req.getRequestDispatcher("/view/signin.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/signin.jsp").forward(req, resp);
         } else {
             try {
                 userDAO userDAO = new userDAO();
@@ -218,7 +207,7 @@ public class signinController extends HttpServlet {
                 throw new RuntimeException(e);
             }
             req.setAttribute("username", username);
-            req.getRequestDispatcher("/view/signin.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/signin.jsp").forward(req, resp);
         }
     }
 
@@ -241,6 +230,7 @@ public class signinController extends HttpServlet {
         }
         return false;
     }
+
 
 
 }

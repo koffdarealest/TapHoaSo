@@ -2,7 +2,6 @@ package controller;
 
 import DAO.tokenDAO;
 import DAO.userDAO;
-import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -23,7 +22,7 @@ public class signupController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/view/signup.jsp").forward(req, resp);
     }
 
     @Override
@@ -35,19 +34,19 @@ public class signupController extends HttpServlet {
         //verify captcha
         if(!isTrueCaptcha(req, resp, getParameters)){
             req.setAttribute("error", "Captcha is not correct! Try again!");
-            req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/signup.jsp").forward(req, resp);
             return;
         }
         //check exist username and email
         if(CheckExistUsernameAndEmail(req, resp, userDAO, getParameters)) {
             req.setAttribute("error", "Username or gmail already exists! Try again!");
-            req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/signup.jsp").forward(req, resp);
             return;
         }
         //check password and re-password
         if (!CheckPasswordAndRePassword(req, resp, getParameters)) {
             req.setAttribute("error", "Password and Re-Password are not the same! Try again!");
-            req.getRequestDispatcher("/view/signup.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/view/signup.jsp").forward(req, resp);
             return;
         }
         //Hash password with MD5 althorithm
@@ -94,6 +93,7 @@ public class signupController extends HttpServlet {
         user.setUpdatedAt(new Date());
         user.setActivated(false);
         user.setSecretKey(key);
+        user.setBalance(0L);
         userDAO.insertUser(user);
 
 //        String token = tokenDAO.generateToken();
@@ -105,8 +105,8 @@ public class signupController extends HttpServlet {
     }
 
     private void sendEmailToVerifyAccount(HttpServletRequest req, HttpServletResponse resp, String token, User user) throws Exception {
-        req.setAttribute("mess", "Please check your email to verify your account! If you don't see the email, try again!");
-        req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
+        req.setAttribute("notification", "Please check your email to verify your account! If you don't see the email, try again!");
+        req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
 
         // Gson to save user
 //        Gson gson = new Gson();
@@ -121,7 +121,7 @@ public class signupController extends HttpServlet {
         String toAddress = user.getEmail();
         String subject = "[TapHoaSo] VERIFY YOUR EMAIL";
         String message = "We received your sign up request." + "<br>" + "<br>" +
-                "Please <a href=" + "'http://localhost:8080/verifySignup?tk=" + token + "'> Click here</a> below to verify your account. " + "<br>" +
+                "Please <a href=" + "'http://localhost:8080/verifySignup?tk=" + token + "'> Click here</a> to verify your account. " + "<br>" +
                 "The link will be expired in 5 minutes. " + "<br>" +
                 "If you did not request a account sign up, please ignore this email.";
         EmailSender emailSender = new EmailSender(hostname, String.valueOf(port), from, pwd, toAddress, subject, message);
@@ -154,6 +154,7 @@ public class signupController extends HttpServlet {
         parameters.put("password", req.getParameter("password"));
         parameters.put("rePassword", req.getParameter("re-password"));
         parameters.put("captcha", req.getParameter("captcha"));
+
         return parameters;
     }
 

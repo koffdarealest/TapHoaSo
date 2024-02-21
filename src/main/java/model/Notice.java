@@ -8,14 +8,14 @@ public class Notice extends BaseAuditable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long noticeID;
     @ManyToOne
-    private Buying buyID;
+    private Post postID;
     private String content;
     private Boolean isAdminReceive;
     public Notice() {
     }
 
-    public Notice(Buying buyID, String content, Boolean isAdminReceive) {
-        this.buyID = buyID;
+    public Notice(Post postID, String content, Boolean isAdminReceive) {
+        this.postID = postID;
         this.content = content;
         this.isAdminReceive = isAdminReceive;
     }
@@ -28,12 +28,12 @@ public class Notice extends BaseAuditable{
         this.noticeID = noticeID;
     }
 
-    public Buying getBuyID() {
-        return buyID;
+    public Post getPostID() {
+        return postID;
     }
 
-    public void setBuyID(Buying buyID) {
-        this.buyID = buyID;
+    public void setPostID(Post postID) {
+        this.postID = postID;
     }
 
     public String getContent() {
