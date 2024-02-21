@@ -100,16 +100,16 @@
             <table class="table table-bordered table-scroll" id="marketTable">
                 <thead class="sticky-header">
                 <tr>
-                    <th data-column-index="0">Trading code</th>
-                    <th data-column-index="1">Title</th>
-                    <th data-column-index="2">Contact</th>
-                    <th data-column-index="3">Price</th>
-                    <th data-column-index="4">Fee payer</th>
-                    <th data-column-index="5">Fee</th>
-                    <th data-column-index="6">Total spend</th>
-                    <th data-column-index="7">Seller</th>
-                    <th data-column-index="8">Create time</th>
-                    <th data-column-index="9">Last modify</th>
+                    <th data-column-index="0" data-sort-order="desc">Trading code</th>
+                    <th data-column-index="1" data-sort-order="desc">Title</th>
+                    <th data-column-index="2" data-sort-order="desc">Contact</th>
+                    <th data-column-index="3" data-sort-order="desc">Price</th>
+                    <th data-column-index="4" data-sort-order="desc">Fee payer</th>
+                    <th data-column-index="5" data-sort-order="desc">Fee</th>
+                    <th data-column-index="6" data-sort-order="desc">Total spend</th>
+                    <th data-column-index="7" data-sort-order="desc">Seller</th>
+                    <th data-column-index="8" data-sort-order="desc">Create time</th>
+                    <th data-column-index="9" data-sort-order="desc">Last modify</th>
                     <th colspan="2">Action</th>
                 </tr>
 
@@ -429,6 +429,47 @@
         rows.forEach(function(row) {
             row.style.display = '';
         });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const table = document.getElementById('marketTable');
+        const headers = table.getElementsByTagName('th');
+
+        // Một đối tượng để lưu trữ thứ tự sắp xếp cho mỗi cột
+        const sortOrder = {};
+
+        for (let header of headers) {
+            header.addEventListener('click', function() {
+                // Lấy chỉ số cột
+                const columnIndex = parseInt(header.getAttribute('data-column-index'));
+
+                // Lật lại thứ tự sắp xếp cho lần click tiếp theo hoặc thiết lập mặc định là tăng dần
+                sortOrder[columnIndex] = (sortOrder[columnIndex] === undefined || sortOrder[columnIndex] === 1) ? -1 : 1;
+
+                // Lấy tất cả các hàng trong tbody
+                const rows = Array.from(table.querySelectorAll('tbody tr'));
+
+                // Sắp xếp các hàng dựa trên giá trị của cột tương ứng
+                rows.sort(function(rowA, rowB) {
+                    const valueA = rowA.cells[columnIndex].textContent.trim();
+                    const valueB = rowB.cells[columnIndex].textContent.trim();
+
+                    if (!isNaN(valueA) && !isNaN(valueB)) {
+                        return sortOrder[columnIndex] * (parseFloat(valueA) - parseFloat(valueB));
+                    } else if(isNaN(valueA) && isNaN((valueB))){
+                        return sortOrder[columnIndex] * (valueA.localeCompare(valueB));
+                    }
+                });
+
+                // Xóa tất cả các hàng trong tbody
+                table.querySelector('tbody').innerHTML = '';
+
+                // Thêm lại các hàng đã được sắp xếp vào tbody
+                rows.forEach(function(row) {
+                    table.querySelector('tbody').appendChild(row);
+                });
+            });
+        }
     });
 
 </script>
