@@ -10,8 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.User;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +17,17 @@ import java.util.List;
 public class deleteUser  extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        doPost(req, resp);
+        userDAO userDAO = new userDAO();
+
+        List<User> list = userDAO.getAllUser();
+        System.out.println("deleteUser");
+
+        String[] selectedUser = req.getParameterValues("selectedUser");
+
+        updateDeleteUser(list, selectedUser, userDAO);
+
+        // Redirect to userManage page
+        resp.sendRedirect(req.getContextPath() + "/userManage");
     }
 
     @Override
@@ -29,17 +37,23 @@ public class deleteUser  extends HttpServlet {
         List<User> list = userDAO.getAllUser();
         System.out.println("deleteUser");
 
-        // Retrieve selectedUser parameter correctly
         String[] selectedUser = req.getParameterValues("selectedUser");
 
-        // Check if selectedUser is not null to avoid NullPointerException
+        updateOpenUser(list, selectedUser, userDAO);
+
+        // Redirect to userManage page
+        resp.sendRedirect(req.getContextPath() + "/userManage");
+    }
+
+    private void updateOpenUser(List<User> list, String[] selectedUser, userDAO userDAO) {
         if (selectedUser != null) {
             for (User user : list) {
                 for (String id : selectedUser) {
                     if (user.getUserID().equals(Long.parseLong(id))) {
                         System.out.println("deleteUser" + user.getUserID());
-                        user.setDelete(true);
-                        user.setCreatedAt(new Date());
+                        user.setDelete(false);
+                        user.setDeletedAt(new Date());
+                        user.setUpdatedAt(new Date());
                         userDAO.updateUser(user);
                     }
                 }
@@ -47,11 +61,25 @@ public class deleteUser  extends HttpServlet {
         } else {
             System.out.println("selectedUser is null");
         }
-
-        // Redirect to userManage page
-        resp.sendRedirect(req.getContextPath() + "/userManage");
     }
 
+    private void updateDeleteUser(List<User> list, String[] selectedUser, userDAO userDAO) {
+        if (selectedUser != null) {
+            for (User user : list) {
+                for (String id : selectedUser) {
+                    if (user.getUserID().equals(Long.parseLong(id))) {
+                        System.out.println("deleteUser" + user.getUserID());
+                        user.setDelete(true);
+                        user.setDeletedAt(new Date());
+                        user.setUpdatedAt(new Date());
+                        userDAO.updateUser(user);
+                    }
+                }
+            }
+        } else {
+            System.out.println("selectedUser is null");
+        }
+    }
 
 
 }
