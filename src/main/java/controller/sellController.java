@@ -126,6 +126,7 @@ public class sellController extends HttpServlet {
         Long balance = user.getBalance();
         Long prepostFee = 500L;
         userDAO.updateBalance(user, balance - prepostFee);
+
     }
 
     private boolean isBalanceEnough(HttpServletRequest req, HttpServletResponse resp) {

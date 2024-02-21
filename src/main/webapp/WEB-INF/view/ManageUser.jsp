@@ -250,7 +250,7 @@
                                             <td>${u.username}</td>
                                             <td>${u.email}</td>
                                             <td>${u.createdAt}</td>
-                                            <td>${u.getDelete() ? "0" : "1"}</td>
+                                            <td>${u.getDelete() ? "1" : "0"}</td>
                                             <td>
                                                 <button style="border-radius: 2px; background-color: ${u.isOnline() ? 'rgb(82, 196, 82)' : 'rgb(255, 0, 0)'};">
                                                         ${u.isOnline() ? "Online" : "Offline"}
