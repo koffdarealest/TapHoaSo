@@ -22,10 +22,6 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
     <!--
 
-    TemplateMo 589 lugx gaming
-
-    https://templatemo.com/tm-589-lugx-gaming
-
     -->
 </head>
 
