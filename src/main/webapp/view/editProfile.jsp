@@ -120,7 +120,7 @@
                             <form action="editPassword" method="post">
                                 <div class="d-flex mb-3 align-items-center">
                                     <div class="label-form col-md-4">
-                                        <label class="label" style="text-align: left;">PASSWORD</label>
+                                        <label class="label" style="text-align: left; font-size: 11px;">PASSWORD</label>
                                     </div>
                                     <div class="col-md-8">
                                         <input type="password" name="password" class="form-control"
@@ -129,13 +129,13 @@
                                 </div>
 
                                 <div class="d-flex mb-3 align-items-center">
-                                    <div class="label-form col-md-4"><label class="label" style="text-align: left;">NEW
+                                    <div class="label-form col-md-4"><label class="label" style="text-align: left; font-size: 11px;">NEW
                                         PASSWORD</label></div>
                                     <div class="col-md-8"><input type="password" name="newpassword" class="form-control"
                                                                  placeholder="Enter new password"></div>
                                 </div>
                                 <div class="d-flex mb-3 align-items-center">
-                                    <div class="label-form col-md-4"><label class="label" style="text-align: left;">ENTER
+                                    <div class="label-form col-md-4"><label class="label" style="text-align: left; font-size: 11px;">ENTER
                                         NEW PASSWORD</label></div>
                                     <div class="col-md-8"><input type="password" name="newpassword2" class="form-control"
                                                                  placeholder="Reenter new password"></div>
@@ -148,7 +148,7 @@
                                         <div class="col-md-4 pl-0">
                                             <div class="d-flex align-items-center">
                                                 <div class="content">
-                                                    <img style="height: 50px; width: 200px; border-radius: 5px; margin-left: 20px; margin-top: 10px;"
+                                                    <img style="height: 40px; width: 160px; border-radius: 5px; margin-left: 20px; margin-top: 10px;"
                                                          src="generateCaptcha" alt="Captcha Image" id="captchaImage">
                                                 </div>
                                             </div>
