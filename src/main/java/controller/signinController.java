@@ -4,11 +4,9 @@ package controller;
 import DAO.userDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
 import model.User;
+import org.hibernate.Session;
 import util.Encryption;
 
 import java.io.IOException;
@@ -142,10 +140,13 @@ public class signinController extends HttpServlet {
         try {
             for(User user : users) {
                 if (user.getUsername().equals(username)) {
+                    HttpSession session = req.getSession();
+                    session.setAttribute("online", user.getUserID());
                     user.setOnline(true);
-                    break;
+                    userDAO.updateUser(user);
                 }
             }
+
             Cookie usernameCookie = new Cookie("userC", username);
             Cookie passwordCookie = new Cookie("pwdC", encryptedPassword);
             usernameCookie.setMaxAge(60 * 60 * 24);
@@ -212,8 +213,18 @@ public class signinController extends HttpServlet {
     }
 
     private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        userDAO userDAO = new userDAO();
         HashMap<String, String> map = getParameter(req, resp);
+        List<User> users = userDAO.getAllUser();
         String username = map.get("username");
+        for(User user : users) {
+            if (user.getUsername().equals(username)) {
+                HttpSession session = req.getSession();
+                session.setAttribute("online", user.getUserID());
+                user.setOnline(true);
+                userDAO.updateUser(user);
+            }
+        }
         try {
             req.getSession().setAttribute("username", username);
             resp.sendRedirect(req.getContextPath() + "/home");

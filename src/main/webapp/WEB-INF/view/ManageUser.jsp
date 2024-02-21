@@ -261,9 +261,9 @@
                                     </c:forEach>
                                     </tbody>
                                 </table>
-                                <button class="btn btn-danger">Delete Selected</button>
+                                <button class="btn btn-danger" name="action" value="delete">Delete Selected</button>
                                 <form action="deleteUser" method="get">
-                                    <button class="btn btn-success">Open Selected</button>
+                                    <button class="btn btn-success" name="action" value="open">Open Selected</button>
                                 </form>
                             </form>
                         </div>
