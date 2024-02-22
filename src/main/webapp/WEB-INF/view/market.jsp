@@ -118,10 +118,10 @@
                 <tbody>
                 <c:forEach var="post" items="${lPosts}">
                     <tr>
-                        <td>${post.tradingCode}</td>
-                        <td>${post.topic}</td>
+                        <td class="td-overflow">${post.tradingCode}</td>
+                        <td class="td-overflow">${post.topic}</td>
                         <td>${post.contact}</td>
-                        <td>${post.price}</td>
+                        <td id="money-1">${post.price}</td>
                         <td><c:choose>
                             <c:when test="${post.whoPayFee == 'half'}">
                                 Half - Half
@@ -134,8 +134,8 @@
                             </c:when>
                             </c:choose>
                         </td>
-                        <td>${post.fee}</td>
-                        <td>${post.totalSpendForBuyer}</td>
+                        <td id="money-2">${post.fee}</td>
+                        <td id="money-3" style="font-weight: bold">${post.totalSpendForBuyer}</td>
                         <td>${post.sellerID.nickname}</td>
                         <td>
                             <c:set var="createdAt" value="${post.createdAt}"/>
@@ -238,6 +238,15 @@
     function viewPostDetail(postID) {
         window.location.href = 'postDetail?postID=' + postID;
     }
+</script>
+<!-- Money format -->
+<script>
+    document.querySelectorAll("[id^='money']").forEach(function(cell) {
+        var totalSpend = cell.textContent;
+        var formattedTotalSpend = new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(totalSpend);
+        cell.textContent = formattedTotalSpend;
+    });
+
 </script>
 <!-- Bootstrap core JavaScript -->
 <script src="../../vendor/jquery/jquery.min.js"></script>

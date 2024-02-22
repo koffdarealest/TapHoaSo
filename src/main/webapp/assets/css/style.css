@@ -102,7 +102,7 @@
 
 td {
     text-align: left;
-    font-size: smaller;
+    font-size: 15px;
 }
 
 .custom-button {
@@ -146,6 +146,12 @@ th {
     top: 0;
     right: -2px;
     z-index: 999;
+}
+
+.td-overflow {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 /* Sell product CSS */
 /* ---------------- */

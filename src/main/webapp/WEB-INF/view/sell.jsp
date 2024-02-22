@@ -207,7 +207,8 @@
                         <!-- ---------------Submit--------------- -->
                         <div class="d-flex mb-3 align-items-center">
                             <div class="form-group col-md-12 text-center">
-                                <button type="submit" class="col-md-3 btn btn-primary p-3">CREATE POST</button>
+                                <button type="submit" class="col-md-3 btn btn-primary p-3">
+                                    <i class="fas fa-upload"></i>CREATE POST</button>
                                 <!-- Submit -->
                             </div>
                         </div>

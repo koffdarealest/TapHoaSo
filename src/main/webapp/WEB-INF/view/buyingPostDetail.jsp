@@ -333,7 +333,7 @@
                 const remainingRows = maxRows - rowCounter;
                 for (let i = 0; i < remainingRows; i++) {
                     const row = table.insertRow();
-                    row.style.height = (existingRowHeight * 0.85) + 'px'; // Thiết lập chiều cao cho hàng mới
+                    row.style.height = (existingRowHeight * 0.8) + 'px'; // Thiết lập chiều cao cho hàng mới
                     for (let j = 0; j <= headers.length; j++) {
                         const cell = row.insertCell();
                     }

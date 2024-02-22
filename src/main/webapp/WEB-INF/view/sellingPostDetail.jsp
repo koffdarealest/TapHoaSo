@@ -126,7 +126,7 @@
                                         <button class="custom-button btn btn-lg"
                                                 onclick="openConfirmationPopup(${post.postID})"
                                                 style="font-size: small; background: #d21300">
-                                            <i class="fas fa-remove"></i> Delete
+                                            <i class="fas fa-trash"></i> Delete
                                         </button>
                                     </td>
                                 </c:when>
@@ -321,7 +321,8 @@
                                     <!-- ---------------Submit--------------- -->
                                     <div class="d-flex mb-3 align-items-center">
                                         <div class="form-group col-md-12 text-center">
-                                            <button type="submit" class="col-md-3 btn btn-primary p-3">Update</button>
+                                            <button type="submit" class="col-md-3 btn btn-primary p-3" style="background: #b9b700; border: 0">
+                                                <i class="fas fa-pencil"></i> Update</button>
                                             <!-- Submit -->
                                         </div>
                                     </div>

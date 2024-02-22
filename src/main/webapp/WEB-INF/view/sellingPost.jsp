@@ -115,10 +115,10 @@
                 <tbody>
                 <c:forEach var="post" items="${lPosts}">
                     <tr>
-                        <td>${post.tradingCode}</td>
-                        <td>${post.topic}</td>
+                        <td class="td-overflow">${post.tradingCode}</td>
+                        <td class="td-overflow">${post.topic}</td>
                         <td>${post.contact}</td>
-                        <td>${post.price}</td>
+                        <td id="money-1">${post.price}</td>
                         <td><c:choose>
                             <c:when test="${post.whoPayFee == 'half'}">
                                 Half - Half
@@ -131,8 +131,8 @@
                             </c:when>
                         </c:choose>
                         </td>
-                        <td>${post.fee}</td>
-                        <td>${post.totalSpendForBuyer}</td>
+                        <td id="money-2">${post.fee}</td>
+                        <td id="money-3" style="font-weight: bold">${post.totalSpendForBuyer}</td>
                         <td>${post.status}</td>
                         <td>
                             <c:set var="createdAt" value="${post.createdAt}"/>
@@ -152,7 +152,7 @@
                         <c:choose>
                             <c:when test="${post.status eq 'readyToSell' || post.status eq 'done'}">
                                 <td><button class="custom-button btn btn-lg" onclick="openConfirmationPopup(${post.postID})" style="font-size: large; background: #d21300">
-                                    <i class="fas fa-remove"></i> Delete</button></td>
+                                    <i class="fas fa-trash"></i> Delete</button></td>
                             </c:when>
                             <c:otherwise>
                                 <td></td> <!-- Nếu không phải 'readyToSell' hoặc 'done', không hiển thị nút Delete -->
@@ -278,7 +278,15 @@
     }
 
 </script>
+<!-- Money format -->
+<script>
+    document.querySelectorAll("[id^='money']").forEach(function(cell) {
+        var totalSpend = cell.textContent;
+        var formattedTotalSpend = new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(totalSpend);
+        cell.textContent = formattedTotalSpend;
+    });
 
+</script>
 <!-- Bootstrap core JavaScript -->
 <script src="../../vendor/jquery/jquery.min.js"></script>
 <script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
