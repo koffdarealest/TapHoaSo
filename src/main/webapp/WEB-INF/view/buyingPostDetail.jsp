@@ -441,7 +441,7 @@
             ('0' + updatedAt.getHours()).slice(-2) + ':' +
             ('0' + updatedAt.getMinutes()).slice(-2) + ':' +
             ('0' + updatedAt.getSeconds()).slice(-2);
-        document.getElement ById('updatedAt').value = fmtUpdatedAtDate;
+        document.getElementById('updatedAt').value = fmtUpdatedAtDate;
     }
 </script>
 <!-- ------------------Confirmation Popup------------------ -->
