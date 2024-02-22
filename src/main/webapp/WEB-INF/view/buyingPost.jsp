@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: Tung
-  Date: 2/13/2024
-  Time: 7:54 PM
+  Date: 2/21/2024
+  Time: 4:34 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -18,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet">
 
-    <title>Selling Posts</title>
+    <title>Buying Posts</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -86,7 +86,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h3>Selling Product Post</h3>
+                <h3>Buying Product Post</h3>
 
             </div>
         </div>
@@ -147,19 +147,9 @@
                                 <c:otherwise>&nbsp;</c:otherwise>
                             </c:choose>
                         </td>
-                        <td><button class="custom-button btn btn-lg" onclick="viewPostDetailUpdate('${post.postID}')" style="font-size: large">
+                        <td><button class="custom-button btn btn-lg" onclick="viewBuyingDetail('${post.postID}')" style="font-size: large">
                             <i class="fas fa-info-circle"></i> Detail</button></td>
-                        <c:choose>
-                            <c:when test="${post.status eq 'readyToSell' || post.status eq 'done'}">
-                                <td><button class="custom-button btn btn-lg" onclick="openConfirmationPopup(${post.postID})" style="font-size: large; background: #d21300">
-                                    <i class="fas fa-remove"></i> Delete</button></td>
-                            </c:when>
-                            <c:otherwise>
-                                <td></td> <!-- Nếu không phải 'readyToSell' hoặc 'done', không hiển thị nút Delete -->
-                            </c:otherwise>
-                        </c:choose>
-<%--                        <td><button class="custom-button btn btn-lg" onclick="openConfirmationPopup(${post.postID})" style="font-size: large; background: #d21300">--%>
-<%--                            <i class="fas fa-remove"></i> Delete</button></td>--%>
+                        <td> </td>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -250,8 +240,8 @@
         }
     };
 
-    function viewPostDetailUpdate(postID) {
-        window.location.href = 'postDetailUpdate?postID=' + postID;
+    function viewBuyingDetail(postID) {
+        window.location.href = 'buyingPostDetail?postID=' + postID;
     }
 
     // function deletePost(postID) {

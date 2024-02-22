@@ -1,6 +1,7 @@
 package controller;
 
 import DAO.postDAO;
+import DAO.transactionDAO;
 import DAO.userDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -45,7 +46,7 @@ public class buyController extends HttpServlet {
                 return;
             }
             buyPost(req, resp, post, user);
-            req.setAttribute("notification", "Buy post successfully! <a href=buying>View your buying post</a>");
+            req.setAttribute("notification", "Buy post successfully! <a href=buyingPost>View your buying post</a>");
             req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
         }
     }
@@ -138,10 +139,12 @@ public class buyController extends HttpServlet {
         try {
             postDAO postDAO = new postDAO();
             userDAO userDAO = new userDAO();
+            transactionDAO transactionDAO = new transactionDAO();
             Long total = post.getTotalSpendForBuyer();
             Long balance = user.getBalance();
             userDAO.updateBalance(user, balance - total);
             postDAO.buyPost(post, user);
+            transactionDAO.createBuyProductPostTrans(post);
         } catch (Exception e) {
             e.printStackTrace();
         }

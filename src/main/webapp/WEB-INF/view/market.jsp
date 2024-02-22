@@ -68,6 +68,8 @@
                         <li><a href="market">Public market</a></li>
                         <li><a href="sellingPost">Selling posts</a>
                         </li>
+                        <li><a href="buyingPost">Buying posts</a>
+                        </li>
                         <li><a href="">Contact Us</a>
                         </li>
                         <li><a href="signOut">Sign Out</a></li>

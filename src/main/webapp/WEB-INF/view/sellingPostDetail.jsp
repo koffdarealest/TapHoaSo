@@ -65,6 +65,8 @@
                         <li><a href="market">Public market</a></li>
                         <li><a href="sellingPost">Selling posts</a>
                         </li>
+                        <li><a href="buyingPost">Buying posts</a>
+                        </li>
                         <li><a href="">Contact Us</a>
                         </li>
                         <li><a href="signOut">Sign Out</a></li>
@@ -112,10 +114,28 @@
                             <td>${post.fee}</td>
                             <td>${post.totalSpendForBuyer}</td>
                             <td>${post.status}</td>
-                            <td><button class="custom-button btn btn-lg" onclick="viewPostDetailUpdate('${post.postID}')" style="font-size: small">
-                                <i class="fas fa-info-circle"></i> Detail</button></td>
-                            <td><button class="custom-button btn btn-lg" onclick="openConfirmationPopup(${post.postID})" style="font-size: small; background: #d21300">
-                                <i class="fas fa-remove"></i> Delete</button></td>
+                            <td>
+                                <button class="custom-button btn btn-lg"
+                                        onclick="viewPostDetailUpdate('${post.postID}')" style="font-size: small">
+                                    <i class="fas fa-info-circle"></i> Detail
+                                </button>
+                            </td>
+                            <c:choose>
+                                <c:when test="${post.status eq 'readyToSell' || post.status eq 'done'}">
+                                    <td>
+                                        <button class="custom-button btn btn-lg"
+                                                onclick="openConfirmationPopup(${post.postID})"
+                                                style="font-size: small; background: #d21300">
+                                            <i class="fas fa-remove"></i> Delete
+                                        </button>
+                                    </td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td></td>
+                                    <!-- Nếu không phải 'readyToSell' hoặc 'done', không hiển thị nút Delete -->
+                                </c:otherwise>
+                            </c:choose>
+
                         </tr>
                     </c:forEach>
                     <!-- Repeat the above row for 20 records -->
@@ -181,7 +201,8 @@
                             </div>
                             <!-- ---------------Price Error--------------- -->
                             <div class="d-flex align-items-center">
-                                <div class="col-md-10" id="priceError" style="color: red; display: none;text-align: end;">
+                                <div class="col-md-10" id="priceError"
+                                     style="color: red; display: none;text-align: end;">
                                     Price must be divisible by 1000
                                 </div>
                             </div>
@@ -256,7 +277,9 @@
                                     <label class="label">Hidden content </label>
                                 </div>
                                 <div class="col-md-9 form-group">
-                                    <textarea class="form-control" name="hidden" id="hidden" required>${chosenPost.hidden}</textarea>       <!-- input Hidden content -->
+                                    <textarea class="form-control" name="hidden" id="hidden"
+                                              required>${chosenPost.hidden}</textarea>
+                                    <!-- input Hidden content -->
                                 </div>
                             </div>
                             <!-- ---------------Created At--------------- -->
@@ -279,25 +302,34 @@
                                            value="">      <!-- input Title -->
                                 </div>
                             </div>
-                            <!-- ---------------Confirm--------------- -->
-                            <div class="d-flex mb-3 align-items-center">
-                                <div class="col-md-2"></div>
-                                <div class="col-md-10">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="confirmCheckBox" required> <!-- checkbox Confirm -->
-                                        <label class="form-check label" for="confirmCheckBox">
-                                            I confirm that the above information is true. I will be responsible if there is any incorrect information in the post.
-                                        </label>
+                            <c:choose>
+                                <c:when test="${chosenPost.updateable eq true}">
+                                    <!-- ---------------Confirm--------------- -->
+                                    <div class="d-flex mb-3 align-items-center">
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-10">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                       id="confirmCheckBox" required> <!-- checkbox Confirm -->
+                                                <label class="form-check label" for="confirmCheckBox">
+                                                    I confirm that the above information is true. I will be responsible
+                                                    if there is any incorrect information in the post.
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <!-- ---------------Submit--------------- -->
-                            <div class="d-flex mb-3 align-items-center">
-                                <div class="form-group col-md-12 text-center">
-                                    <button type="submit" class="col-md-3 btn btn-primary p-3">Update</button>
-                                    <!-- Submit -->
-                                </div>
-                            </div>
+                                    <!-- ---------------Submit--------------- -->
+                                    <div class="d-flex mb-3 align-items-center">
+                                        <div class="form-group col-md-12 text-center">
+                                            <button type="submit" class="col-md-3 btn btn-primary p-3">Update</button>
+                                            <!-- Submit -->
+                                        </div>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div></div>
+                                </c:otherwise>
+                            </c:choose>
                         </form>
                     </div>
                 </div>
@@ -461,6 +493,7 @@
 <!-- ------------------Confirmation Popup------------------ -->
 <script>
     var id;
+
     function openConfirmationPopup(postID) {
         document.getElementById('overlay').style.display = 'block';
         document.getElementById('confirmationPopup').style.display = 'block';

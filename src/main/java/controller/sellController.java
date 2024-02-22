@@ -1,6 +1,7 @@
 package controller;
 
 import DAO.postDAO;
+import DAO.transactionDAO;
 import DAO.userDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -40,8 +41,9 @@ public class sellController extends HttpServlet {
             return;
         }
         if (isBalanceEnough(req, resp)) {
-            payPrepostFee(req, resp);
-            createPost(req, resp, params);
+            Post post = createPost(req, resp, params);
+            payPrepostFee(req, resp, post);
+            insertPostToDB(req, resp, post);
             resp.sendRedirect("/home");
         } else {
             req.setAttribute("notification", "Your balance is not enough! Please <a href=" + "deposit>" + "top up</a> your balance!");
@@ -92,7 +94,7 @@ public class sellController extends HttpServlet {
         return user;
     }
 
-    private void createPost(HttpServletRequest req, HttpServletResponse resp, HashMap<String, String> params) {
+    private Post createPost(HttpServletRequest req, HttpServletResponse resp, HashMap<String, String> params) {
         Post post = new Post();
         postDAO postDAO = new postDAO();
         String tradingCode = postDAO.createTradingCode();
@@ -114,19 +116,20 @@ public class sellController extends HttpServlet {
             post.setTotalSpendForBuyer(params.get("feePayer"));
             post.setUpdateable(true);
             post.setCanBuyerComplain(false);
-            postDAO.insertPost(post);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return post;
     }
 
-    private void payPrepostFee(HttpServletRequest req, HttpServletResponse resp) {
+    private void payPrepostFee(HttpServletRequest req, HttpServletResponse resp, Post post) {
         userDAO userDAO = new userDAO();
+        transactionDAO transactionDAO = new transactionDAO();
         User user = getUser(req);
         Long balance = user.getBalance();
         Long prepostFee = 500L;
         userDAO.updateBalance(user, balance - prepostFee);
-
+        transactionDAO.createPrepostFeeTrans(post);
     }
 
     private boolean isBalanceEnough(HttpServletRequest req, HttpServletResponse resp) {
@@ -148,6 +151,12 @@ public class sellController extends HttpServlet {
             return false;
         }
     }
+
+    private void insertPostToDB(HttpServletRequest req, HttpServletResponse resp, Post post) {
+        postDAO postDAO = new postDAO();
+        postDAO.insertPost(post);
+    }
+
 
 
 

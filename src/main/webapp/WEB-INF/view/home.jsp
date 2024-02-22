@@ -54,7 +54,7 @@
                     <ul class="nav">
                         <li><a href="/viewProfile">Welcome! ${user.nickname}</a></li>
                         <li><a href="">Your Balance ${user.balance}VND</a></li>
-                        <li><a STYLE="font-size: 15px" href="/signOut">Log out</a></li>
+                        <li><a STYLE="font-size: 15px" href="/signOut">Sign out</a></li>
                     </ul>
 
                     <a class='menu-trigger'>

@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
-  User: PC
-  Date: 2/10/2024
-  Time: 2:17 PM
+  User: Tung
+  Date: 2/21/2024
+  Time: 5:02 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -18,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet">
 
-    <title>Public Market</title>
+    <title>Buying Posts</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -65,6 +65,8 @@
                         <li><a href="market">Public market</a></li>
                         <li><a href="sellingPost">Selling posts</a>
                         </li>
+                        <li><a href="buyingPost">Buying posts</a>
+                        </li>
                         <li><a href="">Contact Us</a>
                         </li>
                         <li><a href="signOut">Sign Out</a></li>
@@ -84,7 +86,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h3>Public Market</h3>
+                <h3>Buying Product Post</h3>
 
             </div>
         </div>
@@ -93,38 +95,7 @@
 
 <div class="container d-flex" style="max-width: 1700px;">
     <div class="col-lg-6">
-        <div class="detail-market-wrap sticky-table">
-            <div>
-                <table class="table table-bordered table-scroll" id="marketTable">
-                    <thead class="sticky-header">
-                    <tr>
-                        <th>Title</th>
-                        <th>Fee</th>
-                        <th>Total spend</th>
-                        <th>Seller</th>
-                        <th colspan="2">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="post" items="${lPosts}">
-                        <tr>
-                            <td>${post.topic}</td>
-                            <td>${post.fee}</td>
-                            <td>${post.totalSpendForBuyer}</td>
-                            <td>${post.sellerID.nickname}</td>
-                            <td><button class="custom-button btn btn-lg" onclick="viewPostDetail('${post.postID}')" style="font-size: small">
-                                <i class="fas fa-info-circle"></i> Detail</button></td>
-                            <td>Detail</td>
-                        </tr>
-                    </c:forEach>
-                    <!-- Repeat the above row for 20 records -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-6">
-        <div class="detail-post-wrap p-4" style="margin-left: 30px;">
+        <div class="detail-post-wrap p-4" style="margin-right: 30px;">
             <div class="col-lg-12 mx-auto">
                 <div class="card">
                     <div class="card-header">
@@ -133,6 +104,9 @@
                         </div>
                     </div>
                     <div class="card-body">
+
+                        <!-- ---------------PostID--------------- -->
+                        <input type="hidden" name="postID" value="${chosenPost.postID}">
                         <!-- ---------------Trading Code--------------- -->
                         <div class="d-flex mb-3 align-items-center">
                             <div class="label-form col-md-3">
@@ -150,7 +124,7 @@
                             </div>
                             <div class="col-md-9">
                                 <input type="text" class="form-control" disabled
-                                       value="${chosenPost.sellerID.nickname}">      <!-- input Title -->
+                                       value="${chosenPost.sellerID.nickname}" readonly>      <!-- input Seller -->
                             </div>
                         </div>
                         <!-- ---------------Title--------------- -->
@@ -159,8 +133,8 @@
                                 <label class="label">Title </label>
                             </div>
                             <div class="col-md-9">
-                                <input type="text" name="title" class="form-control" required readonly
-                                       value="${chosenPost.topic}">      <!-- input Title -->
+                                <input type="text" name="title" class="form-control" required
+                                       value="${chosenPost.topic}" readonly>      <!-- input Title -->
                             </div>
                         </div>
                         <!-- ---------------Price--------------- -->
@@ -169,8 +143,8 @@
                                 <label class="label">Price </label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <input type="text" name="price" class="form-control" required readonly id="price"
-                                       value="${chosenPost.price}">   <!-- input Price -->
+                                <input type="text" name="price" class="form-control" required id="price"
+                                       value="${chosenPost.price}" readonly>   <!-- input Price -->
                                 <span class="text-muted"
                                       style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
                             </div>
@@ -181,8 +155,8 @@
                                 <label class="label">Fee </label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <input type="number" name="fee" class="form-control" required readonly id="fee"
-                                       value="${chosenPost.fee}">    <!-- input Fee -->
+                                <input type="number" name="fee" class="form-control" required id="fee"
+                                       value="${chosenPost.fee}" readonly>    <!-- input Fee -->
                                 <span class="text-muted"
                                       style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
                             </div>
@@ -193,17 +167,17 @@
                                 <label class="label">Fee Payer </label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <select class="form-control" name="feePayer" required readonly>
+                                <select class="form-control" name="feePayer" required disabled>
                                     <!-- select Fee Payer -->
                                     <c:choose>
                                         <c:when test="${chosenPost.whoPayFee == 'buyer'}">
-                                            <option selected>Buyer</option>
+                                            <option selected value="buyer">Buyer</option>
                                         </c:when>
                                         <c:when test="${chosenPost.whoPayFee == 'half'}">
-                                            <option selected>Half - Half</option>
+                                            <option selected value="half">Half - Half</option>
                                         </c:when>
                                         <c:when test="${chosenPost.whoPayFee == 'seller'}">
-                                            <option selected>Seller</option>
+                                            <option selected value="seller">Seller</option>
                                         </c:when>
                                     </c:choose>
                                 </select>
@@ -215,8 +189,9 @@
                                 <label class="label">Description </label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <textarea class="form-control" name="description" id="description" required
-                                          readonly>${chosenPost.description}</textarea>     <!-- input Description -->
+                                    <textarea class="form-control" name="description" id="description"
+                                              required readonly>${chosenPost.description}</textarea>
+                                <!-- input Description -->
                             </div>
                         </div>
                         <!-- ---------------Contact--------------- -->
@@ -225,8 +200,18 @@
                                 <label class="label">Contact </label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <textarea class="form-control" name="contact" required
-                                          readonly>${chosenPost.contact}</textarea>  <!-- input Contact -->
+                                    <textarea class="form-control" name="contact"
+                                              required readonly>${chosenPost.contact}</textarea>  <!-- input Contact -->
+                            </div>
+                        </div>
+                        <!-- ---------------Hidden--------------- -->
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="label-form col-md-3">
+                                <label class="label">Hidden content </label>
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <textarea class="form-control" name="hidden" id="hidden" required
+                                          readonly>${chosenPost.hidden}</textarea>       <!-- input Hidden content -->
                             </div>
                         </div>
                         <!-- ---------------Created At--------------- -->
@@ -249,18 +234,62 @@
                                        value="">      <!-- input Title -->
                             </div>
                         </div>
-                        <!-- ---------------Submit--------------- -->
-                        <div class="d-flex mb-3 align-items-center">
-                            <div class="form-group col-md-12 text-center">
-                                <button type="submit" class="col-md-3 btn btn-primary p-3" onclick="openBuyPopup('${chosenPost.postID}')">BUY</button>
-                                <!-- Submit -->
-                            </div>
-                        </div>
+                        <c:choose>
+                            <c:when test="${chosenPost.status == 'buyerChecking'}">
+                                <!-- ---------------Buttons--------------- -->
+                                <div class="d-flex mb-3 align-items-center">
+                                    <div class="col-md-12 text-center">
+                                        <button class="col-md-5 btn custom-button p-2" style="font-size: medium; margin-right: 20px; background: #d21300">
+                                            <i class="fa fa-times-circle" style="margin-right: 4px"></i>REPORT PROBLEM</button>
+                                        <button class="col-md-5 btn custom-button p-2" style="font-size: medium" onclick="openConfirmationPopup(${chosenPost.postID})">
+                                            <i class="fa fa-check-circle" style="margin-right: 4px" ></i>
+                                            CONFIRM PRODUCT RECEIVED</button>
+                                    </div>
+                                </div>
+                            </c:when>
+                        </c:choose>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="col-lg-6">
+        <div class="detail-selling-market-wrap sticky-table">
+            <div>
+                <table class="table table-bordered table-scroll" id="marketTable">
+                    <thead class="sticky-header">
+                    <tr>
+                        <th>Title</th>
+                        <th>Fee</th>
+                        <th>Total spend</th>
+                        <th>Status</th>
+                        <th colspan="2">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="post" items="${lPosts}">
+                        <tr>
+                            <td>${post.topic}</td>
+                            <td>${post.fee}</td>
+                            <td>${post.totalSpendForBuyer}</td>
+                            <td>${post.status}</td>
+                            <td>
+                                <button class="custom-button btn btn-lg"
+                                        onclick="viewBuyingDetail('${post.postID}')" style="font-size: small">
+                                    <i class="fas fa-info-circle"></i> Detail
+                                </button>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </c:forEach>
+                    <!-- Repeat the above row for 20 records -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <footer>
@@ -277,23 +306,25 @@
         </div>
     </div>
 </footer>
+
 <!-- -----------------Confirm Pop-up-----------------  -->
 <div id="overlay" class="overlay" onclick="closePopup()"></div>
-<div id="buyPopup" class="popup">
+<div id="confirmationPopup" class="popup">
     <div class="popup-content">
-        <h6 class="mb-1">Are you sure you want to buy this product?</h6>
+        <h6 class="mb-1">After confirmation, you can no longer complain about this product post!</h6>
         <p class="mb-3">Your action cannot be recovered!</p>
-        <button onclick="buyPostConfirmed()" style="background: #d31e01">Yes</button>
+        <button onclick="donePostConfirmed()" style="background: #0fae00">Yes</button>
         <button onclick="closePopup()">No</button>
     </div>
 </div>
+
 <!-- Scripts -->
-<!-- ----------------Table---------------- -->
+<!-- ------------------Table------------------ -->
 <script>
     window.onload = function () {
         const table = document.getElementById('marketTable');
         const headers = table.getElementsByTagName('th');
-        const maxRows = 50; // Số hàng tối đa
+        const maxRows = 20; // Số hàng tối đa
         const existingRowHeight = table.rows[1].offsetHeight; // Chiều cao của hàng thứ hai
         let rowCounter = table.rows.length - 1; // Số hàng hiện có (trừ đi hàng header)
         // Khởi tạo bảng tới số hàng tối đa
@@ -309,8 +340,8 @@
                 }
             }
         }
-        addRowIfNeed();
 
+        addRowIfNeed();
         for (let header of headers) {
             const dragHandle = document.createElement('div');
             dragHandle.classList.add('dragHandle');
@@ -346,7 +377,7 @@
         }
     };
 </script>
-<!-- ----------------TinyMCE---------------- -->
+<!-- ------------------TinyMCE------------------ -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         tinymce.init({
@@ -367,12 +398,34 @@
             }
         });
     });
-</script>
-<!-- ----------------View Post Detail button---------------- -->
-<script>
-    function viewPostDetail(postID) {
-        window.location.href = 'postDetail?postID=' + postID;
+
+    function viewBuyingDetail(postID) {
+        window.location.href = 'buyingPostDetail?postID=' + postID;
     }
+</script>
+<!-- ------------------Price Control------------------ -->
+<script>
+    var price = document.getElementById('price');
+    var fee = document.getElementById('fee');
+    var priceError = document.getElementById('priceError');
+    var priceErrorBackend = document.getElementById('priceErrorBackend');
+    price.addEventListener('input', function () {
+        var priceValue = parseInt(price.value);
+        if (priceValue % 1000 === 0 && priceValue >= 1000) {
+            fee.style.display = 'block';
+            priceError.style.display = 'none';
+            var feeValue = priceValue * 0.05;
+            fee.value = feeValue;
+        } else {
+            fee.value = 0;
+            priceError.style.display = 'block';
+            priceErrorBackend.style.display = 'none';
+        }
+    });
+
+    price.addEventListener('input', function () {
+        price.value = price.value.replace(/[^0-9]/g, '');
+    });
 </script>
 <!-- ----------------Format Date---------------- -->
 <script>
@@ -388,24 +441,25 @@
             ('0' + updatedAt.getHours()).slice(-2) + ':' +
             ('0' + updatedAt.getMinutes()).slice(-2) + ':' +
             ('0' + updatedAt.getSeconds()).slice(-2);
-        document.getElementById('updatedAt').value = fmtUpdatedAtDate;
+        document.getElement ById('updatedAt').value = fmtUpdatedAtDate;
     }
 </script>
-<!-- ----------------Buy button---------------- -->
+<!-- ------------------Confirmation Popup------------------ -->
 <script>
     var id;
-    function openBuyPopup(postID) {
+
+    function openConfirmationPopup(postID) {
         document.getElementById('overlay').style.display = 'block';
-        document.getElementById('buyPopup').style.display = 'block';
+        document.getElementById('confirmationPopup').style.display = 'block';
         id = postID;
     }
 
-    function buyPostConfirmed() {
-        window.location.href = 'buy?postID=' + id;
+    function donePostConfirmed() {
+        window.location.href = 'confirmReceive?postID=' + id;
     }
 
     function closePopup() {
-        document.getElementById('buyPopup').style.display = 'none';
+        document.getElementById('confirmationPopup').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
     }
 </script>

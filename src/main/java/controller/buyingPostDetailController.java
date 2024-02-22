@@ -1,22 +1,23 @@
 package controller;
 
 import DAO.postDAO;
+import DAO.userDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Post;
+import model.User;
 
 import java.io.IOException;
+import java.util.List;
 
-
-@WebServlet(urlPatterns = {"/deletePost"})
-public class deletePostController extends HttpServlet {
+@WebServlet(urlPatterns = {"/buyingPostDetail"})
+public class buyingPostDetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = (String) req.getSession().getAttribute("username");
-        if (username == null) {
+        if (req.getSession().getAttribute("username") == null) {
             resp.sendRedirect("/signin");
         } else {
             Long id = getPostID(req, resp);
@@ -26,19 +27,15 @@ public class deletePostController extends HttpServlet {
                 req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
                 return;
             }
-            if (!isValidUserToDeletePost(req, resp, post, username)) {
+            if (!isValidUserToViewPost(req, resp, post)) {
                 req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
                 req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
                 return;
-            }
-            if (!isDeleteablePost(req, resp, post)) {
-                req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
-                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
             } else {
-                deletePost(req, resp, post);
-                req.setAttribute("notification", "Delete post successfully! <a href=sellingPost>Go back here</a>");
-                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+                req.setAttribute("chosenPost", post);
             }
+            getAllPost(req, resp);
+            req.getRequestDispatcher("WEB-INF/view/buyingPostDetail.jsp").forward(req, resp);
         }
     }
 
@@ -65,29 +62,6 @@ public class deletePostController extends HttpServlet {
         return post;
     }
 
-    private boolean isValidUserToDeletePost(HttpServletRequest req, HttpServletResponse resp, Post post, String username) {
-        try {
-            username = (String) req.getSession().getAttribute("username");
-            if (post.getSellerID().getUsername().equals(username)) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    private void deletePost(HttpServletRequest req, HttpServletResponse resp, Post post) {
-        try {
-            postDAO postDAO = new postDAO();
-            postDAO.deletePost(post);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     private boolean isDeletedPost(HttpServletRequest req, HttpServletResponse resp, Post post) {
         try {
             if (post.getDelete()) {
@@ -99,14 +73,34 @@ public class deletePostController extends HttpServlet {
         return false;
     }
 
-    private boolean isDeleteablePost(HttpServletRequest req, HttpServletResponse resp, Post post) {
+    private boolean isValidUserToViewPost(HttpServletRequest req, HttpServletResponse resp, Post post) {
         try {
-            if (post.getStatus().equals("readyToSell") || post.getStatus().equals("done")) {
+            String username = (String) req.getSession().getAttribute("username");
+            if (post.getBuyerID().getUsername().equals(username)) {
                 return true;
+            } else {
+                return false;
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
+
+    private void getAllPost(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            userDAO userDAO = new userDAO();
+            String username = (String) req.getSession().getAttribute("username");
+            User user = userDAO.getUserByUsername(username);
+            postDAO postDAO = new postDAO();
+            List<Post> getAllPost = postDAO.getAllPostByBuyer(user);
+            req.setAttribute("lPosts",getAllPost);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+
 }
