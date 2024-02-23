@@ -178,7 +178,7 @@ public class postDAO {
             transaction = session.beginTransaction();
 
             post.setBuyerID(user);
-            post.setStatus("buyerChecking");
+            post.setStatus("buyed");
             post.setUpdateable(false);
             post.setCanBuyerComplain(true);
 

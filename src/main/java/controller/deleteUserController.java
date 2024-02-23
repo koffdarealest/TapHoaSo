@@ -1,7 +1,6 @@
     package controller;
 
     import DAO.userDAO;
-    import com.google.gson.internal.bind.util.ISO8601Utils;
     import jakarta.servlet.ServletException;
     import jakarta.servlet.annotation.WebServlet;
     import jakarta.servlet.http.HttpServlet;
@@ -14,7 +13,7 @@
     import java.util.List;
 
     @WebServlet(urlPatterns = {"/deleteUser"})
-    public class deleteUser  extends HttpServlet {
+    public class deleteUserController extends HttpServlet {
         @Override
         protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
             doPost(req, resp);
