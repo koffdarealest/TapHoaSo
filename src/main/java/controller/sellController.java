@@ -125,11 +125,11 @@ public class sellController extends HttpServlet {
     private void payPrepostFee(HttpServletRequest req, HttpServletResponse resp, Post post) {
         userDAO userDAO = new userDAO();
         transactionDAO transactionDAO = new transactionDAO();
-        User user = getUser(req);
-        Long balance = user.getBalance();
-        Long prepostFee = 500L;
-        userDAO.updateBalance(user, balance - prepostFee);
-        transactionDAO.createPrepostFeeTrans(post);
+//        User user = getUser(req);
+//        Long balance = user.getBalance();
+//        Long prepostFee = 500L;
+//        userDAO.updateBalance(user, balance - prepostFee);
+//        transactionDAO.createPrepostFeeTrans(post);
     }
 
     private boolean isBalanceEnough(HttpServletRequest req, HttpServletResponse resp) {

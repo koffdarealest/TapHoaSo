@@ -124,7 +124,7 @@
                             ${post.getProcessed() ? "Process" : "Done"}
                         </td>
                         <td>${post.description}</td>
-                        <td>user</td>
+                        <td><c:out value="${nameOfUserCreatedPost}" /></td>
                         <td>
                             <c:set var="createdAt" value="${post.createdAt}"/>
                             <fmt:formatDate value="${createdAt}" pattern="dd/MM/yyyy HH:mm:ss"/>
