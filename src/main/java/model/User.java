@@ -20,7 +20,7 @@ public class User extends BaseAuditable{
     private Boolean isAdmin;
     private Boolean isActivated;
     private byte[] secretKey;
-
+    private boolean isOnline;
     public User() {
     }
 
@@ -60,14 +60,12 @@ public class User extends BaseAuditable{
         this.password = password;
     }
 
-    private boolean isOnline;
     public void setOnline(boolean online) {
         this.isOnline = online;
     }
     public boolean isOnline() {
         return isOnline;
     }
-
     public String getEmail() {
         return email;
     }
