@@ -19,7 +19,7 @@ public class postDetailController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = (String) req.getSession().getAttribute("username");
         if (username == null) {
-            resp.sendRedirect("/signin");
+            resp.sendRedirect( req.getContextPath() + "/signin");
         } else {
             Long id = getPostID(req, resp);
             Post post = getPost(req, resp, id);
@@ -29,7 +29,7 @@ public class postDetailController extends HttpServlet {
                 return;
             }
             if (isPostOwner(req, resp, post, username)) {
-                resp.sendRedirect("/postDetailUpdate?postID=" + id);
+                resp.sendRedirect("postDetailUpdate?postID=" + id);
                 return;
             }
             req.setAttribute("chosenPost", post);

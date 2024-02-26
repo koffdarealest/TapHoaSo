@@ -13,15 +13,15 @@
     <title>TapHoaSo</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="../../assets/css/fontawesome.css">
-    <link rel="stylesheet" href="../../assets/css/templatemo-lugx-gaming.css">
-    <link rel="stylesheet" href="../../assets/css/owl.css">
-    <link rel="stylesheet" href="../../assets/css/animate.css">
-    <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="stylesheet" href="../../assets/css/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-lugx-gaming.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"/>
 </head>
 
 <body>
@@ -52,9 +52,9 @@
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li><a href="/viewProfile">Welcome! ${user.nickname}</a></li>
+                        <li><a href="viewProfile">Welcome! ${user.nickname}</a></li>
                         <li><a href="">Your Balance ${user.balance}VND</a></li>
-                        <li><a STYLE="font-size: 15px" href="/signOut">Sign out</a></li>
+                        <li><a STYLE="font-size: 15px" href="signOut">Sign out</a></li>
                     </ul>
 
                     <a class='menu-trigger'>
@@ -95,7 +95,7 @@
                 <a href="sell">
                     <div class="item">
                         <div class="image">
-                            <img src="../../assets/images/sell.png" alt="" style="max-width: 44px;">
+                            <img src="assets/images/sell.png" alt="" style="max-width: 44px;">
                         </div>
                         <h4>Sell Product</h4>
                     </div>
@@ -105,7 +105,7 @@
                 <a href="market">
                     <div class="item">
                         <div class="image">
-                            <img src="../../assets/images/post.png" alt="" style="max-width: 44px;">
+                            <img src="assets/images/post.png" alt="" style="max-width: 44px;">
                         </div>
                         <h4>View Public Market</h4>
                     </div>
@@ -115,17 +115,17 @@
                 <a href="#">
                     <div class="item">
                         <div class="image">
-                            <img src="../../assets/images/dolla.png" alt="" style="max-width: 44px;">
+                            <img src="assets/images/dolla.png" alt="" style="max-width: 44px;">
                         </div>
                         <h4>View Balance</h4>
                     </div>
                 </a>
             </div>
             <div class="col-lg-3 col-md-6">
-                <a href="/viewProfile">
+                <a href="viewProfile">
                     <div class="item">
                         <div class="image">
-                            <img src="../../assets/images/user.png" alt="" style="max-width: 44px;">
+                            <img src="assets/images/user.png" alt="" style="max-width: 44px;">
                         </div>
                         <h4>Account Profile</h4>
                     </div>
@@ -154,12 +154,12 @@
 
 <!-- Scripts -->
 <!-- Bootstrap core JavaScript -->
-<script src="../../vendor/jquery/jquery.min.js"></script>
-<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="../../assets/js/isotope.min.js"></script>
-<script src="../../assets/js/owl-carousel.js"></script>
-<script src="../../assets/js/counter.js"></script>
-<script src="../../assets/js/custom.js"></script>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/isotope.min.js"></script>
+<script src="assets/js/owl-carousel.js"></script>
+<script src="assets/js/counter.js"></script>
+<script src="assets/js/custom.js"></script>
 
 </body>
 </html>

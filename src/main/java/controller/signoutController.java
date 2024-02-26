@@ -27,6 +27,6 @@ public class signoutController extends HttpServlet {
 
 //            response.sendRedirect("/signin");
         }
-        response.sendRedirect("/signin");
+        response.sendRedirect(request.getContextPath() + "/signin");
     }
 }

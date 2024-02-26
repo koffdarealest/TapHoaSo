@@ -17,7 +17,7 @@ public class deletePostController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = (String) req.getSession().getAttribute("username");
         if (username == null) {
-            resp.sendRedirect("/signin");
+            resp.sendRedirect( req.getContextPath() + "/signin");
         } else {
             Long id = getPostID(req, resp);
             Post post = getPostByID(req, resp, id);

@@ -21,7 +21,7 @@ public class sellController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = (String) req.getSession().getAttribute("username");
         if (username == null) {
-            resp.sendRedirect("/signin");
+            resp.sendRedirect( req.getContextPath() + "/signin");
         } else {
             req.getRequestDispatcher("/WEB-INF/view/sell.jsp").forward(req, resp);
         }
@@ -44,7 +44,7 @@ public class sellController extends HttpServlet {
             Post post = createPost(req, resp, params);
             payPrepostFee(req, resp, post);
             insertPostToDB(req, resp, post);
-            resp.sendRedirect("/home");
+            resp.sendRedirect( req.getContextPath() + "/home");
         } else {
             req.setAttribute("notification", "Your balance is not enough! Please <a href=" + "deposit>" + "top up</a> your balance!");
             req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);

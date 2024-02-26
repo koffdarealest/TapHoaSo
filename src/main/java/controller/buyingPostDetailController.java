@@ -18,7 +18,7 @@ public class buyingPostDetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getSession().getAttribute("username") == null) {
-            resp.sendRedirect("/signin");
+            resp.sendRedirect( req.getContextPath() + "/signin");
         } else {
             Long id = getPostID(req, resp);
             Post post = getPostByID(req, resp, id);

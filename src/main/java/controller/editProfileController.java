@@ -15,7 +15,7 @@ import model.User;
 public class editProfileController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = (String) request.getSession().getAttribute("username");
-        if (!checkSession(username, response)) {
+        if (!checkSession(username, response, request)) {
             return;
         }
         userDAO userDAO = new userDAO();
@@ -28,7 +28,7 @@ public class editProfileController extends HttpServlet {
         // Nhận thông tin từ form
         String username = request.getParameter("username");
         String newNickname = request.getParameter("nickname");
-        if (!checkSession(username, response)) {
+        if (!checkSession(username, response, request)) {
             return;
         }
         userDAO userDAO = new userDAO();
@@ -38,9 +38,9 @@ public class editProfileController extends HttpServlet {
         response.sendRedirect("/viewProfile");
     }
 
-    private boolean checkSession(String username, HttpServletResponse resp) throws IOException {
+    private boolean checkSession(String username, HttpServletResponse resp, HttpServletRequest req) throws IOException {
         if (username == null) {
-            resp.sendRedirect("/signin");
+            resp.sendRedirect( req.getContextPath() + "/signin");
             return false;
         }
         return true;

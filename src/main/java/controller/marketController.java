@@ -16,7 +16,7 @@ public class marketController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getSession().getAttribute("username") == null) {
-            resp.sendRedirect("/signin");
+            resp.sendRedirect( req.getContextPath() + "/signin");
         } else {
             postDAO postDAO = new postDAO();
             List<Post> getAllPost = postDAO.getAllPublicPost();

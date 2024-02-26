@@ -18,7 +18,7 @@ public class resendVerifyEmail extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = getUser(req);
         if (isUserNull(user)) {
-            resp.sendRedirect("signin");
+            resp.sendRedirect( req.getContextPath() + "/signin");
             return;
         }
         resendVerificationEmail(req, resp, user);

@@ -16,7 +16,7 @@ import model.User;
 public class editPasswordController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = (String) request.getSession().getAttribute("username");
-        if (!checkSession(username, response)) {
+        if (!checkSession(username, response, request)) {
             return;
         }
         userDAO userDAO = new userDAO();
@@ -31,7 +31,7 @@ public class editPasswordController extends HttpServlet {
         String newPassword = request.getParameter("newpassword");
         String newPassword2 = request.getParameter("newpassword2");
         String captcha = request.getParameter("captcha");
-        if (!checkSession(username, response)) {
+        if (!checkSession(username, response, request)) {
             return;
         }
         if (!isTrueCaptcha(request, response, captcha)) {
@@ -75,9 +75,9 @@ public class editPasswordController extends HttpServlet {
         request.getRequestDispatcher("WEB-INF/view/editProfile.jsp").forward(request, response);
     }
 
-    private boolean checkSession(String username, HttpServletResponse resp) throws IOException {
+    private boolean checkSession(String username, HttpServletResponse resp, HttpServletRequest req) throws IOException {
         if (username == null) {
-            resp.sendRedirect("/signin");
+            resp.sendRedirect( req.getContextPath() + "/signin");
             return false;
         }
         return true;
