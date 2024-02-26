@@ -20,8 +20,8 @@ public class marketController extends HttpServlet {
         } else {
             postDAO postDAO = new postDAO();
             List<Post> getAllPost = postDAO.getAllPublicPost();
-            req.setAttribute("lPosts",getAllPost);
-            req.getRequestDispatcher("WEB-INF/view/market.jsp").forward(req,resp);
+            req.setAttribute("lPosts", getAllPost);
+            req.getRequestDispatcher("WEB-INF/view/market.jsp").forward(req, resp);
         }
 
     }

@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -81,7 +82,8 @@ public class editPasswordController extends HttpServlet {
         }
         return true;
     }
-    private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp, String enteredCaptcha) throws ServletException, IOException{
+
+    private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp, String enteredCaptcha) throws ServletException, IOException {
         try {
             String captcha = (String) req.getSession().getAttribute("captcha");
             if (enteredCaptcha.equals(captcha)) {

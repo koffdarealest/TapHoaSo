@@ -6,7 +6,7 @@ import org.hibernate.cfg.Configuration;
 public class Factory {
     private static final SessionFactory sessionFactory;
 
-    static  {
+    static {
         try {
             Configuration configuration = new Configuration();
             configuration.configure("hibernate.cfg.xml");

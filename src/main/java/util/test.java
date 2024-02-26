@@ -43,8 +43,8 @@ public class test {
 
     public static void main(String[] args) {
         try {
-            SessionFactory sessionFactory  = Factory.getSessionFactory();
-            if(sessionFactory!=null) {
+            SessionFactory sessionFactory = Factory.getSessionFactory();
+            if (sessionFactory != null) {
                 Session session = sessionFactory.openSession();
                 try {
                     Transaction tr = session.beginTransaction();

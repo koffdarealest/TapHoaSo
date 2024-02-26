@@ -14,26 +14,26 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class userDAO {
-    public void insertUser(User User){
+    public void insertUser(User User) {
         Transaction transaction = null;
-        try (Session session = Factory.getSessionFactory().openSession()){
+        try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
             session.save(User);
 
             transaction.commit();
-        } catch (Exception ex){
-            if(transaction == null){
+        } catch (Exception ex) {
+            if (transaction == null) {
                 transaction.rollback();
             }
             ex.printStackTrace();
         }
     }
 
-    public User getUserByUsername(String username){
+    public User getUserByUsername(String username) {
         User users = null;
         Transaction transaction = null;
-        try (Session session = Factory.getSessionFactory().openSession()){
+        try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
 //            users = session.get(User.class, username);
@@ -41,26 +41,27 @@ public class userDAO {
                     .setParameter("username", username)
                     .uniqueResult();
             transaction.commit();
-        } catch (Exception ex){
-            if(transaction == null){
+        } catch (Exception ex) {
+            if (transaction == null) {
                 transaction.rollback();
             }
             ex.printStackTrace();
         }
         return users;
     }
+
     @SuppressWarnings("unchecked")
-    public List<User> getAllUser(){
+    public List<User> getAllUser() {
         List<User> ListUsers = null;
         Transaction transaction = null;
-        try (Session session = Factory.getSessionFactory().openSession()){
+        try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
             ListUsers = session.createQuery("from User").getResultList();
 
             transaction.commit();
-        } catch (Exception ex){
-            if(transaction == null){
+        } catch (Exception ex) {
+            if (transaction == null) {
                 transaction.rollback();
             }
             ex.printStackTrace();
@@ -68,39 +69,40 @@ public class userDAO {
         return ListUsers;
     }
 
-    public void deleteUser(String username){
+    public void deleteUser(String username) {
         Transaction transaction = null;
         User userDelete = null;
-        try (Session session = Factory.getSessionFactory().openSession()){
+        try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
             userDelete = getUserByUsername(username);
 
-            if(userDelete != null){
+            if (userDelete != null) {
                 session.delete(userDelete);
             }
 
             transaction.commit();
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-    public void updateUser(User userUpdate){
+
+    public void updateUser(User userUpdate) {
         Transaction transaction = null;
-        try (Session session = Factory.getSessionFactory().openSession()){
+        try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
             session.update(userUpdate);
             transaction.commit();
-        } catch (Exception ex){
-            if(transaction == null){
+        } catch (Exception ex) {
+            if (transaction == null) {
                 transaction.rollback();
             }
             ex.printStackTrace();
         }
     }
 
-    public void updatePassword(String gmail,String newPassword){
+    public void updatePassword(String gmail, String newPassword) {
         Transaction transaction = null;
         try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -120,10 +122,10 @@ public class userDAO {
         }
     }
 
-    public User getUserByGmail(String gmail){
+    public User getUserByGmail(String gmail) {
         User user = null;
         Transaction transaction = null;
-        try (Session session = Factory.getSessionFactory().openSession()){
+        try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
             user = (User) session.createQuery("from User where email = :email")
@@ -131,8 +133,8 @@ public class userDAO {
                     .uniqueResult();
 
             transaction.commit();
-        } catch (Exception ex){
-            if(transaction != null){
+        } catch (Exception ex) {
+            if (transaction != null) {
                 transaction.rollback();
             }
             ex.printStackTrace();
@@ -181,7 +183,7 @@ public class userDAO {
         return false;
     }
 
-    public String encodePassword(String password){
+    public String encodePassword(String password) {
         MessageDigest md;
         String result = "";
         try {
@@ -247,11 +249,12 @@ public class userDAO {
 
 
     }
+
     public void updateUserOnlineStatus(Long onlineUserID, boolean b) {
         userDAO userDAO = new userDAO();
         List<User> listUsers = userDAO.getAllUser();
-        for(User user : listUsers){
-            if(user.getUserID().equals(onlineUserID)){
+        for (User user : listUsers) {
+            if (user.getUserID().equals(onlineUserID)) {
                 user.setOnline(false);
                 userDAO.updateUser(user);
             }

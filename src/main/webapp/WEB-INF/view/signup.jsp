@@ -92,22 +92,22 @@
             <form action="signup" method="post" name="signup" id="form">
                 <!-- ---------------input---------------- -->
                 <div class="form-group mb-3">
-                    <label class="label" >Fullname</label>
+                    <label class="label">Fullname</label>
                     <input type="text" class="form-control" placeholder="Fullname"
                            required name="fullname">
                 </div>
                 <div class="form-group mb-3">
-                    <label class="label" >Email</label>
+                    <label class="label">Email</label>
                     <input type="email" class="form-control" placeholder="Email"
                            required name="email">
                 </div>
                 <div class="form-group mb-3">
-                    <label class="label" >Username</label>
+                    <label class="label">Username</label>
                     <input type="text" class="form-control" placeholder="Username"
                            required name="username">
                 </div>
                 <div class="form-group mb-4">
-                    <label class="label" >Password</label>
+                    <label class="label">Password</label>
                     <input type="password" class="form-control" placeholder="Password"
                            required name="password">
                 </div>
@@ -121,7 +121,8 @@
                     <label class="label">Captcha</label>
                     <div class="d-flex align-content-center">
                         <div class="content">
-                            <img style="height: 48px; width: 200px; border-radius: 5px" src="generateCaptcha" alt="Captcha Image"
+                            <img style="height: 48px; width: 200px; border-radius: 5px" src="generateCaptcha"
+                                 alt="Captcha Image"
                                  id="captchaImage">
                         </div>
                         <button class="btn input-group-prepend" onclick="resetCaptcha(event)">
@@ -137,8 +138,9 @@
                     <button type="submit" class="col-lg-8 btn btn-primary btn-lg">SIGN UP</button>
                 </div>
             </form>
-            <p class="text-center" style="font-size: 15px;">Already have an account?  <a data-toggle="tab"
-                                                                                         href="signin">Back to Sign In</a></p>
+            <p class="text-center" style="font-size: 15px;">Already have an account? <a data-toggle="tab"
+                                                                                        href="signin">Back to Sign
+                In</a></p>
         </div>
     </div>
 </div>
@@ -147,8 +149,10 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="d-md-flex col-lg-12 align-self-center">
-                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-left: auto; margin-top: 10px;">Powered by: TapHoaSo © 2024.</p>
-                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-right: auto; margin-top: 10px;">Email Contact: taphoaso391@gmail.com</p>
+                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-left: auto; margin-top: 10px;">Powered
+                    by: TapHoaSo © 2024.</p>
+                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-right: auto; margin-top: 10px;">Email
+                    Contact: taphoaso391@gmail.com</p>
             </div>
         </div>
     </div>
@@ -169,11 +173,11 @@
         reloadCaptcha(); // Gọi hàm tạo mới captcha ở đây
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         var form = document.getElementById("form");
         var sendButton = document.querySelector("#form [type=submit]");
 
-        form.addEventListener("keypress", function(event) {
+        form.addEventListener("keypress", function (event) {
             if (event.key === "Enter") {
                 event.preventDefault();
                 sendButton.click();

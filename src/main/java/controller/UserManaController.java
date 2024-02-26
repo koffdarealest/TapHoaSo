@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.User;
 import DAO.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +18,7 @@ import java.util.List;
 public class UserManaController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       doPost(req, resp);
+        doPost(req, resp);
     }
 
     @Override

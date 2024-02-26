@@ -108,7 +108,8 @@
                     <label class="label">Captcha</label>
                     <div class="d-flex align-content-center">
                         <div class="content">
-                            <img style="height: 48px; width: 200px; border-radius: 5px" src="generateCaptcha" alt="Captcha Image"
+                            <img style="height: 48px; width: 200px; border-radius: 5px" src="generateCaptcha"
+                                 alt="Captcha Image"
                                  id="captchaImage">
                         </div>
                         <button class="btn input-group-prepend" onclick="resetCaptcha(event)">
@@ -127,7 +128,8 @@
                 <!-- -----------------remember me and forgot---------------- -->
                 <div class="form-group d-md-flex mb-3">
                     <div class="w-50 text-left">
-                        <label class="form-check text-muted">Remember Me <input class="form-check-input" type="checkbox" name="remember"><span
+                        <label class="form-check text-muted">Remember Me <input class="form-check-input" type="checkbox"
+                                                                                name="remember"><span
                                 class="checkmark"></span></label>
                     </div>
                     <div class="w-50 text-muted" style="text-align: end;">

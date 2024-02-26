@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import DAO.userDAO;
+
 import java.io.IOException;
 
 import jakarta.servlet.http.HttpSession;
@@ -19,7 +20,7 @@ public class signoutController extends HttpServlet {
         HttpSession session = request.getSession(false);
         if (session != null) {
             Object onlineUserID = session.getAttribute("online");
-            if(onlineUserID != null){
+            if (onlineUserID != null) {
                 userDAO.updateUserOnlineStatus((Long) onlineUserID, false);
                 session.invalidate();
             }

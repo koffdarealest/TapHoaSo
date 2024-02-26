@@ -96,7 +96,7 @@
             <form action="reset" method="post" id="form">
                 <!-- --------------input field-------------- -->
                 <div class="form-group mb-4">
-                    <label class="label" >Password</label>
+                    <label class="label">Password</label>
                     <input type="password" class="form-control" placeholder="Password"
                            required name="password">
                 </div>
@@ -111,7 +111,8 @@
                     <label class="label">Captcha</label>
                     <div class="d-flex align-content-center">
                         <div class="content">
-                            <img style="height: 48px; width: 200px; border-radius: 5px" src="generateCaptcha" alt="Captcha Image"
+                            <img style="height: 48px; width: 200px; border-radius: 5px" src="generateCaptcha"
+                                 alt="Captcha Image"
                                  id="captchaImage">
                         </div>
                         <button class="btn input-group-prepend" onclick="resetCaptcha(event)">
@@ -135,8 +136,10 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="d-md-flex col-lg-12 align-self-center">
-                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-left: auto; margin-top: 10px;">Powered by: TapHoaSo © 2024.</p>
-                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-right: auto; margin-top: 10px;">Email Contact: taphoaso391@gmail.com</p>
+                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-left: auto; margin-top: 10px;">Powered
+                    by: TapHoaSo © 2024.</p>
+                <p class="w-50" style="font-weight: bold; font-size: 110%; margin-right: auto; margin-top: 10px;">Email
+                    Contact: taphoaso391@gmail.com</p>
             </div>
         </div>
     </div>
@@ -144,11 +147,11 @@
 
 <!-- Scripts -->
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         var form = document.getElementById("form");
         var sendButton = document.querySelector("#form [type=submit]");
 
-        form.addEventListener("keypress", function(event) {
+        form.addEventListener("keypress", function (event) {
             if (event.key === "Enter") {
                 event.preventDefault();
                 sendButton.click();

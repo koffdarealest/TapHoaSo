@@ -17,7 +17,7 @@ public class resendVerifyEmail extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = getUser(req);
-        if(isUserNull(user)) {
+        if (isUserNull(user)) {
             resp.sendRedirect("signin");
             return;
         }

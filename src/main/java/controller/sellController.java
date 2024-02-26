@@ -158,9 +158,4 @@ public class sellController extends HttpServlet {
     }
 
 
-
-
-
-
-
 }

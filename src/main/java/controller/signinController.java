@@ -47,7 +47,7 @@ public class signinController extends HttpServlet {
                 //-----------------check active user-----------------
             } else if (!IsActivated(req, resp)) {
                 req.getSession().setAttribute("username", getParameters.get("username"));
-                req.setAttribute("notification", "Your account is not activated! <a href=" + "resendVerifyEmail" +">Click here</a> to send a new verify email!");
+                req.setAttribute("notification", "Your account is not activated! <a href=" + "resendVerifyEmail" + ">Click here</a> to send a new verify email!");
                 req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
             } else if (isRemember(req, resp)) {
                 setCookie(req, resp);
@@ -62,7 +62,7 @@ public class signinController extends HttpServlet {
     }
 
 
-    private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+    private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HashMap<String, String> map = getParameter(req, resp);
         try {
             String enteredCaptcha = map.get("captcha");
@@ -138,7 +138,7 @@ public class signinController extends HttpServlet {
             throw new RuntimeException(e);
         }
         try {
-            for(User user : users) {
+            for (User user : users) {
                 if (user.getUsername().equals(username)) {
                     HttpSession session = req.getSession();
                     session.setAttribute("online", user.getUserID());
@@ -217,7 +217,7 @@ public class signinController extends HttpServlet {
         HashMap<String, String> map = getParameter(req, resp);
         List<User> users = userDAO.getAllUser();
         String username = map.get("username");
-        for(User user : users) {
+        for (User user : users) {
             if (user.getUsername().equals(username)) {
                 HttpSession session = req.getSession();
                 session.setAttribute("online", user.getUserID());
@@ -241,7 +241,6 @@ public class signinController extends HttpServlet {
         }
         return false;
     }
-
 
 
 }

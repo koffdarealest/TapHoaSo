@@ -6,7 +6,6 @@
 package model;
 
 /**
- *
  * @author ASUS
  */
 public class Constants {

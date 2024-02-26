@@ -120,7 +120,8 @@
                                 <label class="label">Price (=>1000) (*)</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <input type="text" name="price" class="form-control" required id="price">   <!-- input Price -->
+                                <input type="text" name="price" class="form-control" required id="price">
+                                <!-- input Price -->
                                 <span class="text-muted"
                                       style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
                             </div>
@@ -142,7 +143,8 @@
                                 <label class="label">Fee (5% of Price)</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <input type="number" name="fee" class="form-control" required readonly id="fee">    <!-- input Fee -->
+                                <input type="number" name="fee" class="form-control" required readonly id="fee">
+                                <!-- input Fee -->
                                 <span class="text-muted"
                                       style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
                             </div>
@@ -168,7 +170,8 @@
                                     the legal basis for resolving complaints if any arise later</p>
                             </div>
                             <div class="col-md-9 form-group">
-                                <textarea class="form-control" name="description" id="description" required></textarea>     <!-- input Description -->
+                                <textarea class="form-control" name="description" id="description" required></textarea>
+                                <!-- input Description -->
 
                             </div>
                         </div>
@@ -178,7 +181,8 @@
                                 <label class="label">Contact</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <textarea class="form-control" name="contact" required></textarea>  <!-- input Contact -->
+                                <textarea class="form-control" name="contact" required></textarea>
+                                <!-- input Contact -->
                             </div>
                         </div>
                         <!-- ---------------Hidden--------------- -->
@@ -187,7 +191,8 @@
                                 <label class="label">Hidden content (*)</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <textarea class="form-control" name="hidden" id="hidden" required></textarea>       <!-- input Hidden content -->
+                                <textarea class="form-control" name="hidden" id="hidden" required></textarea>
+                                <!-- input Hidden content -->
                             </div>
                         </div>
                         <!-- ---------------Confirm--------------- -->
@@ -195,12 +200,16 @@
                             <div class="col-md-2"></div>
                             <div class="col-md-10">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="confirmCheckBox" required> <!-- checkbox Confirm -->
+                                    <input class="form-check-input" type="checkbox" value="" id="confirmCheckBox"
+                                           required> <!-- checkbox Confirm -->
                                     <label class="form-check label" for="confirmCheckBox">
-                                        I confirm that the above information is true. I will be responsible if there is any incorrect information in the post.
+                                        I confirm that the above information is true. I will be responsible if there is
+                                        any incorrect information in the post.
                                     </label>
-                                    <label class="text-muted form-check label">TapHoaSo will charge you 500 VND for your product post</label>
-                                    <!--<span id="confirmAlert" class="text-danger"></span> -->  <!-- ---------------Alert--------------- -->
+                                    <label class="text-muted form-check label">TapHoaSo will charge you 500 VND for your
+                                        product post</label>
+                                    <!--<span id="confirmAlert" class="text-danger"></span> -->
+                                    <!-- ---------------Alert--------------- -->
                                 </div>
                             </div>
                         </div>
@@ -208,7 +217,8 @@
                         <div class="d-flex mb-3 align-items-center">
                             <div class="form-group col-md-12 text-center">
                                 <button type="submit" class="col-md-3 btn btn-primary p-3">
-                                    <i class="fas fa-upload"></i>CREATE POST</button>
+                                    <i class="fas fa-upload"></i>CREATE POST
+                                </button>
                                 <!-- Submit -->
                             </div>
                         </div>

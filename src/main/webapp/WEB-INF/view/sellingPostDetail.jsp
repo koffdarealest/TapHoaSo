@@ -321,8 +321,10 @@
                                     <!-- ---------------Submit--------------- -->
                                     <div class="d-flex mb-3 align-items-center">
                                         <div class="form-group col-md-12 text-center">
-                                            <button type="submit" class="col-md-3 btn btn-primary p-3" style="background: #b9b700; border: 0">
-                                                <i class="fas fa-pencil"></i> Update</button>
+                                            <button type="submit" class="col-md-3 btn btn-primary p-3"
+                                                    style="background: #b9b700; border: 0">
+                                                <i class="fas fa-pencil"></i> Update
+                                            </button>
                                             <!-- Submit -->
                                         </div>
                                     </div>

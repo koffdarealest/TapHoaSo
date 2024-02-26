@@ -33,10 +33,10 @@ public class updatePostController extends HttpServlet {
                 req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
                 return;
             } else {
-                req.setAttribute("chosenPost",post);
+                req.setAttribute("chosenPost", post);
             }
             getAllPost(req, resp);
-            req.getRequestDispatcher("WEB-INF/view/sellingPostDetail.jsp").forward(req,resp);
+            req.getRequestDispatcher("WEB-INF/view/sellingPostDetail.jsp").forward(req, resp);
         }
     }
 
@@ -69,6 +69,7 @@ public class updatePostController extends HttpServlet {
         req.setAttribute("notification", "Update post successfully! <a href=sellingPost>Go back here</a>");
         req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
     }
+
     //--------------------------------------doGet function --------------------------------------
     private Long getPostID(HttpServletRequest req, HttpServletResponse resp) {
         Long postID = null;
@@ -92,6 +93,7 @@ public class updatePostController extends HttpServlet {
         }
         return post;
     }
+
     private void getAllPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
             userDAO userDAO = new userDAO();
@@ -99,11 +101,12 @@ public class updatePostController extends HttpServlet {
             User user = userDAO.getUserByUsername(username);
             postDAO postDAO = new postDAO();
             List<Post> getAllPost = postDAO.getAllPostBySeller(user);
-            req.setAttribute("lPosts",getAllPost);
+            req.setAttribute("lPosts", getAllPost);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     //--------------------------------------doPost function --------------------------------------
     private HashMap<String, String> getParams(HttpServletRequest req) {
         HashMap<String, String> params = new HashMap<>();

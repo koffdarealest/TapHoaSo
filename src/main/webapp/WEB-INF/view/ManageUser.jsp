@@ -164,12 +164,14 @@
                             </h6>
                             <a class="dropdown-item d-flex align-items-center" href="#">
                                 <div class="dropdown-list-image mr-3">
-                                    <img class="rounded-circle" src="../adminContent/img/undraw_profile_1.svg" alt="...">
+                                    <img class="rounded-circle" src="../adminContent/img/undraw_profile_1.svg"
+                                         alt="...">
                                     <div class="status-indicator bg-success"></div>
                                 </div>
                                 <div class="font-weight-bold">
                                     <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                                        problem I've been having.</div>
+                                        problem I've been having.
+                                    </div>
                                     <div class="small text-gray-500">Emily Fowler · 58m</div>
                                 </div>
                             </a>
@@ -225,20 +227,20 @@
                     <div class="card-body">
                         <div class="table-responsive">
                             <form action="deleteUser" method="get">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Username</th>
-                                    <th>Email</th>
-                                    <th>Date Create</th>
-                                    <th>Id Deleted</th>
-                                    <th>Action</th>
-                                    <th>Edit</th>
-                                </tr>
-                                </thead>
-                                <tbody>
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Date Create</th>
+                                        <th>Id Deleted</th>
+                                        <th>Action</th>
+                                        <th>Edit</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
                                     <c:forEach items="${users}" var="u">
                                         <tr>
                                             <td>

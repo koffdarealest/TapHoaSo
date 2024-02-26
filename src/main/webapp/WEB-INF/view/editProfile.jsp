@@ -152,13 +152,15 @@
                                 <label class="label">Captcha</label>
                                 <div class="d-flex align-content-center">
                                     <div class="content">
-                                        <img style="height: 48px; width: 200px; border-radius: 5px" src="generateCaptcha" alt="Captcha Image"
+                                        <img style="height: 48px; width: 200px; border-radius: 5px"
+                                             src="generateCaptcha" alt="Captcha Image"
                                              id="captchaImage">
                                     </div>
                                     <button class="btn input-group-prepend" onclick="resetCaptcha(event)">
                                         <i class="fa fa-refresh"></i>
                                     </button>
-                                    <input type="text" class="form-control" name="captcha" required placeholder="Enter Captcha"/>
+                                    <input type="text" class="form-control" name="captcha" required
+                                           placeholder="Enter Captcha"/>
                                 </div>
                             </div>
                             <!-- --------------error n success field-------------- -->

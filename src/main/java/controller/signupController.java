@@ -32,13 +32,13 @@ public class signupController extends HttpServlet {
         //get Parameters from signup.jsp
         Map<String, String> getParameters = getParameters(req);
         //verify captcha
-        if(!isTrueCaptcha(req, resp, getParameters)){
+        if (!isTrueCaptcha(req, resp, getParameters)) {
             req.setAttribute("error", "Captcha is not correct! Try again!");
             req.getRequestDispatcher("/WEB-INF/view/signup.jsp").forward(req, resp);
             return;
         }
         //check exist username and email
-        if(CheckExistUsernameAndEmail(req, resp, userDAO, getParameters)) {
+        if (CheckExistUsernameAndEmail(req, resp, userDAO, getParameters)) {
             req.setAttribute("error", "Username or gmail already exists! Try again!");
             req.getRequestDispatcher("/WEB-INF/view/signup.jsp").forward(req, resp);
             return;
@@ -131,7 +131,7 @@ public class signupController extends HttpServlet {
 
     private boolean CheckPasswordAndRePassword(HttpServletRequest req, HttpServletResponse resp, Map<String, String> getParameters) {
         if (!getParameters.get("password").equals(getParameters.get("rePassword"))) {
-                return false;
+            return false;
         }
         return true;
     }
@@ -164,9 +164,6 @@ public class signupController extends HttpServlet {
         tokenDAO.saveSignUpToken(user, token);
         return token;
     }
-
-
-
 
 
 }

@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-public class User_Transaction_History extends BaseAuditable{
+public class User_Transaction_History extends BaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transactionID;

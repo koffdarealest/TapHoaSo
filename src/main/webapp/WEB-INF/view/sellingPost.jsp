@@ -138,28 +138,38 @@
                             <c:set var="createdAt" value="${post.createdAt}"/>
                             <fmt:formatDate value="${createdAt}" pattern="dd/MM/yyyy HH:mm:ss"/>
                         </td>
-                        <c:set var="updatedAt" value="${post.updatedAt}" />
+                        <c:set var="updatedAt" value="${post.updatedAt}"/>
                         <td>
                             <c:choose>
                                 <c:when test="${updatedAt != null}">
-                                    <fmt:formatDate value="${updatedAt}" pattern="dd/MM/yyyy HH:mm:ss" />
+                                    <fmt:formatDate value="${updatedAt}" pattern="dd/MM/yyyy HH:mm:ss"/>
                                 </c:when>
                                 <c:otherwise>&nbsp;</c:otherwise>
                             </c:choose>
                         </td>
-                        <td><button class="custom-button btn btn-lg" onclick="viewPostDetailUpdate('${post.postID}')" style="font-size: large">
-                            <i class="fas fa-info-circle"></i> Detail</button></td>
+                        <td>
+                            <button class="custom-button btn btn-lg" onclick="viewPostDetailUpdate('${post.postID}')"
+                                    style="font-size: large">
+                                <i class="fas fa-info-circle"></i> Detail
+                            </button>
+                        </td>
                         <c:choose>
                             <c:when test="${post.status eq 'readyToSell' || post.status eq 'done'}">
-                                <td><button class="custom-button btn btn-lg" onclick="openConfirmationPopup(${post.postID})" style="font-size: large; background: #d21300">
-                                    <i class="fas fa-trash"></i> Delete</button></td>
+                                <td>
+                                    <button class="custom-button btn btn-lg"
+                                            onclick="openConfirmationPopup(${post.postID})"
+                                            style="font-size: large; background: #d21300">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </td>
                             </c:when>
                             <c:otherwise>
-                                <td></td> <!-- Nếu không phải 'readyToSell' hoặc 'done', không hiển thị nút Delete -->
+                                <td></td>
+                                <!-- Nếu không phải 'readyToSell' hoặc 'done', không hiển thị nút Delete -->
                             </c:otherwise>
                         </c:choose>
-<%--                        <td><button class="custom-button btn btn-lg" onclick="openConfirmationPopup(${post.postID})" style="font-size: large; background: #d21300">--%>
-<%--                            <i class="fas fa-remove"></i> Delete</button></td>--%>
+                            <%--                        <td><button class="custom-button btn btn-lg" onclick="openConfirmationPopup(${post.postID})" style="font-size: large; background: #d21300">--%>
+                            <%--                            <i class="fas fa-remove"></i> Delete</button></td>--%>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -262,6 +272,7 @@
 </script>
 <script>
     var id;
+
     function openConfirmationPopup(postID) {
         document.getElementById('overlay').style.display = 'block';
         document.getElementById('confirmationPopup').style.display = 'block';
@@ -280,9 +291,12 @@
 </script>
 <!-- Money format -->
 <script>
-    document.querySelectorAll("[id^='money']").forEach(function(cell) {
+    document.querySelectorAll("[id^='money']").forEach(function (cell) {
         var totalSpend = cell.textContent;
-        var formattedTotalSpend = new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(totalSpend);
+        var formattedTotalSpend = new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND"
+        }).format(totalSpend);
         cell.textContent = formattedTotalSpend;
     });
 

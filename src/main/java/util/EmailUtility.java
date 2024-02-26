@@ -47,20 +47,20 @@ public class EmailUtility {
     }
 
     public static void main(String[] args) {
-            String hostname = "smtp.gmail.com";
-            int port = 587; // Use the appropriate port for your SMTP server
-            String username = "";
-            char[] password = "yygb zruf iamu vmtg".toCharArray();
-            String toAddress = "";
-            String subject = "";
-            String message = "";
+        String hostname = "smtp.gmail.com";
+        int port = 587; // Use the appropriate port for your SMTP server
+        String username = "";
+        char[] password = "yygb zruf iamu vmtg".toCharArray();
+        String toAddress = "";
+        String subject = "";
+        String message = "";
 
-            try {
-                sendEmail(hostname, String.valueOf(port), username, password, toAddress, subject, message);
-            } catch (Exception e) {
-                System.out.println("Failed to send email: " + e.getMessage());
-                e.printStackTrace();
-            }
+        try {
+            sendEmail(hostname, String.valueOf(port), username, password, toAddress, subject, message);
+        } catch (Exception e) {
+            System.out.println("Failed to send email: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
 }

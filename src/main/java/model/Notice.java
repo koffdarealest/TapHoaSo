@@ -3,7 +3,7 @@ package model;
 import jakarta.persistence.*;
 
 @Entity
-public class Notice extends BaseAuditable{
+public class Notice extends BaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long noticeID;
@@ -11,6 +11,7 @@ public class Notice extends BaseAuditable{
     private Post postID;
     private String content;
     private Boolean isAdminReceive;
+
     public Notice() {
     }
 

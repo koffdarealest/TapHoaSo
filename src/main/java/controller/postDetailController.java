@@ -23,18 +23,18 @@ public class postDetailController extends HttpServlet {
         } else {
             Long id = getPostID(req, resp);
             Post post = getPost(req, resp, id);
-            if(isDeletedPost(req,resp,post)){
+            if (isDeletedPost(req, resp, post)) {
                 req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
                 req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
                 return;
             }
-            if(isPostOwner(req,resp,post,username)) {
-                resp.sendRedirect("/postDetailUpdate?postID="+id);
+            if (isPostOwner(req, resp, post, username)) {
+                resp.sendRedirect("/postDetailUpdate?postID=" + id);
                 return;
             }
-            req.setAttribute("chosenPost",post);
+            req.setAttribute("chosenPost", post);
             getAllPost(req, resp);
-            req.getRequestDispatcher("WEB-INF/view/postDetail.jsp").forward(req,resp);
+            req.getRequestDispatcher("WEB-INF/view/postDetail.jsp").forward(req, resp);
         }
     }
 
@@ -60,11 +60,12 @@ public class postDetailController extends HttpServlet {
         }
         return post;
     }
+
     private void getAllPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
             postDAO postDAO = new postDAO();
             List<Post> getAllPost = postDAO.getAllPublicPost();
-            req.setAttribute("lPosts",getAllPost);
+            req.setAttribute("lPosts", getAllPost);
         } catch (Exception e) {
             e.printStackTrace();
         }

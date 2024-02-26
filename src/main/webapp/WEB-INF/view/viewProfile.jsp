@@ -98,65 +98,67 @@
                     </div>
                 </div>
                 <div class="card-body">
-                        <!-- ----------UserName------------->
-                        <div class="d-flex mb-3 align-items-center">
-                            <div class="label-form col-md-3"><label class="label">UserName</label></div>
-                            <div class="col-md-9"><input type="text" name="title" value="${user.username}"
-                                                         class="form-control" readonly>      <!-- input Title --> </div>
-                        </div>
-                        <!-- ---------------Email--------------- -->
-                        <div class="d-flex mb-3 align-items-center">
-                            <div class="label-form col-md-3"><label class="label">Email</label></div>
-                            <div class="col-md-9"><input type="text" name="title" value="${user.email}"
-                                                         class="form-control" readonly>      <!-- input Title --> </div>
-                        </div>
-                        <!-- ---------------nickname--------------- -->
-                        <div class="d-flex mb-3 align-items-center">
-                            <div class="label-form col-md-3"><label class="label">Nickname</label></div>
-                            <div class="col-md-9"><input type="text" name="title" value="${user.nickname}"
-                                                         class="form-control" readonly>      <!-- input Title --> </div>
-                        </div>
-                        <!-- --------------balance--------------- -->
-                        <div class="d-flex mb-3 align-items-center">
-                            <div class="label-form col-md-3"><label class="label">Balance</label></div>
-                            <div class="col-md-9"><input type="text" name="title" value="${user.balance}"
-                                                         class="form-control" readonly>      <!-- input Title --> </div>
-                        </div>
+                    <!-- ----------UserName------------->
+                    <div class="d-flex mb-3 align-items-center">
+                        <div class="label-form col-md-3"><label class="label">UserName</label></div>
+                        <div class="col-md-9"><input type="text" name="title" value="${user.username}"
+                                                     class="form-control" readonly>      <!-- input Title --> </div>
+                    </div>
+                    <!-- ---------------Email--------------- -->
+                    <div class="d-flex mb-3 align-items-center">
+                        <div class="label-form col-md-3"><label class="label">Email</label></div>
+                        <div class="col-md-9"><input type="text" name="title" value="${user.email}"
+                                                     class="form-control" readonly>      <!-- input Title --> </div>
+                    </div>
+                    <!-- ---------------nickname--------------- -->
+                    <div class="d-flex mb-3 align-items-center">
+                        <div class="label-form col-md-3"><label class="label">Nickname</label></div>
+                        <div class="col-md-9"><input type="text" name="title" value="${user.nickname}"
+                                                     class="form-control" readonly>      <!-- input Title --> </div>
+                    </div>
+                    <!-- --------------balance--------------- -->
+                    <div class="d-flex mb-3 align-items-center">
+                        <div class="label-form col-md-3"><label class="label">Balance</label></div>
+                        <div class="col-md-9"><input type="text" name="title" value="${user.balance}"
+                                                     class="form-control" readonly>      <!-- input Title --> </div>
+                    </div>
 
-                        <div class="d-flex mb-3 align-items-center">
-                            <div class="form-group col-md-12 text-center">
-                                <button class="col-md-3 btn btn-primary p-3" onclick="location.href='editProfile'" >EDIT PROFILE</button>
-                            </div>
+                    <div class="d-flex mb-3 align-items-center">
+                        <div class="form-group col-md-12 text-center">
+                            <button class="col-md-3 btn btn-primary p-3" onclick="location.href='editProfile'">EDIT
+                                PROFILE
+                            </button>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-        <footer>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="d-md-flex col-lg-12 align-self-center">
-                        <p class="w-50"
-                           style="font-weight: bold; font-size: 110%; margin-left: auto; margin-top: 10px;">Powered
-                            by: TapHoaSo © 2024.</p>
-                        <p class="w-50"
-                           style="font-weight: bold; font-size: 110%; margin-right: auto; margin-top: 10px;">Email
-                            Contact: taphoaso@gmail.com</p>
-                    </div>
-                </div>
+<footer>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="d-md-flex col-lg-12 align-self-center">
+                <p class="w-50"
+                   style="font-weight: bold; font-size: 110%; margin-left: auto; margin-top: 10px;">Powered
+                    by: TapHoaSo © 2024.</p>
+                <p class="w-50"
+                   style="font-weight: bold; font-size: 110%; margin-right: auto; margin-top: 10px;">Email
+                    Contact: taphoaso@gmail.com</p>
             </div>
+        </div>
+    </div>
 
-        </footer>
-            <!-- Bootstrap core JavaScript -->
+</footer>
+<!-- Bootstrap core JavaScript -->
 
-            <!-- Bootstrap core JavaScript -->
-            <script src="../vendor/jquery/jquery.min.js"></script>
-            <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
-            <script src="../assets/js/isotope.min.js"></script>
-            <script src="../assets/js/owl-carousel.js"></script>
-            <script src="../assets/js/counter.js"></script>
-            <script src="../assets/js/custom.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script src="../vendor/jquery/jquery.min.js"></script>
+<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="../assets/js/isotope.min.js"></script>
+<script src="../assets/js/owl-carousel.js"></script>
+<script src="../assets/js/counter.js"></script>
+<script src="../assets/js/custom.js"></script>
 
 
 </body>

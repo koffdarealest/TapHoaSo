@@ -27,7 +27,7 @@ public class postDAO {
         }
     }
 
-    public Post getPostByTradingCode (String tradingCode) {
+    public Post getPostByTradingCode(String tradingCode) {
         Post post = null;
         Transaction transaction = null;
         try (Session session = Factory.getSessionFactory().openSession()) {
@@ -46,7 +46,7 @@ public class postDAO {
         return post;
     }
 
-    public Post getPostByID (Long id) {
+    public Post getPostByID(Long id) {
         Post post = null;
         Transaction transaction = null;
         try (Session session = Factory.getSessionFactory().openSession()) {
@@ -108,23 +108,23 @@ public class postDAO {
     public boolean isBalanceEnough(User user, Long price) {
         userDAO userDAO = new userDAO();
         Long balance = user.getBalance();
-        if(balance < price) {
+        if (balance < price) {
             return false;
         }
         return true;
     }
 
-    public List<Post> getAllPublicPost(){
+    public List<Post> getAllPublicPost() {
         List<Post> ListPosts = null;
         Transaction transaction = null;
-        try (Session session = Factory.getSessionFactory().openSession()){
+        try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
             ListPosts = session.createQuery("from Post where buyerID is null and (isDelete != true or isDelete is null)").getResultList();
 
             transaction.commit();
-        } catch (Exception ex){
-            if(transaction == null){
+        } catch (Exception ex) {
+            if (transaction == null) {
                 transaction.rollback();
             }
             ex.printStackTrace();
@@ -132,10 +132,10 @@ public class postDAO {
         return ListPosts;
     }
 
-    public List<Post> getAllPostBySeller(User user){
+    public List<Post> getAllPostBySeller(User user) {
         List<Post> ListPosts = null;
         Transaction transaction = null;
-        try (Session session = Factory.getSessionFactory().openSession()){
+        try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
             ListPosts = session.createQuery("from Post where sellerID = :user and (isDelete != true or isDelete is null)")
@@ -143,8 +143,8 @@ public class postDAO {
                     .getResultList();
 
             transaction.commit();
-        } catch (Exception ex){
-            if(transaction == null){
+        } catch (Exception ex) {
+            if (transaction == null) {
                 transaction.rollback();
             }
             ex.printStackTrace();
@@ -172,9 +172,9 @@ public class postDAO {
         return ListPosts;
     }
 
-    public void buyPost(Post post, User user){
+    public void buyPost(Post post, User user) {
         Transaction transaction = null;
-        try (Session session = Factory.getSessionFactory().openSession()){
+        try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
             post.setBuyerID(user);
@@ -185,8 +185,8 @@ public class postDAO {
             session.update(post);
 
             transaction.commit();
-        } catch (Exception ex){
-            if(transaction == null){
+        } catch (Exception ex) {
+            if (transaction == null) {
                 transaction.rollback();
             }
             ex.printStackTrace();

@@ -7,8 +7,9 @@ import DAO.userDAO;
 import util.Encryption;
 
 import java.util.UUID;
+
 @Entity
-public class User extends BaseAuditable{
+public class User extends BaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userID;
@@ -61,9 +62,11 @@ public class User extends BaseAuditable{
     }
 
     private boolean isOnline;
+
     public void setOnline(boolean online) {
         this.isOnline = online;
     }
+
     public boolean isOnline() {
         return isOnline;
     }

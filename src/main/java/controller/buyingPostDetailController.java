@@ -94,13 +94,11 @@ public class buyingPostDetailController extends HttpServlet {
             User user = userDAO.getUserByUsername(username);
             postDAO postDAO = new postDAO();
             List<Post> getAllPost = postDAO.getAllPostByBuyer(user);
-            req.setAttribute("lPosts",getAllPost);
+            req.setAttribute("lPosts", getAllPost);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-
 
 
 }

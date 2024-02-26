@@ -26,8 +26,8 @@ public class buyingPostController extends HttpServlet {
             User user = userDAO.getUserByUsername(username);
             postDAO postDAO = new postDAO();
             List<Post> getAllPost = postDAO.getAllPostByBuyer(user);
-            req.setAttribute("lPosts",getAllPost);
-            req.getRequestDispatcher("WEB-INF/view/buyingPost.jsp").forward(req,resp);
+            req.setAttribute("lPosts", getAllPost);
+            req.getRequestDispatcher("WEB-INF/view/buyingPost.jsp").forward(req, resp);
         }
     }
 }

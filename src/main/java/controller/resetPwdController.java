@@ -22,13 +22,13 @@ public class resetPwdController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HashMap<String, String> params = getParams(req, resp);
-        if(!isTrueCaptcha(req, resp)) {
+        if (!isTrueCaptcha(req, resp)) {
             req.setAttribute("error", "Captcha is not correct! Try again!");
             req.setAttribute("token", req.getParameter("token"));
             req.getRequestDispatcher("/WEB-INF/view/resetPassword.jsp").forward(req, resp);
             return;
         }
-        if(isExpiredToken(req, resp, params)) {
+        if (isExpiredToken(req, resp, params)) {
             req.setAttribute("notification", "invalidToken");
             req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
         } else {
@@ -78,7 +78,7 @@ public class resetPwdController extends HttpServlet {
         return tokenDAO.isTokenExpired(token);
     }
 
-    private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+    private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String enteredCaptcha = req.getParameter("captcha");
         String captcha = (String) req.getSession().getAttribute("captcha");
         if (!enteredCaptcha.equals(captcha)) {

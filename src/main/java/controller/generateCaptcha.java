@@ -1,4 +1,5 @@
 package controller;
+
 import jakarta.servlet.annotation.WebServlet;
 import util.Captcha;
 import jakarta.servlet.ServletException;
@@ -10,6 +11,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
+
 @WebServlet(urlPatterns = {"/generateCaptcha"})
 public class generateCaptcha extends HttpServlet {
     @Override

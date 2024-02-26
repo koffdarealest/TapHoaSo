@@ -15,6 +15,7 @@ public class Encryption {
         SecretKey secretKey = keyGenerator.generateKey();
         return secretKey.getEncoded();
     }
+
     private static final String ALGORITHM = "AES";
 
     public static String encrypt(String str, byte[] SECRET_KEY) throws Exception {

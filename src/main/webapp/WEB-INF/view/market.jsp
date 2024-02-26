@@ -1,4 +1,3 @@
-
 <%--
   Created by IntelliJ IDEA.
   User: Tung
@@ -132,7 +131,7 @@
                             <c:when test="${post.whoPayFee == 'buyer'}">
                                 Buyer
                             </c:when>
-                            </c:choose>
+                        </c:choose>
                         </td>
                         <td id="money-2">${post.fee}</td>
                         <td id="money-3" style="font-weight: bold">${post.totalSpendForBuyer}</td>
@@ -141,17 +140,21 @@
                             <c:set var="createdAt" value="${post.createdAt}"/>
                             <fmt:formatDate value="${createdAt}" pattern="dd/MM/yyyy HH:mm:ss"/>
                         </td>
-                        <c:set var="updatedAt" value="${post.updatedAt}" />
+                        <c:set var="updatedAt" value="${post.updatedAt}"/>
                         <td>
                             <c:choose>
                                 <c:when test="${updatedAt != null}">
-                                    <fmt:formatDate value="${updatedAt}" pattern="dd/MM/yyyy HH:mm:ss" />
+                                    <fmt:formatDate value="${updatedAt}" pattern="dd/MM/yyyy HH:mm:ss"/>
                                 </c:when>
                                 <c:otherwise>&nbsp;</c:otherwise>
                             </c:choose>
                         </td>
-                        <td><button class="custom-button btn btn-lg" onclick="viewPostDetail('${post.postID}')" style="font-size: large">
-                            <i class="fas fa-info-circle"></i> Detail</button></td>
+                        <td>
+                            <button class="custom-button btn btn-lg" onclick="viewPostDetail('${post.postID}')"
+                                    style="font-size: large">
+                                <i class="fas fa-info-circle"></i> Detail
+                            </button>
+                        </td>
                         <td>Detail</td>
                     </tr>
                 </c:forEach>
@@ -241,9 +244,12 @@
 </script>
 <!-- Money format -->
 <script>
-    document.querySelectorAll("[id^='money']").forEach(function(cell) {
+    document.querySelectorAll("[id^='money']").forEach(function (cell) {
         var totalSpend = cell.textContent;
-        var formattedTotalSpend = new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(totalSpend);
+        var formattedTotalSpend = new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND"
+        }).format(totalSpend);
         cell.textContent = formattedTotalSpend;
     });
 

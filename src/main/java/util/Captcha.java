@@ -57,6 +57,7 @@ public class Captcha {
         }
         return captchaCode.toString();
     }
+
     public void verifyCaptcha(String captcha) {
         //verify captcha
 

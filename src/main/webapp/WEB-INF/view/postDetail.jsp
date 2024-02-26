@@ -112,8 +112,12 @@
                             <td>${post.fee}</td>
                             <td>${post.totalSpendForBuyer}</td>
                             <td>${post.sellerID.nickname}</td>
-                            <td><button class="custom-button btn btn-lg" onclick="viewPostDetail('${post.postID}')" style="font-size: small">
-                                <i class="fas fa-info-circle"></i> Detail</button></td>
+                            <td>
+                                <button class="custom-button btn btn-lg" onclick="viewPostDetail('${post.postID}')"
+                                        style="font-size: small">
+                                    <i class="fas fa-info-circle"></i> Detail
+                                </button>
+                            </td>
                             <td>Detail</td>
                         </tr>
                     </c:forEach>
@@ -252,7 +256,9 @@
                         <!-- ---------------Submit--------------- -->
                         <div class="d-flex mb-3 align-items-center">
                             <div class="form-group col-md-12 text-center">
-                                <button type="submit" class="col-md-3 btn btn-primary p-3" onclick="openBuyPopup('${chosenPost.postID}')">BUY</button>
+                                <button type="submit" class="col-md-3 btn btn-primary p-3"
+                                        onclick="openBuyPopup('${chosenPost.postID}')">BUY
+                                </button>
                                 <!-- Submit -->
                             </div>
                         </div>
@@ -309,6 +315,7 @@
                 }
             }
         }
+
         addRowIfNeed();
 
         for (let header of headers) {
@@ -394,6 +401,7 @@
 <!-- ----------------Buy button---------------- -->
 <script>
     var id;
+
     function openBuyPopup(postID) {
         document.getElementById('overlay').style.display = 'block';
         document.getElementById('buyPopup').style.display = 'block';

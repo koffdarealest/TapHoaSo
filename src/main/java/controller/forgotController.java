@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.User;
 import util.EmailSender;
+
 import java.io.IOException;
 
 
@@ -111,7 +112,7 @@ public class forgotController extends HttpServlet {
         tokenDAO.saveForgotToken(user, token);
     }
 
-    private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+    private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String enteredCaptcha = req.getParameter("captcha");
         String captcha = (String) req.getSession().getAttribute("captcha");
         if (!enteredCaptcha.equals(captcha)) {

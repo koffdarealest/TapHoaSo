@@ -239,11 +239,15 @@
                                 <!-- ---------------Buttons--------------- -->
                                 <div class="d-flex mb-3 align-items-center">
                                     <div class="col-md-12 text-center">
-                                        <button class="col-md-5 btn custom-button p-2" style="font-size: medium; margin-right: 20px; background: #d21300">
-                                            <i class="fa fa-times-circle" style="margin-right: 4px"></i>REPORT PROBLEM</button>
-                                        <button class="col-md-5 btn custom-button p-2" style="font-size: medium" onclick="openConfirmationPopup(${chosenPost.postID})">
-                                            <i class="fa fa-check-circle" style="margin-right: 4px" ></i>
-                                            CONFIRM PRODUCT RECEIVED</button>
+                                        <button class="col-md-5 btn custom-button p-2"
+                                                style="font-size: medium; margin-right: 20px; background: #d21300">
+                                            <i class="fa fa-times-circle" style="margin-right: 4px"></i>REPORT PROBLEM
+                                        </button>
+                                        <button class="col-md-5 btn custom-button p-2" style="font-size: medium"
+                                                onclick="openConfirmationPopup(${chosenPost.postID})">
+                                            <i class="fa fa-check-circle" style="margin-right: 4px"></i>
+                                            CONFIRM PRODUCT RECEIVED
+                                        </button>
                                     </div>
                                 </div>
                             </c:when>
