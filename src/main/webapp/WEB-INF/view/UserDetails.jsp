@@ -23,7 +23,35 @@
 
     <!-- Custom styles for this page -->
     <link href="../../adminContent/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <style>
+        .container-fluid {
+            padding: 20px;
+        }
 
+        .user-form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+
+    </style>
 </head>
 
 <body id="page-top">
@@ -164,14 +192,12 @@
                             </h6>
                             <a class="dropdown-item d-flex align-items-center" href="#">
                                 <div class="dropdown-list-image mr-3">
-                                    <img class="rounded-circle" src="../adminContent/img/undraw_profile_1.svg"
-                                         alt="...">
+                                    <img class="rounded-circle" src="../adminContent/img/undraw_profile_1.svg" alt="...">
                                     <div class="status-indicator bg-success"></div>
                                 </div>
                                 <div class="font-weight-bold">
                                     <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                                        problem I've been having.
-                                    </div>
+                                        problem I've been having.</div>
                                     <div class="small text-gray-500">Emily Fowler · 58m</div>
                                 </div>
                             </a>
@@ -218,63 +244,61 @@
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
-
                 <!-- Page Heading -->
-                <h1 class="h3 mb-2 text-gray-800">Users Table</h1>
+                <h1 class="h3 mb-2 text-gray-800">User Details</h1>
 
-                <!-- DataTales Example -->
-                <div class="card shadow mb-4">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <form action="deleteUser" method="get">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Name</th>
-                                        <th>Username</th>
-                                        <th>Email</th>
-                                        <th>Date Create</th>
-                                        <th>Id Deleted</th>
-                                        <th>Action</th>
-                                        <th>Edit</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <c:forEach items="${users}" var="u">
-                                        <tr>
-                                            <td>
-                                                <label>
-                                                    <input value="${u.getUserID()}" name="selectedUser" type="checkbox">
-                                                </label>
-                                            </td>
-                                            <td>${u.nickname}</td>
-                                            <td>${u.username}</td>
-                                            <td>${u.email}</td>
-                                            <td>${u.createdAt}</td>
-                                            <td>${u.getDelete() ? "1" : "0"}</td>
-                                            <td>
-                                                <button style="border-radius: 2px; background-color: ${u.isOnline() ? 'rgb(82, 196, 82)' : 'rgb(255, 0, 0)'};">
-                                                        ${u.isOnline() ? "Online" : "Offline"}
-                                                </button>
-                                            </td>
-                                            <td><a href="userDetail?id=${u.getUserID()}">Details</a></td>
-                                        </tr>
-                                    </c:forEach>
-                                    </tbody>
-                                </table>
-                                <button class="btn btn-danger" name="action" value="delete">Delete Selected</button>
-                                <form action="deleteUser" method="get">
-                                    <button class="btn btn-success" name="action" value="open">Open Selected</button>
-                                </form>
-                            </form>
+                <!-- Form for entering user information -->
+                        <input value="${user.userID}" hidden>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name" value="${user.nickname}" readonly>
+                            </div>
                         </div>
-
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control" id="username" value="${user.username}" readonly>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" value="${user.email}" readonly>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="balance">Balance</label>
+                                <input type="text" class="form-control" id="balance" value="${user.balance}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="email">Date Created</label>
+                                <input type="email" class="form-control" id="createdAt" value="${user.createdAt}" readonly>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="balance">Date Deleted</label>
+                                <input type="text" class="form-control" id="deletedAt" value="${user.deletedAt}" readonly>
+                            </div>
+                        </div>
+                    </div>
+                <button type="submit" class="btn btn-danger">Block</button>
+                <button type="submit" class="btn btn-facebook">Open Block</button>
+                <button type="submit" class="btn btn-success">Update</button>
+                <!-- End of Form -->
             </div>
+
+            <!-- /.container-fluid -->
+
             <!-- /.container-fluid -->
 
         </div>

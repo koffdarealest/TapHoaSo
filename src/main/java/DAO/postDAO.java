@@ -1,5 +1,6 @@
 package DAO;
 
+import com.mysql.cj.MysqlConnection;
 import model.Post;
 import model.User;
 import org.hibernate.Session;
@@ -178,7 +179,7 @@ public class postDAO {
             transaction = session.beginTransaction();
 
             post.setBuyerID(user);
-            post.setStatus("buyerChecking");
+            post.setStatus("buyed");
             post.setUpdateable(false);
             post.setCanBuyerComplain(true);
 
@@ -198,5 +199,25 @@ public class postDAO {
 //         List<Post> ls = postDAO.getAllPost();
 //         Post post = ls.getFirst();
 //         System.out.println(post.getTradingCode());
+    }
+
+    public String getUserCreatedPost(Long idUser) {
+        String nameOfUserCreatedPost = null;
+        Transaction transaction = null;
+        try (Session session = Factory.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            nameOfUserCreatedPost = (String) session.createQuery("select username from User where id = :id")
+                    .setParameter("id", idUser)
+                    .uniqueResult();
+
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction == null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        }
+        return nameOfUserCreatedPost;
     }
 }

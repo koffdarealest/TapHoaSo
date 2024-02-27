@@ -29,6 +29,23 @@ public class userDAO {
             ex.printStackTrace();
         }
     }
+    public User getUserByUserID(Long userID) {
+        User users = null;
+        Transaction transaction = null;
+        try (Session session = Factory.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            users = session.get(User.class, userID);
+
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction == null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        }
+        return users;
+    }
 
     public User getUserByUsername(String username) {
         User users = null;

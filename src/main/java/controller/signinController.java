@@ -227,6 +227,8 @@ public class signinController extends HttpServlet {
         }
         try {
             req.getSession().setAttribute("username", username);
+            req.getSession().setAttribute("id", userDAO.getUserByUsername(username).getUserID());
+            System.out.println(req.getSession().getAttribute("id"));
             resp.sendRedirect(req.getContextPath() + "/home");
         } catch (Exception e) {
             throw new RuntimeException(e);
