@@ -94,12 +94,12 @@
                 <div class="form-group mb-3">
                     <label class="label">Fullname</label>
                     <input type="text" class="form-control" placeholder="Fullname"
-                           required name="fullname">
+                           required name="fullname" value="${sessionScope.username}">
                 </div>
                 <div class="form-group mb-3">
                     <label class="label">Email</label>
                     <input type="email" class="form-control" placeholder="Email"
-                           required name="email">
+                           required name="email" value="${sessionScope.email}" readonly>
                 </div>
                 <div class="form-group mb-3">
                     <label class="label">Username</label>

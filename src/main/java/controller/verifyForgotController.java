@@ -19,6 +19,11 @@ public class verifyForgotController extends HttpServlet {
 
     private void handleTokenVerification(HttpServletRequest req, HttpServletResponse resp, String tk) throws ServletException, IOException {
         tokenDAO tokenDAO = new tokenDAO();
+//        if(tk == null) {
+//            req.setAttribute("mess", "Your link is expired or unvalid! Try again!");
+//            req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
+//            return;
+//        }
         try {
             if (tokenDAO.isTokenExpired(tk)) {
                 handleExpiredToken(req, resp, tk);

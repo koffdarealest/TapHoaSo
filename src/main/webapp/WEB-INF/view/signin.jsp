@@ -172,7 +172,7 @@
 
     document.addEventListener("DOMContentLoaded", function () {
         var form = document.getElementById("form");
-        var sendButton = document.querySelector("#form [type=submit]");
+        var sendButton = document.querySelector("#form");
 
         form.addEventListener("keypress", function (event) {
             if (event.key === "Enter") {
