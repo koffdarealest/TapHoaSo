@@ -61,13 +61,13 @@
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li><a href="index.html">##</a></li>
-                        <li><a href="shop.html">###</a></li>
-                        <li><a href="product-details.html">####</a>
+                        <li><a href="home">Home</a></li>
+                        <li><a href="market">Public market</a></li>
+                        <li><a href="sellingPost">Selling posts</a>
                         </li>
-                        <li><a href="contact.html">Contact Us</a>
+                        <li><a href="">Contact Us</a>
                         </li>
-                        <li><a href="#">Sign In</a></li>
+                        <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
                         <span>Menu</span>
@@ -252,7 +252,7 @@
                         <!-- ---------------Submit--------------- -->
                         <div class="d-flex mb-3 align-items-center">
                             <div class="form-group col-md-12 text-center">
-                                <button type="submit" class="col-md-3 btn btn-primary p-3" onclick="buyPost('${chosenPost.postID}')">BUY</button>
+                                <button type="submit" class="col-md-3 btn btn-primary p-3" onclick="openBuyPopup('${chosenPost.postID}')">BUY</button>
                                 <!-- Submit -->
                             </div>
                         </div>
@@ -277,7 +277,16 @@
         </div>
     </div>
 </footer>
-
+<!-- -----------------Confirm Pop-up-----------------  -->
+<div id="overlay" class="overlay" onclick="closePopup()"></div>
+<div id="buyPopup" class="popup">
+    <div class="popup-content">
+        <h6 class="mb-1">Are you sure you want to buy this product?</h6>
+        <p class="mb-3">Your action cannot be recovered!</p>
+        <button onclick="buyPostConfirmed()" style="background: #d31e01">Yes</button>
+        <button onclick="closePopup()">No</button>
+    </div>
+</div>
 <!-- Scripts -->
 <!-- ----------------Table---------------- -->
 <script>
@@ -384,8 +393,20 @@
 </script>
 <!-- ----------------Buy button---------------- -->
 <script>
-    function buyPost(postID) {
-        window.location.href = 'buy?postID=' + postID;
+    var id;
+    function openBuyPopup(postID) {
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('buyPopup').style.display = 'block';
+        id = postID;
+    }
+
+    function buyPostConfirmed() {
+        window.location.href = 'buy?postID=' + id;
+    }
+
+    function closePopup() {
+        document.getElementById('buyPopup').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
     }
 </script>
 

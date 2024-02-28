@@ -22,10 +22,6 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
     <!--
 
-    TemplateMo 589 lugx gaming
-
-    https://templatemo.com/tm-589-lugx-gaming
-
     -->
 </head>
 
@@ -57,10 +53,7 @@
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li><a href="index.html" class="active">#</a></li>
-                        <li><a href="shop.html">##</a></li>
-                        <li><a href="product-details.html">###</a></li>
-                        <li><a href="contact.html">####</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
                         <li><a href="signin">Sign In</a></li>
                     </ul>
                     <a class='menu-trigger'>

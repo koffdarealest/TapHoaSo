@@ -28,6 +28,7 @@ public class Post extends BaseAuditable{
     private Long totalReceiveForSeller;
     private Boolean updateable;
     private Boolean canBuyerComplain;
+
     public Post() {
     }
 

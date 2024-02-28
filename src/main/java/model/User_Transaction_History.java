@@ -11,23 +11,21 @@ public class User_Transaction_History extends BaseAuditable{
     private Long transactionID;
     @ManyToOne
     private User userID;
-    private Date transactionDate;
     private Long amount;
     private String type;
     @Column(columnDefinition = "TEXT")
     private String description;
-    private String status;
+    private Boolean isProcessed;
 
     public User_Transaction_History() {
     }
 
-    public User_Transaction_History(User userID, Date transactionDate, Long amount, String type, String description, String status) {
+    public User_Transaction_History(User userID, Long amount, String type, String description, Boolean isProcessed) {
         this.userID = userID;
-        this.transactionDate = transactionDate;
         this.amount = amount;
         this.type = type;
         this.description = description;
-        this.status = status;
+        this.isProcessed = isProcessed;
     }
 
     public Long getTransactionID() {
@@ -44,14 +42,6 @@ public class User_Transaction_History extends BaseAuditable{
 
     public void setUserID(User userID) {
         this.userID = userID;
-    }
-
-    public Date getTransactionDate() {
-        return transactionDate;
-    }
-
-    public void setTransactionDate(Date transactionDate) {
-        this.transactionDate = transactionDate;
     }
 
     public Long getAmount() {
@@ -78,11 +68,11 @@ public class User_Transaction_History extends BaseAuditable{
         this.description = description;
     }
 
-    public String getStatus() {
-        return status;
+    public Boolean getProcessed() {
+        return isProcessed;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setProcessed(Boolean processed) {
+        isProcessed = processed;
     }
 }

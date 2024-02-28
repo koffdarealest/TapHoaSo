@@ -24,8 +24,14 @@ public class deletePostController extends HttpServlet {
             if (isDeletedPost(req, resp, post)) {
                 req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
                 req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+                return;
             }
             if (!isValidUserToDeletePost(req, resp, post, username)) {
+                req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
+                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+                return;
+            }
+            if (!isDeleteablePost(req, resp, post)) {
                 req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
                 req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
             } else {
@@ -85,6 +91,17 @@ public class deletePostController extends HttpServlet {
     private boolean isDeletedPost(HttpServletRequest req, HttpServletResponse resp, Post post) {
         try {
             if (post.getDelete()) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private boolean isDeleteablePost(HttpServletRequest req, HttpServletResponse resp, Post post) {
+        try {
+            if (post.getStatus().equals("readyToSell") || post.getStatus().equals("done")) {
                 return true;
             }
         } catch (Exception e) {

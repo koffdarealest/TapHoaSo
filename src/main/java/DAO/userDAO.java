@@ -91,7 +91,6 @@ public class userDAO {
             transaction = session.beginTransaction();
 
             session.update(userUpdate);
-
             transaction.commit();
         } catch (Exception ex){
             if(transaction == null){
@@ -248,8 +247,14 @@ public class userDAO {
 
 
     }
-
-
-
-
+    public void updateUserOnlineStatus(Long onlineUserID, boolean b) {
+        userDAO userDAO = new userDAO();
+        List<User> listUsers = userDAO.getAllUser();
+        for(User user : listUsers){
+            if(user.getUserID().equals(onlineUserID)){
+                user.setOnline(false);
+                userDAO.updateUser(user);
+            }
+        }
+    }
 }

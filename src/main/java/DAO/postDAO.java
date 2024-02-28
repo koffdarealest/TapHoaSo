@@ -152,6 +152,26 @@ public class postDAO {
         return ListPosts;
     }
 
+    public List<Post> getAllPostByBuyer(User user) {
+        List<Post> ListPosts = null;
+        Transaction transaction = null;
+        try (Session session = Factory.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            ListPosts = session.createQuery("from Post where buyerID = :user and (isDelete != true or isDelete is null)")
+                    .setParameter("user", user)
+                    .getResultList();
+
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction == null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        }
+        return ListPosts;
+    }
+
     public void buyPost(Post post, User user){
         Transaction transaction = null;
         try (Session session = Factory.getSessionFactory().openSession()){
