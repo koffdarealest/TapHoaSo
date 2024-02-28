@@ -26,7 +26,7 @@ public class editProfileController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Nhận thông tin từ form
-        String username = request.getParameter("username");
+        String username = (String) request.getSession().getAttribute("username");
         String newNickname = request.getParameter("nickname");
         if (!checkSession(username, response, request)) {
             return;
@@ -35,7 +35,7 @@ public class editProfileController extends HttpServlet {
         User user = userDAO.getUserByUsername(username);
         user.setNickname(newNickname);
         userDAO.updateUser(user);
-        response.sendRedirect("/viewProfile");
+        response.sendRedirect(request.getContextPath() + "/viewProfile");
     }
 
     private boolean checkSession(String username, HttpServletResponse resp, HttpServletRequest req) throws IOException {

@@ -1,5 +1,6 @@
 package DAO;
 
+import jakarta.persistence.OptimisticLockException;
 import model.Token;
 import model.User;
 import org.hibernate.Session;
@@ -240,7 +241,7 @@ public class userDAO {
         return user;
     }
 
-    public void updateBalance(User user, Long balance) {
+    public boolean updateBalance(User user, Long balance) {
         Transaction transaction = null;
         try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -249,11 +250,13 @@ public class userDAO {
             session.update(user);
 
             transaction.commit();
+            return true;
         } catch (Exception ex) {
             if (transaction == null) {
                 transaction.rollback();
             }
             ex.printStackTrace();
+            return false;
         }
     }
 

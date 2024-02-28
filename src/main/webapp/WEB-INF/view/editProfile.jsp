@@ -81,14 +81,14 @@
                     <div class="card-body">
                         <form action="editProfile" method="post">
                             <div class="d-flex mb-3 align-items-center">
-                                <div class="label-form col-md-3"><label class="label">UserName</label></div>
+                                <div class="label-form col-md-3"><label class="label">Username</label></div>
                                 <div class="col-md-9"><input type="text" name="username" value="${user.username}"
-                                                             class="form-control" readonly></div>
+                                                             class="form-control" disabled></div>
                             </div>
                             <div class="d-flex mb-3 align-items-center">
                                 <div class="label-form col-md-3"><label class="label">Email</label></div>
                                 <div class="col-md-9"><input type="text" name="email" value="${user.email}"
-                                                             class="form-control" readonly></div>
+                                                             class="form-control" disabled></div>
                             </div>
                             <div class="d-flex mb-3 align-items-center">
                                 <div class="label-form col-md-3"><label class="label">Nickname</label></div>

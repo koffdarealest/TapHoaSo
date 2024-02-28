@@ -22,15 +22,15 @@
     <title>Public Market</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="../../assets/css/fontawesome.css">
-    <link rel="stylesheet" href="../../assets/css/templatemo-lugx-gaming.css">
-    <link rel="stylesheet" href="../../assets/css/owl.css">
-    <link rel="stylesheet" href="../../assets/css/animate.css">
-    <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="stylesheet" href="../../assets/css/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-lugx-gaming.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"/>
 
 
 </head>
@@ -104,13 +104,13 @@
                 <tr>
                     <th>Transaction ID</th>
                     <th>amount</th>
-                    <th>Contact</th>
                     <th>Type</th>
-                    <th>Action</th>
+                    <th>Process</th>
                     <th>Note</th>
                     <th>Created By</th>
                     <th>Time Created</th>
-                    <th colspan="2">Action</th>
+                    <th>Last Updated</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -118,21 +118,22 @@
                     <tr>
                         <td>${post.transactionID}</td>
                         <td>${post.amount}</td>
-                        <td>contacts</td>
                         <td>${post.type}</td>
                         <td>
                             ${post.getProcessed() ? "Process" : "Done"}
                         </td>
-                        <td>${post.description}</td>
+                        <td class="td-overflow">${post.description}</td>
                         <td><c:out value="${nameOfUserCreatedPost}" /></td>
                         <td>
                             <c:set var="createdAt" value="${post.createdAt}"/>
                             <fmt:formatDate value="${createdAt}" pattern="dd/MM/yyyy HH:mm:ss"/>
                         </td>
-                        <c:set var="updatedAt" value="${post.updatedAt}" />
+                        <td>
+                            <c:set var="updatedAt" value="${post.updatedAt}" />
+                            <fmt:formatDate value="${updatedAt}" pattern="dd/MM/yyyy HH:mm:ss"/>
+                        </td>
                         <td><button class="custom-button btn btn-lg" onclick="viewPostDetail('${post.transactionID}')" style="font-size: large">
                             <i class="fas fa-info-circle"></i> Detail</button></td>
-                        <td>Detail</td>
                     </tr>
                 </c:forEach>
                 <!-- Repeat the above row for 20 records -->
@@ -170,7 +171,7 @@
                 for (let i = 0; i < remainingRows; i++) {
                     const row = table.insertRow();
                     row.style.height = (existingRowHeight * 0.85) + 'px'; // Thiết lập chiều cao cho hàng mới
-                    for (let j = 0; j <= headers.length; j++) {
+                    for (let j = 0; j < headers.length; j++) {
                         const cell = row.insertCell();
                     }
                 }
@@ -220,12 +221,12 @@
     }
 </script>
 <!-- Bootstrap core JavaScript -->
-<script src="../../vendor/jquery/jquery.min.js"></script>
-<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="../../assets/js/isotope.min.js"></script>
-<script src="../../assets/js/owl-carousel.js"></script>
-<script src="../../assets/js/counter.js"></script>
-<script src="../../assets/js/custom.js"></script>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/isotope.min.js"></script>
+<script src="assets/js/owl-carousel.js"></script>
+<script src="assets/js/counter.js"></script>
+<script src="assets/js/custom.js"></script>
 
 
 </body>

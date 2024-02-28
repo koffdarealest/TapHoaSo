@@ -3,6 +3,7 @@ package controller;
 import DAO.postDAO;
 import DAO.transactionDAO;
 import DAO.userDAO;
+import jakarta.persistence.OptimisticLockException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -42,9 +43,19 @@ public class sellController extends HttpServlet {
         }
         if (isBalanceEnough(req, resp)) {
             Post post = createPost(req, resp, params);
-            payPrepostFee(req, resp, post);
-            insertPostToDB(req, resp, post);
-            resp.sendRedirect( req.getContextPath() + "/home");
+            boolean isPaid = false;
+            try {
+                isPaid = payPrepostFee(req, resp, post);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            if (!isPaid) {
+                req.setAttribute("notification", "Invalid paid!");
+                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+            } else {
+                insertPostToDB(req, resp, post);
+                resp.sendRedirect( req.getContextPath() + "/home");
+            }
         } else {
             req.setAttribute("notification", "Your balance is not enough! Please <a href=" + "deposit>" + "top up</a> your balance!");
             req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
@@ -122,14 +133,21 @@ public class sellController extends HttpServlet {
         return post;
     }
 
-    private void payPrepostFee(HttpServletRequest req, HttpServletResponse resp, Post post) {
+    private boolean payPrepostFee(HttpServletRequest req, HttpServletResponse resp, Post post) throws InterruptedException {
+        boolean status = false;
         userDAO userDAO = new userDAO();
-        transactionDAO transactionDAO = new transactionDAO();
-//        User user = getUser(req);
-//        Long balance = user.getBalance();
-//        Long prepostFee = 500L;
-//        userDAO.updateBalance(user, balance - prepostFee);
+//        transactionDAO transactionDAO = new transactionDAO();
+        User user = getUser(req);
+        Thread.sleep(5000);
+        Long balance = user.getBalance();
+        Long prepostFee = 500L;
+        try {
+            status = userDAO.updateBalance(user, balance - prepostFee);
 //        transactionDAO.createPrepostFeeTrans(post);
+        } catch (OptimisticLockException e) {
+            e.printStackTrace();
+        }
+        return status;
     }
 
     private boolean isBalanceEnough(HttpServletRequest req, HttpServletResponse resp) {

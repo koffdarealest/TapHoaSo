@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet(urlPatterns = {"/transactionHistory"})
-public class TransactionHistoryController extends HttpServlet {
+public class transactionHistoryController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doPost(req, resp);

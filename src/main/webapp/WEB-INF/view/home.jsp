@@ -115,19 +115,9 @@
                 <a href="transactionHistory">
                     <div class="item">
                         <div class="image">
-                            <img src="../../assets/images/post.png" alt="" style="max-width: 44px;">
-                        </div>
-                        <h4>Transaction History</h4>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <a href="#">
-                    <div class="item">
-                        <div class="image">
                             <img src="assets/images/dolla.png" alt="" style="max-width: 44px;">
                         </div>
-                        <h4>Balance</h4>
+                        <h4>Balance & Transactions</h4>
                     </div>
                 </a>
             </div>
