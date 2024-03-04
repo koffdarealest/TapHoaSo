@@ -105,7 +105,7 @@
                     <th>Price</th>
                     <th>Fee payer</th>
                     <th>Fee</th>
-                    <th>Total spend</th>
+                    <th>Total receive</th>
                     <th>Status</th>
                     <th>Create time</th>
                     <th>Last modify</th>
@@ -132,7 +132,7 @@
                         </c:choose>
                         </td>
                         <td id="money-2">${post.fee}</td>
-                        <td id="money-3" style="font-weight: bold">${post.totalSpendForBuyer}</td>
+                        <td id="money-3" style="font-weight: bold">${post.totalReceiveForSeller}</td>
                         <td>${post.status}</td>
                         <td>
                             <c:set var="createdAt" value="${post.createdAt}"/>
@@ -148,7 +148,7 @@
                             </c:choose>
                         </td>
                         <td>
-                            <button class="custom-button btn btn-lg" onclick="viewPostDetailUpdate('${post.postID}')"
+                            <button class="custom-button btn btn-lg" onclick="viewPostDetailUpdate('${post.tradingCode}')"
                                     style="font-size: large">
                                 <i class="fas fa-info-circle"></i> Detail
                             </button>
@@ -157,7 +157,7 @@
                             <c:when test="${post.status eq 'readyToSell' || post.status eq 'done'}">
                                 <td>
                                     <button class="custom-button btn btn-lg"
-                                            onclick="openConfirmationPopup(${post.postID})"
+                                            onclick="openConfirmationPopup('${post.tradingCode}')"
                                             style="font-size: large; background: #d21300">
                                         <i class="fas fa-trash"></i> Delete
                                     </button>
@@ -168,8 +168,6 @@
                                 <!-- Nếu không phải 'readyToSell' hoặc 'done', không hiển thị nút Delete -->
                             </c:otherwise>
                         </c:choose>
-                            <%--                        <td><button class="custom-button btn btn-lg" onclick="openConfirmationPopup(${post.postID})" style="font-size: large; background: #d21300">--%>
-                            <%--                            <i class="fas fa-remove"></i> Delete</button></td>--%>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -195,8 +193,8 @@
     <div class="popup-content">
         <h6 class="mb-1">Are you sure you want to delete this post?</h6>
         <p class="mb-3">Deleted post cannot be recovered!</p>
-        <button onclick="deletePostConfirmed()" style="background: #d31e01">Yes</button>
-        <button onclick="closePopup()">No</button>
+        <button onclick="deletePostConfirmed()" style="background: #d31e01">Delete</button>
+        <button onclick="closePopup()" style="background: #646464">No</button>
     </div>
 </div>
 
@@ -260,8 +258,8 @@
         }
     };
 
-    function viewPostDetailUpdate(postID) {
-        window.location.href = 'postDetailUpdate?postID=' + postID;
+    function viewPostDetailUpdate(tradingCode) {
+        window.location.href = 'postDetailUpdate?tradingCode=' + tradingCode;
     }
 
     // function deletePost(postID) {
@@ -271,16 +269,16 @@
     // }
 </script>
 <script>
-    var id;
+    let code;
 
-    function openConfirmationPopup(postID) {
+    function openConfirmationPopup(tradingCode) {
         document.getElementById('overlay').style.display = 'block';
         document.getElementById('confirmationPopup').style.display = 'block';
-        id = postID;
+        code = tradingCode;
     }
 
     function deletePostConfirmed() {
-        window.location.href = 'deletePost?postID=' + id;
+        window.location.href = 'deletePost?tradingCode=' + code;
     }
 
     function closePopup() {

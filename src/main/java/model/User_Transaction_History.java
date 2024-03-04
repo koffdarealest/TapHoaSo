@@ -8,7 +8,7 @@ import java.util.Date;
 public class User_Transaction_History extends BaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long transactionID;
+    private Long id;
     @ManyToOne
     private User userID;
     private Long amount;
@@ -29,11 +29,11 @@ public class User_Transaction_History extends BaseAuditable {
     }
 
     public Long getTransactionID() {
-        return transactionID;
+        return id;
     }
 
     public void setTransactionID(Long transactionID) {
-        this.transactionID = transactionID;
+        this.id = transactionID;
     }
 
     public User getUserID() {

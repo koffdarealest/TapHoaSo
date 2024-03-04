@@ -148,7 +148,7 @@
                             </c:choose>
                         </td>
                         <td>
-                            <button class="custom-button btn btn-lg" onclick="viewBuyingDetail('${post.postID}')"
+                            <button class="custom-button btn btn-lg" onclick="viewBuyingDetail('${post.tradingCode}')"
                                     style="font-size: large">
                                 <i class="fas fa-info-circle"></i> Detail
                             </button>
@@ -244,8 +244,8 @@
         }
     };
 
-    function viewBuyingDetail(postID) {
-        window.location.href = 'buyingPostDetail?postID=' + postID;
+    function viewBuyingDetail(tradingCode) {
+        window.location.href = 'buyingPostDetail?tradingCode=' + tradingCode;
     }
 
     // function deletePost(postID) {

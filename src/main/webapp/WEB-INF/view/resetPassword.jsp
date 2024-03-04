@@ -98,13 +98,14 @@
                 <div class="form-group mb-4">
                     <label class="label">Password</label>
                     <input type="password" class="form-control" placeholder="Password"
-                           required name="password">
+                           required name="password" id="password">
                 </div>
                 <div class="form-group mb-4">
                     <label class="label">Re-Password</label>
                     <input type="password" class="form-control" placeholder="Re-password"
-                           required name="re-password">
+                           required name="re-password" id="repassword">
                 </div>
+                <h6 class="text-danger mb-2" id="message"></h6>
                 <input type="hidden" name="token" value="${token}">
                 <!-- --------------captcha field-------------- -->
                 <div class="form-group mb-3">
@@ -125,7 +126,7 @@
                 <h6 class="text-danger mb-2">${error}</h6>
                 <!-- --------------submit button-------------- -->
                 <div class="form-group mb-3 text-center">
-                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Reset Password</button>
+                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg" id="submitBtn">Reset Password</button>
                 </div>
             </form>
         </div>
@@ -157,6 +158,21 @@
                 sendButton.click();
             }
         });
+    });
+</script>
+
+<script>
+    document.getElementById("submitBtn").addEventListener("click", function(event) {
+        var password = document.getElementById("password").value;
+        var rePassword = document.getElementById("repassword").value;
+        var message = document.getElementById("message");
+
+        if (password !== rePassword) {
+            message.innerHTML = "Passwords do not match";
+            event.preventDefault();
+        } else {
+            message.innerHTML = "";
+        }
     });
 </script>
 <!-- Bootstrap core JavaScript -->

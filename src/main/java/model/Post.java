@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 public class Post extends BaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postID;
+    private Long id;
     @ManyToOne
     private User sellerID;
     private String tradingCode;
@@ -54,11 +54,11 @@ public class Post extends BaseAuditable {
     }
 
     public Long getPostID() {
-        return postID;
+        return id;
     }
 
     public void setPostID(Long postID) {
-        this.postID = postID;
+        this.id = postID;
     }
 
     public User getSellerID() {

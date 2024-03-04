@@ -94,12 +94,12 @@
                 <div class="form-group mb-3">
                     <label class="label">Fullname</label>
                     <input type="text" class="form-control" placeholder="Fullname"
-                           required name="fullname" value="${sessionScope.username}">
+                           required name="fullname">
                 </div>
                 <div class="form-group mb-3">
                     <label class="label">Email</label>
                     <input type="email" class="form-control" placeholder="Email"
-                           required name="email" value="${sessionScope.email}" readonly>
+                           required name="email">
                 </div>
                 <div class="form-group mb-3">
                     <label class="label">Username</label>
@@ -109,13 +109,14 @@
                 <div class="form-group mb-4">
                     <label class="label">Password</label>
                     <input type="password" class="form-control" placeholder="Password"
-                           required name="password">
+                           required name="password" id="password">
                 </div>
                 <div class="form-group mb-4">
                     <label class="label">Re-Password</label>
                     <input type="password" class="form-control" placeholder="Re-password"
-                           required name="re-password">
+                           required name="re-password" id="repassword">
                 </div>
+                <h6 id="message" class="text-danger mb-2"></h6>
                 <!-- ---------------captcha---------------- -->
                 <div class="form-group mb-3">
                     <label class="label">Captcha</label>
@@ -132,10 +133,11 @@
                     </div>
                 </div>
                 <!-- ---------------error---------------- -->
+
                 <h6 class="text-danger mb-2">${error}</h6>
                 <!-- ---------------button---------------- -->
                 <div class="form-group mb-3 text-center">
-                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg">SIGN UP</button>
+                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg" id="submitBtn">SIGN UP</button>
                 </div>
             </form>
             <p class="text-center" style="font-size: 15px;">Already have an account? <a data-toggle="tab"
@@ -183,6 +185,21 @@
                 sendButton.click();
             }
         });
+    });
+</script>
+
+<script>
+    document.getElementById("submitBtn").addEventListener("click", function(event) {
+        var password = document.getElementById("password").value;
+        var rePassword = document.getElementById("repassword").value;
+        var message = document.getElementById("message");
+
+        if (password !== rePassword) {
+            message.innerHTML = "Passwords do not match";
+            event.preventDefault();
+        } else {
+            message.innerHTML = "";
+        }
     });
 </script>
 <!-- Bootstrap core JavaScript -->

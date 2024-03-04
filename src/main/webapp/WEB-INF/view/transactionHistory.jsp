@@ -103,7 +103,7 @@
                 <thead class="sticky-header">
                 <tr>
                     <th>Transaction ID</th>
-                    <th>amount</th>
+                    <th>Amount</th>
                     <th>Type</th>
                     <th>Process</th>
                     <th>Note</th>
@@ -120,7 +120,7 @@
                         <td>${post.amount}</td>
                         <td>${post.type}</td>
                         <td>
-                            ${post.getProcessed() ? "Process" : "Done"}
+                            ${post.getProcessed() ? "Done" : "Processing"}
                         </td>
                         <td class="td-overflow">${post.description}</td>
                         <td><c:out value="${nameOfUserCreatedPost}" /></td>

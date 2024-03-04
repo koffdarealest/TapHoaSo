@@ -131,10 +131,10 @@
                     <th>
                         <div class="row">
                             <div class="col" style="padding-right: 0px;">
-                                <input placeholder="Từ" type="text" class="form-control" id="minPrice" >
+                                <input placeholder="From" type="text" class="form-control" id="minPrice" >
                             </div>
                             <div class="col" style="padding-left: 1px;">
-                                <input placeholder="Đến" type="text" class="form-control" id="maxPrice" >
+                                <input placeholder="To" type="text" class="form-control" id="maxPrice" >
                             </div>
                         </div>
                     </th>
@@ -151,10 +151,10 @@
                     <th>
                         <div class="row">
                             <div class="col" style="padding-right: 0px;">
-                                <input placeholder="Từ" type="text" class="form-control" id="minFee">
+                                <input placeholder="From" type="text" class="form-control" id="minFee">
                             </div>
                             <div class="col" style="padding-left: 1px;">
-                                <input placeholder="Đến" type="text" class="form-control" id="maxFee">
+                                <input placeholder="To" type="text" class="form-control" id="maxFee">
                             </div>
                         </div>
                     </th>
@@ -162,10 +162,10 @@
                     <th>
                         <div class="row">
                             <div class="col" style="padding-right: 0px;">
-                                <input placeholder="Từ" type="text" class="form-control" id="minTotalSpend">
+                                <input placeholder="From" type="text" class="form-control" id="minTotalSpend">
                             </div>
                             <div class="col" style="padding-left: 1px;">
-                                <input placeholder="Đến" type="text" class="form-control" id="maxTotalSpend">
+                                <input placeholder="To" type="text" class="form-control" id="maxTotalSpend">
                             </div>
                         </div>
                     </th>
@@ -236,7 +236,7 @@
                             </c:choose>
                         </td>
                         <td>
-                            <button class="custom-button btn btn-lg" onclick="viewPostDetail('${post.postID}')"
+                            <button class="custom-button btn btn-lg" onclick="viewPostDetail('${post.tradingCode}')"
                                     style="font-size: large">
                                 <i class="fas fa-info-circle"></i> Detail
                             </button>
@@ -279,7 +279,7 @@
                 for (let i = 0; i < remainingRows; i++) {
                     const row = table.insertRow();
                     row.style.height = (existingRowHeight * 0.85) + 'px'; // Thiết lập chiều cao cho hàng mới
-                    for (let j = 0; j <= headers.length; j++) {
+                    for (let j = 0; j <= headers.length; j = j + 2) {
                         const cell = row.insertCell();
                     }
                 }
@@ -324,8 +324,8 @@
         }
     };
 
-    function viewPostDetail(postID) {
-        window.location.href = 'postDetail?postID=' + postID;
+    function viewPostDetail(tradingCode) {
+        window.location.href = 'postDetail?tradingCode=' + tradingCode;
     }
 </script>
 <!-- Money format -->

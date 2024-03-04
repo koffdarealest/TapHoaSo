@@ -116,7 +116,7 @@
                             <td>${post.status}</td>
                             <td>
                                 <button class="custom-button btn btn-lg"
-                                        onclick="viewPostDetailUpdate('${post.postID}')" style="font-size: small">
+                                        onclick="viewPostDetailUpdate('${post.tradingCode}')" style="font-size: small">
                                     <i class="fas fa-info-circle"></i> Detail
                                 </button>
                             </td>
@@ -124,7 +124,7 @@
                                 <c:when test="${post.status eq 'readyToSell' || post.status eq 'done'}">
                                     <td>
                                         <button class="custom-button btn btn-lg"
-                                                onclick="openConfirmationPopup(${post.postID})"
+                                                onclick="openConfirmationPopup('${post.tradingCode}')"
                                                 style="font-size: small; background: #d21300">
                                             <i class="fas fa-trash"></i> Delete
                                         </button>
@@ -448,8 +448,8 @@
         });
     });
 
-    function viewPostDetailUpdate(postID) {
-        window.location.href = 'postDetailUpdate?postID=' + postID;
+    function viewPostDetailUpdate(tradingCode) {
+        window.location.href = 'postDetailUpdate?tradingCode=' + tradingCode;
     }
 </script>
 <!-- ------------------Price Control------------------ -->
@@ -495,16 +495,16 @@
 </script>
 <!-- ------------------Confirmation Popup------------------ -->
 <script>
-    var id;
+    var code;
 
-    function openConfirmationPopup(postID) {
+    function openConfirmationPopup(tradingCode) {
         document.getElementById('overlay').style.display = 'block';
         document.getElementById('confirmationPopup').style.display = 'block';
-        id = postID;
+        code = tradingCode;
     }
 
     function deletePostConfirmed() {
-        window.location.href = 'deletePost?postID=' + id;
+        window.location.href = 'deletePost?tradingCode=' + code;
     }
 
     function closePopup() {

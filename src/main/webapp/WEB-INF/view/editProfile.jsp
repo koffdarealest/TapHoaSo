@@ -139,14 +139,15 @@
                                 <div class="label-form col-md-4"><label class="label" style="text-align: left;">NEW
                                     PASSWORD</label></div>
                                 <div class="col-md-8"><input type="password" name="newpassword" class="form-control"
-                                                             placeholder="Enter new password"></div>
+                                                             placeholder="Enter new password" id="password"></div>
                             </div>
                             <div class="d-flex mb-3 align-items-center">
                                 <div class="label-form col-md-4"><label class="label" style="text-align: left;">ENTER
                                     NEW PASSWORD</label></div>
                                 <div class="col-md-8"><input type="password" name="newpassword2" class="form-control"
-                                                             placeholder="Re-enter new password"></div>
+                                                             placeholder="Re-enter new password" id="repassword"></div>
                             </div>
+                            <h6 class="text-danger" id="message"></h6>
                             <!-- --------------captcha field-------------- -->
                             <div class="form-group mb-3">
                                 <label class="label">Captcha</label>
@@ -170,11 +171,10 @@
                                     <h6 class="text-success text-center">${success}</h6>
                                 </div>
                             </div>
-
-                            <!-- More form fields if needed -->
+                            <!-- --------------submit button-------------- -->
                             <div class="d-flex mb-4 align-items-center">
                                 <div class="form-group col-md-12 text-center">
-                                    <button type="changepassword" class="col-md-5 btn btn-primary p-3">CHANGE PASSWORD
+                                    <button type="changepassword" class="col-md-5 btn btn-primary p-3" id="submitBtn">CHANGE PASSWORD
                                     </button>
                                 </div>
                             </div>
@@ -221,6 +221,21 @@
                 sendButton.click();
             }
         });
+    });
+</script>
+
+<script>
+    document.getElementById("submitBtn").addEventListener("click", function(event) {
+        var password = document.getElementById("password").value;
+        var rePassword = document.getElementById("repassword").value;
+        var message = document.getElementById("message");
+
+        if (password !== rePassword) {
+            message.innerHTML = "Passwords do not match";
+            event.preventDefault();
+        } else {
+            message.innerHTML = "";
+        }
     });
 </script>
 <script src="vendor/jquery/jquery.min.js"></script>

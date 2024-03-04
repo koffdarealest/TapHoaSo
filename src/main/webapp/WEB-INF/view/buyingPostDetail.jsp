@@ -280,7 +280,7 @@
                             <td>${post.status}</td>
                             <td>
                                 <button class="custom-button btn btn-lg"
-                                        onclick="viewBuyingDetail('${post.postID}')" style="font-size: small">
+                                        onclick="viewBuyingDetail('${post.tradingCode}')" style="font-size: small">
                                     <i class="fas fa-info-circle"></i> Detail
                                 </button>
                             </td>
@@ -403,8 +403,8 @@
         });
     });
 
-    function viewBuyingDetail(postID) {
-        window.location.href = 'buyingPostDetail?postID=' + postID;
+    function viewBuyingDetail(tradingCode) {
+        window.location.href = 'buyingPostDetail?tradingCode=' + tradingCode;
     }
 </script>
 <!-- ------------------Price Control------------------ -->

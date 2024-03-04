@@ -1,17 +1,12 @@
 package model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import org.hibernate.annotations.GenericGenerator;
-import DAO.userDAO;
-import util.Encryption;
 
-import java.util.UUID;
 @Entity
 public class User extends BaseAuditable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userID;
+    private Long id;
     private String username;
     private String password;
     private String email;
@@ -20,7 +15,6 @@ public class User extends BaseAuditable{
     private Boolean isAdmin;
     private Boolean isActivated;
     private byte[] secretKey;
-    private boolean isOnline;
     @Version
     private int version;
     public User() {
@@ -38,11 +32,11 @@ public class User extends BaseAuditable{
     }
 
     public Long getUserID() {
-        return userID;
+        return id;
     }
 
     public void setUserID(Long userID) {
-        this.userID = userID;
+        this.id = userID;
     }
 
     public String getUsername() {
@@ -59,13 +53,6 @@ public class User extends BaseAuditable{
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setOnline(boolean online) {
-        this.isOnline = online;
-    }
-    public boolean isOnline() {
-        return isOnline;
     }
     public String getEmail() {
         return email;

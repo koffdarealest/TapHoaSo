@@ -113,7 +113,7 @@
                             <td>${post.totalSpendForBuyer}</td>
                             <td>${post.sellerID.nickname}</td>
                             <td>
-                                <button class="custom-button btn btn-lg" onclick="viewPostDetail('${post.postID}')"
+                                <button class="custom-button btn btn-lg" onclick="viewPostDetail('${post.tradingCode}')"
                                         style="font-size: small">
                                     <i class="fas fa-info-circle"></i> Detail
                                 </button>
@@ -289,8 +289,8 @@
     <div class="popup-content">
         <h6 class="mb-1">Are you sure you want to buy this product?</h6>
         <p class="mb-3">Your action cannot be recovered!</p>
-        <button onclick="buyPostConfirmed()" style="background: #d31e01">Yes</button>
-        <button onclick="closePopup()">No</button>
+        <button onclick="buyPostConfirmed()" style="background: #0fae00">Yes</button>
+        <button onclick="closePopup()" style="background: #646464">No</button>
     </div>
 </div>
 <!-- Scripts -->
@@ -377,8 +377,8 @@
 </script>
 <!-- ----------------View Post Detail button---------------- -->
 <script>
-    function viewPostDetail(postID) {
-        window.location.href = 'postDetail?postID=' + postID;
+    function viewPostDetail(tradingCode) {
+        window.location.href = 'postDetail?tradingCode=' + tradingCode;
     }
 </script>
 <!-- ----------------Format Date---------------- -->

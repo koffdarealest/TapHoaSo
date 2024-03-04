@@ -53,7 +53,7 @@
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="viewProfile">Welcome! ${user.nickname}</a></li>
-                        <li><a href="">Your Balance ${user.balance}VND</a></li>
+                        <li><a href="" id="money">${user.balance}</a></li>
                         <li><a STYLE="font-size: 15px" href="signOut">Sign out</a></li>
                     </ul>
 
@@ -151,6 +151,18 @@
     </div>
 
 </footer>
+
+<script>
+    document.querySelectorAll("[id^='money']").forEach(function (cell) {
+        var totalSpend = cell.textContent;
+        var formattedTotalSpend = new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND"
+        }).format(totalSpend);
+        cell.textContent = formattedTotalSpend;
+    });
+
+</script>
 
 <!-- Scripts -->
 <!-- Bootstrap core JavaScript -->
