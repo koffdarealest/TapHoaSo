@@ -204,26 +204,6 @@ public class TransactionDAO {
         }
     }
 
-    public User_Transaction_History getTransactionToUpdate(String idTransactionToUpdate) {
-        User_Transaction_History transaction = null;
-        Transaction transaction1 = null;
-        try (Session session = Factory.getSessionFactory().openSession()) {
-            transaction1 = session.beginTransaction();
-
-            transaction = (User_Transaction_History) session.createQuery("from User_Transaction_History where transactionID = :id")
-                    .setParameter("id", Long.parseLong(idTransactionToUpdate))
-                    .uniqueResult();
-
-            transaction1.commit();
-        } catch (Exception ex) {
-            if (transaction1 == null) {
-                transaction1.rollback();
-            }
-            ex.printStackTrace();
-    }
-        return transaction;
-    }
-
     public List<User_Transaction_History> getTransactionByUser(User user) {
         try (Session session = Factory.getSessionFactory().openSession()) {
             return session.createQuery("from User_Transaction_History where userID = :user", User_Transaction_History.class)
