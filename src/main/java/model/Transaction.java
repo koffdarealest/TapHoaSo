@@ -2,10 +2,10 @@ package model;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.util.concurrent.CompletableFuture;
 
 @Entity
-public class User_Transaction_History extends BaseAuditable {
+public class Transaction extends BaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,11 +16,10 @@ public class User_Transaction_History extends BaseAuditable {
     @Column(columnDefinition = "TEXT")
     private String description;
     private Boolean isProcessed;
-
-    public User_Transaction_History() {
+    public Transaction() {
     }
 
-    public User_Transaction_History(User userID, Long amount, String type, String description, Boolean isProcessed) {
+    public Transaction(User userID, Long amount, String type, String description, Boolean isProcessed) {
         this.userID = userID;
         this.amount = amount;
         this.type = type;

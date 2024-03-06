@@ -85,7 +85,7 @@ public class EditPasswordController extends HttpServlet {
     private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp, String enteredCaptcha) throws ServletException, IOException {
         try {
             String captcha = (String) req.getSession().getAttribute("captcha");
-            if (enteredCaptcha.equals(captcha)) {
+            if (enteredCaptcha.equalsIgnoreCase(captcha)) {
                 return true;
             }
         } catch (Exception e) {

@@ -30,6 +30,8 @@
     <link rel="stylesheet" href="assets/css/animate.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"/>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 </head>
 
 
@@ -94,6 +96,7 @@
 </div>
 
 <div class="container d-flex" style="max-width: 1700px;">
+    <div class="col-lg-1"></div>
     <div class="col-lg-6">
         <div class="detail-post-wrap p-4" style="margin-right: 30px;">
             <div class="col-lg-12 mx-auto">
@@ -137,50 +140,65 @@
                                        value="${chosenPost.topic}" readonly>      <!-- input Title -->
                             </div>
                         </div>
+                        <!-- ---------------Total--------------- -->
+                        <div class="d-flex mb-3 align-items-center" id="total">
+                            <div class="label-form col-md-3">
+                                <label class="label">Total spend</label>
+                                <p class="text-muted" style="font-size: small">Click to view detail</p>
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <input name="price" class="form-control" required readonly
+                                       value="${chosenPost.totalSpendForBuyer}" style="font-weight: bold">   <!-- input Price -->
+                                <span class="text-muted"
+                                      style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
+                            </div>
+                        </div>
                         <!-- ---------------Price--------------- -->
-                        <div class="d-flex mb-3 align-items-center">
-                            <div class="label-form col-md-3">
-                                <label class="label">Price </label>
+                        <div id="priceField" style="display: none">
+                            <div class="d-flex mb-3 align-items-center">
+                                <div class="label-form col-md-3">
+                                    <label class="label">Price </label>
+                                </div>
+                                <div class="col-md-9 form-group">
+                                    <input type="text" name="price" class="form-control" required id="price"
+                                           value="${chosenPost.price}" readonly>   <!-- input Price -->
+                                    <span class="text-muted"
+                                          style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
+                                </div>
                             </div>
-                            <div class="col-md-9 form-group">
-                                <input type="text" name="price" class="form-control" required id="price"
-                                       value="${chosenPost.price}" readonly>   <!-- input Price -->
-                                <span class="text-muted"
-                                      style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
+                            <!-- ---------------Fee--------------- -->
+                            <div class="d-flex mb-3 align-items-center">
+                                <div class="label-form col-md-3">
+                                    <label class="label">Fee </label>
+                                </div>
+                                <div class="col-md-9 form-group">
+                                    <input type="number" name="fee" class="form-control" required id="fee"
+                                           value="${chosenPost.fee}" readonly style="font-style: oblique">    <!-- input Fee -->
+                                    <span class="text-muted"
+                                          style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
+                                </div>
                             </div>
-                        </div>
-                        <!-- ---------------Fee--------------- -->
-                        <div class="d-flex mb-3 align-items-center">
-                            <div class="label-form col-md-3">
-                                <label class="label">Fee </label>
-                            </div>
-                            <div class="col-md-9 form-group">
-                                <input type="number" name="fee" class="form-control" required id="fee"
-                                       value="${chosenPost.fee}" readonly>    <!-- input Fee -->
-                                <span class="text-muted"
-                                      style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
-                            </div>
-                        </div>
-                        <!-- ---------------Fee Payer--------------- -->
-                        <div class="d-flex mb-3 align-items-center">
-                            <div class="label-form col-md-3">
-                                <label class="label">Fee Payer </label>
-                            </div>
-                            <div class="col-md-9 form-group">
-                                <select class="form-control" name="feePayer" required disabled>
-                                    <!-- select Fee Payer -->
-                                    <c:choose>
-                                        <c:when test="${chosenPost.whoPayFee == 'buyer'}">
-                                            <option selected value="buyer">Buyer</option>
-                                        </c:when>
-                                        <c:when test="${chosenPost.whoPayFee == 'half'}">
-                                            <option selected value="half">Half - Half</option>
-                                        </c:when>
-                                        <c:when test="${chosenPost.whoPayFee == 'seller'}">
-                                            <option selected value="seller">Seller</option>
-                                        </c:when>
-                                    </c:choose>
-                                </select>
+                            <!-- ---------------Fee Payer--------------- -->
+                            <div class="d-flex mb-3 align-items-center">
+                                <div class="label-form col-md-3">
+                                    <label class="label">Fee Payer </label>
+                                </div>
+                                <div class="col-md-9 form-group">
+                                    <select class="form-control" name="feePayer" required disabled>
+                                        <!-- select Fee Payer -->
+                                        <c:choose>
+                                            <c:when test="${chosenPost.whoPayFee == 'buyer'}">
+                                                <option selected value="buyer">Buyer</option>
+                                            </c:when>
+                                            <c:when test="${chosenPost.whoPayFee == 'half'}">
+                                                <option selected value="half">Half - Half</option>
+                                            </c:when>
+                                            <c:when test="${chosenPost.whoPayFee == 'seller'}">
+                                                <option selected value="seller">Seller</option>
+                                            </c:when>
+                                        </c:choose>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <!-- ---------------Description--------------- -->
@@ -244,7 +262,7 @@
                                             <i class="fa fa-times-circle" style="margin-right: 4px"></i>REPORT PROBLEM
                                         </button>
                                         <button class="col-md-5 btn custom-button p-2" style="font-size: medium"
-                                                onclick="openConfirmationPopup(${chosenPost.postID})">
+                                                onclick="openConfirmationPopup('${chosenPost.tradingCode}')">
                                             <i class="fa fa-check-circle" style="margin-right: 4px"></i>
                                             CONFIRM PRODUCT RECEIVED
                                         </button>
@@ -258,24 +276,22 @@
         </div>
     </div>
 
-    <div class="col-lg-6">
+    <div class="col-lg-4">
         <div class="detail-selling-market-wrap sticky-table">
             <div>
                 <table class="table table-bordered table-scroll" id="marketTable">
                     <thead class="sticky-header">
                     <tr>
                         <th>Title</th>
-                        <th>Fee</th>
                         <th>Total spend</th>
                         <th>Status</th>
-                        <th colspan="2">Action</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach var="post" items="${lPosts}">
                         <tr>
                             <td>${post.topic}</td>
-                            <td>${post.fee}</td>
                             <td>${post.totalSpendForBuyer}</td>
                             <td>${post.status}</td>
                             <td>
@@ -284,7 +300,6 @@
                                     <i class="fas fa-info-circle"></i> Detail
                                 </button>
                             </td>
-                            <td></td>
                         </tr>
                     </c:forEach>
                     <!-- Repeat the above row for 20 records -->
@@ -318,7 +333,15 @@
         <h6 class="mb-1">After confirmation, you can no longer complain about this product post!</h6>
         <p class="mb-3">Your action cannot be recovered!</p>
         <button onclick="donePostConfirmed()" style="background: #0fae00">Yes</button>
-        <button onclick="closePopup()">No</button>
+        <button onclick="closePopup()" style="background: #646464">No</button>
+    </div>
+</div>
+<div id="complainPopup" class="popup">
+    <div class="popup-content">
+        <h6 class="mb-1">Do you really want to complain to the seller?</h6>
+        <p class="mb-3">Please check carefully before making a complaint!</p>
+        <button onclick="complainPostConfirmed()" style="background: #0fae00">Yes</button>
+        <button onclick="closePopup()" style="background: #646464">No</button>
     </div>
 </div>
 
@@ -338,7 +361,7 @@
                 for (let i = 0; i < remainingRows; i++) {
                     const row = table.insertRow();
                     row.style.height = (existingRowHeight * 0.8) + 'px'; // Thiết lập chiều cao cho hàng mới
-                    for (let j = 0; j <= headers.length; j++) {
+                    for (let j = 0; j < headers.length; j++) {
                         const cell = row.insertCell();
                     }
                 }
@@ -450,29 +473,64 @@
 </script>
 <!-- ------------------Confirmation Popup------------------ -->
 <script>
-    var id;
+    var code;
 
-    function openConfirmationPopup(postID) {
+    function openConfirmationPopup(tradingCode) {
         document.getElementById('overlay').style.display = 'block';
         document.getElementById('confirmationPopup').style.display = 'block';
-        id = postID;
+        code = tradingCode;
     }
 
     function donePostConfirmed() {
-        window.location.href = 'confirmReceive?postID=' + id;
+        window.location.href = 'confirmReceive?tradingCode=' + code;
     }
 
     function closePopup() {
         document.getElementById('confirmationPopup').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
     }
+
+    function openComplainPopup(post) {
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('complainPopup').style.display = 'block';
+    }
+    function complainPostConfirmed() {
+        window.location.href = 'complainPost?postID=' + id;
+    }
+</script>
+<!-- ----------------Toggle Price Field---------------- -->
+<script>
+    // document.addEventListener("DOMContentLoaded", function () {
+    //     const total = document.getElementById('total');
+    //     const priceField = document.getElementById('priceField');
+    //     total.addEventListener("click", function () {
+    //         if (priceField.style.display === "none") {
+    //             priceField.style.display = "block";
+    //         } else {
+    //             priceField.style.display = "none";
+    //         }
+    //     });
+    // });
+
+    $(document).ready(function () {
+        let isVisible = false;
+
+        $("#total").click(function () {
+            if (!isVisible) {
+                $("#priceField").slideDown("slow");
+                isVisible = true;
+            } else {
+                $("#priceField").slideUp("slow");
+                isVisible = false;
+            }
+        });
+    });
 </script>
 
 <!-- Bootstrap core JavaScript -->
 <script src="https://cdn.tiny.cloud/1/qmw4wavlc4ekzay2c6m9pxxoyvi1ni12vki7sz9clkyfyyo2/tinymce/6/tinymce.min.js"
         referrerpolicy="origin"></script>
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
 <script src="assets/js/isotope.min.js"></script>
 <script src="assets/js/owl-carousel.js"></script>
 <script src="assets/js/counter.js"></script>

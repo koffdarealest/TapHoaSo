@@ -143,7 +143,7 @@
                                 <label class="label">Fee (5% of Price)</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <input type="number" name="fee" class="form-control" required readonly id="fee">
+                                <input type="number" name="fee" class="form-control" required readonly id="fee" style="font-style: oblique">
                                 <!-- input Fee -->
                                 <span class="text-muted"
                                       style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
@@ -155,11 +155,23 @@
                                 <label class="label">Fee Payer (*)</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <select class="form-control" name="feePayer" required> <!-- select Fee Payer -->
+                                <select class="form-control" name="feePayer" required id="feePayer"> <!-- select Fee Payer -->
                                     <option value="half">Half - Half</option>
                                     <option value="seller">Seller</option>
                                     <option value="buyer">Buyer</option>
                                 </select>
+                            </div>
+                        </div>
+                        <!-- ---------------Total--------------- -->
+                        <div class="d-flex mb-3 align-items-center" >
+                            <div class="label-form col-md-3">
+                                <label class="label">Total receive</label>
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <input name="price" class="form-control"
+                                       value="${chosenPost.totalReceiveForSeller}" id="total" style="font-weight: bold">
+                                <span class="text-muted"
+                                      style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
                             </div>
                         </div>
                         <!-- ---------------Description--------------- -->
@@ -217,7 +229,7 @@
                         <div class="d-flex mb-3 align-items-center">
                             <div class="form-group col-md-12 text-center">
                                 <button type="submit" class="col-md-3 btn btn-primary p-3">
-                                    <i class="fas fa-upload"></i>CREATE POST
+                                    <i class="fas fa-upload"></i> CREATE POST
                                 </button>
                                 <!-- Submit -->
                             </div>
@@ -243,11 +255,15 @@
 </footer>
 
 <!-- Scripts -->
+<!-- ---------------Auto Price, Fee, Total--------------- -->
 <script>
     var price = document.getElementById('price');
     var fee = document.getElementById('fee');
     var priceError = document.getElementById('priceError');
     var priceErrorBackend = document.getElementById('priceErrorBackend');
+    var total = document.getElementById('total');
+    var feePayer = document.getElementById('feePayer');
+
     price.addEventListener('input', function () {
         var priceValue = parseInt(price.value);
         if (priceValue % 1000 === 0 && priceValue >= 1000) {
@@ -255,11 +271,39 @@
             priceError.style.display = 'none';
             var feeValue = priceValue * 0.05;
             fee.value = feeValue;
+            if (feePayer.value === 'buyer') {
+                total.value = priceValue;
+            } else if (feePayer.value === 'half') {
+                total.value = priceValue - feeValue / 2;
+            } else {
+                total.value = priceValue - feeValue;
+            }
         } else {
             fee.value = 0;
             priceError.style.display = 'block';
             priceErrorBackend.style.display = 'none';
         }
+    });
+
+    feePayer.addEventListener('change', function () {
+        var priceValue = parseInt(price.value);
+        var feeValue = priceValue * 0.05;
+        fee.value = feeValue;
+        if (feePayer.value === 'buyer') {
+            total.value = priceValue;
+        } else if (feePayer.value === 'half') {
+            total.value = priceValue - feeValue / 2;
+        } else {
+            total.value = priceValue - feeValue;
+        }
+    });
+
+    total.addEventListener('input', function () {
+        var priceValue = parseInt(total.value);
+        price.value = priceValue;
+        var feeValue = priceValue * 0.05;
+        fee.value = feeValue;
+        feePayer.value = 'buyer'
     });
 
     price.addEventListener('input', function () {

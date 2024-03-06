@@ -8,16 +8,29 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import listener.TransactionProcessor;
 import model.Post;
 import model.User;
-import model.User_Transaction_History;
+import model.Transaction;
+import wrapper.TransactionWrapper;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 @WebServlet(urlPatterns = {"/sell"})
 public class SellController extends HttpServlet {
-
+    //-----------------TransactionProcessor-----------------
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private BlockingQueue<TransactionWrapper> transactionQueue = new LinkedBlockingQueue<>();
+    TransactionProcessor transactionProcessor = new TransactionProcessor(transactionQueue);
+    public void init() {
+        executor.submit(transactionProcessor);
+    }
+    //-----------------------------------------------------
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = (String) req.getSession().getAttribute("username");
@@ -135,14 +148,17 @@ public class SellController extends HttpServlet {
     }
 
     private boolean payPrepostFee(HttpServletRequest req, HttpServletResponse resp, Post post) {
-        boolean status = false;
         TransactionDAO transactionDAO = new TransactionDAO();
+        boolean status= false;
         try {
-            User_Transaction_History trans = transactionDAO.createPrepostFeeTrans(post);
-            status = transactionDAO.executeTrans(trans);
-            if (status) {
-            transactionDAO.saveTransaction(trans);
-            }
+            Transaction trans = transactionDAO.createPrepostFeeTrans(post);
+//            status = transactionDAO.executeTrans(trans);
+//            if (status) {
+//            transactionDAO.saveTransaction(trans);
+//            }
+            TransactionWrapper transactionWrapper = new TransactionWrapper(trans);
+            transactionQueue.add(transactionWrapper);
+            status = transactionWrapper.getFuture().get();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -173,6 +189,5 @@ public class SellController extends HttpServlet {
         PostDAO postDAO = new PostDAO();
         postDAO.insertPost(post);
     }
-
 
 }

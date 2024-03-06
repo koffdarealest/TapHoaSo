@@ -53,7 +53,7 @@ public class SigninController extends HttpServlet {
                 req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
                 //-----------------check active user-----------------
             } else if (!IsActivated(req, resp, parameter, user)) {
-                req.getSession().setAttribute("username", parameter.get("username"));
+                req.getSession().setAttribute("usernameToSendActivateEmail", parameter.get("username"));
                 req.setAttribute("notification", "Your account is not activated! <a href=" + "resendVerifyEmail" + ">Click here</a> to send a new verify email!");
                 req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
             } else if (isRemember(req, resp, parameter)) {
@@ -73,7 +73,7 @@ public class SigninController extends HttpServlet {
         try {
             String enteredCaptcha = map.get("captcha");
             String captcha = (String) req.getSession().getAttribute("captcha");
-            if (enteredCaptcha.equals(captcha)) {
+            if (enteredCaptcha.equalsIgnoreCase(captcha)) {
                 return true;
             }
         } catch (Exception e) {

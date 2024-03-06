@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.User;
-import model.User_Transaction_History;
+import model.Transaction;
 import dao.UserDAO;
 import java.io.IOException;
 import java.util.List;
@@ -20,7 +20,7 @@ public class TransactionHistoryController extends HttpServlet {
             resp.sendRedirect( req.getContextPath() + "/signin");
         } else {
             User user = getUser(req, resp, username);
-            List<User_Transaction_History> transactionHistory = getTransactionHistory(req, resp, user);
+            List<Transaction> transactionHistory = getTransactionHistory(req, resp, user);
             req.setAttribute("list", transactionHistory);
             req.getRequestDispatcher("/WEB-INF/view/transactionHistory.jsp").forward(req, resp);
         }
@@ -31,7 +31,7 @@ public class TransactionHistoryController extends HttpServlet {
         return userDAO.getUserByUsername(username);
     }
 
-    private List<User_Transaction_History> getTransactionHistory(HttpServletRequest req, HttpServletResponse resp, User user) {
+    private List<Transaction> getTransactionHistory(HttpServletRequest req, HttpServletResponse resp, User user) {
         TransactionDAO transaction = new TransactionDAO();
         return transaction.getTransactionByUser(user);
     }

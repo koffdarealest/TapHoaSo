@@ -27,7 +27,7 @@ public class SessionListener implements HttpSessionListener, ServletContextListe
     @Override
     public void sessionCreated(HttpSessionEvent se) {
         activeSessions.add(se.getSession());
-        se.getSession().setMaxInactiveInterval(60 * 3);
+        se.getSession().setMaxInactiveInterval(60 * 10);
     }
 
     @Override

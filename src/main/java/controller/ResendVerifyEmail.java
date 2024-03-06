@@ -29,7 +29,7 @@ public class ResendVerifyEmail extends HttpServlet {
     private User getUser(HttpServletRequest req) {
         User user = new User();
         try {
-            String username = (String) req.getSession().getAttribute("username");
+            String username = (String) req.getSession().getAttribute("usernameToSendActivateEmail");
             UserDAO userDAO = new UserDAO();
             user = userDAO.getUserByUsername(username);
         } catch (Exception e) {

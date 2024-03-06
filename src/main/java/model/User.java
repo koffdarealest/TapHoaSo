@@ -15,8 +15,8 @@ public class User extends BaseAuditable{
     private Boolean isAdmin;
     private Boolean isActivated;
     private byte[] secretKey;
-    @Version
-    private int version;
+//    @Version
+//    private int version;
     public User() {
     }
 
@@ -102,11 +102,11 @@ public class User extends BaseAuditable{
         this.secretKey = secretKey;
     }
 
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
+//    public int getVersion() {
+//        return version;
+//    }
+//
+//    public void setVersion(int version) {
+//        this.version = version;
+//    }
 }

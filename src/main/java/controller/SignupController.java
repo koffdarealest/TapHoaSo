@@ -64,7 +64,7 @@ public class SignupController extends HttpServlet {
     private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp, Map<String, String> getParameters) {
         String enteredCaptcha = getParameters.get("captcha");
         String captcha = (String) req.getSession().getAttribute("captcha");
-        if (!enteredCaptcha.equals(captcha)) {
+        if (!enteredCaptcha.equalsIgnoreCase(captcha)) {
             try {
                 return false;
             } catch (Exception e) {

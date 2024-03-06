@@ -8,15 +8,27 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import listener.TransactionProcessor;
 import model.Post;
 import model.User;
-import model.User_Transaction_History;
+import model.Transaction;
+import wrapper.TransactionWrapper;
 
 import java.io.IOException;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 @WebServlet(urlPatterns = {"/buy"})
 public class BuyController extends HttpServlet {
-
+    //-----------------TransactionProcessor-----------------
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private BlockingQueue<TransactionWrapper> transactionQueue = new LinkedBlockingQueue<>();
+    TransactionProcessor transactionProcessor = new TransactionProcessor(transactionQueue);
+    public void init() {
+        executor.submit(transactionProcessor);
+    }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = (String) req.getSession().getAttribute("username");
@@ -146,10 +158,11 @@ public class BuyController extends HttpServlet {
         boolean status = false;
         try {
             postDAO.buyPost(post, user);
-            User_Transaction_History trans = transactionDAO.createBuyProductPostTrans(post);
-            status = transactionDAO.executeTrans(trans);
+            Transaction trans = transactionDAO.createBuyProductPostTrans(post);
+            TransactionWrapper transactionWrapper = new TransactionWrapper(trans);
+            transactionQueue.add(transactionWrapper);
+            status = transactionWrapper.getFuture().get();
             if (status) {
-                transactionDAO.saveTransaction(trans);
                 postDAO.updatePost(post);
             }
         } catch (Exception e) {

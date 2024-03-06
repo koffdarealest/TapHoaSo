@@ -7,51 +7,62 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import listener.TransactionProcessor;
 import model.Post;
+import model.Transaction;
+import wrapper.TransactionWrapper;
 
 import java.io.IOException;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 @WebServlet(urlPatterns = {"/confirmReceive"})
 public class ConfirmReceiveController extends HttpServlet {
+    //-----------------TransactionProcessor-----------------
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private BlockingQueue<TransactionWrapper> transactionQueue = new LinkedBlockingQueue<>();
+    TransactionProcessor transactionProcessor = new TransactionProcessor(transactionQueue);
+    public void init() {
+        executor.submit(transactionProcessor);
+    }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getSession().getAttribute("username") == null) {
             resp.sendRedirect( req.getContextPath() + "/signin");
         } else {
-            Long id = getPostID(req, resp);
-            Post post = getPostByID(req, resp, id);
+            String code = getCode(req, resp);
+            Post post = getPostByCode(req, resp, code);
             if (isDeletedPost(req, resp, post)) {
-                req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
-                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+                notifyUser(req, resp, "Invalid action! <a href=home>Go back here</a>");
                 return;
             }
             if (!isValidUserToConfirmPost(req, resp, post)) {
-                req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
-                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+                notifyUser(req, resp, "Invalid action! <a href=home>Go back here</a>");
                 return;
             }
             confirmReceive(req, resp, post);
-            req.setAttribute("notification", "Confirm receive successfully! <a href=home>Go back here</a>");
-            req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+            notifyUser(req, resp, "Confirm receive successfully! <a href=home>Go back here</a>");
+            tranferMoneyToSeller(req, resp, post);
         }
     }
 
-    private Long getPostID(HttpServletRequest req, HttpServletResponse resp) {
-        Long postID = null;
+    private String getCode(HttpServletRequest req, HttpServletResponse resp) {
+        String tradingCode = null;
         try {
-            String ID = req.getParameter("postID");
-            postID = Long.parseLong(ID);
+            tradingCode = req.getParameter("tradingCode");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return postID;
+        return tradingCode;
     }
 
-    private Post getPostByID(HttpServletRequest req, HttpServletResponse resp, Long id) {
+    private Post getPostByCode(HttpServletRequest req, HttpServletResponse resp, String tradingCode) {
         Post post = new Post();
         try {
             PostDAO postDAO = new PostDAO();
-            post = postDAO.getPostByID(id);
+            post = postDAO.getPostByTradingCode(tradingCode);
             return post;
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,13 +97,35 @@ public class ConfirmReceiveController extends HttpServlet {
 
     private void confirmReceive(HttpServletRequest req, HttpServletResponse resp, Post post) {
         try {
-            TransactionDAO transactionDAO = new TransactionDAO();
             PostDAO postDAO = new PostDAO();
-            post.setStatus("done");
+            postDAO.confirmReceivePost(post);
             postDAO.updatePost(post);
-            transactionDAO.createDoneProductPostTrans(post);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    private void notifyUser(HttpServletRequest req, HttpServletResponse resp, String notification) {
+        try {
+            req.setAttribute("notification", notification);
+            req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean tranferMoneyToSeller(HttpServletRequest req, HttpServletResponse resp, Post post) {
+        TransactionDAO transactionDAO = new TransactionDAO();
+        boolean status = false;
+        try {
+            Transaction trans = transactionDAO.createPayForSellerTrans(post);
+            TransactionWrapper transactionWrapper = new TransactionWrapper(trans);
+            transactionQueue.add(transactionWrapper);
+            status = transactionWrapper.getFuture().get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
 }

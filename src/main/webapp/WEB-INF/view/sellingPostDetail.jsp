@@ -94,58 +94,9 @@
 </div>
 
 <div class="container d-flex" style="max-width: 1700px;">
+    <div class="col-lg-1"></div>
     <div class="col-lg-6">
-        <div class="detail-selling-market-wrap sticky-table">
-            <div>
-                <table class="table table-bordered table-scroll" id="marketTable">
-                    <thead class="sticky-header">
-                    <tr>
-                        <th>Title</th>
-                        <th>Fee</th>
-                        <th>Total spend</th>
-                        <th>Status</th>
-                        <th colspan="2">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="post" items="${lPosts}">
-                        <tr>
-                            <td>${post.topic}</td>
-                            <td>${post.fee}</td>
-                            <td>${post.totalSpendForBuyer}</td>
-                            <td>${post.status}</td>
-                            <td>
-                                <button class="custom-button btn btn-lg"
-                                        onclick="viewPostDetailUpdate('${post.tradingCode}')" style="font-size: small">
-                                    <i class="fas fa-info-circle"></i> Detail
-                                </button>
-                            </td>
-                            <c:choose>
-                                <c:when test="${post.status eq 'readyToSell' || post.status eq 'done'}">
-                                    <td>
-                                        <button class="custom-button btn btn-lg"
-                                                onclick="openConfirmationPopup('${post.tradingCode}')"
-                                                style="font-size: small; background: #d21300">
-                                            <i class="fas fa-trash"></i> Delete
-                                        </button>
-                                    </td>
-                                </c:when>
-                                <c:otherwise>
-                                    <td></td>
-                                    <!-- Nếu không phải 'readyToSell' hoặc 'done', không hiển thị nút Delete -->
-                                </c:otherwise>
-                            </c:choose>
-
-                        </tr>
-                    </c:forEach>
-                    <!-- Repeat the above row for 20 records -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-6">
-        <div class="detail-post-wrap p-4" style="margin-left: 30px;">
+        <div class="detail-post-wrap p-4" style="margin-right: 30px;">
             <div class="col-lg-12 mx-auto">
                 <div class="card">
                     <div class="card-header">
@@ -187,6 +138,18 @@
                                            value="${chosenPost.topic}">      <!-- input Title -->
                                 </div>
                             </div>
+                            <!-- ---------------Total--------------- -->
+                            <div class="d-flex mb-3 align-items-center" >
+                                <div class="label-form col-md-3">
+                                    <label class="label">Total receive</label>
+                                </div>
+                                <div class="col-md-9 form-group">
+                                    <input name="price" class="form-control" required readonly
+                                           value="${chosenPost.totalReceiveForSeller}" id="total" style="font-weight: bold">
+                                    <span class="text-muted"
+                                          style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
+                                </div>
+                            </div>
                             <!-- ---------------Price--------------- -->
                             <div class="d-flex mb-3 align-items-center">
                                 <div class="label-form col-md-3">
@@ -218,7 +181,7 @@
                                 </div>
                                 <div class="col-md-9 form-group">
                                     <input type="number" name="fee" class="form-control" required id="fee"
-                                           value="${chosenPost.fee}" readonly>    <!-- input Fee -->
+                                           value="${chosenPost.fee}" readonly style="font-style: oblique">    <!-- input Fee -->
                                     <span class="text-muted"
                                           style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
                                 </div>
@@ -229,7 +192,7 @@
                                     <label class="label">Fee Payer </label>
                                 </div>
                                 <div class="col-md-9 form-group">
-                                    <select class="form-control" name="feePayer" required> <!-- select Fee Payer -->
+                                    <select class="form-control" name="feePayer" required id="feePayer"> <!-- select Fee Payer -->
                                         <c:choose>
                                             <c:when test="${chosenPost.whoPayFee == 'buyer'}">
                                                 <option selected value="buyer">Buyer</option>
@@ -339,6 +302,55 @@
             </div>
         </div>
     </div>
+    <div class="col-lg-4">
+        <div class="detail-selling-market-wrap sticky-table">
+            <div>
+                <table class="table table-bordered table-scroll" id="marketTable">
+                    <thead class="sticky-header">
+                    <tr>
+                        <th>Title</th>
+                        <th>Total spend</th>
+                        <th>Status</th>
+                        <th colspan="2">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="post" items="${lPosts}">
+                        <tr>
+                            <td>${post.topic}</td>
+                            <td>${post.totalSpendForBuyer}</td>
+                            <td>${post.status}</td>
+                            <td>
+                                <button class="custom-button btn btn-lg"
+                                        onclick="viewPostDetailUpdate('${post.tradingCode}')" style="font-size: small">
+                                    <i class="fas fa-info-circle"></i> Detail
+                                </button>
+                            </td>
+                            <c:choose>
+                                <c:when test="${post.status eq 'readyToSell' || post.status eq 'done'}">
+                                    <td>
+                                        <button class="custom-button btn btn-lg"
+                                                onclick="openConfirmationPopup('${post.tradingCode}')"
+                                                style="font-size: small; background: #d21300">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td></td>
+                                    <!-- Nếu không phải 'readyToSell' hoặc 'done', không hiển thị nút Delete -->
+                                </c:otherwise>
+                            </c:choose>
+
+                        </tr>
+                    </c:forEach>
+                    <!-- Repeat the above row for 20 records -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <footer>
@@ -452,12 +464,15 @@
         window.location.href = 'postDetailUpdate?tradingCode=' + tradingCode;
     }
 </script>
-<!-- ------------------Price Control------------------ -->
+<!-- ---------------Auto Price, Fee, Total--------------- -->
 <script>
     var price = document.getElementById('price');
     var fee = document.getElementById('fee');
     var priceError = document.getElementById('priceError');
     var priceErrorBackend = document.getElementById('priceErrorBackend');
+    var total = document.getElementById('total');
+    var feePayer = document.getElementById('feePayer');
+
     price.addEventListener('input', function () {
         var priceValue = parseInt(price.value);
         if (priceValue % 1000 === 0 && priceValue >= 1000) {
@@ -465,10 +480,29 @@
             priceError.style.display = 'none';
             var feeValue = priceValue * 0.05;
             fee.value = feeValue;
+            if (feePayer.value === 'buyer') {
+                total.value = priceValue;
+            } else if (feePayer.value === 'half') {
+                total.value = priceValue - feeValue / 2;
+            } else {
+                total.value = priceValue - feeValue;
+            }
         } else {
             fee.value = 0;
             priceError.style.display = 'block';
             priceErrorBackend.style.display = 'none';
+        }
+    });
+
+    feePayer.addEventListener('change', function () {
+        var priceValue = parseInt(price.value);
+        var feeValue = priceValue * 0.05;
+        if (feePayer.value === 'buyer') {
+            total.value = priceValue;
+        } else if (feePayer.value === 'half') {
+            total.value = priceValue - feeValue / 2;
+        } else {
+            total.value = priceValue - feeValue;
         }
     });
 

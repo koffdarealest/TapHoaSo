@@ -175,9 +175,17 @@ public class PostDAO {
     public void buyPost(Post post, User user) {
         try {
             post.setBuyerID(user);
-            post.setStatus("buyed");
+            post.setStatus("buyerChecking");
             post.setUpdateable(false);
             post.setCanBuyerComplain(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void confirmReceivePost(Post post) {
+        try {
+            post.setStatus("done");
         } catch (Exception e) {
             e.printStackTrace();
         }

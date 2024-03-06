@@ -30,6 +30,8 @@
     <link rel="stylesheet" href="assets/css/animate.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"/>
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 </head>
 
 
@@ -92,43 +94,9 @@
 </div>
 
 <div class="container d-flex" style="max-width: 1700px;">
+    <div class="col-lg-1"></div>
     <div class="col-lg-6">
-        <div class="detail-market-wrap sticky-table">
-            <div>
-                <table class="table table-bordered table-scroll" id="marketTable">
-                    <thead class="sticky-header">
-                    <tr>
-                        <th>Title</th>
-                        <th>Fee</th>
-                        <th>Total spend</th>
-                        <th>Seller</th>
-                        <th colspan="2">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="post" items="${lPosts}">
-                        <tr>
-                            <td>${post.topic}</td>
-                            <td>${post.fee}</td>
-                            <td>${post.totalSpendForBuyer}</td>
-                            <td>${post.sellerID.nickname}</td>
-                            <td>
-                                <button class="custom-button btn btn-lg" onclick="viewPostDetail('${post.tradingCode}')"
-                                        style="font-size: small">
-                                    <i class="fas fa-info-circle"></i> Detail
-                                </button>
-                            </td>
-                            <td>Detail</td>
-                        </tr>
-                    </c:forEach>
-                    <!-- Repeat the above row for 20 records -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-6">
-        <div class="detail-post-wrap p-4" style="margin-left: 30px;">
+        <div class="detail-post-wrap p-4" style="margin-right: 30px;">
             <div class="col-lg-12 mx-auto">
                 <div class="card">
                     <div class="card-header">
@@ -167,50 +135,65 @@
                                        value="${chosenPost.topic}">      <!-- input Title -->
                             </div>
                         </div>
+                        <!-- ---------------Total--------------- -->
+                        <div class="d-flex mb-3 align-items-center" id="total">
+                            <div class="label-form col-md-3">
+                                <label class="label">Total spend</label>
+                                <p class="text-muted" style="font-size: small">Click to view detail</p>
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <input name="price" class="form-control" required readonly
+                                       value="${chosenPost.totalSpendForBuyer}" style="font-weight: bold">   <!-- input Price -->
+                                <span class="text-muted"
+                                      style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
+                            </div>
+                        </div>
                         <!-- ---------------Price--------------- -->
-                        <div class="d-flex mb-3 align-items-center">
-                            <div class="label-form col-md-3">
-                                <label class="label">Price </label>
+                        <div id="priceField" style="display: none">
+                            <div class="d-flex mb-3 align-items-center">
+                                <div class="label-form col-md-3">
+                                    <label class="label">Price </label>
+                                </div>
+                                <div class="col-md-9 form-group">
+                                    <input type="text" name="price" class="form-control" required readonly id="price"
+                                           value="${chosenPost.price}">   <!-- input Price -->
+                                    <span class="text-muted"
+                                          style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
+                                </div>
                             </div>
-                            <div class="col-md-9 form-group">
-                                <input type="text" name="price" class="form-control" required readonly id="price"
-                                       value="${chosenPost.price}">   <!-- input Price -->
-                                <span class="text-muted"
-                                      style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
+                            <!-- ---------------Fee--------------- -->
+                            <div class="d-flex mb-3 align-items-center">
+                                <div class="label-form col-md-3">
+                                    <label class="label">Fee </label>
+                                </div>
+                                <div class="col-md-9 form-group">
+                                    <input type="number" name="fee" class="form-control" required readonly id="fee"
+                                           value="${chosenPost.fee}" style="font-style: oblique">    <!-- input Fee -->
+                                    <span class="text-muted"
+                                          style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
+                                </div>
                             </div>
-                        </div>
-                        <!-- ---------------Fee--------------- -->
-                        <div class="d-flex mb-3 align-items-center">
-                            <div class="label-form col-md-3">
-                                <label class="label">Fee </label>
-                            </div>
-                            <div class="col-md-9 form-group">
-                                <input type="number" name="fee" class="form-control" required readonly id="fee"
-                                       value="${chosenPost.fee}">    <!-- input Fee -->
-                                <span class="text-muted"
-                                      style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
-                            </div>
-                        </div>
-                        <!-- ---------------Fee Payer--------------- -->
-                        <div class="d-flex mb-3 align-items-center">
-                            <div class="label-form col-md-3">
-                                <label class="label">Fee Payer </label>
-                            </div>
-                            <div class="col-md-9 form-group">
-                                <select class="form-control" name="feePayer" required readonly>
-                                    <!-- select Fee Payer -->
-                                    <c:choose>
-                                        <c:when test="${chosenPost.whoPayFee == 'buyer'}">
-                                            <option selected>Buyer</option>
-                                        </c:when>
-                                        <c:when test="${chosenPost.whoPayFee == 'half'}">
-                                            <option selected>Half - Half</option>
-                                        </c:when>
-                                        <c:when test="${chosenPost.whoPayFee == 'seller'}">
-                                            <option selected>Seller</option>
-                                        </c:when>
-                                    </c:choose>
-                                </select>
+                            <!-- ---------------Fee Payer--------------- -->
+                            <div class="d-flex mb-3 align-items-center">
+                                <div class="label-form col-md-3">
+                                    <label class="label">Fee Payer </label>
+                                </div>
+                                <div class="col-md-9 form-group">
+                                    <select class="form-control" name="feePayer" required readonly>
+                                        <!-- select Fee Payer -->
+                                        <c:choose>
+                                            <c:when test="${chosenPost.whoPayFee == 'buyer'}">
+                                                <option selected>Buyer</option>
+                                            </c:when>
+                                            <c:when test="${chosenPost.whoPayFee == 'half'}">
+                                                <option selected>Half - Half</option>
+                                            </c:when>
+                                            <c:when test="${chosenPost.whoPayFee == 'seller'}">
+                                                <option selected>Seller</option>
+                                            </c:when>
+                                        </c:choose>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <!-- ---------------Description--------------- -->
@@ -256,8 +239,8 @@
                         <!-- ---------------Submit--------------- -->
                         <div class="d-flex mb-3 align-items-center">
                             <div class="form-group col-md-12 text-center">
-                                <button type="submit" class="col-md-3 btn btn-primary p-3"
-                                        onclick="openBuyPopup('${chosenPost.postID}')">BUY
+                                <button type="submit" class="col-md-3 btn p-3" style="background: green; --bs-btn-hover-bg: #0fae00; --bs-btn-color: white;"
+                                        onclick="openBuyPopup('${chosenPost.postID}')"><i class="fas fa-shopping-cart"></i> BUY
                                 </button>
                                 <!-- Submit -->
                             </div>
@@ -267,6 +250,40 @@
             </div>
         </div>
     </div>
+    <div class="col-lg-4">
+        <div class="detail-market-wrap sticky-table">
+            <div>
+                <table class="table table-bordered table-scroll" id="marketTable">
+                    <thead class="sticky-header">
+                    <tr>
+                        <th>Title</th>
+                        <th>Total spend</th>
+                        <th>Seller</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="post" items="${lPosts}">
+                        <tr>
+                            <td>${post.topic}</td>
+                            <td>${post.totalSpendForBuyer}</td>
+                            <td>${post.sellerID.nickname}</td>
+                            <td>
+                                <button class="custom-button btn btn-lg" onclick="viewPostDetail('${post.tradingCode}')"
+                                        style="font-size: small">
+                                    <i class="fas fa-info-circle"></i> Detail
+                                </button>
+                            </td>
+
+                        </tr>
+                    </c:forEach>
+                    <!-- Repeat the above row for 20 records -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <footer>
@@ -309,7 +326,7 @@
                 for (let i = 0; i < remainingRows; i++) {
                     const row = table.insertRow();
                     row.style.height = (existingRowHeight * 0.85) + 'px'; // Thiết lập chiều cao cho hàng mới
-                    for (let j = 0; j <= headers.length; j++) {
+                    for (let j = 0; j < headers.length; j++) {
                         const cell = row.insertCell();
                     }
                 }
@@ -418,15 +435,45 @@
     }
 </script>
 
+<!-- ----------------Toggle Price Field---------------- -->
+<script>
+    // document.addEventListener("DOMContentLoaded", function () {
+    //     const total = document.getElementById('total');
+    //     const priceField = document.getElementById('priceField');
+    //     total.addEventListener("click", function () {
+    //         if (priceField.style.display === "none") {
+    //             priceField.style.display = "block";
+    //         } else {
+    //             priceField.style.display = "none";
+    //         }
+    //     });
+    // });
+
+    $(document).ready(function () {
+        let isVisible = false;
+
+        $("#total").click(function () {
+            if (!isVisible) {
+                $("#priceField").slideDown("slow");
+                isVisible = true;
+            } else {
+                $("#priceField").slideUp("slow");
+                isVisible = false;
+            }
+        });
+    });
+</script>
+
+
 <!-- Bootstrap core JavaScript -->
 <script src="https://cdn.tiny.cloud/1/qmw4wavlc4ekzay2c6m9pxxoyvi1ni12vki7sz9clkyfyyo2/tinymce/6/tinymce.min.js"
         referrerpolicy="origin"></script>
-<script src="vendor/jquery/jquery.min.js"></script>
-<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/js/isotope.min.js"></script>
 <script src="assets/js/owl-carousel.js"></script>
 <script src="assets/js/counter.js"></script>
 <script src="assets/js/custom.js"></script>
+
+
 
 
 </body>

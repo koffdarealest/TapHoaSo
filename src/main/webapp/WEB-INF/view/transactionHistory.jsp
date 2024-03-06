@@ -90,7 +90,6 @@
         <div class="row">
             <div class="col-lg-12">
                 <h3>Transaction History</h3>
-
             </div>
         </div>
     </div>
@@ -104,7 +103,6 @@
                 <tr>
                     <th>Transaction ID</th>
                     <th>Amount</th>
-                    <th>Type</th>
                     <th>Process</th>
                     <th>Note</th>
                     <th>Created By</th>
@@ -115,10 +113,9 @@
                 </thead>
                 <tbody>
                 <c:forEach var="post" items="${list}">
-                    <tr>
+                    <tr style="background: ${post.type eq '-' ? '#FFCCCC' : '#CCFFCC'}">
                         <td>${post.transactionID}</td>
-                        <td>${post.amount}</td>
-                        <td>${post.type}</td>
+                        <td>${post.type eq '-' ? '-' : '+'} ${post.amount}</td>
                         <td>
                             ${post.getProcessed() ? "Done" : "Processing"}
                         </td>

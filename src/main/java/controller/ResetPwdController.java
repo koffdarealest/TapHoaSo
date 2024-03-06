@@ -81,7 +81,7 @@ public class ResetPwdController extends HttpServlet {
     private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String enteredCaptcha = req.getParameter("captcha");
         String captcha = (String) req.getSession().getAttribute("captcha");
-        if (!enteredCaptcha.equals(captcha)) {
+        if (!enteredCaptcha.equalsIgnoreCase(captcha)) {
             try {
                 return false;
             } catch (Exception e) {
