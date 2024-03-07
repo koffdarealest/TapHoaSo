@@ -215,6 +215,7 @@ public class signinController extends HttpServlet {
         HashMap<String, String> map = getParameter(req, resp);
         String username = map.get("username");
         try {
+            req.getSession().setAttribute("user", new userDAO().getUserByUsername(username));
             req.getSession().setAttribute("username", username);
             resp.sendRedirect(req.getContextPath() + "/home");
         } catch (Exception e) {

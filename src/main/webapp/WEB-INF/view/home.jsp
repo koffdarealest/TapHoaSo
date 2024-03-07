@@ -112,7 +112,7 @@
                 </a>
             </div>
             <div class="col-lg-3 col-md-6">
-                <a href="#">
+                <a href="viewbalance">
                     <div class="item">
                         <div class="image">
                             <img src="../../assets/images/dolla.png" alt="" style="max-width: 44px;">

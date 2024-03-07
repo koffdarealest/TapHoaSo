@@ -122,7 +122,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form action="editPassword" method="post" id="changePasswordForm">
+                        <form action="editPassword" method="post" id="changePasswordForm" onsubmit="return validateForm()">
                             <div class="d-flex mb-3 align-items-center">
                                 <div class="label-form col-md-4">
                                     <label class="label" style="text-align: left;">PASSWORD</label>
@@ -145,6 +145,7 @@
                                 <div class="col-md-8"><input type="password" name="newpassword2" class="form-control"
                                                              placeholder="Re-enter new password"></div>
                             </div>
+
                             <!-- --------------captcha field-------------- -->
                             <div class="form-group mb-3">
                                 <label class="label">Captcha</label>
@@ -196,6 +197,28 @@
 </footer>
 
 <script>
+    function validateForm() {
+        var password1 = document.getElementById("newpassword").value;
+        var password2 = document.getElementById("newpassword2").value;
+
+        if (password1 !== password2) {
+            alert("Passwords do not match!");
+            return false; // Ngăn form gửi đi nếu mật khẩu không khớp
+        }
+        // Nếu mật khẩu khớp, form sẽ tiếp tục gửi dữ liệu lên server
+        return true;
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var form = document.getElementById("changePasswordForm");
+
+        form.addEventListener("submit", function (event) {
+            if (!validateForm()) {
+                event.preventDefault(); // Ngăn form gửi đi nếu mật khẩu không khớp
+            }
+        });
+    });
+
     function reloadCaptcha() {
         var timestamp = new Date().getTime();
         var captchaImage = document.getElementById('captchaImage');

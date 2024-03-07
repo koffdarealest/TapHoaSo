@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
 
 import DAO.userDAO;
 import model.User;
@@ -30,14 +29,25 @@ public class editPasswordController extends HttpServlet {
         String newPassword = request.getParameter("newpassword");
         String newPassword2 = request.getParameter("newpassword2");
         String captcha = request.getParameter("captcha");
+
         if (!checkSession(username, response)) {
             return;
         }
+
+        if (!checkNull(oldPassword, response) || !checkNull(newPassword, response) || !checkNull(newPassword2, response)){
+            request.setAttribute("error", "Password null! Try again!");
+            request.getRequestDispatcher("WEB-INF/view/editProfile.jsp").forward(request, response);
+            return;
+        }
+
+        // Kiểm tra captcha
         if (!isTrueCaptcha(request, response, captcha)) {
             request.setAttribute("error", "Captcha is not correct! Try again!");
             request.getRequestDispatcher("WEB-INF/view/editProfile.jsp").forward(request, response);
             return;
         }
+
+        // Kiểm tra mật khẩu cũ và mới có giống nhau không
         if (isOldPasswordLikeNewPassword(oldPassword, newPassword)) {
             request.setAttribute("error", "Old password and new password are the same! Try again!");
             request.getRequestDispatcher("WEB-INF/view/editProfile.jsp").forward(request, response);
@@ -49,15 +59,11 @@ public class editPasswordController extends HttpServlet {
 
         String passencode = userDAO.encodePassword(oldPassword);
         if (!user.getPassword().equals(passencode)) {
-//            request.setAttribute("error", "");
-//            userDAO userDAO = new userDAO();
-//            User user = userDAO.getUserByUsername(username);
             request.setAttribute("user", user);
             request.setAttribute("error", "Old password is not correct! Try again!");
             request.getRequestDispatcher("WEB-INF/view/editProfile.jsp").forward(request, response);
             return;
         }
-
 
         if (!newPassword.equals(newPassword2)) {
             request.setAttribute("user", user);
@@ -81,7 +87,16 @@ public class editPasswordController extends HttpServlet {
         }
         return true;
     }
-    private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp, String enteredCaptcha) throws ServletException, IOException{
+
+    private boolean checkNull(String pass, HttpServletResponse resp) throws IOException {
+        if (pass == null || pass.isEmpty()) {
+//            resp.sendRedirect("/editProfile");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp, String enteredCaptcha) throws ServletException, IOException {
         try {
             String captcha = (String) req.getSession().getAttribute("captcha");
             if (enteredCaptcha.equals(captcha)) {
@@ -97,6 +112,4 @@ public class editPasswordController extends HttpServlet {
     private boolean isOldPasswordLikeNewPassword(String oldPassword, String newPassword) {
         return oldPassword.equals(newPassword);
     }
-
-
 }
