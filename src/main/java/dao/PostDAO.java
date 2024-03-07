@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.Factory;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -191,11 +192,33 @@ public class PostDAO {
         }
     }
 
+    public List<Post> getUnconfirmedPost() {
+        List<Post> unconfirmedPosts = null;
+        Transaction transaction = null;
+        try (Session session = Factory.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            unconfirmedPosts = session.createQuery("from Post where status in (:statuses) ")
+                    .setParameterList("statuses", Arrays.asList("buyerChecking", "sellerDeniedComplain"))
+                    .getResultList();
+
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction == null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        }
+        return unconfirmedPosts;
+    }
+
+
 
     public static void main(String[] args) {
-//         postDAO postDAO = new postDAO();
-//         List<Post> ls = postDAO.getAllPost();
-//         Post post = ls.getFirst();
-//         System.out.println(post.getTradingCode());
+         PostDAO postDAO = new PostDAO();
+         List<Post> ls = postDAO.getUnconfirmedPost();
+            for (Post post : ls) {
+                System.out.println("topic" + post.getTopic() + ", status:" + post.getStatus());
+            }
     }
 }
