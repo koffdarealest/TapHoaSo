@@ -85,6 +85,7 @@ public class SellController extends HttpServlet {
             params.put("description", req.getParameter("description"));
             params.put("contact", req.getParameter("contact"));
             params.put("hidden", req.getParameter("hidden"));
+            params.put("viewMode", req.getParameter("viewMode"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -123,6 +124,7 @@ public class SellController extends HttpServlet {
         Post post = new Post();
         PostDAO postDAO = new PostDAO();
         String tradingCode = postDAO.createTradingCode();
+        String viewMode = params.get("viewMode");
         try {
             Long price = Long.parseLong(params.get("price"));
             Long fee = price * 5 / 100;
@@ -135,7 +137,11 @@ public class SellController extends HttpServlet {
             post.setDescription(params.get("description"));
             post.setContact(params.get("contact"));
             post.setHidden(params.get("hidden"));
-            post.setPublic(true);
+            if (viewMode.equals("private")) {
+                post.setPublic(false);
+            } else {
+                post.setPublic(true);
+            }
             post.setStatus("readyToSell");
             post.setTotalReceiveForSeller(params.get("feePayer"));
             post.setTotalSpendForBuyer(params.get("feePayer"));

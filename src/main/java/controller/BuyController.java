@@ -35,9 +35,9 @@ public class BuyController extends HttpServlet {
         if (username == null) {
             resp.sendRedirect( req.getContextPath() + "/signin");
         } else {
-            Long id = getPostID(req, resp);
-            Post post = getPostByID(req, resp, id);
-            User user = getUser(req, resp);
+            String code = getCode(req, resp);
+            Post post = getPostByCode(req, resp, code);
+            User user = getUser(req, resp, username);
             if (isDeletedPost(req, resp, post)) {
                 notifyUser(req, resp, "Invalid action! <a href=home>Go back here</a>");
                 return;
@@ -69,22 +69,21 @@ public class BuyController extends HttpServlet {
     }
 
 
-    private Long getPostID(HttpServletRequest req, HttpServletResponse resp) {
-        Long postID = null;
+    private String getCode(HttpServletRequest req, HttpServletResponse resp) {
+        String tradingCode = null;
         try {
-            String ID = req.getParameter("postID");
-            postID = Long.parseLong(ID);
+            tradingCode = req.getParameter("tradingCode");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return postID;
+        return tradingCode;
     }
 
-    private Post getPostByID(HttpServletRequest req, HttpServletResponse resp, Long id) {
+    private Post getPostByCode(HttpServletRequest req, HttpServletResponse resp, String tradingCode) {
         Post post = new Post();
         try {
             PostDAO postDAO = new PostDAO();
-            post = postDAO.getPostByID(id);
+            post = postDAO.getPostByTradingCode(tradingCode);
             return post;
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,10 +91,9 @@ public class BuyController extends HttpServlet {
         return post;
     }
 
-    private User getUser(HttpServletRequest req, HttpServletResponse resp) {
+    private User getUser(HttpServletRequest req, HttpServletResponse resp, String username) {
         User user = new User();
         try {
-            String username = (String) req.getSession().getAttribute("username");
             UserDAO userDAO = new UserDAO();
             user = userDAO.getUserByUsername(username);
             return user;

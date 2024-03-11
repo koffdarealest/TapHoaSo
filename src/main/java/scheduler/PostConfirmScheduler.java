@@ -11,7 +11,6 @@ import java.util.List;
 
 public class PostConfirmScheduler implements Job {
 
-
     @Override
     public void execute(JobExecutionContext jobExecutionContext) {
         List<Post> listUnconfirmedPosts = getUnconfirmedPosts();
@@ -33,7 +32,7 @@ public class PostConfirmScheduler implements Job {
 
     private boolean isOverdue(Post post) {
         Date now = new Date();
-        return post.getUpdatedAt().getTime() + 1 * 60 * 1000 < now.getTime();
+        return post.getUpdatedAt().getTime() + 15 * 60 * 1000 < now.getTime();
     }
 
     private void confirmReceive(Post post) {

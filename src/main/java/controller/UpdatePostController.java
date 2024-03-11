@@ -50,7 +50,7 @@ public class UpdatePostController extends HttpServlet {
             doGet(req, resp);
             return;
         }
-        String code= getCode(req, resp);
+        String code = params.get("tradingCode");
         Post post = getPostByCode(req, resp, code);
         if (!isValidUserToViewPost(req, resp, post)) {
             notifyUser(req, resp, "Invalid action! <a href=home>Go back here</a>");
@@ -104,6 +104,7 @@ public class UpdatePostController extends HttpServlet {
     private HashMap<String, String> getParams(HttpServletRequest req) {
         HashMap<String, String> params = new HashMap<>();
         try {
+            params.put("tradingCode", req.getParameter("tradingCode"));
             params.put("title", req.getParameter("title"));
             params.put("price", req.getParameter("price"));
             params.put("feePayer", req.getParameter("feePayer"));
@@ -117,13 +118,14 @@ public class UpdatePostController extends HttpServlet {
     }
 
     private boolean isValidParams(HashMap<String, String> params) {
+        String tradingCode = params.get("tradingCode");
         String title = params.get("title");
         String price = params.get("price");
         String feePayer = params.get("feePayer");
         String description = params.get("description");
         String contact = params.get("contact");
         String hidden = params.get("hidden");
-        if (title == null || price == null || feePayer == null || description == null || contact == null || hidden == null) {
+        if (tradingCode == null || title == null || price == null || feePayer == null || description == null || contact == null || hidden == null) {
             return false;
         } else {
             return true;
@@ -161,11 +163,7 @@ public class UpdatePostController extends HttpServlet {
     private boolean isValidUserToViewPost(HttpServletRequest req, HttpServletResponse resp, Post post) {
         try {
             String username = (String) req.getSession().getAttribute("username");
-            if (post.getSellerID().getUsername().equals(username)) {
-                return true;
-            } else {
-                return false;
-            }
+            return post.getSellerID().getUsername().equals(username);
         } catch (Exception e) {
             e.printStackTrace();
             return false;

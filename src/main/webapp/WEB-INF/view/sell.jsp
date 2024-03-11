@@ -207,6 +207,26 @@
                                 <!-- input Hidden content -->
                             </div>
                         </div>
+                        <!-- ---------------View mode--------------- -->
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="label-form col-md-3">
+                                <label class="label">View mode (*)</label>
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <button type="button" class="col-md-4 btn btn-primary" style="margin-right: 20px" id="publicBtn">
+                                    <i class="fas fa-globe"></i> Public</button>
+
+                                <button type="button" class="col-md-4 btn btn-secondary" id="privateBtn">
+                                    <i class="fas fa-lock"></i> Private</button>
+                                <input type="hidden" name="viewMode" value="public"> <!-- Giá trị mặc định -->
+                            </div>
+                        </div>
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-9 form-group">
+                                <span id="viewModeNotice" style="display: none;"></span>
+                            </div>
+                        </div>
                         <!-- ---------------Confirm--------------- -->
                         <div class="d-flex mb-3 align-items-center">
                             <div class="col-md-2"></div>
@@ -322,7 +342,7 @@
     //     }
     // });
 </script>
-
+<!-- ---------------TinyMCE--------------- -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         tinymce.init({
@@ -341,6 +361,42 @@
                     editor.save();
                 });
             }
+        });
+    });
+</script>
+
+<!-- ---------------View mode--------------- -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const publicBtn = document.getElementById("publicBtn")
+        const privateBtn = document.getElementById("privateBtn");
+        const viewModeInput = document.querySelector("input[name='viewMode']");
+        const viewModeNotice = document.getElementById("viewModeNotice");
+
+        publicBtn.addEventListener("click", function() {
+            viewModeInput.value = "public";
+            publicBtn.classList.add("active");
+            publicBtn.style.backgroundColor = "#0090ff";
+            publicBtn.style.borderColor = "#0a53be";
+            privateBtn.classList.remove("active");
+            privateBtn.style.backgroundColor = "#6c757d";
+            privateBtn.style.borderColor = "#ffffff";
+            viewModeNotice.style.display = "block";
+            viewModeNotice.innerText = "Your post will be public on the market";
+            viewModeNotice.style.color = "#0090ff";
+        });
+
+        privateBtn.addEventListener("click", function() {
+            viewModeInput.value = "private";
+            privateBtn.classList.add("active");
+            privateBtn.style.backgroundColor = "#99001a";
+            privateBtn.style.borderColor = "#660012";
+            publicBtn.classList.remove("active");
+            publicBtn.style.backgroundColor = "#6c757d";
+            publicBtn.style.borderColor = "#ffffff";
+            viewModeNotice.style.display = "block";
+            viewModeNotice.innerText = "Your post will be private, only people with private links can view";
+            viewModeNotice.style.color = "#99001a";
         });
     });
 </script>

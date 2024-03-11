@@ -121,7 +121,7 @@ public class PostDAO {
         try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
-            ListPosts = session.createQuery("from Post where buyerID is null and (isDelete != true or isDelete is null)").getResultList();
+            ListPosts = session.createQuery("from Post where buyerID is null and (isDelete != true or isDelete is null) and isPublic = true").getResultList();
 
             transaction.commit();
         } catch (Exception ex) {

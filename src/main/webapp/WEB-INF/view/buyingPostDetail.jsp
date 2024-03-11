@@ -257,8 +257,8 @@
                                 <!-- ---------------Buttons--------------- -->
                                 <div class="d-flex mb-3 align-items-center">
                                     <div class="col-md-12 text-center">
-                                        <button class="col-md-5 btn custom-button p-2"
-                                                style="font-size: medium; margin-right: 20px; background: #d21300">
+                                        <button class="col-md-5 btn custom-button p-2" style="font-size: medium; margin-right: 20px; background: #d21300"
+                                                onclick="openComplaintPopup('${chosenPost.tradingCode}')">
                                             <i class="fa fa-times-circle" style="margin-right: 4px"></i>REPORT PROBLEM
                                         </button>
                                         <button class="col-md-5 btn custom-button p-2" style="font-size: medium"
@@ -267,6 +267,41 @@
                                             CONFIRM PRODUCT RECEIVED
                                         </button>
                                     </div>
+                                </div>
+                            </c:when>
+                            <c:when test="${chosenPost.status == 'buyerComplaining'}">
+                                <div class="d-flex mb-3 align-items-center">
+                                    <div class="col-md-12 text-center">
+                                        <button class="col-md-5 btn custom-button p-2" style="font-size: medium; background: #be7000"
+                                                onclick="openCancelComplaintPopup('${chosenPost.tradingCode}')">
+                                            <i class="fa fa-cancel" style="margin-right: 4px"></i>
+                                            CANCEL COMPLAINT
+                                        </button>
+                                    </div>
+                                </div>
+                            </c:when>
+                            <c:when test="${chosenPost.status == 'buyerCanceledComplaint'}">
+                                <div class="d-flex mb-3 align-items-center">
+                                    <div class="col-md-12 text-center">
+                                        <button class="col-md-5 btn custom-button p-2" style="font-size: medium"
+                                                onclick="openConfirmationPopup('${chosenPost.tradingCode}')">
+                                            <i class="fa fa-check-circle" style="margin-right: 4px"></i>
+                                            CONFIRM PRODUCT RECEIVED
+                                        </button>
+                                    </div>
+                                </div>
+                            </c:when>
+                            <c:when test="${chosenPost.status == 'sellerDeniedComplaint'}">
+                                <div class="col-md-12 text-center">
+                                    <button class="col-md-5 btn custom-button p-2" style="font-size: medium; margin-right: 20px; background: #d21300"
+                                            onclick="openReportAdminPopup('${chosenPost.tradingCode}')">
+                                        <i class="fa fa-phone" style="margin-right: 4px"></i>REPORT TO ADMIN
+                                    </button>
+                                    <button class="col-md-5 btn custom-button p-2" style="font-size: medium"
+                                            onclick="openConfirmationPopup('${chosenPost.tradingCode}')">
+                                        <i class="fa fa-check-circle" style="margin-right: 4px"></i>
+                                        CONFIRM PRODUCT RECEIVED
+                                    </button>
                                 </div>
                             </c:when>
                         </c:choose>
@@ -325,9 +360,9 @@
         </div>
     </div>
 </footer>
-
-<!-- -----------------Confirm Pop-up-----------------  -->
+<!-- -----------------Overlay-----------------  -->
 <div id="overlay" class="overlay" onclick="closePopup()"></div>
+<!-- -----------------Confirm Pop-up-----------------  -->
 <div id="confirmationPopup" class="popup">
     <div class="popup-content">
         <h6 class="mb-1">After confirmation, you can no longer complain about this product post!</h6>
@@ -336,15 +371,32 @@
         <button onclick="closePopup()" style="background: #646464">No</button>
     </div>
 </div>
-<div id="complainPopup" class="popup">
+<!-- -----------------Complaint Pop-up-----------------  -->
+<div id="complaintPopup" class="popup">
     <div class="popup-content">
         <h6 class="mb-1">Do you really want to complain to the seller?</h6>
         <p class="mb-3">Please check carefully before making a complaint!</p>
-        <button onclick="complainPostConfirmed()" style="background: #0fae00">Yes</button>
+        <button onclick="complaintPostConfirmed()" style="background: #0fae00">Yes</button>
         <button onclick="closePopup()" style="background: #646464">No</button>
     </div>
 </div>
-
+<!-- ------------------Cancel Complaint Pop------------------ -->
+<div id="cancelComplaintPopup" class="popup">
+    <div class="popup-content">
+        <h6 class="mb-1">You will no longer be able to complain about this product post!</h6>
+        <p class="mb-3">Do you really want to cancel your complaint ?</p>
+        <button onclick="cancelComplaintConfirmed()" style="background: #0fae00">Yes</button>
+        <button onclick="closePopup()" style="background: #646464">No</button>
+    </div>
+</div>
+<!-- ------------------Report Admin Pop------------------ -->
+<div id="reportAdminPopup" class="popup">
+    <div class="popup-content">
+        <h6 class="mb-1">Do you want to report this problem to the admin?</h6>
+        <p class="mb-3">We will charge 50000 VND (if your complaint is true, we will refund this amount) Please check carefully before reporting!</p>
+        <button onclick="reportAdminConfirmed()" style="background: #0fae00">Yes</button>
+        <button onclick="closePopup()" style="background: #646464">No</button>
+    </div>
 <!-- Scripts -->
 <!-- ------------------Table------------------ -->
 <script>
@@ -473,45 +525,60 @@
 </script>
 <!-- ------------------Confirmation Popup------------------ -->
 <script>
-    var code;
-
+    var cfCode;
+    var cplCode;
+    var cancelCplCode;
     function openConfirmationPopup(tradingCode) {
         document.getElementById('overlay').style.display = 'block';
         document.getElementById('confirmationPopup').style.display = 'block';
-        code = tradingCode;
+        cfCode = tradingCode;
     }
 
     function donePostConfirmed() {
-        window.location.href = 'confirmReceive?tradingCode=' + code;
+        window.location.href = 'confirmReceive?tradingCode=' + cfCode;
     }
 
     function closePopup() {
+        document.getElementById('reportAdminPopup').style.display = 'none';
+        document.getElementById('complaintPopup').style.display = 'none';
+        document.getElementById('cancelComplaintPopup').style.display = 'none';
         document.getElementById('confirmationPopup').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
     }
 
-    function openComplainPopup(post) {
+    function openComplaintPopup(tradingCode) {
         document.getElementById('overlay').style.display = 'block';
-        document.getElementById('complainPopup').style.display = 'block';
+        document.getElementById('complaintPopup').style.display = 'block';
+        cplCode = tradingCode;
     }
-    function complainPostConfirmed() {
-        window.location.href = 'complainPost?postID=' + id;
+
+    function complaintPostConfirmed() {
+        window.location.href = 'complaint?tradingCode=' + cplCode;
     }
+
+    function openCancelComplaintPopup(tradingCode) {
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('cancelComplaintPopup').style.display = 'block';
+        cancelCplCode = tradingCode;
+    }
+
+    function cancelComplaintConfirmed() {
+        window.location.href = 'cancelComplaint?tradingCode=' + cancelCplCode;
+    }
+
+    function openReportAdminPopup(tradingCode) {
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('reportAdminPopup').style.display = 'block';
+        cancelCplCode = tradingCode;
+    }
+
+    function reportAdminConfirmed() {
+        window.location.href = 'reportAdmin?tradingCode=' + cancelCplCode;
+    }
+
 </script>
 <!-- ----------------Toggle Price Field---------------- -->
 <script>
-    // document.addEventListener("DOMContentLoaded", function () {
-    //     const total = document.getElementById('total');
-    //     const priceField = document.getElementById('priceField');
-    //     total.addEventListener("click", function () {
-    //         if (priceField.style.display === "none") {
-    //             priceField.style.display = "block";
-    //         } else {
-    //             priceField.style.display = "none";
-    //         }
-    //     });
-    // });
-
     $(document).ready(function () {
         let isVisible = false;
 

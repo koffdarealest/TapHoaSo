@@ -240,7 +240,7 @@
                         <div class="d-flex mb-3 align-items-center">
                             <div class="form-group col-md-12 text-center">
                                 <button type="submit" class="col-md-3 btn p-3" style="background: green; --bs-btn-hover-bg: #0fae00; --bs-btn-color: white;"
-                                        onclick="openBuyPopup('${chosenPost.postID}')"><i class="fas fa-shopping-cart"></i> BUY
+                                        onclick="openBuyPopup('${chosenPost.tradingCode}')"><i class="fas fa-shopping-cart"></i> BUY
                                 </button>
                                 <!-- Submit -->
                             </div>
@@ -417,16 +417,16 @@
 </script>
 <!-- ----------------Buy button---------------- -->
 <script>
-    var id;
+    var code;
 
-    function openBuyPopup(postID) {
+    function openBuyPopup(tradingCode) {
         document.getElementById('overlay').style.display = 'block';
         document.getElementById('buyPopup').style.display = 'block';
-        id = postID;
+        code = tradingCode;
     }
 
     function buyPostConfirmed() {
-        window.location.href = 'buy?postID=' + id;
+        window.location.href = 'buy?tradingCode=' + code;
     }
 
     function closePopup() {

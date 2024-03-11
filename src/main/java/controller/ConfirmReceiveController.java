@@ -42,6 +42,10 @@ public class ConfirmReceiveController extends HttpServlet {
                 notifyUser(req, resp, "Invalid action! <a href=home>Go back here</a>");
                 return;
             }
+            if (!isValidStatus(req, resp, post)) {
+                notifyUser(req, resp, "Invalid action! <a href=home>Go back here</a>");
+                return;
+            }
             confirmReceive(req, resp, post);
             notifyUser(req, resp, "Confirm receive successfully! <a href=home>Go back here</a>");
             tranferMoneyToSeller(req, resp, post);
@@ -84,11 +88,22 @@ public class ConfirmReceiveController extends HttpServlet {
     private boolean isValidUserToConfirmPost(HttpServletRequest req, HttpServletResponse resp, Post post) {
         try {
             String username = (String) req.getSession().getAttribute("username");
-            if (post.getBuyerID().getUsername().equals(username) && post.getStatus().equals("buyerChecking")) {
+            if (post.getBuyerID().getUsername().equals(username)) {
                 return true;
             } else {
                 return false;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private boolean isValidStatus(HttpServletRequest req, HttpServletResponse resp, Post post) {
+        try {
+            return post.getStatus().equals("buyerChecking")
+                    || post.getStatus().equals("sellerDeniedComplaint")
+                    || post.getStatus().equals("buyerCanceledComplaint");
         } catch (Exception e) {
             e.printStackTrace();
             return false;

@@ -106,8 +106,7 @@
                     </div>
                     <div class="card-body">
                         <form method="post" action="postDetailUpdate">
-                            <!-- ---------------PostID--------------- -->
-                            <input type="hidden" name="postID" value="${chosenPost.postID}">
+                            <input type="hidden" name="tradingCode" value="${chosenPost.tradingCode}">
                             <!-- ---------------Trading Code--------------- -->
                             <div class="d-flex mb-3 align-items-center">
                                 <div class="label-form col-md-3">
@@ -139,13 +138,14 @@
                                 </div>
                             </div>
                             <!-- ---------------Total--------------- -->
-                            <div class="d-flex mb-3 align-items-center" >
+                            <div class="d-flex mb-3 align-items-center">
                                 <div class="label-form col-md-3">
                                     <label class="label">Total receive</label>
                                 </div>
                                 <div class="col-md-9 form-group">
-                                    <input name="price" class="form-control" required readonly
-                                           value="${chosenPost.totalReceiveForSeller}" id="total" style="font-weight: bold">
+                                    <input class="form-control" required readonly
+                                           value="${chosenPost.totalReceiveForSeller}" id="total"
+                                           style="font-weight: bold">
                                     <span class="text-muted"
                                           style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
                                 </div>
@@ -181,7 +181,8 @@
                                 </div>
                                 <div class="col-md-9 form-group">
                                     <input type="number" name="fee" class="form-control" required id="fee"
-                                           value="${chosenPost.fee}" readonly style="font-style: oblique">    <!-- input Fee -->
+                                           value="${chosenPost.fee}" readonly style="font-style: oblique">
+                                    <!-- input Fee -->
                                     <span class="text-muted"
                                           style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
                                 </div>
@@ -192,7 +193,8 @@
                                     <label class="label">Fee Payer </label>
                                 </div>
                                 <div class="col-md-9 form-group">
-                                    <select class="form-control" name="feePayer" required id="feePayer"> <!-- select Fee Payer -->
+                                    <select class="form-control" name="feePayer" required id="feePayer">
+                                        <!-- select Fee Payer -->
                                         <c:choose>
                                             <c:when test="${chosenPost.whoPayFee == 'buyer'}">
                                                 <option selected value="buyer">Buyer</option>
@@ -265,6 +267,31 @@
                                            value="">      <!-- input Title -->
                                 </div>
                             </div>
+                            <!-- ---------------Link--------------- -->
+                            <div class="d-flex mb-3 align-items-center">
+                                <div class="label-form col-md-3">
+                                    <label class="label">Share link </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <textarea class="form-control"
+                                              style="height: 80px"
+                                              disabled
+                                              id="link">http://localhost:8080/postDetailFromLink?tradingCode=${chosenPost.tradingCode}</textarea>
+                                </div>
+                                <div class="col-md-1 d-flex justify-content-center">
+                                    <button type="button" class="btn btn-primary" id="copyBtn">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="d-flex mb-3 align-items-center">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-9 form-group">
+                                    <span class="text-muted" id="copiedNotice" style="display: none">
+                                        The link has been copied to the clipboard!
+                                    </span>
+                                </div>
+                            </div>
                             <c:choose>
                                 <c:when test="${chosenPost.updateable eq true}">
                                     <!-- ---------------Confirm--------------- -->
@@ -289,6 +316,21 @@
                                                 <i class="fas fa-pencil"></i> Update
                                             </button>
                                             <!-- Submit -->
+                                        </div>
+                                    </div>
+                                </c:when>
+                                <c:when test="${chosenPost.status eq 'buyerComplaining'}">
+                                    <div class="d-flex mb-3 align-items-center">
+                                        <div class="col-md-12 text-center">
+                                            <button type="button" class="col-md-5 btn custom-button p-2" style="font-size: medium; margin-right: 20px; background: #d21300"
+                                                    onclick="openCancelPostPopup('${chosenPost.tradingCode}')">
+                                                <i class="fa fa-cancel" style="margin-right: 4px"></i>CONFIRM ERRORS, CALCEL POST
+                                            </button>
+                                            <button type="button" class="col-md-5 btn custom-button p-2" style="font-size: medium"
+                                                    onclick="openConfirmCorrectPopup('${chosenPost.tradingCode}')">
+                                                <i class="fa fa-check-circle" style="margin-right: 4px"></i>
+                                                CONFIRM THE POST IS CORRECT
+                                            </button>
                                         </div>
                                     </div>
                                 </c:when>
@@ -338,10 +380,8 @@
                                 </c:when>
                                 <c:otherwise>
                                     <td></td>
-                                    <!-- Nếu không phải 'readyToSell' hoặc 'done', không hiển thị nút Delete -->
                                 </c:otherwise>
                             </c:choose>
-
                         </tr>
                     </c:forEach>
                     <!-- Repeat the above row for 20 records -->
@@ -368,8 +408,9 @@
     </div>
 </footer>
 
-<!-- -----------------Confirm Pop-up-----------------  -->
+<!-- -----------------Overlay-----------------  -->
 <div id="overlay" class="overlay" onclick="closePopup()"></div>
+<!-- -----------------Confirm Pop-up-----------------  -->
 <div id="confirmationPopup" class="popup">
     <div class="popup-content">
         <h6 class="mb-1">Are you sure you want to delete this post?</h6>
@@ -378,6 +419,25 @@
         <button onclick="closePopup()">No</button>
     </div>
 </div>
+<!-- -----------------Cancel Post Pop-up-----------------  -->
+<div id="cancelPostPopup" class="popup">
+    <div class="popup-content">
+        <h6 class="mb-1">Are you sure you want to cancel this post?</h6>
+        <p class="mb-3">Cancel post cannot be recovered!</p>
+        <button onclick="cancelPostConfirmed()" style="background: #d31e01">Yes</button>
+        <button onclick="closePopup()">No</button>
+    </div>
+</div>
+<!-- -----------------Confirm Correct Pop-up-----------------  -->
+<div id="confirmCorrectPopup" class="popup">
+    <div class="popup-content">
+        <h6 class="mb-1">Are you sure the post is correct?</h6>
+        <p class="mb-3">The post will be updated to 'readyToSell' status!</p>
+        <button onclick="confirmCorrectPost()" style="background: #b9b700">Yes</button>
+        <button onclick="closePopup()">No</button>
+    </div>
+</div>
+
 
 <!-- Scripts -->
 <!-- ------------------Table------------------ -->
@@ -530,7 +590,8 @@
 <!-- ------------------Confirmation Popup------------------ -->
 <script>
     var code;
-
+    var cancelCode;
+    var confirmCode;
     function openConfirmationPopup(tradingCode) {
         document.getElementById('overlay').style.display = 'block';
         document.getElementById('confirmationPopup').style.display = 'block';
@@ -542,11 +603,46 @@
     }
 
     function closePopup() {
+        document.getElementById('confirmCorrectPopup').style.display = 'none';
+        document.getElementById('cancelPostPopup').style.display = 'none';
         document.getElementById('confirmationPopup').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
     }
-</script>
 
+    function openCancelPostPopup(tradingCode) {
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('cancelPostPopup').style.display = 'block';
+        cancelCode = tradingCode;
+    }
+
+    function cancelPostConfirmed() {
+        window.location.href = 'cancelPost?tradingCode=' + cancelCode;
+    }
+
+    function openConfirmCorrectPopup(tradingCode) {
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('confirmCorrectPopup').style.display = 'block';
+        confirmCode = tradingCode;
+    }
+
+    function confirmCorrectPost() {
+        window.location.href = 'confirmCorrectPost?tradingCode=' + confirmCode;
+    }
+</script>
+<!-- ------------------Copy Link------------------ -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var copyBtn = document.getElementById('copyBtn');
+
+        copyBtn.addEventListener('click', function () {
+            var link = document.getElementById('link');
+            navigator.clipboard.writeText(link.value).then(function () {
+                var notice = document.getElementById('copiedNotice');
+                notice.style.display = 'block';
+            })
+        });
+    });
+</script>
 <!-- Bootstrap core JavaScript -->
 <script src="https://cdn.tiny.cloud/1/qmw4wavlc4ekzay2c6m9pxxoyvi1ni12vki7sz9clkyfyyo2/tinymce/6/tinymce.min.js"
         referrerpolicy="origin"></script>

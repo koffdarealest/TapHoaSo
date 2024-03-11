@@ -14,7 +14,7 @@ public class QuartzListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         SchedulerFactory schedulerFactory = new StdSchedulerFactory();
         Scheduler scheduler = null;
-        SimpleScheduleBuilder repeatTime = SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(30).repeatForever();
+        SimpleScheduleBuilder repeatTime = SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(60*10).repeatForever();
         try {
             scheduler = schedulerFactory.getScheduler();
         } catch (SchedulerException e) {
