@@ -397,6 +397,7 @@
         <button onclick="reportAdminConfirmed()" style="background: #0fae00">Yes</button>
         <button onclick="closePopup()" style="background: #646464">No</button>
     </div>
+</div>
 <!-- Scripts -->
 <!-- ------------------Table------------------ -->
 <script>
