@@ -121,7 +121,7 @@ public class SignupController extends HttpServlet {
         String toAddress = user.getEmail();
         String subject = "[TapHoaSo] VERIFY YOUR EMAIL";
         String message = "We received your sign up request." + "<br>" + "<br>" +
-                "Please <a href=" + "'http://localhost:8080/TapHoaSo/verifySignup?tk=" + token + "'> Click here</a> to verify your account. " + "<br>" +
+                "Please <a href=" + "'https://taphoaso.me/verifySignup?tk=" + token + "'> Click here</a> to verify your account. " + "<br>" +
                 "The link will be expired in 5 minutes. " + "<br>" +
                 "If you did not request a account sign up, please ignore this email.";
         EmailSender emailSender = new EmailSender(hostname, String.valueOf(port), from, pwd, toAddress, subject, message);

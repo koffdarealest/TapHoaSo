@@ -37,7 +37,7 @@ public class TokenDAO {
                     Token token = new Token();
                     token.setToken(tokenValue);
                     token.setUserID(user);
-                    token.setExpTime(java.time.LocalDateTime.now().plusMinutes(2));
+                    token.setExpTime(java.time.LocalDateTime.now().plusMinutes(5));
                     token.setTokenType("forgot");
                     session.save(token);
                     session.getTransaction().commit();
