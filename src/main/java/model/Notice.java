@@ -30,6 +30,14 @@ public class Notice extends BaseAuditable {
         this.id = noticeID;
     }
 
+    public Boolean getRead() {
+        return isRead;
+    }
+
+    public void setRead(Boolean read) {
+        isRead = read;
+    }
+
     public Post getPostID() {
         return postID;
     }

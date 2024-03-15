@@ -71,6 +71,11 @@
                         </li>
                         <li><a href="">Contact Us</a>
                         </li>
+                        <li>
+                            <div class="icon">
+                                <i class="fas fa-bell" style="color: white"></i>
+                            </div>
+                        </li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>

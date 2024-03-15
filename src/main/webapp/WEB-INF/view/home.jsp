@@ -22,6 +22,11 @@
     <link rel="stylesheet" href="assets/css/animate.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"/>
+    <style>
+        .icon:hover{
+            color: #0a53be;
+        }
+    </style>
 </head>
 
 <body>
@@ -54,6 +59,13 @@
                     <ul class="nav">
                         <li><a href="viewProfile">Welcome! ${user.nickname}</a></li>
                         <li><a href="" id="money">${user.balance}</a></li>
+                        <!--start notification icon-->
+                        <li>
+                            <div class="icon">
+                                <i class="fas fa-bell" style="color: white" onclick="ViewNotification()"></i>
+                            </div>
+                        </li>
+                        <!--end notification icon-->
                         <li><a STYLE="font-size: 15px" href="signOut">Sign out</a></li>
                     </ul>
 
@@ -162,6 +174,10 @@
         cell.textContent = formattedTotalSpend;
     });
 
+    <!--notification-->
+    function ViewNotification() {
+        window.location.href = "notification";
+    }
 </script>
 
 <!-- Scripts -->
