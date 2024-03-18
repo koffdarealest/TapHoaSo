@@ -1,6 +1,6 @@
 package util;
 
-public class EmailSender extends Thread{
+public class EmailSender extends Thread {
     private String host;
     private String port;
     private String user;

@@ -1,7 +1,7 @@
 package controller;
 
-import DAO.tokenDAO;
-import DAO.userDAO;
+import dao.TokenDAO;
+import dao.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @WebServlet(name = "signup", urlPatterns = {"/signup"})
-public class signupController extends HttpServlet {
+public class SignupController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -27,18 +27,18 @@ public class signupController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        userDAO userDAO = new userDAO();
+        UserDAO userDAO = new UserDAO();
         Encryption encryption = new Encryption();
         //get Parameters from signup.jsp
         Map<String, String> getParameters = getParameters(req);
         //verify captcha
-        if(!isTrueCaptcha(req, resp, getParameters)){
+        if (!isTrueCaptcha(req, resp, getParameters)) {
             req.setAttribute("error", "Captcha is not correct! Try again!");
             req.getRequestDispatcher("/WEB-INF/view/signup.jsp").forward(req, resp);
             return;
         }
         //check exist username and email
-        if(CheckExistUsernameAndEmail(req, resp, userDAO, getParameters)) {
+        if (CheckExistUsernameAndEmail(req, resp, userDAO, getParameters)) {
             req.setAttribute("error", "Username or gmail already exists! Try again!");
             req.getRequestDispatcher("/WEB-INF/view/signup.jsp").forward(req, resp);
             return;
@@ -64,7 +64,7 @@ public class signupController extends HttpServlet {
     private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp, Map<String, String> getParameters) {
         String enteredCaptcha = getParameters.get("captcha");
         String captcha = (String) req.getSession().getAttribute("captcha");
-        if (!enteredCaptcha.equals(captcha)) {
+        if (!enteredCaptcha.equalsIgnoreCase(captcha)) {
             try {
                 return false;
             } catch (Exception e) {
@@ -74,7 +74,7 @@ public class signupController extends HttpServlet {
         return true;
     }
 
-    private User createUser(HttpServletRequest req, HttpServletResponse resp, userDAO userDAO, Encryption encryption, Map<String, String> getParameters, String hashPass) throws Exception {
+    private User createUser(HttpServletRequest req, HttpServletResponse resp, UserDAO userDAO, Encryption encryption, Map<String, String> getParameters, String hashPass) throws Exception {
         User user = new User();
         byte[] key;
         try {
@@ -131,12 +131,12 @@ public class signupController extends HttpServlet {
 
     private boolean CheckPasswordAndRePassword(HttpServletRequest req, HttpServletResponse resp, Map<String, String> getParameters) {
         if (!getParameters.get("password").equals(getParameters.get("rePassword"))) {
-                return false;
+            return false;
         }
         return true;
     }
 
-    private boolean CheckExistUsernameAndEmail(HttpServletRequest req, HttpServletResponse resp, userDAO userDAO, Map<String, String> getParameters) {
+    private boolean CheckExistUsernameAndEmail(HttpServletRequest req, HttpServletResponse resp, UserDAO userDAO, Map<String, String> getParameters) {
         if (userDAO.checkExistUsername(getParameters.get("username"))) {
             return true;
         }
@@ -159,14 +159,11 @@ public class signupController extends HttpServlet {
     }
 
     private String saveToken(HttpServletRequest req, HttpServletResponse resp, User user) {
-        tokenDAO tokenDAO = new tokenDAO();
+        TokenDAO tokenDAO = new TokenDAO();
         String token = tokenDAO.generateToken();
         tokenDAO.saveSignUpToken(user, token);
         return token;
     }
-
-
-
 
 
 }

@@ -15,6 +15,7 @@ public class Token {
     private User userID;
     private LocalDateTime expTime;
     private String tokenType;
+
     public Token() {
     }
 

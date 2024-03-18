@@ -8,7 +8,7 @@
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/test?useSSL=false&amp;</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/swp?useSSL=false&amp;</property>
         <property name="connection.username">root</property>
         <property name="connection.password">24122003</property>
         <!-- Echo all executed SQL to stdout -->
@@ -17,10 +17,14 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
         <!-- Names the annotated model class -->
         <mapping class="model.User"/>
-        <mapping class="model.User_Transaction_History"/>
+        <mapping class="model.Transaction"/>
         <mapping class="model.Post"/>
         <mapping class="model.Image"/>
         <mapping class="model.Notice"/>
         <mapping class="model.Token"/>
+        <mapping class="model.Bill"/>
+        <mapping class="model.ExternalTransaction"/>
+        <mapping class="model.VnPayTransaction"/>
+        <mapping class="model.Bill"/>
     </session-factory>
 </hibernate-configuration>

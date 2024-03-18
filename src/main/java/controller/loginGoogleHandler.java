@@ -1,6 +1,6 @@
 package controller;
 
-import DAO.userDAO;
+import dao.UserDAO;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jakarta.servlet.ServletException;
@@ -8,7 +8,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import model.Constants;
 import model.User;
 import model.UserGoogleDTO;
@@ -19,7 +18,7 @@ import org.apache.http.client.fluent.Request;
 import java.io.IOException;
 
 @WebServlet(name = "LoginGoogleHandler", urlPatterns = {"/LoginGoogleHandler"})
-public class loginGoogleHandler extends HttpServlet {
+public class LoginGoogleHandler extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
@@ -35,7 +34,7 @@ public class loginGoogleHandler extends HttpServlet {
 //        request.setAttribute("name", userGoogleDTO.getName());
 //        request.setAttribute("email", userGoogleDTO.getEmail());
 
-        userDAO userDAO = new userDAO();
+        UserDAO userDAO = new UserDAO();
 
         if (userDAO.checkExistEmail(userGoogleDTO.getEmail()) == false) {
             User userDTO = new User();

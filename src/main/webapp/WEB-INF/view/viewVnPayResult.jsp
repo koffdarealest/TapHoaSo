@@ -6,7 +6,8 @@
 <%@ page import="java.nio.charset.StandardCharsets" %>
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="util.Config" %>
-<%@ page import="DAO.userDAO" %>
+<%@ page import="dao.UserDAO" %>
+<%@ page import="model.User" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -105,7 +106,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h3>View Profile</h3>
+                <h3>deposit</h3>
 
             </div>
         </div>
@@ -122,66 +123,55 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <!-- ----------UserName------------->
+
                     <div class="d-flex mb-3 align-items-center">
                         <div class="label-form col-md-4"><label class="label">Merchant Transaction Code:</label></div>
-                        <div class="col-md-8"><input type="text" name="title" value="<%=request.getParameter("vnp_TxnRef")%>"
+                        <div class="col-md-8"><input type="text" name="title"
+                                                     value="<%=request.getParameter("vnp_TxnRef")%>"
                                                      class="form-control" readonly>      <!-- input Title --></div>
                     </div>
-                    <!-- ---------------Email--------------- -->
+
                     <div class="d-flex mb-3 align-items-center">
                         <div class="label-form col-md-4"><label class="label">Amount:</label></div>
-                        <div class="col-md-8"><input type="text" name="title" value="<%=Long.parseLong(request.getParameter("vnp_Amount")) / 100%>"
+                        <div class="col-md-8"><input type="text" name="title"
+                                                     value="<%=Long.parseLong(request.getParameter("vnp_Amount")) / 100%>"
                                                      class="form-control" readonly>      <!-- input Title --> </div>
                     </div>
-                    <!-- ---------------nickname--------------- -->
+
                     <div class="d-flex mb-3 align-items-center">
                         <div class="label-form col-md-3"><label class="label">Order info:</label></div>
-                        <div class="col-md-9"><input type="text" name="title" value="<%=request.getParameter("vnp_OrderInfo")%>"
+                        <div class="col-md-9"><input type="text" name="title"
+                                                     value="<%=request.getParameter("vnp_OrderInfo")%>"
                                                      class="form-control" readonly>      <!-- input Title --> </div>
                     </div>
-                    <!-- --------------balance--------------- -->
+
                     <div class="d-flex mb-3 align-items-center">
                         <div class="label-form col-md-3"><label class="label">VNPAY Response Code:</label></div>
-                        <div class="col-md-9"><input type="text" name="title" value="<%=request.getParameter("vnp_ResponseCode")%>"
+                        <div class="col-md-9"><input type="text" name="title"
+                                                     value="<%=request.getParameter("vnp_ResponseCode")%>"
                                                      class="form-control" readonly>      <!-- input Title --> </div>
                     </div>
-                    <!-- ---------------Email--------------- -->
+
                     <div class="d-flex mb-3 align-items-center">
                         <div class="label-form col-md-4"><label class="label">VNPAY Transaction Code:</label></div>
-                        <div class="col-md-8"><input type="text" name="title" value="<%=request.getParameter("vnp_TransactionNo")%>"
+                        <div class="col-md-8"><input type="text" name="title"
+                                                     value="<%=request.getParameter("vnp_TransactionNo")%>"
                                                      class="form-control" readonly>      <!-- input Title --> </div>
                     </div>
-                    <!-- ---------------nickname--------------- -->
+
                     <div class="d-flex mb-3 align-items-center">
                         <div class="label-form col-md-3"><label class="label">Bank Code:</label></div>
-                        <div class="col-md-9"><input type="text" name="title" value="<%=request.getParameter("vnp_BankCode")%>"
+                        <div class="col-md-9"><input type="text" name="title"
+                                                     value="<%=request.getParameter("vnp_BankCode")%>"
                                                      class="form-control" readonly>      <!-- input Title --> </div>
                     </div>
-                    <!-- --------------balance--------------- -->
+
                     <div class="d-flex mb-3 align-items-center">
                         <div class="label-form col-md-3"><label class="label">Pay Date:</label></div>
-                        <div class="col-md-9"><input type="text" name="title" value="<%=request.getParameter("vnp_PayDate")%>"
+                        <div class="col-md-9"><input type="text" name="title"
+                                                     value="<%=request.getParameter("vnp_PayDate")%>"
                                                      class="form-control" readonly>      <!-- input Title --> </div>
                     </div>
-                    <!-- --------------balance--------------- -->
-                    <div class="d-flex mb-3 align-items-center">
-                        <div class="label-form col-md-3"><label class="label">Payment Status:</label></div>
-                        <div class="col-md-9"><input type="text" name="title" value=" <%
-                        String transactionCode = (String) request.getParameter("vnp_TxnRef");
-                        if (signValue.equals(vnp_SecureHash)) {
-                            if ("00".equals(request.getParameter("vnp_TransactionStatus"))) {
-                                out.print("Success");
-                                User user = (User)session.getAttribute("user");
-                                new userDAO().updateBalance(user, user.getBalance() + Long.parseLong(request.getParameter("vnp_Amount")) / 100);
-                            } else {
-
-                            }
-                        } else {
-                            out.print("Failed");
-                        }
-                    %>"
-                                                     class="form-control" readonly>      <!-- input Title --> </div>
                     </div>
                 </div>
             </div>

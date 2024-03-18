@@ -19,15 +19,15 @@
     <title>Sell Product</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="../../assets/css/fontawesome.css">
-    <link rel="stylesheet" href="../../assets/css/templatemo-lugx-gaming.css">
-    <link rel="stylesheet" href="../../assets/css/owl.css">
-    <link rel="stylesheet" href="../../assets/css/animate.css">
-    <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="stylesheet" href="../../assets/css/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-lugx-gaming.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"/>
     <script src="https://cdn.tiny.cloud/1/qmw4wavlc4ekzay2c6m9pxxoyvi1ni12vki7sz9clkyfyyo2/tinymce/6/tinymce.min.js"
             referrerpolicy="origin"></script>
 
@@ -64,6 +64,8 @@
                         <li><a href="home">Home</a></li>
                         <li><a href="market">Public market</a></li>
                         <li><a href="sellingPost">Selling posts</a>
+                        </li>
+                        <li><a href="buyingPost">Buying posts</a>
                         </li>
                         <li><a href="">Contact Us</a>
                         </li>
@@ -118,7 +120,8 @@
                                 <label class="label">Price (=>1000) (*)</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <input type="text" name="price" class="form-control" required id="price">   <!-- input Price -->
+                                <input type="text" name="price" class="form-control" required id="price">
+                                <!-- input Price -->
                                 <span class="text-muted"
                                       style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
                             </div>
@@ -140,7 +143,8 @@
                                 <label class="label">Fee (5% of Price)</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <input type="number" name="fee" class="form-control" required readonly id="fee">    <!-- input Fee -->
+                                <input type="number" name="fee" class="form-control" required readonly id="fee" style="font-style: oblique">
+                                <!-- input Fee -->
                                 <span class="text-muted"
                                       style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
                             </div>
@@ -151,11 +155,23 @@
                                 <label class="label">Fee Payer (*)</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <select class="form-control" name="feePayer" required> <!-- select Fee Payer -->
+                                <select class="form-control" name="feePayer" required id="feePayer"> <!-- select Fee Payer -->
                                     <option value="half">Half - Half</option>
                                     <option value="seller">Seller</option>
                                     <option value="buyer">Buyer</option>
                                 </select>
+                            </div>
+                        </div>
+                        <!-- ---------------Total--------------- -->
+                        <div class="d-flex mb-3 align-items-center" >
+                            <div class="label-form col-md-3">
+                                <label class="label">Total receive</label>
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <input name="price" class="form-control"
+                                       value="${chosenPost.totalReceiveForSeller}" id="total" style="font-weight: bold">
+                                <span class="text-muted"
+                                      style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
                             </div>
                         </div>
                         <!-- ---------------Description--------------- -->
@@ -166,7 +182,8 @@
                                     the legal basis for resolving complaints if any arise later</p>
                             </div>
                             <div class="col-md-9 form-group">
-                                <textarea class="form-control" name="description" id="description" required></textarea>     <!-- input Description -->
+                                <textarea class="form-control" name="description" id="description" required></textarea>
+                                <!-- input Description -->
 
                             </div>
                         </div>
@@ -176,7 +193,8 @@
                                 <label class="label">Contact</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <textarea class="form-control" name="contact" required></textarea>  <!-- input Contact -->
+                                <textarea class="form-control" name="contact" required></textarea>
+                                <!-- input Contact -->
                             </div>
                         </div>
                         <!-- ---------------Hidden--------------- -->
@@ -185,7 +203,28 @@
                                 <label class="label">Hidden content (*)</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <textarea class="form-control" name="hidden" id="hidden" required></textarea>       <!-- input Hidden content -->
+                                <textarea class="form-control" name="hidden" id="hidden" required></textarea>
+                                <!-- input Hidden content -->
+                            </div>
+                        </div>
+                        <!-- ---------------View mode--------------- -->
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="label-form col-md-3">
+                                <label class="label">View mode (*)</label>
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <button type="button" class="col-md-4 btn btn-primary" style="margin-right: 20px" id="publicBtn">
+                                    <i class="fas fa-globe"></i> Public</button>
+
+                                <button type="button" class="col-md-4 btn btn-secondary" id="privateBtn">
+                                    <i class="fas fa-lock"></i> Private</button>
+                                <input type="hidden" name="viewMode" value="public"> <!-- Giá trị mặc định -->
+                            </div>
+                        </div>
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-9 form-group">
+                                <span id="viewModeNotice" style="display: none;"></span>
                             </div>
                         </div>
                         <!-- ---------------Confirm--------------- -->
@@ -193,19 +232,25 @@
                             <div class="col-md-2"></div>
                             <div class="col-md-10">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="confirmCheckBox" required> <!-- checkbox Confirm -->
+                                    <input class="form-check-input" type="checkbox" value="" id="confirmCheckBox"
+                                           required> <!-- checkbox Confirm -->
                                     <label class="form-check label" for="confirmCheckBox">
-                                        I confirm that the above information is true. I will be responsible if there is any incorrect information in the post.
+                                        I confirm that the above information is true. I will be responsible if there is
+                                        any incorrect information in the post.
                                     </label>
-                                    <label class="text-muted form-check label">TapHoaSo will charge you 500 VND for your product post</label>
-                                    <!--<span id="confirmAlert" class="text-danger"></span> -->  <!-- ---------------Alert--------------- -->
+                                    <label class="text-muted form-check label">TapHoaSo will charge you 500 VND for your
+                                        product post</label>
+                                    <!--<span id="confirmAlert" class="text-danger"></span> -->
+                                    <!-- ---------------Alert--------------- -->
                                 </div>
                             </div>
                         </div>
                         <!-- ---------------Submit--------------- -->
                         <div class="d-flex mb-3 align-items-center">
                             <div class="form-group col-md-12 text-center">
-                                <button type="submit" class="col-md-3 btn btn-primary p-3">CREATE POST</button>
+                                <button type="submit" class="col-md-3 btn btn-primary p-3">
+                                    <i class="fas fa-upload"></i> CREATE POST
+                                </button>
                                 <!-- Submit -->
                             </div>
                         </div>
@@ -230,11 +275,15 @@
 </footer>
 
 <!-- Scripts -->
+<!-- ---------------Auto Price, Fee, Total--------------- -->
 <script>
     var price = document.getElementById('price');
     var fee = document.getElementById('fee');
     var priceError = document.getElementById('priceError');
     var priceErrorBackend = document.getElementById('priceErrorBackend');
+    var total = document.getElementById('total');
+    var feePayer = document.getElementById('feePayer');
+
     price.addEventListener('input', function () {
         var priceValue = parseInt(price.value);
         if (priceValue % 1000 === 0 && priceValue >= 1000) {
@@ -242,11 +291,39 @@
             priceError.style.display = 'none';
             var feeValue = priceValue * 0.05;
             fee.value = feeValue;
+            if (feePayer.value === 'buyer') {
+                total.value = priceValue;
+            } else if (feePayer.value === 'half') {
+                total.value = priceValue - feeValue / 2;
+            } else {
+                total.value = priceValue - feeValue;
+            }
         } else {
             fee.value = 0;
             priceError.style.display = 'block';
             priceErrorBackend.style.display = 'none';
         }
+    });
+
+    feePayer.addEventListener('change', function () {
+        var priceValue = parseInt(price.value);
+        var feeValue = priceValue * 0.05;
+        fee.value = feeValue;
+        if (feePayer.value === 'buyer') {
+            total.value = priceValue;
+        } else if (feePayer.value === 'half') {
+            total.value = priceValue - feeValue / 2;
+        } else {
+            total.value = priceValue - feeValue;
+        }
+    });
+
+    total.addEventListener('input', function () {
+        var priceValue = parseInt(total.value);
+        price.value = priceValue;
+        var feeValue = priceValue * 0.05;
+        fee.value = feeValue;
+        feePayer.value = 'buyer'
     });
 
     price.addEventListener('input', function () {
@@ -265,7 +342,7 @@
     //     }
     // });
 </script>
-
+<!-- ---------------TinyMCE--------------- -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         tinymce.init({
@@ -287,13 +364,49 @@
         });
     });
 </script>
+
+<!-- ---------------View mode--------------- -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const publicBtn = document.getElementById("publicBtn")
+        const privateBtn = document.getElementById("privateBtn");
+        const viewModeInput = document.querySelector("input[name='viewMode']");
+        const viewModeNotice = document.getElementById("viewModeNotice");
+
+        publicBtn.addEventListener("click", function() {
+            viewModeInput.value = "public";
+            publicBtn.classList.add("active");
+            publicBtn.style.backgroundColor = "#0090ff";
+            publicBtn.style.borderColor = "#0a53be";
+            privateBtn.classList.remove("active");
+            privateBtn.style.backgroundColor = "#6c757d";
+            privateBtn.style.borderColor = "#ffffff";
+            viewModeNotice.style.display = "block";
+            viewModeNotice.innerText = "Your post will be public on the market";
+            viewModeNotice.style.color = "#0090ff";
+        });
+
+        privateBtn.addEventListener("click", function() {
+            viewModeInput.value = "private";
+            privateBtn.classList.add("active");
+            privateBtn.style.backgroundColor = "#99001a";
+            privateBtn.style.borderColor = "#660012";
+            publicBtn.classList.remove("active");
+            publicBtn.style.backgroundColor = "#6c757d";
+            publicBtn.style.borderColor = "#ffffff";
+            viewModeNotice.style.display = "block";
+            viewModeNotice.innerText = "Your post will be private, only people with private links can view";
+            viewModeNotice.style.color = "#99001a";
+        });
+    });
+</script>
 <!-- Bootstrap core JavaScript -->
-<script src="../../vendor/jquery/jquery.min.js"></script>
-<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="../../assets/js/isotope.min.js"></script>
-<script src="../../assets/js/owl-carousel.js"></script>
-<script src="../../assets/js/counter.js"></script>
-<script src="../../assets/js/custom.js"></script>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/isotope.min.js"></script>
+<script src="assets/js/owl-carousel.js"></script>
+<script src="assets/js/counter.js"></script>
+<script src="assets/js/custom.js"></script>
 
 
 </body>

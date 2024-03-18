@@ -1,7 +1,7 @@
 package controller;
 
-import DAO.postDAO;
-import DAO.userDAO;
+import dao.PostDAO;
+import dao.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,28 +15,26 @@ import java.util.HashMap;
 import java.util.List;
 
 @WebServlet(urlPatterns = {"/postDetailUpdate"})
-public class updatePostController extends HttpServlet {
+public class UpdatePostController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getSession().getAttribute("username") == null) {
-            resp.sendRedirect("/signin");
+            resp.sendRedirect( req.getContextPath() + "/signin");
         } else {
-            Long id = getPostID(req, resp);
-            Post post = getPostByID(req, resp, id);
+            String code = getCode(req, resp);
+            Post post = getPostByCode(req, resp, code);
             if (isDeletedPost(req, resp, post)) {
-                req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
-                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+                notifyUser(req, resp, "Invalid action! <a href=home>Go back here</a>");
                 return;
             }
             if (!isValidUserToViewPost(req, resp, post)) {
-                req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
-                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+                notifyUser(req, resp, "Invalid action! <a href=home>Go back here</a>");
                 return;
             } else {
-                req.setAttribute("chosenPost",post);
+                req.setAttribute("chosenPost", post);
             }
             getAllPost(req, resp);
-            req.getRequestDispatcher("WEB-INF/view/sellingPostDetail.jsp").forward(req,resp);
+            req.getRequestDispatcher("WEB-INF/view/sellingPostDetail.jsp").forward(req, resp);
         }
     }
 
@@ -44,8 +42,7 @@ public class updatePostController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HashMap<String, String> params = getParams(req);
         if (!isValidParams(params)) {
-            req.setAttribute("notification", "Invalid input! Please <a href=sellingPost>try again</a>!");
-            req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+            notifyUser(req, resp, "Invalid input! Please <a href=sellingPost>try again</a>!");
             return;
         }
         if (!isValidPrice(Long.parseLong(params.get("price")))) {
@@ -53,61 +50,61 @@ public class updatePostController extends HttpServlet {
             doGet(req, resp);
             return;
         }
-        Long postID = getPostID(req, resp);
-        Post post = getPostByID(req, resp, postID);
+        String code = params.get("tradingCode");
+        Post post = getPostByCode(req, resp, code);
         if (!isValidUserToViewPost(req, resp, post)) {
-            req.setAttribute("notification", "You are not allowed to update this post! <a href=sellingPost>Go back here</a>");
-            req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+            notifyUser(req, resp, "Invalid action! <a href=home>Go back here</a>");
             return;
         }
         if (!isUpdateable(req, resp, post)) {
-            req.setAttribute("notification", "This post is not updateable! <a href=sellingPost>Go back here</a>");
-            req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+            notifyUser(req, resp, "This post is not updateable! <a href=sellingPost>Go back here</a>");
             return;
         }
-        updatePost(req, resp, params, postID);
-        req.setAttribute("notification", "Update post successfully! <a href=sellingPost>Go back here</a>");
-        req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+        updatePost(req, resp, params, post);
+        notifyUser(req, resp, "Update post successfully! <a href=sellingPost>Go back here</a>");
     }
+
     //--------------------------------------doGet function --------------------------------------
-    private Long getPostID(HttpServletRequest req, HttpServletResponse resp) {
-        Long postID = null;
+    private String getCode(HttpServletRequest req, HttpServletResponse resp) {
+        String tradingCode = null;
         try {
-            String ID = req.getParameter("postID");
-            postID = Long.parseLong(ID);
+            tradingCode = req.getParameter("tradingCode");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return postID;
+        return tradingCode;
     }
 
-    private Post getPostByID(HttpServletRequest req, HttpServletResponse resp, Long id) {
+    private Post getPostByCode(HttpServletRequest req, HttpServletResponse resp, String code) {
         Post post = new Post();
         try {
-            postDAO postDAO = new postDAO();
-            post = postDAO.getPostByID(id);
+            PostDAO postDAO = new PostDAO();
+            post = postDAO.getPostByTradingCode(code);
             return post;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return post;
     }
+
     private void getAllPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            userDAO userDAO = new userDAO();
+            UserDAO userDAO = new UserDAO();
             String username = (String) req.getSession().getAttribute("username");
             User user = userDAO.getUserByUsername(username);
-            postDAO postDAO = new postDAO();
+            PostDAO postDAO = new PostDAO();
             List<Post> getAllPost = postDAO.getAllPostBySeller(user);
-            req.setAttribute("lPosts",getAllPost);
+            req.setAttribute("lPosts", getAllPost);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     //--------------------------------------doPost function --------------------------------------
     private HashMap<String, String> getParams(HttpServletRequest req) {
         HashMap<String, String> params = new HashMap<>();
         try {
+            params.put("tradingCode", req.getParameter("tradingCode"));
             params.put("title", req.getParameter("title"));
             params.put("price", req.getParameter("price"));
             params.put("feePayer", req.getParameter("feePayer"));
@@ -121,22 +118,22 @@ public class updatePostController extends HttpServlet {
     }
 
     private boolean isValidParams(HashMap<String, String> params) {
+        String tradingCode = params.get("tradingCode");
         String title = params.get("title");
         String price = params.get("price");
         String feePayer = params.get("feePayer");
         String description = params.get("description");
         String contact = params.get("contact");
         String hidden = params.get("hidden");
-        if (title == null || price == null || feePayer == null || description == null || contact == null || hidden == null) {
+        if (tradingCode == null || title == null || price == null || feePayer == null || description == null || contact == null || hidden == null) {
             return false;
         } else {
             return true;
         }
     }
 
-    private void updatePost(HttpServletRequest req, HttpServletResponse resp, HashMap<String, String> params, Long postID) {
-        postDAO postDAO = new postDAO();
-        Post post = postDAO.getPostByID(postID);
+    private void updatePost(HttpServletRequest req, HttpServletResponse resp, HashMap<String, String> params, Post post) {
+        PostDAO postDAO = new PostDAO();
         try {
             Long price = Long.parseLong(params.get("price"));
             Long fee = price * 5 / 100;
@@ -166,11 +163,7 @@ public class updatePostController extends HttpServlet {
     private boolean isValidUserToViewPost(HttpServletRequest req, HttpServletResponse resp, Post post) {
         try {
             String username = (String) req.getSession().getAttribute("username");
-            if (post.getSellerID().getUsername().equals(username)) {
-                return true;
-            } else {
-                return false;
-            }
+            return post.getSellerID().getUsername().equals(username);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -197,5 +190,14 @@ public class updatePostController extends HttpServlet {
             e.printStackTrace();
         }
         return false;
+    }
+
+    private void notifyUser(HttpServletRequest req, HttpServletResponse resp, String notification) {
+        try {
+        req.setAttribute("notification", notification);
+        req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

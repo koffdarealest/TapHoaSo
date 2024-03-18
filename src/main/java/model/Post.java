@@ -3,10 +3,10 @@ package model;
 import jakarta.persistence.*;
 
 @Entity
-public class Post extends BaseAuditable{
+public class Post extends BaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postID;
+    private Long id;
     @ManyToOne
     private User sellerID;
     private String tradingCode;
@@ -28,6 +28,7 @@ public class Post extends BaseAuditable{
     private Long totalReceiveForSeller;
     private Boolean updateable;
     private Boolean canBuyerComplain;
+
     public Post() {
     }
 
@@ -53,11 +54,11 @@ public class Post extends BaseAuditable{
     }
 
     public Long getPostID() {
-        return postID;
+        return id;
     }
 
     public void setPostID(Long postID) {
-        this.postID = postID;
+        this.id = postID;
     }
 
     public User getSellerID() {
@@ -162,9 +163,9 @@ public class Post extends BaseAuditable{
 
     public void setTotalSpendForBuyer(String whoPayFee) {
         Long totalSpendForBuyer = 0L;
-        if(whoPayFee.equals("buyer")) {
+        if (whoPayFee.equals("buyer")) {
             totalSpendForBuyer = this.price + this.fee;
-        } else if(whoPayFee.equals("half")) {
+        } else if (whoPayFee.equals("half")) {
             totalSpendForBuyer = this.price + (this.fee / 2);
         } else {
             totalSpendForBuyer = this.price;
@@ -179,9 +180,9 @@ public class Post extends BaseAuditable{
 
     public void setTotalReceiveForSeller(String whoPayFee) {
         Long totalReceiveForSeller = 0L;
-        if(whoPayFee.equals("seller")) {
+        if (whoPayFee.equals("seller")) {
             totalReceiveForSeller = this.price - this.fee;
-        } else if(whoPayFee.equals("half")) {
+        } else if (whoPayFee.equals("half")) {
             totalReceiveForSeller = this.price - (this.fee / 2);
         } else {
             totalReceiveForSeller = this.price;

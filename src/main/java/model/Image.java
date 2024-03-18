@@ -3,10 +3,10 @@ package model;
 import jakarta.persistence.*;
 
 @Entity
-public class Image extends BaseAuditable{
+public class Image extends BaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long imageID;
+    private Long id;
     @ManyToOne
     private Post postID;
     private String image;
@@ -20,11 +20,11 @@ public class Image extends BaseAuditable{
     }
 
     public Long getImageID() {
-        return imageID;
+        return id;
     }
 
     public void setImageID(Long imageID) {
-        this.imageID = imageID;
+        this.id = imageID;
     }
 
     public Post getPostID() {

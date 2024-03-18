@@ -1,6 +1,6 @@
 package controller;
 
-import DAO.postDAO;
+import dao.PostDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,58 +13,57 @@ import java.util.List;
 
 
 @WebServlet(urlPatterns = {"/postDetail"})
-public class postDetailController extends HttpServlet {
+public class PostDetailController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = (String) req.getSession().getAttribute("username");
         if (username == null) {
-            resp.sendRedirect("/signin");
+            resp.sendRedirect( req.getContextPath() + "/signin");
         } else {
-            Long id = getPostID(req, resp);
-            Post post = getPost(req, resp, id);
-            if(isDeletedPost(req,resp,post)){
+            String code = getCode(req, resp);
+            Post post = getPost(req, resp, code);
+            if (isDeletedPost(req, resp, post)) {
                 req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
                 req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
                 return;
             }
-            if(isPostOwner(req,resp,post,username)) {
-                resp.sendRedirect("/postDetailUpdate?postID="+id);
+            if (isPostOwner(req, resp, post, username)) {
+                resp.sendRedirect("postDetailUpdate?tradingCode=" + code);
                 return;
             }
-            req.setAttribute("chosenPost",post);
+            req.setAttribute("chosenPost", post);
             getAllPost(req, resp);
-            req.getRequestDispatcher("WEB-INF/view/postDetail.jsp").forward(req,resp);
+            req.getRequestDispatcher("WEB-INF/view/postDetail.jsp").forward(req, resp);
         }
     }
 
-    private Long getPostID(HttpServletRequest req, HttpServletResponse resp) {
-        Long postID = null;
+    private String getCode(HttpServletRequest req, HttpServletResponse resp) {
+        String tradingCode = null;
         try {
-            String ID = req.getParameter("postID");
-            postID = Long.parseLong(ID);
+            tradingCode = req.getParameter("tradingCode");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return postID;
+        return tradingCode;
     }
 
-    private Post getPost(HttpServletRequest req, HttpServletResponse resp, Long id) {
+    private Post getPost(HttpServletRequest req, HttpServletResponse resp, String code) {
         Post post = new Post();
         try {
-            postDAO postDAO = new postDAO();
-            post = postDAO.getPostByID(id);
-
+            PostDAO postDAO = new PostDAO();
+            post = postDAO.getPostByTradingCode(code);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return post;
     }
+
     private void getAllPost(HttpServletRequest req, HttpServletResponse resp) {
         try {
-            postDAO postDAO = new postDAO();
+            PostDAO postDAO = new PostDAO();
             List<Post> getAllPost = postDAO.getAllPublicPost();
-            req.setAttribute("lPosts",getAllPost);
+            req.setAttribute("lPosts", getAllPost);
         } catch (Exception e) {
             e.printStackTrace();
         }

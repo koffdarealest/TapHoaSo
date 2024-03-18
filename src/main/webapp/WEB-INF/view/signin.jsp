@@ -19,15 +19,15 @@
     <title>Sign in</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="../../assets/css/fontawesome.css">
-    <link rel="stylesheet" href="../../assets/css/templatemo-lugx-gaming.css">
-    <link rel="stylesheet" href="../../assets/css/owl.css">
-    <link rel="stylesheet" href="../../assets/css/animate.css">
-    <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="stylesheet" href="../../assets/css/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-lugx-gaming.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"/>
 
 
 </head>
@@ -108,7 +108,8 @@
                     <label class="label">Captcha</label>
                     <div class="d-flex align-content-center">
                         <div class="content">
-                            <img style="height: 48px; width: 200px; border-radius: 5px" src="generateCaptcha" alt="Captcha Image"
+                            <img style="height: 48px; width: 200px; border-radius: 5px" src="generateCaptcha"
+                                 alt="Captcha Image"
                                  id="captchaImage">
                         </div>
                         <button class="btn input-group-prepend" onclick="resetCaptcha(event)">
@@ -127,7 +128,8 @@
                 <!-- -----------------remember me and forgot---------------- -->
                 <div class="form-group d-md-flex mb-3">
                     <div class="w-50 text-left">
-                        <label class="form-check text-muted">Remember Me <input class="form-check-input" type="checkbox" name="remember"><span
+                        <label class="form-check text-muted">Remember Me <input class="form-check-input" type="checkbox"
+                                                                                name="remember"><span
                                 class="checkmark"></span></label>
                     </div>
                     <div class="w-50 text-muted" style="text-align: end;">
@@ -181,12 +183,12 @@
     });
 </script>
 <!-- Bootstrap core JavaScript -->
-<script src="../../vendor/jquery/jquery.min.js"></script>
-<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="../../assets/js/isotope.min.js"></script>
-<script src="../../assets/js/owl-carousel.js"></script>
-<script src="../../assets/js/counter.js"></script>
-<script src="../../assets/js/custom.js"></script>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/isotope.min.js"></script>
+<script src="assets/js/owl-carousel.js"></script>
+<script src="assets/js/counter.js"></script>
+<script src="assets/js/custom.js"></script>
 
 
 </body>

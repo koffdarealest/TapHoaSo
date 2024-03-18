@@ -1,7 +1,7 @@
 package controller;
 
-import DAO.tokenDAO;
-import DAO.userDAO;
+import dao.TokenDAO;
+import dao.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,7 +12,7 @@ import model.User;
 import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/verifySignup"})
-public class verifySignupController extends HttpServlet {
+public class VerifySignupController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -21,7 +21,7 @@ public class verifySignupController extends HttpServlet {
     }
 
     private void handleSignupVerification(HttpServletRequest req, HttpServletResponse resp, String tk) throws IOException {
-        tokenDAO tokenDAO = new tokenDAO();
+        TokenDAO tokenDAO = new TokenDAO();
         try {
             if (tokenDAO.isTokenExpired(tk)) {
                 handleExpiredToken(req, resp, tk);
@@ -37,18 +37,18 @@ public class verifySignupController extends HttpServlet {
     }
 
     private void handleExpiredToken(HttpServletRequest req, HttpServletResponse resp, String tk) throws IOException, ServletException {
-        tokenDAO tokenDAO = new tokenDAO();
+        TokenDAO tokenDAO = new TokenDAO();
         tokenDAO.deleteToken(tk);
         req.setAttribute("notification", "Your link is invalid! Try again!");
         req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
     }
 
     private void handleValidSignupToken(HttpServletRequest req, HttpServletResponse resp, String tk) throws Exception {
-        userDAO userDAO = new userDAO();
+        UserDAO userDAO = new UserDAO();
         User user = userDAO.getUserByToken(tk);
         user.setActivated(true);
         userDAO.updateUser(user);
-        tokenDAO tokenDAO = new tokenDAO();
+        TokenDAO tokenDAO = new TokenDAO();
         tokenDAO.deleteToken(tk);
 
         req.setAttribute("notification", "Sign up successfully! <a href=" + "signin" + ">Back to sign in</a>");
@@ -56,7 +56,7 @@ public class verifySignupController extends HttpServlet {
     }
 
     private boolean isValidTokenType(String tk) {
-        tokenDAO tokenDAO = new tokenDAO();
+        TokenDAO tokenDAO = new TokenDAO();
         return tokenDAO.getTokenType(tk).equals("signup");
     }
 }

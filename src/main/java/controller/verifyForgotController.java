@@ -1,6 +1,6 @@
 package controller;
 
-import DAO.tokenDAO;
+import dao.TokenDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/verifyForgot"})
-public class verifyForgotController extends HttpServlet {
+public class VerifyForgotController extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws jakarta.servlet.ServletException, IOException {
         String tk = req.getParameter("tk");
@@ -18,7 +18,12 @@ public class verifyForgotController extends HttpServlet {
     }
 
     private void handleTokenVerification(HttpServletRequest req, HttpServletResponse resp, String tk) throws ServletException, IOException {
-        tokenDAO tokenDAO = new tokenDAO();
+        TokenDAO tokenDAO = new TokenDAO();
+//        if(tk == null) {
+//            req.setAttribute("mess", "Your link is expired or unvalid! Try again!");
+//            req.getRequestDispatcher("/view/statusNotification.jsp").forward(req, resp);
+//            return;
+//        }
         try {
             if (tokenDAO.isTokenExpired(tk)) {
                 handleExpiredToken(req, resp, tk);
@@ -35,7 +40,7 @@ public class verifyForgotController extends HttpServlet {
     }
 
     private void handleExpiredToken(HttpServletRequest req, HttpServletResponse resp, String tk) throws ServletException, IOException {
-        tokenDAO tokenDAO = new tokenDAO();
+        TokenDAO tokenDAO = new TokenDAO();
         tokenDAO.deleteToken(tk);
         req.setAttribute("notification", "Your link is invalid! Try again!");
         req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
@@ -43,7 +48,7 @@ public class verifyForgotController extends HttpServlet {
 
 
     private boolean isValidTokenType(String tk) {
-        tokenDAO tokenDAO = new tokenDAO();
+        TokenDAO tokenDAO = new TokenDAO();
         return tokenDAO.getTokenType(tk).equals("forgot");
     }
 

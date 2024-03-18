@@ -1,4 +1,4 @@
-package DAO;
+package dao;
 
 import model.Token;
 import model.User;
@@ -7,15 +7,12 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import util.Factory;
 
-import java.math.BigInteger;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.Base64;
 
-public class tokenDAO {
+public class TokenDAO {
     public boolean isTokenExpired(String token) {
         try {
             Session session = Factory.getSessionFactory().openSession();
@@ -124,17 +121,19 @@ public class tokenDAO {
     public String generateToken() {
         return java.util.UUID.randomUUID().toString();
     }
-/*    public static String encodeToken(String token) {
-        StringBuilder encodedToken = new StringBuilder();
-        for (char c : token.toCharArray()) {
-            // Mã hóa từng ký tự bằng mã ASCII và thêm vào chuỗi mã hóa
-            encodedToken.append(String.format("%%%02X", (int) c));
-        }
-        return encodedToken.toString();
-    }*/
+
+    /*    public static String encodeToken(String token) {
+            StringBuilder encodedToken = new StringBuilder();
+            for (char c : token.toCharArray()) {
+                // Mã hóa từng ký tự bằng mã ASCII và thêm vào chuỗi mã hóa
+                encodedToken.append(String.format("%%%02X", (int) c));
+            }
+            return encodedToken.toString();
+        }*/
     public String decodeToken(String encodedToken) throws Exception {
         return URLDecoder.decode(encodedToken, "UTF-8");
     }
+
     public String encodeToken(String token) {
         return Base64.getEncoder().encodeToString(token.getBytes(StandardCharsets.UTF_8));
     }

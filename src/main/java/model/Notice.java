@@ -3,14 +3,15 @@ package model;
 import jakarta.persistence.*;
 
 @Entity
-public class Notice extends BaseAuditable{
+public class Notice extends BaseAuditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long noticeID;
+    private Long id;
     @ManyToOne
     private Post postID;
     private String content;
     private Boolean isAdminReceive;
+
     public Notice() {
     }
 
@@ -21,11 +22,11 @@ public class Notice extends BaseAuditable{
     }
 
     public Long getNoticeID() {
-        return noticeID;
+        return id;
     }
 
     public void setNoticeID(Long noticeID) {
-        this.noticeID = noticeID;
+        this.id = noticeID;
     }
 
     public Post getPostID() {

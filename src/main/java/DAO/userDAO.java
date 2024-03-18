@@ -1,39 +1,53 @@
-package DAO;
+package dao;
 
-import model.Token;
 import model.User;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import util.*;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
 import java.util.List;
 
-public class userDAO {
-    public void insertUser(User User){
+public class UserDAO {
+    public void insertUser(User User) {
         Transaction transaction = null;
-        try (Session session = Factory.getSessionFactory().openSession()){
+        try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
             session.save(User);
 
             transaction.commit();
-        } catch (Exception ex){
-            if(transaction == null){
+        } catch (Exception ex) {
+            if (transaction == null) {
                 transaction.rollback();
             }
             ex.printStackTrace();
         }
     }
-
-    public User getUserByUsername(String username){
+    public User getUserByUserID(Long userID) {
         User users = null;
         Transaction transaction = null;
-        try (Session session = Factory.getSessionFactory().openSession()){
+        try (Session session = Factory.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            users = session.get(User.class, userID);
+
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction == null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        }
+        return users;
+    }
+
+    public User getUserByUsername(String username) {
+        User users = null;
+        Transaction transaction = null;
+        try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
 //            users = session.get(User.class, username);
@@ -41,26 +55,27 @@ public class userDAO {
                     .setParameter("username", username)
                     .uniqueResult();
             transaction.commit();
-        } catch (Exception ex){
-            if(transaction == null){
+        } catch (Exception ex) {
+            if (transaction == null) {
                 transaction.rollback();
             }
             ex.printStackTrace();
         }
         return users;
     }
+
     @SuppressWarnings("unchecked")
-    public List<User> getAllUser(){
+    public List<User> getAllUser() {
         List<User> ListUsers = null;
         Transaction transaction = null;
-        try (Session session = Factory.getSessionFactory().openSession()){
+        try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
             ListUsers = session.createQuery("from User").getResultList();
 
             transaction.commit();
-        } catch (Exception ex){
-            if(transaction == null){
+        } catch (Exception ex) {
+            if (transaction == null) {
                 transaction.rollback();
             }
             ex.printStackTrace();
@@ -68,39 +83,40 @@ public class userDAO {
         return ListUsers;
     }
 
-    public void deleteUser(String username){
+    public void deleteUser(String username) {
         Transaction transaction = null;
         User userDelete = null;
-        try (Session session = Factory.getSessionFactory().openSession()){
+        try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
             userDelete = getUserByUsername(username);
 
-            if(userDelete != null){
+            if (userDelete != null) {
                 session.delete(userDelete);
             }
 
             transaction.commit();
-        } catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-    public void updateUser(User userUpdate){
+
+    public void updateUser(User userUpdate) {
         Transaction transaction = null;
-        try (Session session = Factory.getSessionFactory().openSession()){
+        try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
             session.update(userUpdate);
             transaction.commit();
-        } catch (Exception ex){
-            if(transaction == null){
+        } catch (Exception ex) {
+            if (transaction == null) {
                 transaction.rollback();
             }
             ex.printStackTrace();
         }
     }
 
-    public void updatePassword(String gmail,String newPassword){
+    public void updatePassword(String gmail, String newPassword) {
         Transaction transaction = null;
         try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -120,10 +136,10 @@ public class userDAO {
         }
     }
 
-    public User getUserByGmail(String gmail){
+    public User getUserByGmail(String gmail) {
         User user = null;
         Transaction transaction = null;
-        try (Session session = Factory.getSessionFactory().openSession()){
+        try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
             user = (User) session.createQuery("from User where email = :email")
@@ -131,8 +147,8 @@ public class userDAO {
                     .uniqueResult();
 
             transaction.commit();
-        } catch (Exception ex){
-            if(transaction != null){
+        } catch (Exception ex) {
+            if (transaction != null) {
                 transaction.rollback();
             }
             ex.printStackTrace();
@@ -141,15 +157,14 @@ public class userDAO {
     }
 
 
-    public boolean CheckValidUser(String username, String password) {
-        User user = getUserByUsername(username);
-        if (user != null) {
-            String userPassword = user.getPassword();
-            System.out.println(userPassword);
-            return verifyPassword(password, userPassword);
-        }
-        return false;
-    }
+//    public boolean CheckValidUser(String username, String password) {
+//        User user = getUserByUsername(username);
+//        if (user != null) {
+//            String userPassword = user.getPassword();
+//            return verifyPassword(password, userPassword);
+//        }
+//        return false;
+//    }
 
     public byte[] getSecretKeyByUsername(String username) {
         List<User> listUsers = getAllUser();
@@ -174,14 +189,16 @@ public class userDAO {
     public boolean checkExistEmail(String email) {
         List<User> listUsers = getAllUser();
         for (User user : listUsers) {
-            if (user.getEmail().equals(email)) {
-                return true;
+            if(user.getEmail() != null) {
+                if (user.getEmail().equals(email)) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
-    public String encodePassword(String password){
+    public String encodePassword(String password) {
         MessageDigest md;
         String result = "";
         try {
@@ -196,9 +213,9 @@ public class userDAO {
         return result;
     }
 
-    public boolean verifyPassword(String enteredPassword, String storedHash) {
+    public boolean isTruePassword(String enteredPassword, String stored) {
         String enteredHash = encodePassword(enteredPassword);
-        return enteredHash.equals(storedHash);
+        return enteredHash.equals(stored);
     }
 
     public User getUserByToken(String token) {
@@ -207,7 +224,7 @@ public class userDAO {
         try {
             Session session = Factory.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            String hql = "select u from User u join Token t on u.userID = CAST(t.userID as biginteger) where t.token = :token";
+            String hql = "select u from User u join Token t on u.id = CAST(t.userID as biginteger) where t.token = :token";
             user = (User) session.createQuery(hql)
                     .setParameter("token", token)
                     .uniqueResult();
@@ -221,7 +238,7 @@ public class userDAO {
         return user;
     }
 
-    public void updateBalance(User user, Long balance) {
+    public boolean updateBalance(User user, Long balance) {
         Transaction transaction = null;
         try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -230,16 +247,18 @@ public class userDAO {
             session.update(user);
 
             transaction.commit();
+            return true;
         } catch (Exception ex) {
             if (transaction == null) {
                 transaction.rollback();
             }
             ex.printStackTrace();
+            return false;
         }
     }
 
     public static void main(String[] args) {
-        userDAO userDAO = new userDAO();
+        UserDAO userDAO = new UserDAO();
         //String token = "c375624c-ee2d-4b85-8e95-8627144f509b";
         //User user = userDAO.getUserByToken(token);
         List<User> lUsers = userDAO.getAllUser();
@@ -247,8 +266,4 @@ public class userDAO {
 
 
     }
-
-
-
-
 }

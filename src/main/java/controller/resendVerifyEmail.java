@@ -1,7 +1,8 @@
 package controller;
 
-import DAO.tokenDAO;
-import DAO.userDAO;
+import dao.TokenDAO;
+import dao.UserDAO;
+import dao.TokenDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,7 +14,7 @@ import util.EmailSender;
 import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/resendVerifyEmail"})
-public class resendVerifyEmail extends HttpServlet {
+public class ResendVerifyEmail extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = getUser(req);
@@ -30,7 +31,7 @@ public class resendVerifyEmail extends HttpServlet {
         User user = new User();
         try {
             String username = (String) req.getSession().getAttribute("username");
-            userDAO userDAO = new userDAO();
+            UserDAO userDAO = new UserDAO();
             user = userDAO.getUserByUsername(username);
         } catch (Exception e) {
             e.printStackTrace();
@@ -39,7 +40,7 @@ public class resendVerifyEmail extends HttpServlet {
     }
 
     private void resendVerificationEmail(HttpServletRequest req, HttpServletResponse resp, User user) throws IOException, ServletException {
-        tokenDAO tokenDAO = new tokenDAO();
+        TokenDAO tokenDAO = new TokenDAO();
         String token = tokenDAO.generateToken();
         tokenDAO.saveSignUpToken(user, token);
 

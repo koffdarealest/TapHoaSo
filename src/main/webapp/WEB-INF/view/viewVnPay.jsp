@@ -84,7 +84,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h3>Recharge</h3>
+                <h3>Deposit</h3>
 
             </div>
         </div>

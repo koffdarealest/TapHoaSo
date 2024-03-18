@@ -7,15 +7,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet">
     <!-- Bootstrap core CSS -->
-    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="../../assets/css/fontawesome.css">
-    <link rel="stylesheet" href="../../assets/css/templatemo-lugx-gaming.css">
-    <link rel="stylesheet" href="../../assets/css/owl.css">
-    <link rel="stylesheet" href="../../assets/css/animate.css">
-    <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="stylesheet" href="../../assets/css/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-lugx-gaming.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"/>
     <script src="https://cdn.tiny.cloud/1/qmw4wavlc4ekzay2c6m9pxxoyvi1ni12vki7sz9clkyfyyo2/tinymce/6/tinymce.min.js"
             referrerpolicy="origin"></script>
 </head>
@@ -44,6 +44,8 @@
                         <li><a href="home">Home</a></li>
                         <li><a href="market">Public market</a></li>
                         <li><a href="sellingPost">Selling posts</a>
+                        </li>
+                        <li><a href="buyingPost">Buying posts</a>
                         </li>
                         <li><a href="">Contact Us</a>
                         </li>
@@ -79,14 +81,14 @@
                     <div class="card-body">
                         <form action="editProfile" method="post">
                             <div class="d-flex mb-3 align-items-center">
-                                <div class="label-form col-md-3"><label class="label">UserName</label></div>
+                                <div class="label-form col-md-3"><label class="label">Username</label></div>
                                 <div class="col-md-9"><input type="text" name="username" value="${user.username}"
-                                                             class="form-control" readonly></div>
+                                                             class="form-control" disabled></div>
                             </div>
                             <div class="d-flex mb-3 align-items-center">
                                 <div class="label-form col-md-3"><label class="label">Email</label></div>
                                 <div class="col-md-9"><input type="text" name="email" value="${user.email}"
-                                                             class="form-control" readonly></div>
+                                                             class="form-control" disabled></div>
                             </div>
                             <div class="d-flex mb-3 align-items-center">
                                 <div class="label-form col-md-3"><label class="label">Nickname</label></div>
@@ -122,7 +124,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form action="editPassword" method="post" id="changePasswordForm" onsubmit="return validateForm()">
+                        <form action="editPassword" method="post" id="changePasswordForm">
                             <div class="d-flex mb-3 align-items-center">
                                 <div class="label-form col-md-4">
                                     <label class="label" style="text-align: left;">PASSWORD</label>
@@ -137,27 +139,29 @@
                                 <div class="label-form col-md-4"><label class="label" style="text-align: left;">NEW
                                     PASSWORD</label></div>
                                 <div class="col-md-8"><input type="password" name="newpassword" class="form-control"
-                                                             placeholder="Enter new password"></div>
+                                                             placeholder="Enter new password" id="password"></div>
                             </div>
                             <div class="d-flex mb-3 align-items-center">
                                 <div class="label-form col-md-4"><label class="label" style="text-align: left;">ENTER
                                     NEW PASSWORD</label></div>
                                 <div class="col-md-8"><input type="password" name="newpassword2" class="form-control"
-                                                             placeholder="Re-enter new password"></div>
+                                                             placeholder="Re-enter new password" id="repassword"></div>
                             </div>
-
+                            <h6 class="text-danger" id="message"></h6>
                             <!-- --------------captcha field-------------- -->
                             <div class="form-group mb-3">
                                 <label class="label">Captcha</label>
                                 <div class="d-flex align-content-center">
                                     <div class="content">
-                                        <img style="height: 48px; width: 200px; border-radius: 5px" src="generateCaptcha" alt="Captcha Image"
+                                        <img style="height: 48px; width: 200px; border-radius: 5px"
+                                             src="generateCaptcha" alt="Captcha Image"
                                              id="captchaImage">
                                     </div>
                                     <button class="btn input-group-prepend" onclick="resetCaptcha(event)">
                                         <i class="fa fa-refresh"></i>
                                     </button>
-                                    <input type="text" class="form-control" name="captcha" required placeholder="Enter Captcha"/>
+                                    <input type="text" class="form-control" name="captcha" required
+                                           placeholder="Enter Captcha"/>
                                 </div>
                             </div>
                             <!-- --------------error n success field-------------- -->
@@ -167,11 +171,10 @@
                                     <h6 class="text-success text-center">${success}</h6>
                                 </div>
                             </div>
-
-                            <!-- More form fields if needed -->
+                            <!-- --------------submit button-------------- -->
                             <div class="d-flex mb-4 align-items-center">
                                 <div class="form-group col-md-12 text-center">
-                                    <button type="changepassword" class="col-md-5 btn btn-primary p-3">CHANGE PASSWORD
+                                    <button type="changepassword" class="col-md-5 btn btn-primary p-3" id="submitBtn">CHANGE PASSWORD
                                     </button>
                                 </div>
                             </div>
@@ -197,28 +200,6 @@
 </footer>
 
 <script>
-    function validateForm() {
-        var password1 = document.getElementById("newpassword").value;
-        var password2 = document.getElementById("newpassword2").value;
-
-        if (password1 !== password2) {
-            alert("Passwords do not match!");
-            return false; // Ngăn form gửi đi nếu mật khẩu không khớp
-        }
-        // Nếu mật khẩu khớp, form sẽ tiếp tục gửi dữ liệu lên server
-        return true;
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-        var form = document.getElementById("changePasswordForm");
-
-        form.addEventListener("submit", function (event) {
-            if (!validateForm()) {
-                event.preventDefault(); // Ngăn form gửi đi nếu mật khẩu không khớp
-            }
-        });
-    });
-
     function reloadCaptcha() {
         var timestamp = new Date().getTime();
         var captchaImage = document.getElementById('captchaImage');
@@ -242,11 +223,26 @@
         });
     });
 </script>
-<script src="../../vendor/jquery/jquery.min.js"></script>
-<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="../../assets/js/isotope.min.js"></script>
-<script src="../../assets/js/owl-carousel.js"></script>
-<script src="../../assets/js/counter.js"></script>
-<script src="../../assets/js/custom.js"></script>
+
+<script>
+    document.getElementById("submitBtn").addEventListener("click", function(event) {
+        var password = document.getElementById("password").value;
+        var rePassword = document.getElementById("repassword").value;
+        var message = document.getElementById("message");
+
+        if (password !== rePassword) {
+            message.innerHTML = "Passwords do not match";
+            event.preventDefault();
+        } else {
+            message.innerHTML = "";
+        }
+    });
+</script>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/isotope.min.js"></script>
+<script src="assets/js/owl-carousel.js"></script>
+<script src="assets/js/counter.js"></script>
+<script src="assets/js/custom.js"></script>
 </body>
 </html>

@@ -1,26 +1,41 @@
 package controller;
 
-import DAO.postDAO;
-import DAO.userDAO;
+import dao.PostDAO;
+import dao.TransactionDAO;
+import dao.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import listener.TransactionProcessor;
 import model.Post;
 import model.User;
+import model.Transaction;
+import wrapper.TransactionWrapper;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 @WebServlet(urlPatterns = {"/sell"})
-public class sellController extends HttpServlet {
-
+public class SellController extends HttpServlet {
+    //-----------------TransactionProcessor-----------------
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private BlockingQueue<TransactionWrapper> transactionQueue = new LinkedBlockingQueue<>();
+    TransactionProcessor transactionProcessor = new TransactionProcessor(transactionQueue);
+    public void init() {
+        executor.submit(transactionProcessor);
+    }
+    //-----------------------------------------------------
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = (String) req.getSession().getAttribute("username");
         if (username == null) {
-            resp.sendRedirect("/signin");
+            resp.sendRedirect( req.getContextPath() + "/signin");
         } else {
             req.getRequestDispatcher("/WEB-INF/view/sell.jsp").forward(req, resp);
         }
@@ -40,9 +55,21 @@ public class sellController extends HttpServlet {
             return;
         }
         if (isBalanceEnough(req, resp)) {
-            payPrepostFee(req, resp);
-            createPost(req, resp, params);
-            resp.sendRedirect("/home");
+            Post post = createPost(req, resp, params);
+            boolean isPaid = false;
+            try {
+                isPaid = payPrepostFee(req, resp, post);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (!isPaid) {
+                req.setAttribute("notification", "Invalid paid!");
+                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+            } else {
+
+                insertPostToDB(req, resp, post);
+                resp.sendRedirect( req.getContextPath() + "/home");
+            }
         } else {
             req.setAttribute("notification", "Your balance is not enough! Please <a href=" + "deposit>" + "top up</a> your balance!");
             req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
@@ -58,6 +85,7 @@ public class sellController extends HttpServlet {
             params.put("description", req.getParameter("description"));
             params.put("contact", req.getParameter("contact"));
             params.put("hidden", req.getParameter("hidden"));
+            params.put("viewMode", req.getParameter("viewMode"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -84,7 +112,7 @@ public class sellController extends HttpServlet {
         User user = new User();
         try {
             String username = (String) req.getSession().getAttribute("username");
-            userDAO userDAO = new userDAO();
+            UserDAO userDAO = new UserDAO();
             user = userDAO.getUserByUsername(username);
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,10 +120,11 @@ public class sellController extends HttpServlet {
         return user;
     }
 
-    private void createPost(HttpServletRequest req, HttpServletResponse resp, HashMap<String, String> params) {
+    private Post createPost(HttpServletRequest req, HttpServletResponse resp, HashMap<String, String> params) {
         Post post = new Post();
-        postDAO postDAO = new postDAO();
+        PostDAO postDAO = new PostDAO();
         String tradingCode = postDAO.createTradingCode();
+        String viewMode = params.get("viewMode");
         try {
             Long price = Long.parseLong(params.get("price"));
             Long fee = price * 5 / 100;
@@ -108,29 +137,43 @@ public class sellController extends HttpServlet {
             post.setDescription(params.get("description"));
             post.setContact(params.get("contact"));
             post.setHidden(params.get("hidden"));
-            post.setPublic(true);
+            if (viewMode.equals("private")) {
+                post.setPublic(false);
+            } else {
+                post.setPublic(true);
+            }
             post.setStatus("readyToSell");
             post.setTotalReceiveForSeller(params.get("feePayer"));
             post.setTotalSpendForBuyer(params.get("feePayer"));
             post.setUpdateable(true);
             post.setCanBuyerComplain(false);
-            postDAO.insertPost(post);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return post;
     }
 
-    private void payPrepostFee(HttpServletRequest req, HttpServletResponse resp) {
-        userDAO userDAO = new userDAO();
-        User user = getUser(req);
-        Long balance = user.getBalance();
-        Long prepostFee = 500L;
-        userDAO.updateBalance(user, balance - prepostFee);
+    private boolean payPrepostFee(HttpServletRequest req, HttpServletResponse resp, Post post) {
+        TransactionDAO transactionDAO = new TransactionDAO();
+        boolean status= false;
+        try {
+            Transaction trans = transactionDAO.createPrepostFeeTrans(post);
+//            status = transactionDAO.executeTrans(trans);
+//            if (status) {
+//            transactionDAO.saveTransaction(trans);
+//            }
+            TransactionWrapper transactionWrapper = new TransactionWrapper(trans);
+            transactionQueue.add(transactionWrapper);
+            status = transactionWrapper.getFuture().get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
     }
 
     private boolean isBalanceEnough(HttpServletRequest req, HttpServletResponse resp) {
         User user = getUser(req);
-        postDAO postDAO = new postDAO();
+        PostDAO postDAO = new PostDAO();
         Long price = 500L;
         boolean isEnough = postDAO.isBalanceEnough(user, price);
         if (isEnough) {
@@ -148,9 +191,9 @@ public class sellController extends HttpServlet {
         }
     }
 
-
-
-
-
+    private void insertPostToDB(HttpServletRequest req, HttpServletResponse resp, Post post) {
+        PostDAO postDAO = new PostDAO();
+        postDAO.insertPost(post);
+    }
 
 }

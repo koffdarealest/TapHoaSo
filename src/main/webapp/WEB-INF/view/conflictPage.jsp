@@ -163,12 +163,14 @@
                             </h6>
                             <a class="dropdown-item d-flex align-items-center" href="#">
                                 <div class="dropdown-list-image mr-3">
-                                    <img class="rounded-circle" src="../adminContent/img/undraw_profile_1.svg" alt="...">
+                                    <img class="rounded-circle" src="../adminContent/img/undraw_profile_1.svg"
+                                         alt="...">
                                     <div class="status-indicator bg-success"></div>
                                 </div>
                                 <div class="font-weight-bold">
                                     <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                                        problem I've been having.</div>
+                                        problem I've been having.
+                                    </div>
                                     <div class="small text-gray-500">Emily Fowler · 58m</div>
                                 </div>
                             </a>
@@ -252,16 +254,27 @@
                                 <tbody>
                                 <tr>
                                     <td>hson@gmail.com</td>
-                                    <td>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur doloremque quos natus iusto nobis at nemo maiores dolor eius rem officia harum tempora ipsum, non odio! Fugit ipsam amet quia!</td>
+                                    <td>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur doloremque
+                                        quos natus iusto nobis at nemo maiores dolor eius rem officia harum tempora
+                                        ipsum, non odio! Fugit ipsam amet quia!
+                                    </td>
                                     <td>03-12-2003</td>
-                                    <td><button style="border-radius: 2px; background-color: rgb(82, 196, 82);">Process</button></td>
+                                    <td>
+                                        <button style="border-radius: 2px; background-color: rgb(82, 196, 82);">
+                                            Process
+                                        </button>
+                                    </td>
                                     <td><a href="#">Details</a></td>
                                 </tr>
                                 <tr>
                                     <td>hson@gmail.com</td>
                                     <td>System Architect</td>
                                     <td>03-12-2003</td>
-                                    <td><button style="border-radius: 2px; background-color: rgb(82, 196, 82);">Process</button></td>
+                                    <td>
+                                        <button style="border-radius: 2px; background-color: rgb(82, 196, 82);">
+                                            Process
+                                        </button>
+                                    </td>
                                     <td><a href="#">Details</a></td>
                                 </tr>
                                 </tbody>

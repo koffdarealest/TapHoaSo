@@ -1,25 +1,22 @@
 package controller;
 
 
-import DAO.userDAO;
+import dao.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
 import model.User;
 import util.Encryption;
+
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @WebServlet(urlPatterns = {"/signin"})
 
-public class signinController extends HttpServlet {
+public class SigninController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,33 +26,41 @@ public class signinController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //-----------------get parameter-----------------
-        Map<String, String> getParameters = getParameter(req, resp);
+        HashMap<String, String> parameter = getParameter(req, resp);
         //-----------------verify captcha-----------------
-        if (!isTrueCaptcha(req, resp)) {
+        if (!isTrueCaptcha(req, resp, parameter)) {
             req.setAttribute("error", "Captcha is not correct! Try again!");
             doGet(req, resp);
             return;
         }
+        //-----------------get user-----------------
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.getUserByUsername(parameter.get("username"));
+        if (user == null) {
+            req.setAttribute("error", "Wrong username or password");
+            req.getRequestDispatcher("/WEB-INF/view/signin.jsp").forward(req, resp);
+            return;
+        }
         //-----------------check valid user-----------------
-        if (checkValidUsernameAndPassword(req, resp)) {
+        if (isTruePassword(req, resp, parameter, user)) {
             //-----------------check admin-----------------
-            if (checkIsAdmin(req, resp)) {
-                req.getSession().setAttribute("username", getParameters.get("username"));
-                resp.sendRedirect(req.getContextPath() + "/userManage");
+            if (checkIsAdmin(req, resp, parameter, user)) {
+                req.getSession().setAttribute("username", parameter.get("username"));
+                resp.sendRedirect(req.getContextPath() + "/adminManage");
                 //-----------------check deleted user-----------------
-            } else if (checkIsDeletedUser(req, resp)) {
+            } else if (checkIsDeletedUser(req, resp, parameter, user)) {
                 req.setAttribute("notification", "Your account is banned or deleted! Please contact admin to get more information!");
                 req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
                 //-----------------check active user-----------------
-            } else if (!IsActivated(req, resp)) {
-                req.getSession().setAttribute("username", getParameters.get("username"));
-                req.setAttribute("notification", "Your account is not activated! <a href=" + "resendVerifyEmail" +">Click here</a> to send a new verify email!");
+            } else if (!IsActivated(req, resp, parameter, user)) {
+                req.getSession().setAttribute("usernameToSendActivateEmail", parameter.get("username"));
+                req.setAttribute("notification", "Your account is not activated! <a href=" + "resendVerifyEmail" + ">Click here</a> to send a new verify email!");
                 req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
-            } else if (isRemember(req, resp)) {
-                setCookie(req, resp);
-                login(req, resp);
+            } else if (isRemember(req, resp, parameter)) {
+                setCookie(req, resp, parameter);
+                login(req, resp, parameter, user);
             } else {
-                login(req, resp);
+                login(req, resp, parameter, user);
             }
         } else {
             req.setAttribute("error", "Wrong username or password");
@@ -64,12 +69,11 @@ public class signinController extends HttpServlet {
     }
 
 
-    private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-        HashMap<String, String> map = getParameter(req, resp);
+    private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp, HashMap<String, String> map) {
         try {
             String enteredCaptcha = map.get("captcha");
             String captcha = (String) req.getSession().getAttribute("captcha");
-            if (enteredCaptcha.equals(captcha)) {
+            if (enteredCaptcha.equalsIgnoreCase(captcha)) {
                 return true;
             }
         } catch (Exception e) {
@@ -92,44 +96,35 @@ public class signinController extends HttpServlet {
         return map;
     }
 
-    private boolean checkValidUsernameAndPassword(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, String> map = getParameter(req, resp);
+
+    private boolean isTruePassword(HttpServletRequest req, HttpServletResponse resp, HashMap<String, String> map, User user) throws ServletException, IOException {
+        String username = map.get("username");
+        String EnteredPassword = map.get("password");
+        UserDAO userDAO = new UserDAO();
+        String password = user.getPassword();
+        if (userDAO.isTruePassword(EnteredPassword, password)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean checkIsAdmin(HttpServletRequest req, HttpServletResponse resp, HashMap<String, String> map, User user) throws ServletException, IOException {
+        return user.getAdmin();
+    }
+
+    private boolean checkIsDeletedUser(HttpServletRequest req, HttpServletResponse resp, HashMap<String, String> map, User user) throws ServletException, IOException {
+        return user.getDelete();
+    }
+
+    private boolean IsActivated(HttpServletRequest req, HttpServletResponse resp, HashMap<String, String> map, User user) throws ServletException, IOException {
+        return user.getActivated();
+    }
+
+    private void setCookie(HttpServletRequest req, HttpServletResponse resp, HashMap<String, String> map) throws ServletException, IOException {
         String username = map.get("username");
         String password = map.get("password");
-        userDAO userDAO = new userDAO();
-        boolean isValid = userDAO.CheckValidUser(username, password);
-        return isValid;
-    }
-
-    private boolean checkIsAdmin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, String> map = getParameter(req, resp);
-        String username = map.get("username");
-        userDAO userDAO = new userDAO();
-        boolean isAdmin = userDAO.getUserByUsername(username).getAdmin();
-        return isAdmin;
-    }
-
-    private boolean checkIsDeletedUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, String> map = getParameter(req, resp);
-        String username = map.get("username");
-        userDAO userDAO = new userDAO();
-        boolean isDeletedUser = userDAO.getUserByUsername(username).getDelete();
-        return isDeletedUser;
-    }
-
-    private boolean IsActivated(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, String> map = getParameter(req, resp);
-        String username = map.get("username");
-        userDAO userDAO = new userDAO();
-        boolean isActivated = userDAO.getUserByUsername(username).getActivated();
-        return isActivated;
-    }
-
-    private void setCookie(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, String> map = getParameter(req, resp);
-        String username = map.get("username");
-        String password = map.get("password");
-        userDAO userDAO = new userDAO();
+        UserDAO userDAO = new UserDAO();
         List<User> users = userDAO.getAllUser();
         Encryption encryption = new Encryption();
         byte[] key = userDAO.getSecretKeyByUsername(username);
@@ -140,12 +135,6 @@ public class signinController extends HttpServlet {
             throw new RuntimeException(e);
         }
         try {
-            for(User user : users) {
-                if (user.getUsername().equals(username)) {
-                    user.setOnline(true);
-                    break;
-                }
-            }
             Cookie usernameCookie = new Cookie("userC", username);
             Cookie passwordCookie = new Cookie("pwdC", encryptedPassword);
             usernameCookie.setMaxAge(60 * 60 * 24);
@@ -153,7 +142,6 @@ public class signinController extends HttpServlet {
             resp.addCookie(usernameCookie);
             resp.addCookie(passwordCookie);
         } catch (Exception e) {
-            System.err.println("Cookie not seted");
             throw new RuntimeException(e);
         }
 
@@ -198,7 +186,7 @@ public class signinController extends HttpServlet {
             req.getRequestDispatcher("/WEB-INF/view/signin.jsp").forward(req, resp);
         } else {
             try {
-                userDAO userDAO = new userDAO();
+                UserDAO userDAO = new UserDAO();
                 byte[] key = userDAO.getSecretKeyByUsername(username);
                 Encryption encryption = new Encryption();
                 String decryptedPassword = encryption.decrypt(password, key);
@@ -211,27 +199,23 @@ public class signinController extends HttpServlet {
         }
     }
 
-    private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, String> map = getParameter(req, resp);
+    private void login(HttpServletRequest req, HttpServletResponse resp, HashMap<String, String> map, User user) throws ServletException, IOException {
         String username = map.get("username");
         try {
-            req.getSession().setAttribute("user", new userDAO().getUserByUsername(username));
-            req.getSession().setAttribute("username", username);
+            HttpSession session = req.getSession();
+            session.setAttribute("username", username);
+            session.setAttribute("userID", user.getUserID());
             resp.sendRedirect(req.getContextPath() + "/home");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
-    private boolean isRemember(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HashMap<String, String> map = getParameter(req, resp);
+    private boolean isRemember(HttpServletRequest req, HttpServletResponse resp, HashMap<String, String> map) throws ServletException, IOException {
         String remember = map.get("remember");
         if (remember != null) {
             return true;
         }
         return false;
     }
-
-
-
 }

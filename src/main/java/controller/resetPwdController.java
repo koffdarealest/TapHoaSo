@@ -1,7 +1,7 @@
 package controller;
 
-import DAO.tokenDAO;
-import DAO.userDAO;
+import dao.TokenDAO;
+import dao.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @WebServlet(urlPatterns = {"/reset"})
-public class resetPwdController extends HttpServlet {
+public class ResetPwdController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/WEB-INF/view/resetPassword.jsp").forward(req, resp);
@@ -22,13 +22,13 @@ public class resetPwdController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HashMap<String, String> params = getParams(req, resp);
-        if(!isTrueCaptcha(req, resp)) {
+        if (!isTrueCaptcha(req, resp)) {
             req.setAttribute("error", "Captcha is not correct! Try again!");
             req.setAttribute("token", req.getParameter("token"));
             req.getRequestDispatcher("/WEB-INF/view/resetPassword.jsp").forward(req, resp);
             return;
         }
-        if(isExpiredToken(req, resp, params)) {
+        if (isExpiredToken(req, resp, params)) {
             req.setAttribute("notification", "invalidToken");
             req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
         } else {
@@ -56,8 +56,8 @@ public class resetPwdController extends HttpServlet {
         String rePassword = params.get("re-password");
         String token = params.get("token");
         if (password.equals(rePassword)) {
-            tokenDAO tokenDAO = new tokenDAO();
-            userDAO userDAO = new userDAO();
+            TokenDAO tokenDAO = new TokenDAO();
+            UserDAO userDAO = new UserDAO();
             User user = userDAO.getUserByToken(token);
             String hashedPassword = userDAO.encodePassword(password);
             user.setPassword(hashedPassword);
@@ -74,14 +74,14 @@ public class resetPwdController extends HttpServlet {
 
     private boolean isExpiredToken(HttpServletRequest req, HttpServletResponse resp, HashMap<String, String> params) throws ServletException, IOException {
         String token = params.get("token");
-        tokenDAO tokenDAO = new tokenDAO();
+        TokenDAO tokenDAO = new TokenDAO();
         return tokenDAO.isTokenExpired(token);
     }
 
-    private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+    private boolean isTrueCaptcha(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String enteredCaptcha = req.getParameter("captcha");
         String captcha = (String) req.getSession().getAttribute("captcha");
-        if (!enteredCaptcha.equals(captcha)) {
+        if (!enteredCaptcha.equalsIgnoreCase(captcha)) {
             try {
                 return false;
             } catch (Exception e) {

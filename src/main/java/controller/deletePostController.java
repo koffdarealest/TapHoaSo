@@ -1,6 +1,6 @@
 package controller;
 
-import DAO.postDAO;
+import dao.PostDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,46 +12,47 @@ import java.io.IOException;
 
 
 @WebServlet(urlPatterns = {"/deletePost"})
-public class deletePostController extends HttpServlet {
+public class DeletePostController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = (String) req.getSession().getAttribute("username");
         if (username == null) {
-            resp.sendRedirect("/signin");
+            resp.sendRedirect( req.getContextPath() + "/signin");
         } else {
-            Long id = getPostID(req, resp);
-            Post post = getPostByID(req, resp, id);
+            String code = getCode(req, resp);
+            Post post = getPostByCode(req, resp, code);
             if (isDeletedPost(req, resp, post)) {
-                req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
-                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+                notifyUser(req, resp, "Invalid action! <a href=home>Go back here</a>");
+                return;
             }
             if (!isValidUserToDeletePost(req, resp, post, username)) {
-                req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
-                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+                notifyUser(req, resp, "Invalid action! <a href=home>Go back here</a>");
+                return;
+            }
+            if (!isDeleteablePost(req, resp, post)) {
+                notifyUser(req, resp, "Invalid action! <a href=home>Go back here</a>");
             } else {
                 deletePost(req, resp, post);
-                req.setAttribute("notification", "Delete post successfully! <a href=sellingPost>Go back here</a>");
-                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+                notifyUser(req, resp, "Delete post successfully! <a href=sellingPost>Go back here</a>");
             }
         }
     }
 
-    private Long getPostID(HttpServletRequest req, HttpServletResponse resp) {
-        Long postID = null;
+    private String getCode(HttpServletRequest req, HttpServletResponse resp) {
+        String tradingCode = null;
         try {
-            String ID = req.getParameter("postID");
-            postID = Long.parseLong(ID);
+            tradingCode = req.getParameter("tradingCode");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return postID;
+        return tradingCode;
     }
 
-    private Post getPostByID(HttpServletRequest req, HttpServletResponse resp, Long id) {
+    private Post getPostByCode(HttpServletRequest req, HttpServletResponse resp, String code) {
         Post post = new Post();
         try {
-            postDAO postDAO = new postDAO();
-            post = postDAO.getPostByID(id);
+            PostDAO postDAO = new PostDAO();
+            post = postDAO.getPostByTradingCode(code);
             return post;
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,7 +76,7 @@ public class deletePostController extends HttpServlet {
 
     private void deletePost(HttpServletRequest req, HttpServletResponse resp, Post post) {
         try {
-            postDAO postDAO = new postDAO();
+            PostDAO postDAO = new PostDAO();
             postDAO.deletePost(post);
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,5 +92,25 @@ public class deletePostController extends HttpServlet {
             e.printStackTrace();
         }
         return false;
+    }
+
+    private boolean isDeleteablePost(HttpServletRequest req, HttpServletResponse resp, Post post) {
+        try {
+            if (post.getStatus().equals("readyToSell") || post.getStatus().equals("done")) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private void notifyUser(HttpServletRequest req, HttpServletResponse resp, String notification) {
+        try {
+            req.setAttribute("notification", notification);
+            req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,52 +1,64 @@
-package DAO;
+package dao;
 
 import model.Bill;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
+import util.Factory;
+import util.Hibernate;
 
-public class billDAO {
-    private static final SessionFactory sessionFactory;
+import static util.Factory.sessionFactory;
 
-    static {
-        try {
-            // Tạo SessionFactory từ file cấu hình hibernate.cfg.xml (hoặc cấu hình tương tự)
-            Configuration configuration = new Configuration().configure();
-            sessionFactory = configuration.buildSessionFactory();
-        } catch (Throwable ex) {
-            System.err.println("Initial SessionFactory creation failed." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
-    }
+public class BillDAO {
 
-    public void updateBillStatus(String vnp_TxnRef, String status) {
+
+    public void save(Bill bill) {
+        Session session = sessionFactory.openSession();
         Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
+        try {
             transaction = session.beginTransaction();
-            Bill bill = session.get(Bill.class, vnp_TxnRef);
-            if (bill != null) {
-                bill.setStatus(status);
-                session.update(bill);
-                transaction.commit();
-            }
+            session.save(bill);
+            transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }
             e.printStackTrace();
+        } finally {
+            session.close();
         }
     }
 
-    public boolean isBillSuccessful(String vnp_TxnRef) {
-        try (Session session = sessionFactory.openSession()) {
-            Bill bill = session.get(Bill.class, vnp_TxnRef);
-            if (bill != null) {
-                return "success".equals(bill.getStatus());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
+    public boolean isBillExists(String transactionCode) {
+        BillDAO billDAO = new BillDAO(); // Khởi tạo đối tượng BillDAO để truy vấn cơ sở dữ liệu
+        Bill bill = billDAO.getBillByTransactionCode(transactionCode); // Lấy hóa đơn từ cơ sở dữ liệu dựa trên mã giao dịch
+
+        return bill != null; // Trả về true nếu hóa đơn tồn tại, false nếu không tồn tại
     }
+
+
+    public Bill getBillByTransactionCode(String transactionCode) {
+        Bill bill = null;
+        Transaction transaction = null;
+        try (Session session = Factory.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            bill = (Bill) session.createQuery("from Bill where TransactionCode = :transactionCode")
+.setParameter("transactionCode", transactionCode)
+                    .uniqueResult();
+
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        }
+        return bill;
+    }
+
+
+
 }

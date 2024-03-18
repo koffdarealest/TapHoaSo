@@ -21,15 +21,15 @@
     <title>Selling Posts</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="../../assets/css/fontawesome.css">
-    <link rel="stylesheet" href="../../assets/css/templatemo-lugx-gaming.css">
-    <link rel="stylesheet" href="../../assets/css/owl.css">
-    <link rel="stylesheet" href="../../assets/css/animate.css">
-    <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="stylesheet" href="../../assets/css/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-lugx-gaming.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"/>
 </head>
 
 
@@ -64,6 +64,8 @@
                         <li><a href="home">Home</a></li>
                         <li><a href="market">Public market</a></li>
                         <li><a href="sellingPost">Selling posts</a>
+                        </li>
+                        <li><a href="buyingPost">Buying posts</a>
                         </li>
                         <li><a href="">Contact Us</a>
                         </li>
@@ -103,7 +105,7 @@
                     <th>Price</th>
                     <th>Fee payer</th>
                     <th>Fee</th>
-                    <th>Total spend</th>
+                    <th>Total receive</th>
                     <th>Status</th>
                     <th>Create time</th>
                     <th>Last modify</th>
@@ -113,10 +115,10 @@
                 <tbody>
                 <c:forEach var="post" items="${lPosts}">
                     <tr>
-                        <td>${post.tradingCode}</td>
-                        <td>${post.topic}</td>
+                        <td class="td-overflow">${post.tradingCode}</td>
+                        <td class="td-overflow">${post.topic}</td>
                         <td>${post.contact}</td>
-                        <td>${post.price}</td>
+                        <td id="money-1">${post.price}</td>
                         <td><c:choose>
                             <c:when test="${post.whoPayFee == 'half'}">
                                 Half - Half
@@ -129,26 +131,43 @@
                             </c:when>
                         </c:choose>
                         </td>
-                        <td>${post.fee}</td>
-                        <td>${post.totalSpendForBuyer}</td>
+                        <td id="money-2">${post.fee}</td>
+                        <td id="money-3" style="font-weight: bold">${post.totalReceiveForSeller}</td>
                         <td>${post.status}</td>
                         <td>
                             <c:set var="createdAt" value="${post.createdAt}"/>
                             <fmt:formatDate value="${createdAt}" pattern="dd/MM/yyyy HH:mm:ss"/>
                         </td>
-                        <c:set var="updatedAt" value="${post.updatedAt}" />
+                        <c:set var="updatedAt" value="${post.updatedAt}"/>
                         <td>
                             <c:choose>
                                 <c:when test="${updatedAt != null}">
-                                    <fmt:formatDate value="${updatedAt}" pattern="dd/MM/yyyy HH:mm:ss" />
+                                    <fmt:formatDate value="${updatedAt}" pattern="dd/MM/yyyy HH:mm:ss"/>
                                 </c:when>
                                 <c:otherwise>&nbsp;</c:otherwise>
                             </c:choose>
                         </td>
-                        <td><button class="custom-button btn btn-lg" onclick="viewPostDetailUpdate('${post.postID}')" style="font-size: large">
-                            <i class="fas fa-info-circle"></i> Detail</button></td>
-                        <td><button class="custom-button btn btn-lg" onclick="openConfirmationPopup(${post.postID})" style="font-size: large; background: #d21300">
-                            <i class="fas fa-remove"></i> Delete</button></td>
+                        <td>
+                            <button class="custom-button btn btn-lg" onclick="viewPostDetailUpdate('${post.tradingCode}')"
+                                    style="font-size: large">
+                                <i class="fas fa-info-circle"></i> Detail
+                            </button>
+                        </td>
+                        <c:choose>
+                            <c:when test="${post.status eq 'readyToSell' || post.status eq 'done'}">
+                                <td>
+                                    <button class="custom-button btn btn-lg"
+                                            onclick="openConfirmationPopup('${post.tradingCode}')"
+                                            style="font-size: large; background: #d21300">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </td>
+                            </c:when>
+                            <c:otherwise>
+                                <td></td>
+                                <!-- Nếu không phải 'readyToSell' hoặc 'done', không hiển thị nút Delete -->
+                            </c:otherwise>
+                        </c:choose>
                     </tr>
                 </c:forEach>
                 </tbody>
@@ -174,8 +193,8 @@
     <div class="popup-content">
         <h6 class="mb-1">Are you sure you want to delete this post?</h6>
         <p class="mb-3">Deleted post cannot be recovered!</p>
-        <button onclick="deletePostConfirmed()" style="background: #d31e01">Yes</button>
-        <button onclick="closePopup()">No</button>
+        <button onclick="deletePostConfirmed()" style="background: #d31e01">Delete</button>
+        <button onclick="closePopup()" style="background: #646464">No</button>
     </div>
 </div>
 
@@ -239,8 +258,8 @@
         }
     };
 
-    function viewPostDetailUpdate(postID) {
-        window.location.href = 'postDetailUpdate?postID=' + postID;
+    function viewPostDetailUpdate(tradingCode) {
+        window.location.href = 'postDetailUpdate?tradingCode=' + tradingCode;
     }
 
     // function deletePost(postID) {
@@ -250,15 +269,16 @@
     // }
 </script>
 <script>
-    var id;
-    function openConfirmationPopup(postID) {
+    let code;
+
+    function openConfirmationPopup(tradingCode) {
         document.getElementById('overlay').style.display = 'block';
         document.getElementById('confirmationPopup').style.display = 'block';
-        id = postID;
+        code = tradingCode;
     }
 
     function deletePostConfirmed() {
-        window.location.href = 'deletePost?postID=' + id;
+        window.location.href = 'deletePost?tradingCode=' + code;
     }
 
     function closePopup() {
@@ -267,14 +287,25 @@
     }
 
 </script>
+<!-- Money format -->
+<script>
+    document.querySelectorAll("[id^='money']").forEach(function (cell) {
+        var totalSpend = cell.textContent;
+        var formattedTotalSpend = new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND"
+        }).format(totalSpend);
+        cell.textContent = formattedTotalSpend;
+    });
 
+</script>
 <!-- Bootstrap core JavaScript -->
-<script src="../../vendor/jquery/jquery.min.js"></script>
-<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="../../assets/js/isotope.min.js"></script>
-<script src="../../assets/js/owl-carousel.js"></script>
-<script src="../../assets/js/counter.js"></script>
-<script src="../../assets/js/custom.js"></script>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/isotope.min.js"></script>
+<script src="assets/js/owl-carousel.js"></script>
+<script src="assets/js/counter.js"></script>
+<script src="assets/js/custom.js"></script>
 
 
 </body>

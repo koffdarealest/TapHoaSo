@@ -57,12 +57,18 @@
         }
       }
 
-      .order#{$infix}-first { order: -1; }
+      .order#{$infix}-first {
+        order: -1;
+      }
 
-      .order#{$infix}-last { order: $columns + 1; }
+      .order#{$infix}-last {
+        order: $columns + 1;
+      }
 
       @for $i from 0 through $columns {
-        .order#{$infix}-#{$i} { order: $i; }
+        .order#{$infix}-#{$i} {
+          order: $i;
+        }
       }
 
       @if $columns > 0 {

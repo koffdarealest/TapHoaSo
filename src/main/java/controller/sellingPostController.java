@@ -1,7 +1,7 @@
 package controller;
 
-import DAO.postDAO;
-import DAO.userDAO;
+import dao.PostDAO;
+import dao.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,19 +14,19 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet(urlPatterns = {"/sellingPost"})
-public class sellingPostController extends HttpServlet {
+public class SellingPostController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getSession().getAttribute("username") == null) {
-            resp.sendRedirect("/signin");
+            resp.sendRedirect( req.getContextPath() + "/signin");
         } else {
-            userDAO userDAO = new userDAO();
+            UserDAO userDAO = new UserDAO();
             String username = (String) req.getSession().getAttribute("username");
             User user = userDAO.getUserByUsername(username);
-            postDAO postDAO = new postDAO();
+            PostDAO postDAO = new PostDAO();
             List<Post> getAllPost = postDAO.getAllPostBySeller(user);
-            req.setAttribute("lPosts",getAllPost);
-            req.getRequestDispatcher("WEB-INF/view/sellingPost.jsp").forward(req,resp);
+            req.setAttribute("lPosts", getAllPost);
+            req.getRequestDispatcher("WEB-INF/view/sellingPost.jsp").forward(req, resp);
         }
     }
 }

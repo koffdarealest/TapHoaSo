@@ -21,15 +21,15 @@
     <title>Selling Posts</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="../../assets/css/fontawesome.css">
-    <link rel="stylesheet" href="../../assets/css/templatemo-lugx-gaming.css">
-    <link rel="stylesheet" href="../../assets/css/owl.css">
-    <link rel="stylesheet" href="../../assets/css/animate.css">
-    <link rel="stylesheet" href="../../assets/css/style.css">
-    <link rel="stylesheet" href="../../assets/css/swiper-bundle.min.css"/>
+    <link rel="stylesheet" href="assets/css/fontawesome.css">
+    <link rel="stylesheet" href="assets/css/templatemo-lugx-gaming.css">
+    <link rel="stylesheet" href="assets/css/owl.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"/>
 </head>
 
 
@@ -65,6 +65,8 @@
                         <li><a href="market">Public market</a></li>
                         <li><a href="sellingPost">Selling posts</a>
                         </li>
+                        <li><a href="buyingPost">Buying posts</a>
+                        </li>
                         <li><a href="">Contact Us</a>
                         </li>
                         <li><a href="signOut">Sign Out</a></li>
@@ -92,40 +94,9 @@
 </div>
 
 <div class="container d-flex" style="max-width: 1700px;">
+    <div class="col-lg-1"></div>
     <div class="col-lg-6">
-        <div class="detail-selling-market-wrap sticky-table">
-            <div>
-                <table class="table table-bordered table-scroll" id="marketTable">
-                    <thead class="sticky-header">
-                    <tr>
-                        <th>Title</th>
-                        <th>Fee</th>
-                        <th>Total spend</th>
-                        <th>Status</th>
-                        <th colspan="2">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="post" items="${lPosts}">
-                        <tr>
-                            <td>${post.topic}</td>
-                            <td>${post.fee}</td>
-                            <td>${post.totalSpendForBuyer}</td>
-                            <td>${post.status}</td>
-                            <td><button class="custom-button btn btn-lg" onclick="viewPostDetailUpdate('${post.postID}')" style="font-size: small">
-                                <i class="fas fa-info-circle"></i> Detail</button></td>
-                            <td><button class="custom-button btn btn-lg" onclick="openConfirmationPopup(${post.postID})" style="font-size: small; background: #d21300">
-                                <i class="fas fa-remove"></i> Delete</button></td>
-                        </tr>
-                    </c:forEach>
-                    <!-- Repeat the above row for 20 records -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-6">
-        <div class="detail-post-wrap p-4" style="margin-left: 30px;">
+        <div class="detail-post-wrap p-4" style="margin-right: 30px;">
             <div class="col-lg-12 mx-auto">
                 <div class="card">
                     <div class="card-header">
@@ -135,8 +106,7 @@
                     </div>
                     <div class="card-body">
                         <form method="post" action="postDetailUpdate">
-                            <!-- ---------------PostID--------------- -->
-                            <input type="hidden" name="postID" value="${chosenPost.postID}">
+                            <input type="hidden" name="tradingCode" value="${chosenPost.tradingCode}">
                             <!-- ---------------Trading Code--------------- -->
                             <div class="d-flex mb-3 align-items-center">
                                 <div class="label-form col-md-3">
@@ -167,6 +137,19 @@
                                            value="${chosenPost.topic}">      <!-- input Title -->
                                 </div>
                             </div>
+                            <!-- ---------------Total--------------- -->
+                            <div class="d-flex mb-3 align-items-center">
+                                <div class="label-form col-md-3">
+                                    <label class="label">Total receive</label>
+                                </div>
+                                <div class="col-md-9 form-group">
+                                    <input class="form-control" required readonly
+                                           value="${chosenPost.totalReceiveForSeller}" id="total"
+                                           style="font-weight: bold">
+                                    <span class="text-muted"
+                                          style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
+                                </div>
+                            </div>
                             <!-- ---------------Price--------------- -->
                             <div class="d-flex mb-3 align-items-center">
                                 <div class="label-form col-md-3">
@@ -181,7 +164,8 @@
                             </div>
                             <!-- ---------------Price Error--------------- -->
                             <div class="d-flex align-items-center">
-                                <div class="col-md-10" id="priceError" style="color: red; display: none;text-align: end;">
+                                <div class="col-md-10" id="priceError"
+                                     style="color: red; display: none;text-align: end;">
                                     Price must be divisible by 1000
                                 </div>
                             </div>
@@ -197,7 +181,8 @@
                                 </div>
                                 <div class="col-md-9 form-group">
                                     <input type="number" name="fee" class="form-control" required id="fee"
-                                           value="${chosenPost.fee}" readonly>    <!-- input Fee -->
+                                           value="${chosenPost.fee}" readonly style="font-style: oblique">
+                                    <!-- input Fee -->
                                     <span class="text-muted"
                                           style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">VND</span>
                                 </div>
@@ -208,7 +193,8 @@
                                     <label class="label">Fee Payer </label>
                                 </div>
                                 <div class="col-md-9 form-group">
-                                    <select class="form-control" name="feePayer" required> <!-- select Fee Payer -->
+                                    <select class="form-control" name="feePayer" required id="feePayer">
+                                        <!-- select Fee Payer -->
                                         <c:choose>
                                             <c:when test="${chosenPost.whoPayFee == 'buyer'}">
                                                 <option selected value="buyer">Buyer</option>
@@ -256,7 +242,9 @@
                                     <label class="label">Hidden content </label>
                                 </div>
                                 <div class="col-md-9 form-group">
-                                    <textarea class="form-control" name="hidden" id="hidden" required>${chosenPost.hidden}</textarea>       <!-- input Hidden content -->
+                                    <textarea class="form-control" name="hidden" id="hidden"
+                                              required>${chosenPost.hidden}</textarea>
+                                    <!-- input Hidden content -->
                                 </div>
                             </div>
                             <!-- ---------------Created At--------------- -->
@@ -279,31 +267,130 @@
                                            value="">      <!-- input Title -->
                                 </div>
                             </div>
-                            <!-- ---------------Confirm--------------- -->
+                            <!-- ---------------Link--------------- -->
                             <div class="d-flex mb-3 align-items-center">
-                                <div class="col-md-2"></div>
-                                <div class="col-md-10">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="confirmCheckBox" required> <!-- checkbox Confirm -->
-                                        <label class="form-check label" for="confirmCheckBox">
-                                            I confirm that the above information is true. I will be responsible if there is any incorrect information in the post.
-                                        </label>
+                                <div class="label-form col-md-3">
+                                    <label class="label">Share link </label>
+                                </div>
+                                <div class="col-md-8">
+                                    <textarea class="form-control"
+                                              style="height: 80px"
+                                              disabled
+                                              id="link">http://localhost:8080/postDetailFromLink?tradingCode=${chosenPost.tradingCode}</textarea>
+                                </div>
+                                <div class="col-md-1 d-flex justify-content-center">
+                                    <button type="button" class="btn btn-primary" id="copyBtn">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="d-flex mb-3 align-items-center">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-9 form-group">
+                                    <span class="text-muted" id="copiedNotice" style="display: none">
+                                        The link has been copied to the clipboard!
+                                    </span>
+                                </div>
+                            </div>
+                            <c:choose>
+                                <c:when test="${chosenPost.updateable eq true}">
+                                    <!-- ---------------Confirm--------------- -->
+                                    <div class="d-flex mb-3 align-items-center">
+                                        <div class="col-md-2"></div>
+                                        <div class="col-md-10">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                       id="confirmCheckBox" required> <!-- checkbox Confirm -->
+                                                <label class="form-check label" for="confirmCheckBox">
+                                                    I confirm that the above information is true. I will be responsible
+                                                    if there is any incorrect information in the post.
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <!-- ---------------Submit--------------- -->
-                            <div class="d-flex mb-3 align-items-center">
-                                <div class="form-group col-md-12 text-center">
-                                    <button type="submit" class="col-md-3 btn btn-primary p-3">Update</button>
-                                    <!-- Submit -->
-                                </div>
-                            </div>
+                                    <!-- ---------------Submit--------------- -->
+                                    <div class="d-flex mb-3 align-items-center">
+                                        <div class="form-group col-md-12 text-center">
+                                            <button type="submit" class="col-md-3 btn btn-primary p-3"
+                                                    style="background: #b9b700; border: 0">
+                                                <i class="fas fa-pencil"></i> Update
+                                            </button>
+                                            <!-- Submit -->
+                                        </div>
+                                    </div>
+                                </c:when>
+                                <c:when test="${chosenPost.status eq 'buyerComplaining'}">
+                                    <div class="d-flex mb-3 align-items-center">
+                                        <div class="col-md-12 text-center">
+                                            <button type="button" class="col-md-5 btn custom-button p-2" style="font-size: medium; margin-right: 20px; background: #d21300"
+                                                    onclick="openCancelPostPopup('${chosenPost.tradingCode}')">
+                                                <i class="fa fa-cancel" style="margin-right: 4px"></i>CONFIRM ERRORS, CALCEL POST
+                                            </button>
+                                            <button type="button" class="col-md-5 btn custom-button p-2" style="font-size: medium"
+                                                    onclick="openConfirmCorrectPopup('${chosenPost.tradingCode}')">
+                                                <i class="fa fa-check-circle" style="margin-right: 4px"></i>
+                                                CONFIRM THE POST IS CORRECT
+                                            </button>
+                                        </div>
+                                    </div>
+                                </c:when>
+                                <c:otherwise>
+                                    <div></div>
+                                </c:otherwise>
+                            </c:choose>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="col-lg-4">
+        <div class="detail-selling-market-wrap sticky-table">
+            <div>
+                <table class="table table-bordered table-scroll" id="marketTable">
+                    <thead class="sticky-header">
+                    <tr>
+                        <th>Title</th>
+                        <th>Total spend</th>
+                        <th>Status</th>
+                        <th colspan="2">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="post" items="${lPosts}">
+                        <tr>
+                            <td>${post.topic}</td>
+                            <td>${post.totalSpendForBuyer}</td>
+                            <td>${post.status}</td>
+                            <td>
+                                <button class="custom-button btn btn-lg"
+                                        onclick="viewPostDetailUpdate('${post.tradingCode}')" style="font-size: small">
+                                    <i class="fas fa-info-circle"></i> Detail
+                                </button>
+                            </td>
+                            <c:choose>
+                                <c:when test="${post.status eq 'readyToSell' || post.status eq 'done'}">
+                                    <td>
+                                        <button class="custom-button btn btn-lg"
+                                                onclick="openConfirmationPopup('${post.tradingCode}')"
+                                                style="font-size: small; background: #d21300">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td></td>
+                                </c:otherwise>
+                            </c:choose>
+                        </tr>
+                    </c:forEach>
+                    <!-- Repeat the above row for 20 records -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <footer>
@@ -321,8 +408,9 @@
     </div>
 </footer>
 
-<!-- -----------------Confirm Pop-up-----------------  -->
+<!-- -----------------Overlay-----------------  -->
 <div id="overlay" class="overlay" onclick="closePopup()"></div>
+<!-- -----------------Confirm Pop-up-----------------  -->
 <div id="confirmationPopup" class="popup">
     <div class="popup-content">
         <h6 class="mb-1">Are you sure you want to delete this post?</h6>
@@ -331,6 +419,25 @@
         <button onclick="closePopup()">No</button>
     </div>
 </div>
+<!-- -----------------Cancel Post Pop-up-----------------  -->
+<div id="cancelPostPopup" class="popup">
+    <div class="popup-content">
+        <h6 class="mb-1">Are you sure you want to cancel this post?</h6>
+        <p class="mb-3">Cancel post cannot be recovered!</p>
+        <button onclick="cancelPostConfirmed()" style="background: #d31e01">Yes</button>
+        <button onclick="closePopup()">No</button>
+    </div>
+</div>
+<!-- -----------------Confirm Correct Pop-up-----------------  -->
+<div id="confirmCorrectPopup" class="popup">
+    <div class="popup-content">
+        <h6 class="mb-1">Are you sure the post is correct?</h6>
+        <p class="mb-3">The post will be updated to 'readyToSell' status!</p>
+        <button onclick="confirmCorrectPost()" style="background: #b9b700">Yes</button>
+        <button onclick="closePopup()">No</button>
+    </div>
+</div>
+
 
 <!-- Scripts -->
 <!-- ------------------Table------------------ -->
@@ -413,16 +520,19 @@
         });
     });
 
-    function viewPostDetailUpdate(postID) {
-        window.location.href = 'postDetailUpdate?postID=' + postID;
+    function viewPostDetailUpdate(tradingCode) {
+        window.location.href = 'postDetailUpdate?tradingCode=' + tradingCode;
     }
 </script>
-<!-- ------------------Price Control------------------ -->
+<!-- ---------------Auto Price, Fee, Total--------------- -->
 <script>
     var price = document.getElementById('price');
     var fee = document.getElementById('fee');
     var priceError = document.getElementById('priceError');
     var priceErrorBackend = document.getElementById('priceErrorBackend');
+    var total = document.getElementById('total');
+    var feePayer = document.getElementById('feePayer');
+
     price.addEventListener('input', function () {
         var priceValue = parseInt(price.value);
         if (priceValue % 1000 === 0 && priceValue >= 1000) {
@@ -430,10 +540,29 @@
             priceError.style.display = 'none';
             var feeValue = priceValue * 0.05;
             fee.value = feeValue;
+            if (feePayer.value === 'buyer') {
+                total.value = priceValue;
+            } else if (feePayer.value === 'half') {
+                total.value = priceValue - feeValue / 2;
+            } else {
+                total.value = priceValue - feeValue;
+            }
         } else {
             fee.value = 0;
             priceError.style.display = 'block';
             priceErrorBackend.style.display = 'none';
+        }
+    });
+
+    feePayer.addEventListener('change', function () {
+        var priceValue = parseInt(price.value);
+        var feeValue = priceValue * 0.05;
+        if (feePayer.value === 'buyer') {
+            total.value = priceValue;
+        } else if (feePayer.value === 'half') {
+            total.value = priceValue - feeValue / 2;
+        } else {
+            total.value = priceValue - feeValue;
         }
     });
 
@@ -460,32 +589,69 @@
 </script>
 <!-- ------------------Confirmation Popup------------------ -->
 <script>
-    var id;
-    function openConfirmationPopup(postID) {
+    var code;
+    var cancelCode;
+    var confirmCode;
+    function openConfirmationPopup(tradingCode) {
         document.getElementById('overlay').style.display = 'block';
         document.getElementById('confirmationPopup').style.display = 'block';
-        id = postID;
+        code = tradingCode;
     }
 
     function deletePostConfirmed() {
-        window.location.href = 'deletePost?postID=' + id;
+        window.location.href = 'deletePost?tradingCode=' + code;
     }
 
     function closePopup() {
+        document.getElementById('confirmCorrectPopup').style.display = 'none';
+        document.getElementById('cancelPostPopup').style.display = 'none';
         document.getElementById('confirmationPopup').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
     }
-</script>
 
+    function openCancelPostPopup(tradingCode) {
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('cancelPostPopup').style.display = 'block';
+        cancelCode = tradingCode;
+    }
+
+    function cancelPostConfirmed() {
+        window.location.href = 'cancelPost?tradingCode=' + cancelCode;
+    }
+
+    function openConfirmCorrectPopup(tradingCode) {
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('confirmCorrectPopup').style.display = 'block';
+        confirmCode = tradingCode;
+    }
+
+    function confirmCorrectPost() {
+        window.location.href = 'confirmCorrectPost?tradingCode=' + confirmCode;
+    }
+</script>
+<!-- ------------------Copy Link------------------ -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var copyBtn = document.getElementById('copyBtn');
+
+        copyBtn.addEventListener('click', function () {
+            var link = document.getElementById('link');
+            navigator.clipboard.writeText(link.value).then(function () {
+                var notice = document.getElementById('copiedNotice');
+                notice.style.display = 'block';
+            })
+        });
+    });
+</script>
 <!-- Bootstrap core JavaScript -->
 <script src="https://cdn.tiny.cloud/1/qmw4wavlc4ekzay2c6m9pxxoyvi1ni12vki7sz9clkyfyyo2/tinymce/6/tinymce.min.js"
         referrerpolicy="origin"></script>
-<script src="../../vendor/jquery/jquery.min.js"></script>
-<script src="../../vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="../../assets/js/isotope.min.js"></script>
-<script src="../../assets/js/owl-carousel.js"></script>
-<script src="../../assets/js/counter.js"></script>
-<script src="../../assets/js/custom.js"></script>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/isotope.min.js"></script>
+<script src="assets/js/owl-carousel.js"></script>
+<script src="assets/js/counter.js"></script>
+<script src="assets/js/custom.js"></script>
 
 
 </body>

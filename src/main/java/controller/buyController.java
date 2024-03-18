@@ -1,72 +1,89 @@
 package controller;
 
-import DAO.postDAO;
-import DAO.userDAO;
+import dao.PostDAO;
+import dao.TransactionDAO;
+import dao.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import listener.TransactionProcessor;
 import model.Post;
 import model.User;
+import model.Transaction;
+import wrapper.TransactionWrapper;
 
 import java.io.IOException;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 @WebServlet(urlPatterns = {"/buy"})
-public class buyController extends HttpServlet {
-
+public class BuyController extends HttpServlet {
+    //-----------------TransactionProcessor-----------------
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private BlockingQueue<TransactionWrapper> transactionQueue = new LinkedBlockingQueue<>();
+    TransactionProcessor transactionProcessor = new TransactionProcessor(transactionQueue);
+    public void init() {
+        executor.submit(transactionProcessor);
+    }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = (String) req.getSession().getAttribute("username");
         if (username == null) {
-            resp.sendRedirect("/signin");
+            resp.sendRedirect( req.getContextPath() + "/signin");
         } else {
-            Long id = getPostID(req, resp);
-            Post post = getPostByID(req, resp, id);
-            User user = getUser(req, resp);
+            String code = getCode(req, resp);
+            Post post = getPostByCode(req, resp, code);
+            User user = getUser(req, resp, username);
             if (isDeletedPost(req, resp, post)) {
-                req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
-                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+                notifyUser(req, resp, "Invalid action! <a href=home>Go back here</a>");
                 return;
             }
             if (isPostOwner(req, resp, post, username)) {
-                req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
-                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+                notifyUser(req, resp, "Invalid action! <a href=home>Go back here</a>");
                 return;
             }
             if (isBuyedPost(req, resp, post)) {
-                req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
-                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+                notifyUser(req, resp, "Invalid action! <a href=home>Go back here</a>");
                 return;
             }
             if (!isBalanceEnough(req, resp, post, user)) {
-                req.setAttribute("notification", "Your balance is not enough! Please <a href=" + "deposit>" + "top up</a> your balance!");
-                req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+                notifyUser(req, resp,"Your balance is not enough! Please <a href=" + "deposit>" + "top up</a> your balance!");
                 return;
             }
-            buyPost(req, resp, post, user);
-            req.setAttribute("notification", "Buy post successfully! <a href=buying>View your buying post</a>");
-            req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+            try{
+                Thread.sleep(10000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            boolean isDone = buyPost(req, resp, post, user);
+            if (isDone) {
+                notifyUser(req, resp, "Buy post successfully! <a href=buyingPost>View your buying post</a>");
+            } else {
+                notifyUser(req, resp, "Buy error! <a href=home>Go back here</a>");
+            }
         }
     }
 
 
-    private Long getPostID(HttpServletRequest req, HttpServletResponse resp) {
-        Long postID = null;
+    private String getCode(HttpServletRequest req, HttpServletResponse resp) {
+        String tradingCode = null;
         try {
-            String ID = req.getParameter("postID");
-            postID = Long.parseLong(ID);
+            tradingCode = req.getParameter("tradingCode");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return postID;
+        return tradingCode;
     }
 
-    private Post getPostByID(HttpServletRequest req, HttpServletResponse resp, Long id) {
+    private Post getPostByCode(HttpServletRequest req, HttpServletResponse resp, String tradingCode) {
         Post post = new Post();
         try {
-            postDAO postDAO = new postDAO();
-            post = postDAO.getPostByID(id);
+            PostDAO postDAO = new PostDAO();
+            post = postDAO.getPostByTradingCode(tradingCode);
             return post;
         } catch (Exception e) {
             e.printStackTrace();
@@ -74,11 +91,10 @@ public class buyController extends HttpServlet {
         return post;
     }
 
-    private User getUser(HttpServletRequest req, HttpServletResponse resp) {
+    private User getUser(HttpServletRequest req, HttpServletResponse resp, String username) {
         User user = new User();
         try {
-            String username = (String) req.getSession().getAttribute("username");
-            userDAO userDAO = new userDAO();
+            UserDAO userDAO = new UserDAO();
             user = userDAO.getUserByUsername(username);
             return user;
         } catch (Exception e) {
@@ -134,14 +150,29 @@ public class buyController extends HttpServlet {
         return false;
     }
 
-    private void buyPost(HttpServletRequest req, HttpServletResponse resp, Post post, User user) {
+    private boolean buyPost(HttpServletRequest req, HttpServletResponse resp, Post post, User user) {
+        TransactionDAO transactionDAO = new TransactionDAO();
+        PostDAO postDAO = new PostDAO();
+        boolean status = false;
         try {
-            postDAO postDAO = new postDAO();
-            userDAO userDAO = new userDAO();
-            Long total = post.getTotalSpendForBuyer();
-            Long balance = user.getBalance();
-            userDAO.updateBalance(user, balance - total);
             postDAO.buyPost(post, user);
+            Transaction trans = transactionDAO.createBuyProductPostTrans(post);
+            TransactionWrapper transactionWrapper = new TransactionWrapper(trans);
+            transactionQueue.add(transactionWrapper);
+            status = transactionWrapper.getFuture().get();
+            if (status) {
+                postDAO.updatePost(post);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    private void notifyUser(HttpServletRequest req, HttpServletResponse resp, String notification) {
+        try {
+            req.setAttribute("notification", notification);
+            req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
         } catch (Exception e) {
             e.printStackTrace();
         }

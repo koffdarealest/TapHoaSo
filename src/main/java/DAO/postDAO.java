@@ -1,4 +1,4 @@
-package DAO;
+package dao;
 
 import model.Post;
 import model.User;
@@ -6,11 +6,12 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.Factory;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class postDAO {
+public class PostDAO {
     public void insertPost(Post post) {
         Transaction transaction = null;
         try (Session session = Factory.getSessionFactory().openSession()) {
@@ -27,7 +28,7 @@ public class postDAO {
         }
     }
 
-    public Post getPostByTradingCode (String tradingCode) {
+    public Post getPostByTradingCode(String tradingCode) {
         Post post = null;
         Transaction transaction = null;
         try (Session session = Factory.getSessionFactory().openSession()) {
@@ -46,7 +47,7 @@ public class postDAO {
         return post;
     }
 
-    public Post getPostByID (Long id) {
+    public Post getPostByID(Long id) {
         Post post = null;
         Transaction transaction = null;
         try (Session session = Factory.getSessionFactory().openSession()) {
@@ -106,25 +107,25 @@ public class postDAO {
     }
 
     public boolean isBalanceEnough(User user, Long price) {
-        userDAO userDAO = new userDAO();
+        UserDAO userDAO = new UserDAO();
         Long balance = user.getBalance();
-        if(balance < price) {
+        if (balance < price) {
             return false;
         }
         return true;
     }
 
-    public List<Post> getAllPublicPost(){
+    public List<Post> getAllPublicPost() {
         List<Post> ListPosts = null;
         Transaction transaction = null;
-        try (Session session = Factory.getSessionFactory().openSession()){
+        try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
-            ListPosts = session.createQuery("from Post where buyerID is null and (isDelete != true or isDelete is null)").getResultList();
+            ListPosts = session.createQuery("from Post where buyerID is null and (isDelete != true or isDelete is null) and isPublic = true").getResultList();
 
             transaction.commit();
-        } catch (Exception ex){
-            if(transaction == null){
+        } catch (Exception ex) {
+            if (transaction == null) {
                 transaction.rollback();
             }
             ex.printStackTrace();
@@ -132,10 +133,10 @@ public class postDAO {
         return ListPosts;
     }
 
-    public List<Post> getAllPostBySeller(User user){
+    public List<Post> getAllPostBySeller(User user) {
         List<Post> ListPosts = null;
         Transaction transaction = null;
-        try (Session session = Factory.getSessionFactory().openSession()){
+        try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
             ListPosts = session.createQuery("from Post where sellerID = :user and (isDelete != true or isDelete is null)")
@@ -143,8 +144,8 @@ public class postDAO {
                     .getResultList();
 
             transaction.commit();
-        } catch (Exception ex){
-            if(transaction == null){
+        } catch (Exception ex) {
+            if (transaction == null) {
                 transaction.rollback();
             }
             ex.printStackTrace();
@@ -152,31 +153,72 @@ public class postDAO {
         return ListPosts;
     }
 
-    public void buyPost(Post post, User user){
+    public List<Post> getAllPostByBuyer(User user) {
+        List<Post> ListPosts = null;
         Transaction transaction = null;
-        try (Session session = Factory.getSessionFactory().openSession()){
+        try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
-            post.setBuyerID(user);
-            post.setStatus("buyerChecking");
-            post.setUpdateable(false);
-            post.setCanBuyerComplain(true);
-
-            session.update(post);
+            ListPosts = session.createQuery("from Post where buyerID = :user and (isDelete != true or isDelete is null)")
+                    .setParameter("user", user)
+                    .getResultList();
 
             transaction.commit();
-        } catch (Exception ex){
-            if(transaction == null){
+        } catch (Exception ex) {
+            if (transaction == null) {
                 transaction.rollback();
             }
             ex.printStackTrace();
         }
+        return ListPosts;
     }
 
+    public void buyPost(Post post, User user) {
+        try {
+            post.setBuyerID(user);
+            post.setStatus("buyerChecking");
+            post.setUpdateable(false);
+            post.setCanBuyerComplain(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void confirmReceivePost(Post post) {
+        try {
+            post.setStatus("done");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Post> getUnconfirmedPost() {
+        List<Post> unconfirmedPosts = null;
+        Transaction transaction = null;
+        try (Session session = Factory.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            unconfirmedPosts = session.createQuery("from Post where status in (:statuses) ")
+                    .setParameterList("statuses", Arrays.asList("buyerChecking", "sellerDeniedComplain"))
+                    .getResultList();
+
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction == null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        }
+        return unconfirmedPosts;
+    }
+
+
+
     public static void main(String[] args) {
-//         postDAO postDAO = new postDAO();
-//         List<Post> ls = postDAO.getAllPost();
-//         Post post = ls.getFirst();
-//         System.out.println(post.getTradingCode());
+         PostDAO postDAO = new PostDAO();
+         List<Post> ls = postDAO.getUnconfirmedPost();
+            for (Post post : ls) {
+                System.out.println("topic" + post.getTopic() + ", status:" + post.getStatus());
+            }
     }
 }
