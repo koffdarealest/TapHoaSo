@@ -135,6 +135,13 @@
                     </div>
                 </div>
             </form>
+            <div style="margin: 20px auto; width: fit-content; text-align: center;">
+                <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid&redirect_uri=http://localhost:8080/LoginGoogleHandler&response_type=code
+                        &client_id=293107367869-bh6aqb9gm4vb6sq0hesk9nbnfbltbgtj.apps.googleusercontent.com&approval_prompt=force"
+                   style="border: 1px solid #333; border-radius: 20px; text-decoration: none; padding: 1% 4%;">
+                    <img src="./assets/images/Google__G__Logo.svg.png" style="width: 4%;"> Login With Google
+                </a>
+            </div>
             <p class="text-center" style="font-size: 15px;">Not a member? <a data-toggle="tab" href="signup">Sign
                 Up Here</a></p>
         </div>
