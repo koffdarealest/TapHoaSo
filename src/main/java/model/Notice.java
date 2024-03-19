@@ -12,6 +12,10 @@ public class Notice extends BaseAuditable {
     private String content;
     private Boolean isAdminReceive;
     private Boolean isRead = false;
+    @ManyToOne
+    private User userIDFrom;
+    @ManyToOne
+    private User userIDTo;
 
     public Notice() {
     }
@@ -37,6 +41,23 @@ public class Notice extends BaseAuditable {
     public void setRead(Boolean read) {
         isRead = read;
     }
+
+    public User getUserIDFrom() {
+        return userIDFrom;
+    }
+
+    public void setUserIDFrom(User userIDFrom) {
+        this.userIDFrom = userIDFrom;
+    }
+
+    public User getUserIDTo() {
+        return userIDTo;
+    }
+
+    public void setUserIDTo(User userIDTo) {
+        this.userIDTo = userIDTo;
+    }
+
 
     public Post getPostID() {
         return postID;

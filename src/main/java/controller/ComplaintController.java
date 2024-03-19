@@ -34,11 +34,14 @@ public class ComplaintController extends HttpServlet {
     private void SetNotice(HttpServletRequest req, HttpServletResponse resp, Post post) {
         try {
             Notice notice = new Notice();
-            notice.setContent("The post has been reported by " + post.getBuyerID().getNickname());
+            notice.setContent("You have report by " + post.getBuyerID().getNickname() + " about the post " + post.getTradingCode() + ". Please check it");
             notice.setAdminReceive(false);
             notice.setPostID(post);
+            notice.setUserIDFrom(post.getBuyerID());
+            notice.setUserIDTo(post.getSellerID());
             notice.setDelete(false);
             notice.setRead(false);
+
             NoticeDAO noticeDAO = new NoticeDAO();
             noticeDAO.insertNotice(notice);
         } catch (Exception e) {

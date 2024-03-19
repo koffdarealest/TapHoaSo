@@ -31,7 +31,84 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"/>
 
+    <style>
+        #notificationWindow {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            z-index: 9999;
+            max-height: 400px; /* Giới hạn chiều cao của cửa sổ thông báo */
+            overflow-y: auto; /* Cho phép cuộn nếu nội dung vượt quá chiều cao */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+            border-radius: 5px; /* Bo tròn góc */
+            width: 300px; /* Độ rộng của cửa sổ thông báo */
+            margin-left: -255px;
+        }
 
+        #notificationWindow h3 {
+            margin-top: 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        #notificationWindow p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .notification-item {
+            margin-bottom: 10px;
+        }
+
+        .notification-item a {
+            text-decoration: none;
+            color: #0a53be;
+            transition: color 0.3s ease;
+        }
+
+        .notification-item a:hover {
+            color: #0a53be;
+            text-decoration: underline;
+        }
+
+        #notificationWindow a {
+            text-decoration: none;
+            color: #0a53be;
+            transition: color 0.3s ease;
+            font-size: 13px;
+        }
+
+        .notification-item:nth-child(3n+3) {
+            border-bottom: 1px solid #ccc;
+        }
+        /* Tạo khoảng cách giữa các dòng thông báo */
+        .notification-item a {
+            margin: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        #notificationWindow a:hover {
+            color: #0a53be;
+            text-decoration: underline;
+        }
+
+        .icon:hover {
+            color: #0a53be;
+        }
+
+        .icon {
+            position: relative;
+        }
+
+        #notificationWindow p{
+            margin-top: 5px;
+        }
+    </style>
 </head>
 
 
@@ -69,13 +146,19 @@
                         </li>
                         <li><a href="buyingPost">Buying posts</a>
                         </li>
-                        <li><a href="">Contact Us</a>
-                        </li>
                         <li>
                             <div class="icon">
-                                <i class="fas fa-bell" style="color: white"></i>
+                                <i class="fas fa-bell" style="color: white" onclick="toggleNotification()"></i>
+                                <!-- Cửa sổ hiển thị thông báo -->
+                                <div id="notificationWindow">
+                                    <h3>Thông báo</h3>
+                                    <c:forEach items="${requestScope.listNotice}" var="notice">
+                                        <div class="notification-item">
+                                            <a href="#"><c:out value="${notice.content}" /></a>
+                                        </div>
+                                    </c:forEach>
+                                </div>
                             </div>
-                        </li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -344,6 +427,30 @@
         cell.textContent = formattedTotalSpend;
     });
 
+    function toggleNotification() {
+        var notificationWindow = document.getElementById('notificationWindow');
+
+        if (notificationWindow.style.display === 'block') {
+            notificationWindow.style.display = 'none';
+        } else {
+            notificationWindow.style.display = 'block';
+            /* var xhttp = new XMLHttpRequest();
+             xhttp.onreadystatechange = function() {
+                 if (this.readyState == 4) {
+                     if (this.status == 200) {
+                         notificationWindow.innerHTML = this.responseText;
+                         notificationWindow.style.display = 'block';
+                     } else {
+                         console.error('Error:', this.status);
+                     }
+                 }
+             };
+
+             // Sử dụng phương thức GET thay vì POST
+             xhttp.open("GET", "notice", true);
+             xhttp.send();*/
+        }
+    }
 </script>
 <!-- Bootstrap core JavaScript -->
 <script src="vendor/jquery/jquery.min.js"></script>

@@ -2,6 +2,7 @@ package controller;
 
 import dao.NoticeDAO;
 import dao.PostDAO;
+import dao.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -36,14 +37,16 @@ public class ReportAdminController extends HttpServlet {
     }
 
     private void ReportToAdmin(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String username = (String) req.getSession().getAttribute("username");
         String tradingCode = req.getParameter("tradingCode");
-
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.getUserByUsername(username);
         Post post = new PostDAO().getPostByTradingCode(tradingCode);
 
         if (post != null) {
             NoticeDAO noticeDAO = new NoticeDAO();
 
-            Notice notice = noticeDAO.getNoticeByPostId(post);
+            Notice notice = noticeDAO.getNoticeByUserFrom(user);
 
             if(notice == null){
                 resp.sendRedirect("home");
@@ -52,9 +55,6 @@ public class ReportAdminController extends HttpServlet {
             notice.setAdminReceive(true);
             notice.setRead(true);
             noticeDAO.updateNotice(notice);
-
-        } else {
-            resp.sendRedirect(req.getContextPath() + "/home");
         }
     }
 

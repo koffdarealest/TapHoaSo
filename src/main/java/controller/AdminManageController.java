@@ -23,8 +23,8 @@ public class AdminManageController extends HttpServlet {
         if (username == null) {
             resp.sendRedirect(req.getContextPath() + "/signin");
         } else {
-            User user = new UserDAO().getUserByUsername(username);
-            if (user.getAdmin()) {
+            //User user = new UserDAO().getUserByUsername(username);
+            if (username.equals("admin")) {
                 getAllUser(req, resp);
             } else {
                 req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
