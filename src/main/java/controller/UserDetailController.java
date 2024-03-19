@@ -22,7 +22,6 @@ public class UserDetailController extends HttpServlet {
         UserDAO userDAO = new UserDAO();
         String idUser = req.getParameter("id");
         User listUser = userDAO.getUserByUserID(Long.parseLong(idUser));
-        System.out.println("user details: " + listUser.getBalance());
         req.setAttribute("user", listUser);
         req.getRequestDispatcher("/WEB-INF/view/UserDetails.jsp").forward(req, resp);
     }
