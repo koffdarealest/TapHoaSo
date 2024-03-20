@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="model.User" %>
 <!DOCTYPE html>
@@ -14,7 +15,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="assets/css/fontawesome.css">
     <link rel="stylesheet" href="assets/css/templatemo-lugx-gaming.css">
@@ -22,6 +23,84 @@
     <link rel="stylesheet" href="assets/css/animate.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"/>
+    <style>
+        #notificationWindow {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            z-index: 9999;
+            max-height: 400px; /* Giới hạn chiều cao của cửa sổ thông báo */
+            overflow-y: auto; /* Cho phép cuộn nếu nội dung vượt quá chiều cao */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+            border-radius: 5px; /* Bo tròn góc */
+            width: 300px; /* Độ rộng của cửa sổ thông báo */
+            margin-left: -255px;
+        }
+
+        #notificationWindow h3 {
+            margin-top: 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        #notificationWindow p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .notification-item {
+            margin-bottom: 10px;
+        }
+
+        .notification-item a {
+            text-decoration: none;
+            color: #0a53be;
+            transition: color 0.3s ease;
+        }
+
+        .notification-item a:hover {
+            color: #0a53be;
+            text-decoration: underline;
+        }
+
+        #notificationWindow a {
+            text-decoration: none;
+            color: #0a53be;
+            transition: color 0.3s ease;
+            font-size: 13px;
+        }
+
+        .notification-item:nth-child(3n+3) {
+            border-bottom: 1px solid #ccc;
+        }
+        /* Tạo khoảng cách giữa các dòng thông báo */
+        .notification-item a {
+            margin: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        #notificationWindow a:hover {
+            color: #0a53be;
+            text-decoration: underline;
+        }
+
+        .icon:hover {
+            color: #0a53be;
+        }
+
+        .icon {
+            position: relative;
+        }
+
+        #notificationWindow p{
+            margin-top: 5px;
+        }
+    </style>
 </head>
 
 <body>
@@ -54,6 +133,23 @@
                     <ul class="nav">
                         <li><a href="viewProfile">Welcome! ${user.nickname}</a></li>
                         <li><a href="" id="money">${user.balance}</a></li>
+                        <!--start notification icon-->
+                        <li>
+                            <div class="icon">
+                                <i class="fas fa-bell" style="color: white" onclick="toggleNotification()"></i>
+                                <!-- Cửa sổ hiển thị thông báo -->
+                                <div id="notificationWindow">
+                                    <h3>Thông báo</h3>
+                                    <c:forEach items="${requestScope.listNotice}" var="notice">
+                                        <div class="notification-item">
+                                            <a href="#"><c:out value="${notice.content}" /></a>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </li>
+
+                        <!--end notification icon-->
                         <li><a STYLE="font-size: 15px" href="signOut">Sign out</a></li>
                     </ul>
 
@@ -136,6 +232,7 @@
 </div>
 
 
+
 <footer>
     <div class="container">
         <div class="row justify-content-center">
@@ -161,6 +258,34 @@
         }).format(totalSpend);
         cell.textContent = formattedTotalSpend;
     });
+
+    function toggleNotification() {
+        var notificationWindow = document.getElementById('notificationWindow');
+
+        if (notificationWindow.style.display === 'block') {
+            notificationWindow.style.display = 'none';
+        } else {
+            notificationWindow.style.display = 'block';
+           /* var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4) {
+                    if (this.status == 200) {
+                        notificationWindow.innerHTML = this.responseText;
+                        notificationWindow.style.display = 'block';
+                    } else {
+                        console.error('Error:', this.status);
+                    }
+                }
+            };
+
+            // Sử dụng phương thức GET thay vì POST
+            xhttp.open("GET", "notice", true);
+            xhttp.send();*/
+        }
+    }
+
+
+
 
 </script>
 

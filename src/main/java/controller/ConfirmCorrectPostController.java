@@ -1,11 +1,13 @@
 package controller;
 
+import dao.NoticeDAO;
 import dao.PostDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Notice;
 import model.Post;
 
 import java.io.IOException;
@@ -22,11 +24,27 @@ public class ConfirmCorrectPostController extends HttpServlet {
             Post post = getPostByCode(req, resp, tradingCode);
             if (canConfirmCorrectPost(req, resp, post, username)) {
                 confirmCorrectPost(req, resp, post);
+                updateNotice(req, resp, post, "The post has confirmed correct");
                 notifyUser(req, resp, "Confirm correct post successfully! <a href=home>Go back here</a>");
             } else {
                 notifyUser(req, resp, "Invalid error! <a href=home>Go back here</a>");
             }
         }
+    }
+
+    private void updateNotice(HttpServletRequest req, HttpServletResponse resp, Post post, String thePostHasConfirmedCorrect) {
+        NoticeDAO noticeDAO = new NoticeDAO();
+        Notice notice = new Notice();
+
+        notice.setContent(thePostHasConfirmedCorrect + post.getBuyerID().getNickname());
+        notice.setAdminReceive(false);
+        notice.setPostID(post);
+        notice.setUserIDFrom(post.getSellerID());
+        notice.setUserIDTo(post.getBuyerID());
+        notice.setDelete(false);
+        notice.setRead(false);
+
+        noticeDAO.insertNotice(notice);
     }
 
     private String getCode(HttpServletRequest req, HttpServletResponse resp) {

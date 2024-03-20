@@ -59,9 +59,9 @@
         </li>
 
         <li class="nav-item active">
-            <a class="nav-link" href="conflictManage">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Conflict Manage</span></a>
+                <a class="nav-link" href="conflictManage">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Conflict Manage</span></a>
         </li>
 
         <!-- Divider -->
@@ -164,7 +164,7 @@
                             </h6>
                             <a class="dropdown-item d-flex align-items-center" href="#">
                                 <div class="dropdown-list-image mr-3">
-                                    <img class="rounded-circle" src="../adminContent/img/undraw_profile_1.svg"
+                                    <img class="rounded-circle" src="adminContent/img/undraw_profile_1.svg"
                                          alt="...">
                                     <div class="status-indicator bg-success"></div>
                                 </div>

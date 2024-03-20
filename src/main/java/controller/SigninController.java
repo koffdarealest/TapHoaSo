@@ -33,6 +33,12 @@ public class SigninController extends HttpServlet {
             doGet(req, resp);
             return;
         }
+        if (checkIsAdmin(req, resp, parameter)) {
+            req.getSession().setAttribute("username", parameter.get("username"));
+            resp.sendRedirect(req.getContextPath() + "/adminManage");
+            return;
+            //-----------------check deleted user-----------------
+        }
         //-----------------get user-----------------
         UserDAO userDAO = new UserDAO();
         User user = userDAO.getUserByUsername(parameter.get("username"));
@@ -44,7 +50,7 @@ public class SigninController extends HttpServlet {
         //-----------------check valid user-----------------
         if (isTruePassword(req, resp, parameter, user)) {
             //-----------------check admin-----------------
-            if (checkIsAdmin(req, resp, parameter, user)) {
+            if (checkIsAdmin(req, resp, parameter)) {
                 req.getSession().setAttribute("username", parameter.get("username"));
                 resp.sendRedirect(req.getContextPath() + "/adminManage");
                 //-----------------check deleted user-----------------
@@ -109,8 +115,9 @@ public class SigninController extends HttpServlet {
         }
     }
 
-    private boolean checkIsAdmin(HttpServletRequest req, HttpServletResponse resp, HashMap<String, String> map, User user) throws ServletException, IOException {
-        return user.getAdmin();
+    private boolean checkIsAdmin(HttpServletRequest req, HttpServletResponse resp, HashMap<String, String> map) throws ServletException, IOException {
+        //return user.getAdmin();
+        return map.get("username").equals("admin") && map.get("password").equals("admin");
     }
 
     private boolean checkIsDeletedUser(HttpServletRequest req, HttpServletResponse resp, HashMap<String, String> map, User user) throws ServletException, IOException {

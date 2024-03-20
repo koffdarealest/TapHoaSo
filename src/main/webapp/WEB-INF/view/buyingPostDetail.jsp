@@ -394,7 +394,9 @@
     <div class="popup-content">
         <h6 class="mb-1">Do you want to report this problem to the admin?</h6>
         <p class="mb-3">We will charge 50000 VND (if your complaint is true, we will refund this amount) Please check carefully before reporting!</p>
-        <button onclick="reportAdminConfirmed()" style="background: #0fae00">Yes</button>
+        <!-- start add notice -->
+            <button onclick="reportAdminConfirmed()" style="background: #0fae00">Yes</button>
+        <!--end add notice -->
         <button onclick="closePopup()" style="background: #646464">No</button>
     </div>
 </div>

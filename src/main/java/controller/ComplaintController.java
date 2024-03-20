@@ -1,11 +1,13 @@
 package controller;
 
+import dao.NoticeDAO;
 import dao.PostDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Notice;
 import model.Post;
 
 import java.io.IOException;
@@ -21,12 +23,32 @@ public class ComplaintController extends HttpServlet {
             String tradingCode = getCode(req, resp);
             Post post = getPostByCode(req, resp, tradingCode);
             if (isComplainablePost(req, resp, post, username)) {
+                SetNotice(req, resp, post);
                 complain(req, resp, post);
             } else {
                 notifyUser(req, resp, "Invalid error! <a href=home>Go back here</a>");
             }
         }
     }
+
+    private void SetNotice(HttpServletRequest req, HttpServletResponse resp, Post post) {
+        try {
+            Notice notice = new Notice();
+            notice.setContent("You have report by " + post.getBuyerID().getNickname() + " about the post " + post.getTradingCode() + ". Please check it");
+            notice.setAdminReceive(false);
+            notice.setPostID(post);
+            notice.setUserIDFrom(post.getBuyerID());
+            notice.setUserIDTo(post.getSellerID());
+            notice.setDelete(false);
+            notice.setRead(false);
+
+            NoticeDAO noticeDAO = new NoticeDAO();
+            noticeDAO.insertNotice(notice);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private String getCode(HttpServletRequest req, HttpServletResponse resp) {
         String tradingCode = null;
