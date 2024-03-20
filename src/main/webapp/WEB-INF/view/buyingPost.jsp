@@ -67,8 +67,6 @@
                         </li>
                         <li><a href="buyingPost">Buying posts</a>
                         </li>
-                        <li><a href="">Contact Us</a>
-                        </li>
                         <li>
                             <div class="icon">
                                 <i class="fas fa-bell" style="color: white"></i>
@@ -138,7 +136,7 @@
                         </td>
                         <td id="money-2">${post.fee}</td>
                         <td id="money-3" style="font-weight: bold">${post.totalSpendForBuyer}</td>
-                        <td>${post.status}</td>
+                        <td class="td-overflow">${post.status}</td>
                         <td>
                             <c:set var="createdAt" value="${post.createdAt}"/>
                             <fmt:formatDate value="${createdAt}" pattern="dd/MM/yyyy HH:mm:ss"/>

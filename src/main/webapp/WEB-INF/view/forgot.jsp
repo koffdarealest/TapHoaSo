@@ -115,7 +115,7 @@
                 <h6 class="text-success mb-2">${mess}</h6>
                 <!-- ---------------submit button---------------- -->
                 <div class="form-group mb-3 text-center">
-                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg">Send to email</button>
+                    <button type="submit" class="col-lg-5 btn btn-primary btn-lg button-border">SEND TO EMAIL</button>
                 </div>
             </form>
             <p class="text-center" style="font-size: 15px;">Still remember? <a data-toggle="tab" href="signin">Sign

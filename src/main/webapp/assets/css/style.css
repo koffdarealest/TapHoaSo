@@ -259,3 +259,8 @@ th {
     border-radius: 7px;
 }
 
+.button-border {
+    border-radius: 35px;
+    font-weight: bold ;
+}
+

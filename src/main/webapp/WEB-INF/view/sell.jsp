@@ -67,8 +67,6 @@
                         </li>
                         <li><a href="buyingPost">Buying posts</a>
                         </li>
-                        <li><a href="">Contact Us</a>
-                        </li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -248,7 +246,7 @@
                         <!-- ---------------Submit--------------- -->
                         <div class="d-flex mb-3 align-items-center">
                             <div class="form-group col-md-12 text-center">
-                                <button type="submit" class="col-md-3 btn btn-primary p-3">
+                                <button type="submit" class="col-md-3 btn btn-primary p-3 button-border">
                                     <i class="fas fa-upload"></i> CREATE POST
                                 </button>
                                 <!-- Submit -->

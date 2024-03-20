@@ -127,6 +127,16 @@
                                            value="${chosenPost.sellerID.nickname}">      <!-- input Title -->
                                 </div>
                             </div>
+                            <!-- ---------------Buyer--------------- -->
+                            <div class="d-flex mb-3 align-items-center">
+                                <div class="label-form col-md-3">
+                                    <label class="label">Buyer </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" disabled
+                                           value="${chosenPost.buyerID.nickname}">      <!-- input Title -->
+                                </div>
+                            </div>
                             <!-- ---------------Title--------------- -->
                             <div class="d-flex mb-3 align-items-center">
                                 <div class="label-form col-md-3">
@@ -311,7 +321,7 @@
                                     <!-- ---------------Submit--------------- -->
                                     <div class="d-flex mb-3 align-items-center">
                                         <div class="form-group col-md-12 text-center">
-                                            <button type="submit" class="col-md-3 btn btn-primary p-3"
+                                            <button type="submit" class="col-md-3 btn btn-primary p-3 button-border"
                                                     style="background: #b9b700; border: 0">
                                                 <i class="fas fa-pencil"></i> Update
                                             </button>

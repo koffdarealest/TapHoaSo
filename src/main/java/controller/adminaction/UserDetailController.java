@@ -1,4 +1,4 @@
-package controller.admin;
+package controller.adminaction;
 
 import dao.UserDAO;
 import jakarta.servlet.ServletException;

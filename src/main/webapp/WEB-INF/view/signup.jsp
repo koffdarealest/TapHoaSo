@@ -137,7 +137,7 @@
                 <h6 class="text-danger mb-2">${error}</h6>
                 <!-- ---------------button---------------- -->
                 <div class="form-group mb-3 text-center">
-                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg" id="submitBtn">SIGN UP</button>
+                    <button type="submit" class="col-lg-5 btn btn-primary btn-lg button-border" id="submitBtn">SIGN UP</button>
                 </div>
             </form>
             <p class="text-center" style="font-size: 15px;">Already have an account? <a data-toggle="tab"
