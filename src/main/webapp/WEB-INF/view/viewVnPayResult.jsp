@@ -172,6 +172,13 @@
                                                      value="<%=request.getParameter("vnp_PayDate")%>"
                                                      class="form-control" readonly>      <!-- input Title --> </div>
                     </div>
+
+                    <div class="d-flex mb-3 align-items-center">
+                        <div class="label-form col-md-3"><label class="label">Pay Date:</label></div>
+                        <div class="col-md-9"><input type="text" name="title"
+                                                     value="<%=request.getParameter("vnp_TransactionStatus")%>"
+                                                     class="form-control" readonly>      <!-- input Title --> </div>
+                    </div>
                     </div>
                 </div>
             </div>

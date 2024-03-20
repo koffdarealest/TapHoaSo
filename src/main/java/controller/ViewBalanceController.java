@@ -19,7 +19,6 @@ public class ViewBalanceController extends HttpServlet {
         if (!checkSession(username, resp, req)) {
             return;
         }
-
         UserDAO userDAO = new UserDAO();
         User user = userDAO.getUserByUsername(username);
         req.setAttribute("user", user);
