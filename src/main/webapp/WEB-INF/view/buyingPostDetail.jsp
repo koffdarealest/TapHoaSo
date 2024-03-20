@@ -376,7 +376,7 @@
     <div class="popup-content">
         <h6 class="mb-1">Do you really want to complain to the seller?</h6>
         <p class="mb-3">Please check carefully before making a complaint!</p>
-        <button onclick="complaintPostConfirmed()" style="background: #0fae00">Yes</button>
+        <button onclick="complaintPostConfirmed()" style="background: #d21300">Yes</button>
         <button onclick="closePopup()" style="background: #646464">No</button>
     </div>
 </div>

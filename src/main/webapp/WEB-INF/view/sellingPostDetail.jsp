@@ -416,7 +416,7 @@
         <h6 class="mb-1">Are you sure you want to delete this post?</h6>
         <p class="mb-3">Deleted post cannot be recovered!</p>
         <button onclick="deletePostConfirmed()" style="background: #d31e01">Yes</button>
-        <button onclick="closePopup()">No</button>
+        <button onclick="closePopup()" style="background: #646464">No</button>
     </div>
 </div>
 <!-- -----------------Cancel Post Pop-up-----------------  -->
@@ -425,7 +425,7 @@
         <h6 class="mb-1">Are you sure you want to cancel this post?</h6>
         <p class="mb-3">Cancel post cannot be recovered!</p>
         <button onclick="cancelPostConfirmed()" style="background: #d31e01">Yes</button>
-        <button onclick="closePopup()">No</button>
+        <button onclick="closePopup()" style="background: #646464">No</button>
     </div>
 </div>
 <!-- -----------------Confirm Correct Pop-up-----------------  -->
@@ -433,8 +433,8 @@
     <div class="popup-content">
         <h6 class="mb-1">Are you sure the post is correct?</h6>
         <p class="mb-3">The post will be updated to 'readyToSell' status!</p>
-        <button onclick="confirmCorrectPost()" style="background: #b9b700">Yes</button>
-        <button onclick="closePopup()">No</button>
+        <button onclick="confirmCorrectPost()" style="background: #06a500">Yes</button>
+        <button onclick="closePopup()" style="background: #646464">No</button>
     </div>
 </div>
 

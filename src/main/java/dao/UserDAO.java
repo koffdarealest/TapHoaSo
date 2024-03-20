@@ -64,6 +64,26 @@ public class UserDAO {
         return users;
     }
 
+    public User getUserByUsernameAndPassword(String username, String password) {
+        User users = null;
+        Transaction transaction = null;
+        try (Session session = Factory.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            String hashedPass = encodePassword(password);
+            users = (User) session.createQuery("from User where username = :username and password = :password")
+                    .setParameter("username", username)
+                    .setParameter("password", hashedPass)
+                    .uniqueResult();
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction == null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        }
+        return users;
+    }
+
     @SuppressWarnings("unchecked")
     public List<User> getAllUser() {
         List<User> ListUsers = null;
@@ -256,6 +276,7 @@ public class UserDAO {
             return false;
         }
     }
+
 
     public static void main(String[] args) {
         UserDAO userDAO = new UserDAO();

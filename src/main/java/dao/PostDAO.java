@@ -192,14 +192,14 @@ public class PostDAO {
         }
     }
 
-    public List<Post> getUnconfirmedPost() {
+    public List<Post> getIncompletePost() {
         List<Post> unconfirmedPosts = null;
         Transaction transaction = null;
         try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
             unconfirmedPosts = session.createQuery("from Post where status in (:statuses) ")
-                    .setParameterList("statuses", Arrays.asList("buyerChecking", "sellerDeniedComplain"))
+                    .setParameterList("statuses", Arrays.asList("buyerChecking", "sellerDeniedComplaint", "buyerCanceledComplain", "buyerComplaining"))
                     .getResultList();
 
             transaction.commit();
@@ -212,13 +212,7 @@ public class PostDAO {
         return unconfirmedPosts;
     }
 
-
-
     public static void main(String[] args) {
-         PostDAO postDAO = new PostDAO();
-         List<Post> ls = postDAO.getUnconfirmedPost();
-            for (Post post : ls) {
-                System.out.println("topic" + post.getTopic() + ", status:" + post.getStatus());
-            }
+
     }
 }
