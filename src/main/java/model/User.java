@@ -21,6 +21,9 @@ public class User extends BaseAuditable{
     private Boolean isActivated;
     private byte[] secretKey;
 
+    private Boolean isSigninWithGoogle;
+
+
     public User() {
     }
 
@@ -114,5 +117,14 @@ public class User extends BaseAuditable{
 
     public void setSecretKey(byte[] secretKey) {
         this.secretKey = secretKey;
+    }
+
+
+    public Boolean getSigninWithGoogle() {
+        return isSigninWithGoogle;
+    }
+
+    public void setSigninWithGoogle(Boolean signinWithGoogle) {
+        isSigninWithGoogle = signinWithGoogle;
     }
 }

@@ -217,14 +217,6 @@ public class signinController extends HttpServlet {
         HashMap<String, String> map = getParameter(req, resp);
         List<User> users = userDAO.getAllUser();
         String username = map.get("username");
-        for(User user : users) {
-            if (user.getUsername().equals(username)) {
-                HttpSession session = req.getSession();
-                session.setAttribute("online", user.getUserID());
-                user.setOnline(true);
-                userDAO.updateUser(user);
-            }
-        }
         try {
             req.getSession().setAttribute("username", username);
             resp.sendRedirect(req.getContextPath() + "/home");

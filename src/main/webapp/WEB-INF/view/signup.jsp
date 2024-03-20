@@ -99,7 +99,7 @@
                 <div class="form-group mb-3">
                     <label class="label" >Email</label>
                     <input type="email" class="form-control" placeholder="Email"
-                           required name="email" value="${sessionScope.email}" readonly>
+                           required name="email" value="${sessionScope.email}">
                 </div>
                 <div class="form-group mb-3">
                     <label class="label" >Username</label>
