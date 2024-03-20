@@ -2,6 +2,7 @@ package dao;
 import model.VnPayTransaction;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import util.Factory;
 import util.Hibernate;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class VnPayTransactionDAO {
             ex.printStackTrace();
         }
     }
+
     public void save(VnPayTransaction transaction) {
         Transaction tx = session.beginTransaction();
         session.save(transaction);
@@ -52,4 +54,45 @@ public class VnPayTransactionDAO {
         session.delete(transaction);
         tx.commit();
     }
+
+//    public static String getTransactionStatus(String transactionId) {
+//        try (Session session = Factory.getSessionFactory().openSession()) {
+//            VnPayTransaction vnPayTransaction = session.get(VnPayTransaction.class, transactionId);
+//            if (vnPayTransaction != null) {
+//                return vnPayTransaction.getTransactionStatus();
+//            } else {
+//                // Nếu không tìm thấy giao dịch với transactionId tương ứng
+//                return null;
+//            }
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//            return null;
+//        }
+//    }
+//
+//    public void setTransactionStatus(String transactionId, String newStatus) {
+//        Transaction transaction = null;
+//        try (Session session = Factory.getSessionFactory().openSession()) {
+//            // Bắt đầu giao dịch
+//            transaction = session.beginTransaction();
+//
+//            // Lấy đối tượng VnPayTransaction từ cơ sở dữ liệu bằng transactionId
+//            VnPayTransaction vnPayTransaction = session.get(VnPayTransaction.class, transactionId);
+//            if (vnPayTransaction != null) {
+//                // Cập nhật trạng thái giao dịch
+//                vnPayTransaction.setTransactionStatus(newStatus);
+//                // Lưu thay đổi vào cơ sở dữ liệu
+//                session.update(vnPayTransaction);
+//            }
+//
+//            // Commit giao dịch
+//            transaction.commit();
+//        } catch (Exception ex) {
+//            // Nếu có lỗi, rollback giao dịch
+//            if (transaction != null) {
+//                transaction.rollback();
+//            }
+//            ex.printStackTrace();
+//        }
+//    }
 }

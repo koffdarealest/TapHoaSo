@@ -9,6 +9,8 @@ import org.hibernate.query.Query;
 import util.Factory;
 import util.Hibernate;
 
+import java.util.List;
+
 import static util.Factory.sessionFactory;
 
 public class BillDAO {
@@ -45,7 +47,7 @@ public class BillDAO {
         try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
-            bill = (Bill) session.createQuery("from Bill where TransactionCode = :transactionCode")
+            bill = (Bill) session.createQuery("from Bill where id = : id")
 .setParameter("transactionCode", transactionCode)
                     .uniqueResult();
 

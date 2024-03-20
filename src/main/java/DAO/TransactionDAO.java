@@ -4,7 +4,9 @@ import jakarta.persistence.OptimisticLockException;
 import model.Post;
 import model.User;
 import model.Transaction;
+import model.VnPayTransaction;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import util.Factory;
 
 import java.util.List;
@@ -98,4 +100,5 @@ public class TransactionDAO {
             return null;
         }
     }
+
 }

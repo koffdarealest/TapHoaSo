@@ -261,8 +261,9 @@ public class UserDAO {
         UserDAO userDAO = new UserDAO();
         //String token = "c375624c-ee2d-4b85-8e95-8627144f509b";
         //User user = userDAO.getUserByToken(token);
-        List<User> lUsers = userDAO.getAllUser();
-        System.out.println(lUsers);
+//        List<User> lUsers = userDAO.getAllUser();
+//       User user = userDAO.getUserByUserID(1L);
+//        System.out.println(lUsers);
 
 
     }
