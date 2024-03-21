@@ -42,7 +42,6 @@ public class HomeController extends HttpServlet {
             }
         }
 
-
         req.setAttribute("listContent", listContent);
         req.setAttribute("listNotice", listNoticeOfUser);
         req.setAttribute("user", user);

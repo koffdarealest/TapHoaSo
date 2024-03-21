@@ -111,4 +111,22 @@ public class NoticeDAO {
             ex.printStackTrace();
         }
     }
+
+    public List<String> getNewNotifications() {
+        List<String> listContent = null;
+        Transaction transaction = null;
+        try (Session session = Factory.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            listContent = session.createQuery("select content from Notice where read = false").list();
+
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction == null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        }
+        return listContent;
+    }
 }

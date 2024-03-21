@@ -156,7 +156,7 @@
                                             </c:choose>
                                         </div>
                                     </c:forEach>--%>
-                                    <div class="notification-item">
+                                    <div class="notification-item" id="notificationArea">
                                         <c:forEach items="${requestScope.listContent}" var="content">
                                             <a href="#">${content}</a>
                                         </c:forEach>
@@ -284,23 +284,36 @@
             notificationWindow.style.display = 'none';
         } else {
             notificationWindow.style.display = 'block';
-           /* var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4) {
-                    if (this.status == 200) {
-                        notificationWindow.innerHTML = this.responseText;
-                        notificationWindow.style.display = 'block';
-                    } else {
-                        console.error('Error:', this.status);
-                    }
-                }
-            };
-
-            // Sử dụng phương thức GET thay vì POST
-            xhttp.open("GET", "notice", true);
-            xhttp.send();*/
         }
     }
+
+    $(document).ready(function() {
+        // Function to fetch new notifications from the server
+        function fetchNotifications() {
+            $.ajax({
+                url: '/fetchNotifications', // Replace with your server endpoint
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    updateNotificationArea(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching notifications:', error);
+                }
+            });
+        }
+
+        // Function to update the notification area with new notifications
+        function updateNotificationArea(notifications) {
+            $('#notificationArea').empty(); // Clear existing notifications
+            notifications.forEach(function(notification) {
+                $('#notificationArea').append('<a href="#">' + notification + '</a><br>');
+            });
+        }
+
+        setInterval(fetchNotifications, 3000);
+    });
+
 
 
 
