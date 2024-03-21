@@ -63,7 +63,7 @@ public class LoginGoogleHandler extends HttpServlet {
             //setCookie(request, response);
             //login(request, response);
         }
-        request.getRequestDispatcher("view/home.jsp").forward(request, response);
+
     }
 
     public static String getToken(String code) throws ClientProtocolException, IOException {
