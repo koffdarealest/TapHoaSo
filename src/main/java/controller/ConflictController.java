@@ -19,12 +19,9 @@ public class ConflictController extends HttpServlet {
             NoticeDAO noticeDAO = new NoticeDAO();
             List<Notice> listAll = noticeDAO.getAllNotice();
             List<Notice> listAdminCanSee = new ArrayList<>();
-            String userfrom, userto;
             for (Notice notice : listAll) {
                 if (notice.getAdminReceive() == true) {
                     notice.setContent("The system has detected a conflict in the post " + notice.getPostID().getTradingCode() + ". Please check it");
-                    userfrom = notice.getUserIDFrom().getNickname();
-                    userto = notice.getUserIDTo().getNickname();
                     listAdminCanSee.add(notice);
                 }
             }

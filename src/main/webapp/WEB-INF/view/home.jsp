@@ -140,14 +140,32 @@
                                 <!-- Cửa sổ hiển thị thông báo -->
                                 <div id="notificationWindow">
                                     <h3>Thông báo</h3>
-                                    <c:forEach items="${requestScope.listNotice}" var="notice">
+                                    <c:if test="${empty requestScope.listNotice}">
+                                        <p>Không có thông báo mới</p>
+                                    </c:if>
+                                    <%--<c:forEach items="${requestScope.listNotice}" var="notice">
                                         <div class="notification-item">
-                                            <a href="#"><c:out value="${notice.content}" /></a>
+                                            <c:set var="u" value="${session.getAttribute('user')}" />
+                                            <c:choose>
+                                                <c:when test="${notice.getUserIDTo().getUserID() == u.getUserID()}">
+                                                    <a href="sellingPost">You have received a report on the post <c:out value="${notice.getPostID().getTradingCode()}" /></a>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <a href="buyingPost">You have reported the post <c:out value="${notice.getPostID().getTradingCode()}" /></a>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </div>
-                                    </c:forEach>
+                                    </c:forEach>--%>
+                                    <div class="notification-item">
+                                        <c:forEach items="${requestScope.listContent}" var="content">
+                                            <a href="#">${content}</a>
+                                        </c:forEach>
+                                    </div>
+
                                 </div>
                             </div>
                         </li>
+
 
                         <!--end notification icon-->
                         <li><a STYLE="font-size: 15px" href="signOut">Sign out</a></li>

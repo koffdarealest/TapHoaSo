@@ -24,7 +24,7 @@ public class ReportAdminController extends HttpServlet {
         //report to admin
         ReportToAdmin(req, resp);
         //update notification to user
-        UpdateNotification(req, resp, "The post has been reported to admin");
+        UpdateNotification(req, resp, "The post has been reported to admin! <a href=buyingPost>Go back here</a>");
     }
 
     private void UpdateNotification(HttpServletRequest req, HttpServletResponse resp, String notification) {
@@ -39,31 +39,45 @@ public class ReportAdminController extends HttpServlet {
     private void ReportToAdmin(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String username = (String) req.getSession().getAttribute("username");
         String tradingCode = req.getParameter("tradingCode");
-        UserDAO userDAO = new UserDAO();
-        User user = userDAO.getUserByUsername(username);
+        User user = new UserDAO().getUserByUsername(username);
         Post post = new PostDAO().getPostByTradingCode(tradingCode);
 
         if (post != null) {
-            NoticeDAO noticeDAO = new NoticeDAO();
 
-            Notice notice = noticeDAO.getNoticeByUserFrom(user);
-
+            /*NoticeDAO noticeDAO = new NoticeDAO();
+            Notice notice = noticeDAO.getNoticeByPostId(post);
             if(notice == null){
-                resp.sendRedirect("home");
+                resp.sendRedirect("login");
             }
-
             notice.setAdminReceive(true);
+            notice.setContent("The post has been reported to admin by " + user.getNickname() + " at " + new Date() + "!");
             notice.setRead(true);
-            noticeDAO.updateNotice(notice);
+            noticeDAO.updateNotice(notice);*/
+
+            insertNoticeToAdmin(post, user);
         }
+
+    }
+
+    private void insertNoticeToAdmin(Post post, User user) {
+        NoticeDAO noticeDAO = new NoticeDAO();
+        Notice notice = new Notice();
+
+        notice.setContent("The post has been reported to admin by " + user.getNickname() + " at " + new Date() + "!");
+        notice.setAdminReceive(true);
+        notice.setPostID(post);
+        notice.setUserIDFrom(user);
+        notice.setUserIDTo(new UserDAO().getUserByUsername("admin"));
+        notice.setDelete(false);
+        notice.setRead(false);
+
+        noticeDAO.insertNotice(notice);
     }
 
     private void CheckSession(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String username = (String) req.getSession().getAttribute("username");
         if(username == null){
             resp.sendRedirect(req.getContextPath() + "/signin");
-        } else {
-            req.getRequestDispatcher("WEB-INF/view/reportAdmin.jsp").forward(req, resp);
         }
     }
 

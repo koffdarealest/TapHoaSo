@@ -34,17 +34,12 @@ public class ConfirmCorrectPostController extends HttpServlet {
 
     private void updateNotice(HttpServletRequest req, HttpServletResponse resp, Post post, String thePostHasConfirmedCorrect) {
         NoticeDAO noticeDAO = new NoticeDAO();
-        Notice notice = new Notice();
+        Notice notice = noticeDAO.getNoticeByPostId(post);
 
-        notice.setContent(thePostHasConfirmedCorrect + post.getBuyerID().getNickname());
-        notice.setAdminReceive(false);
-        notice.setPostID(post);
-        notice.setUserIDFrom(post.getSellerID());
-        notice.setUserIDTo(post.getBuyerID());
-        notice.setDelete(false);
-        notice.setRead(false);
+        notice.setContent(thePostHasConfirmedCorrect  + " by " + post.getSellerID().getNickname());
+        notice.setRead(true);
 
-        noticeDAO.insertNotice(notice);
+        noticeDAO.updateNotice(notice);
     }
 
     private String getCode(HttpServletRequest req, HttpServletResponse resp) {
