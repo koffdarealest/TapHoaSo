@@ -1,4 +1,4 @@
-package controller;
+package controller.authenticator;
 
 import dao.UserDAO;
 import com.google.gson.Gson;
