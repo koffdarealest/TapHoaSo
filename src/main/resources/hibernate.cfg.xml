@@ -22,5 +22,8 @@
         <mapping class="model.Image"/>
         <mapping class="model.Notice"/>
         <mapping class="model.Token"/>
+        <mapping class="model.ExternalTransaction"/>
+        <mapping class="model.VnPayTransaction"/>
+        <mapping class="model.Bill"/>
     </session-factory>
 </hibernate-configuration>

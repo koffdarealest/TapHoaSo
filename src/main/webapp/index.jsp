@@ -53,7 +53,7 @@
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="/WEB-INF/view/indexVnPay.jsp">Contact Us</a></li>
                         <li><a href="signin">Sign In</a></li>
                     </ul>
                     <a class='menu-trigger'>

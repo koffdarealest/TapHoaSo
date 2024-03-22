@@ -4,7 +4,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 public class Factory {
-    private static final SessionFactory sessionFactory;
+    public static final SessionFactory sessionFactory;
 
     static {
         try {

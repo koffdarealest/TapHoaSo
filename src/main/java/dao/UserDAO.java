@@ -244,7 +244,7 @@ public class UserDAO {
         try {
             Session session = Factory.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            String hql = "select u from User u join Token t on u.id = CAST(t.userID as biginteger) where t.token = :token";
+            String hql = "select u from User u join Token t on u.userID = CAST(t.userID as biginteger) where t.token = :token";
             user = (User) session.createQuery(hql)
                     .setParameter("token", token)
                     .uniqueResult();
@@ -277,14 +277,12 @@ public class UserDAO {
         }
     }
 
-
     public static void main(String[] args) {
-        UserDAO userDAO = new UserDAO();
-        //String token = "c375624c-ee2d-4b85-8e95-8627144f509b";
-        //User user = userDAO.getUserByToken(token);
-        List<User> lUsers = userDAO.getAllUser();
-        System.out.println(lUsers);
 
 
     }
+
+
+
+
 }
