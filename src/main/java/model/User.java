@@ -15,8 +15,10 @@ public class User extends BaseAuditable{
     private Boolean isAdmin;
     private Boolean isActivated;
     private byte[] secretKey;
-//    @Version
-//    private int version;
+
+    private Boolean isSigninWithGoogle;
+
+
     public User() {
     }
 
@@ -102,11 +104,12 @@ public class User extends BaseAuditable{
         this.secretKey = secretKey;
     }
 
-//    public int getVersion() {
-//        return version;
-//    }
-//
-//    public void setVersion(int version) {
-//        this.version = version;
-//    }
+
+    public Boolean getSigninWithGoogle() {
+        return isSigninWithGoogle;
+    }
+
+    public void setSigninWithGoogle(Boolean signinWithGoogle) {
+        isSigninWithGoogle = signinWithGoogle;
+    }
 }

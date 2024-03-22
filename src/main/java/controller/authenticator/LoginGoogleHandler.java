@@ -19,9 +19,6 @@ import java.io.IOException;
 
 @WebServlet(name = "LoginGoogleHandler", urlPatterns = {"/LoginGoogleHandler"})
 public class LoginGoogleHandler extends HttpServlet {
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -38,13 +35,32 @@ public class LoginGoogleHandler extends HttpServlet {
 
         if (userDAO.checkExistEmail(userGoogleDTO.getEmail()) == false) {
             User userDTO = new User();
+            userDTO.setUsername(userGoogleDTO.getEmail());
             userDTO.setEmail(userGoogleDTO.getEmail());
             userDTO.setNickname(userGoogleDTO.getName());
             userDTO.setAdmin(false);
             userDTO.setBalance(0L);
+            userDTO.setActivated(true);
+            userDTO.setDelete(false);
+            userDTO.setSigninWithGoogle(true);
             userDAO.insertUser(userDTO);
+            request.getRequestDispatcher("/WEB-INF/view/home.jsp").forward(request, response);
+        } else {
+            User user = userDAO.getUserByGmail(userGoogleDTO.getEmail());
+            String username = user.getUsername();
+            boolean isLoginWithGoogle = user.getSigninWithGoogle();
+            if (isLoginWithGoogle) {
+                request.getSession().setAttribute("username", username);
+                request.getRequestDispatcher("/WEB-INF/view/home.jsp").forward(request, response);
+            } else {
+                request.setAttribute("error", "This email is already used for signing up with Username!");
+                request.getRequestDispatcher("/WEB-INT/view/signin.jsp").forward(request, response);
+            }
+
+            //setCookie(request, response);
+            //login(request, response);
         }
-        request.getRequestDispatcher("view/home.jsp").forward(request, response);
+
     }
 
     public static String getToken(String code) throws ClientProtocolException, IOException {
