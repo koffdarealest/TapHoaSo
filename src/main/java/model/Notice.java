@@ -11,7 +11,7 @@ public class Notice extends BaseAuditable {
     private Post postID;
     private String content;
     private Boolean isAdminReceive;
-    private Boolean isRead = false;
+    private Boolean isRead;
     @ManyToOne
     private User userIDFrom;
     @ManyToOne

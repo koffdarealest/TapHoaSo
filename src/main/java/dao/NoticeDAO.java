@@ -118,7 +118,7 @@ public class NoticeDAO {
         try (Session session = Factory.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
-            listContent = session.createQuery("select content from Notice where read = false").list();
+            listContent = session.createQuery("select content from Notice where isRead = false").list();
 
             transaction.commit();
         } catch (Exception ex) {
