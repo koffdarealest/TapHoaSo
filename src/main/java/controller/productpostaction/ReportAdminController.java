@@ -2,29 +2,52 @@ package controller.productpostaction;
 
 import dao.NoticeDAO;
 import dao.PostDAO;
+import dao.TransactionDAO;
 import dao.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import listener.TransactionProcessor;
 import model.Notice;
 import model.Post;
+import model.Transaction;
 import model.User;
+import wrapper.TransactionWrapper;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 @WebServlet(urlPatterns = {"/reportAdmin"})
 public class ReportAdminController extends HttpServlet {
+    //-----------------TransactionProcessor-----------------
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private BlockingQueue<TransactionWrapper> transactionQueue = new LinkedBlockingQueue<>();
+    TransactionProcessor transactionProcessor = new TransactionProcessor(transactionQueue);
+    public void init() {
+        executor.submit(transactionProcessor);
+    }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //check session of user
         CheckSession(req, resp);
-        //report to admin
-        ReportToAdmin(req, resp);
-        //update notification to user
-        UpdateNotification(req, resp, "The post has been reported to admin");
+        String code = getCode(req, resp);
+        Post post = getPostByCode(req, resp, code);
+        if (payReportAdminFee(req, resp, post)) {
+            //update notification to user
+            ReportToAdmin(req, resp, post);
+            //update notification to user
+            UpdateNotification(req, resp, "The post has been reported to admin");
+        } else {
+            //update notification to user
+            UpdateNotification(req, resp, "You don't have enough balance to report this post to admin");
+        }
+
     }
 
     private void UpdateNotification(HttpServletRequest req, HttpServletResponse resp, String notification) {
@@ -36,22 +59,21 @@ public class ReportAdminController extends HttpServlet {
         }
     }
 
-    private void ReportToAdmin(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void ReportToAdmin(HttpServletRequest req, HttpServletResponse resp, Post post) throws IOException {
         String username = (String) req.getSession().getAttribute("username");
-        String tradingCode = req.getParameter("tradingCode");
         UserDAO userDAO = new UserDAO();
         User user = userDAO.getUserByUsername(username);
-        Post post = new PostDAO().getPostByTradingCode(tradingCode);
-
+        PostDAO postDAO = new PostDAO();
+        if (post != null) {
+            post.setStatus("waitingAdmin");
+            postDAO.updatePost(post);
+        }
         if (post != null) {
             NoticeDAO noticeDAO = new NoticeDAO();
-
             Notice notice = noticeDAO.getNoticeByUserFrom(user);
-
             if(notice == null){
                 resp.sendRedirect("home");
             }
-
             notice.setAdminReceive(true);
             notice.setRead(true);
             noticeDAO.updateNotice(notice);
@@ -62,9 +84,44 @@ public class ReportAdminController extends HttpServlet {
         String username = (String) req.getSession().getAttribute("username");
         if(username == null){
             resp.sendRedirect(req.getContextPath() + "/signin");
-        } else {
-            req.getRequestDispatcher("WEB-INF/view/reportAdmin.jsp").forward(req, resp);
         }
+    }
+
+    private boolean payReportAdminFee(HttpServletRequest req, HttpServletResponse resp, Post post) {
+        TransactionDAO transactionDAO = new TransactionDAO();
+        PostDAO postDAO = new PostDAO();
+        boolean status = false;
+        try {
+            Transaction trans = transactionDAO.createReportToAdminTrans(post);
+            TransactionWrapper transactionWrapper = new TransactionWrapper(trans);
+            transactionQueue.add(transactionWrapper);
+            status = transactionWrapper.getFuture().get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
+    private String getCode(HttpServletRequest req, HttpServletResponse resp) {
+        String tradingCode = null;
+        try {
+            tradingCode = req.getParameter("tradingCode");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tradingCode;
+    }
+
+    private Post getPostByCode(HttpServletRequest req, HttpServletResponse resp, String tradingCode) {
+        Post post = new Post();
+        try {
+            PostDAO postDAO = new PostDAO();
+            post = postDAO.getPostByTradingCode(tradingCode);
+            return post;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return post;
     }
 
 }

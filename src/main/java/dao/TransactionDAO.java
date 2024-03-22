@@ -74,6 +74,16 @@ public class TransactionDAO {
         return trans;
     }
 
+    public Transaction createReportToAdminTrans(Post post) {
+        Transaction trans = new Transaction();
+        trans.setUserID(post.getBuyerID());
+        trans.setAmount(50000L);
+        trans.setType("-");
+        trans.setDescription("Report Admin fee for post: " + post.getTradingCode());
+        trans.setProcessed(false);
+        return trans;
+    }
+
     public void saveTransaction(Transaction trans) {
         org.hibernate.Transaction transaction = null;
         try (Session session = Factory.getSessionFactory().openSession()) {
