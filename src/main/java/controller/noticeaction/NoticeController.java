@@ -17,10 +17,8 @@ public class NoticeController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         NoticeDAO noticeDAO = new NoticeDAO();
 
-        Long UserId = (Long) req.getSession().getAttribute("userId");
 
         List<Notice> listNotice = noticeDAO.getAllNotice();
-        String content = null;
 
         req.setAttribute("listNotice", listNotice);
 
@@ -29,7 +27,6 @@ public class NoticeController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        NoticeDAO noticeDAO = new NoticeDAO();
 
         List<Notice> listNotice = new ArrayList<>();
 

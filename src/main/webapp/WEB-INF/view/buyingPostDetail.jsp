@@ -130,6 +130,16 @@
                                        value="${chosenPost.sellerID.nickname}" readonly>      <!-- input Seller -->
                             </div>
                         </div>
+                        <!-- ---------------Status--------------- -->
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="label-form col-md-3">
+                                <label class="label">Status </label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" disabled
+                                       value="${chosenPost.status}" readonly>
+                            </div>
+                        </div>
                         <!-- ---------------Title--------------- -->
                         <div class="d-flex mb-3 align-items-center">
                             <div class="label-form col-md-3">

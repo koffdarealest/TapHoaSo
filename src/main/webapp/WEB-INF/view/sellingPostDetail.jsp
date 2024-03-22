@@ -54,10 +54,6 @@
         <div class="row">
             <div class="col-12">
                 <nav class="main-nav">
-                    <!-- ***** Logo Start ***** -->
-                    <a href="index.html" class="logo">
-                        <img src="" alt="" style="width: 158px;">
-                    </a>
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
@@ -125,6 +121,16 @@
                                 <div class="col-md-9">
                                     <input type="text" class="form-control" disabled
                                            value="${chosenPost.sellerID.nickname}">      <!-- input Title -->
+                                </div>
+                            </div>
+                            <!-- ---------------Status--------------- -->
+                            <div class="d-flex mb-3 align-items-center">
+                                <div class="label-form col-md-3">
+                                    <label class="label">Status </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" disabled
+                                           value="${chosenPost.status}" readonly>
                                 </div>
                             </div>
                             <!-- ---------------Buyer--------------- -->

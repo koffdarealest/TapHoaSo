@@ -41,6 +41,7 @@ public class TransactionDAO {
         trans.setType("-");
         trans.setDescription("Prepost fee for post: " + post.getTradingCode());
         trans.setProcessed(false);
+        trans.setCreatedBy(post.getSellerID().getUserID());
         return trans;
     }
 
@@ -61,6 +62,7 @@ public class TransactionDAO {
         trans.setType("-");
         trans.setDescription("Spend money for buying post: " + post.getTradingCode());
         trans.setProcessed(false);
+        trans.setCreatedBy(post.getBuyerID().getUserID());
         return trans;
     }
 
@@ -81,6 +83,7 @@ public class TransactionDAO {
         trans.setType("-");
         trans.setDescription("Report Admin fee for post: " + post.getTradingCode());
         trans.setProcessed(false);
+        trans.setCreatedBy(post.getBuyerID().getUserID());
         return trans;
     }
 

@@ -262,5 +262,6 @@ th {
 .button-border {
     border-radius: 35px;
     font-weight: bold ;
+    border: 0;
 }
 

@@ -93,9 +93,17 @@
     </div>
 </div>
 
+<div class="d-flex mb-4 justify-content-center">
+    <button class="col-md-3 btn btn-primary p-3 button-border" onclick="location.href='deposit'" style="margin-right: 50px; background: #0f6848">DEPOSIT
+    </button>
+    <button class="col-md-3 btn btn-primary p-3 button-border" onclick="location.href='withdraw'" style="background: #be7000">WITHDRAW
+    </button>
+</div>
+
 <div class="container" style="max-width: 1700px;">
     <div class="market-wrap">
         <div>
+
             <table class="table table-bordered table-scroll" id="marketTable">
                 <thead class="sticky-header">
                 <tr>

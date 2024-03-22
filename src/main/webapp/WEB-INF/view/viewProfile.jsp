@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet">
 
-    <title>TapHoaSo</title>
+    <title>User Profile</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -105,7 +105,7 @@
                     <!-- ---------------Email--------------- -->
                     <div class="d-flex mb-3 align-items-center">
                         <div class="label-form col-md-3"><label class="label">Email</label></div>
-                        <div class="col-md-9"><input type="text" name="title" value="${user.email}"
+                        <div class="col-md-9"><input type="text" name="title" value="${user.getEmail()}"
                                                      class="form-control" readonly>      <!-- input Title --> </div>
                     </div>
                     <!-- ---------------nickname--------------- -->
@@ -123,8 +123,12 @@
 
                     <div class="d-flex mb-3 align-items-center">
                         <div class="form-group col-md-12 text-center">
-                            <button class="col-md-3 btn btn-primary p-3" onclick="location.href='editProfile'">EDIT
+                            <button class="col-md-3 btn btn-primary p-3 button-border" onclick="location.href='editProfile'" style="margin-right: 10px">EDIT
                                 PROFILE
+                            </button>
+                            <button class="col-md-3 btn btn-primary p-3 button-border" onclick="location.href='deposit'" style="margin-right: 10px; background: #0f6848">DEPOSIT
+                            </button>
+                            <button class="col-md-3 btn btn-primary p-3 button-border" onclick="location.href='withdraw'" style="margin-right: 10px; background: #be7000">WITHDRAW
                             </button>
                         </div>
                     </div>
