@@ -37,6 +37,9 @@ public class WithdrawController extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/signin");
             return;
         }
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.getUserByUsername(username);
+        req.setAttribute("user", user);
         req.getRequestDispatcher("/WEB-INF/view/withdraw.jsp").forward(req, resp);
     }
 

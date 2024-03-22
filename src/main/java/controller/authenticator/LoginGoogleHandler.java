@@ -44,7 +44,9 @@ public class LoginGoogleHandler extends HttpServlet {
             userDTO.setDelete(false);
             userDTO.setSigninWithGoogle(true);
             userDAO.insertUser(userDTO);
+            request.getSession().setAttribute("username", userDTO.getUsername());
             request.getRequestDispatcher("/WEB-INF/view/home.jsp").forward(request, response);
+
         } else {
             User user = userDAO.getUserByGmail(userGoogleDTO.getEmail());
             String username = user.getUsername();

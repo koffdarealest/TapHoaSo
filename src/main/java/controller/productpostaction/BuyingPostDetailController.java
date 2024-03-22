@@ -17,7 +17,8 @@ import java.util.List;
 public class BuyingPostDetailController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (req.getSession().getAttribute("username") == null) {
+        String username = (String) req.getSession().getAttribute("username");
+        if (username == null) {
             resp.sendRedirect( req.getContextPath() + "/signin");
         } else {
             String code = getCode(req, resp);
@@ -87,6 +88,7 @@ public class BuyingPostDetailController extends HttpServlet {
             User user = userDAO.getUserByUsername(username);
             PostDAO postDAO = new PostDAO();
             List<Post> getAllPost = postDAO.getAllPostByBuyer(user);
+            req.setAttribute("user", user);
             req.setAttribute("lPosts", getAllPost);
         } catch (Exception e) {
             e.printStackTrace();

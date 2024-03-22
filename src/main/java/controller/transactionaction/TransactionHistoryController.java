@@ -21,6 +21,7 @@ public class TransactionHistoryController extends HttpServlet {
         } else {
             User user = getUser(req, resp, username);
             List<Transaction> transactionHistory = getTransactionHistory(req, resp, user);
+            req.setAttribute("user", user);
             req.setAttribute("list", transactionHistory);
             req.getRequestDispatcher("/WEB-INF/view/transactionHistory.jsp").forward(req, resp);
         }

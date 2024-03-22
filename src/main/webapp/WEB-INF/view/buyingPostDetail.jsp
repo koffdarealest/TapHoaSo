@@ -69,6 +69,7 @@
                         </li>
                         <li><a href="buyingPost">Buying posts</a>
                         </li>
+                        <li><a href="" id="money">${user.balance}</a></li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -87,7 +88,6 @@
         <div class="row">
             <div class="col-lg-12">
                 <h3>Buying Product Post</h3>
-
             </div>
         </div>
     </div>
@@ -602,6 +602,18 @@
                 isVisible = false;
             }
         });
+    });
+</script>
+
+<!-- ------------------Popup------------------ -->
+<script>
+    document.querySelectorAll("[id^='money']").forEach(function (cell) {
+        var totalSpend = cell.textContent;
+        var formattedTotalSpend = new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND"
+        }).format(totalSpend);
+        cell.textContent = formattedTotalSpend;
     });
 </script>
 

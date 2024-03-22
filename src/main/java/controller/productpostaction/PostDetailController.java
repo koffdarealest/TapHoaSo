@@ -1,6 +1,7 @@
 package controller.productpostaction;
 
 import dao.PostDAO;
+import dao.UserDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -32,6 +33,8 @@ public class PostDetailController extends HttpServlet {
                 resp.sendRedirect("postDetailUpdate?tradingCode=" + code);
                 return;
             }
+            UserDAO userDAO = new UserDAO();
+            req.setAttribute("user", userDAO.getUserByUsername(username));
             req.setAttribute("chosenPost", post);
             getAllPost(req, resp);
             req.getRequestDispatcher("WEB-INF/view/postDetail.jsp").forward(req, resp);

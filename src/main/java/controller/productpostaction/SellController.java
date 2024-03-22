@@ -37,6 +37,9 @@ public class SellController extends HttpServlet {
         if (username == null) {
             resp.sendRedirect( req.getContextPath() + "/signin");
         } else {
+            UserDAO userDAO = new UserDAO();
+            User user = userDAO.getUserByUsername(username);
+            req.setAttribute("user", user);
             req.getRequestDispatcher("/WEB-INF/view/sell.jsp").forward(req, resp);
         }
     }

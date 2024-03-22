@@ -11,7 +11,7 @@ import model.User;
 import java.io.IOException;
 
 @WebServlet(urlPatterns = {"/deposit"})
-public class ViewBalanceController extends HttpServlet {
+public class DepositController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 
@@ -22,7 +22,7 @@ public class ViewBalanceController extends HttpServlet {
         UserDAO userDAO = new UserDAO();
         User user = userDAO.getUserByUsername(username);
         req.setAttribute("user", user);
-        req.getRequestDispatcher("/WEB-INF/view/viewVnPay.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/view/deposit.jsp").forward(req, resp);
     }
         private boolean checkSession(String username, HttpServletResponse resp, HttpServletRequest req) throws IOException {
         if (username == null) {

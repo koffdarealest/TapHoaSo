@@ -65,6 +65,7 @@
                         </li>
                         <li><a href="buyingPost">Buying posts</a>
                         </li>
+                        <li><a href="" id="money">${user.balance}</a></li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -109,29 +110,33 @@
                     <th>Created By</th>
                     <th>Time Created</th>
                     <th>Last Updated</th>
-                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="post" items="${list}">
-                    <tr style="background: ${post.type eq '-' ? '#FFCCCC' : '#CCFFCC'}">
-                        <td>${post.transactionID}</td>
-                        <td>${post.type eq '-' ? '-' : '+'} ${post.amount}</td>
+                <c:forEach var="trans" items="${list}">
+                    <tr style="background: ${trans.type eq '-' ? '#FFCCCC' : '#CCFFCC'}">
+                        <td>${trans.transactionID}</td>
+                        <td>${trans.type eq '-' ? '-' : '+'} ${trans.amount}</td>
                         <td>
-                            ${post.getProcessed() ? "Done" : "Processing"}
+                            ${trans.getProcessed() ? "Done" : "Processing"}
                         </td>
-                        <td class="td-overflow">${post.description}</td>
-                        <td><c:out value="${nameOfUserCreatedPost}" /></td>
+                        <td class="td-overflow">${trans.description}</td>
+                        <c:choose>
+                            <c:when test="${trans.createdBy eq null}">
+                                <td>System</td>
+                            </c:when>
+                            <c:otherwise>
+                                <td>${trans.userID.nickname}</td>
+                            </c:otherwise>
+                        </c:choose>
                         <td>
-                            <c:set var="createdAt" value="${post.createdAt}"/>
+                            <c:set var="createdAt" value="${trans.createdAt}"/>
                             <fmt:formatDate value="${createdAt}" pattern="dd/MM/yyyy HH:mm:ss"/>
                         </td>
                         <td>
-                            <c:set var="updatedAt" value="${post.updatedAt}" />
+                            <c:set var="updatedAt" value="${trans.updatedAt}" />
                             <fmt:formatDate value="${updatedAt}" pattern="dd/MM/yyyy HH:mm:ss"/>
                         </td>
-                        <td><button class="custom-button btn btn-lg" onclick="viewPostDetail('${post.transactionID}')" style="font-size: large">
-                            <i class="fas fa-info-circle"></i> Detail</button></td>
                     </tr>
                 </c:forEach>
                 <!-- Repeat the above row for 20 records -->
@@ -217,6 +222,16 @@
     function viewPostDetail(postID) {
         window.location.href = 'postDetail?postID=' + postID;
     }
+</script>
+<script>
+    document.querySelectorAll("[id^='money']").forEach(function (cell) {
+        var totalSpend = cell.textContent;
+        var formattedTotalSpend = new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND"
+        }).format(totalSpend);
+        cell.textContent = formattedTotalSpend;
+    });
 </script>
 <!-- Bootstrap core JavaScript -->
 <script src="vendor/jquery/jquery.min.js"></script>

@@ -202,6 +202,7 @@
                                     </c:forEach>
                                 </div>
                             </div>
+                        <li><a href="" id="money">${user.balance}</a></li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -242,7 +243,7 @@
                     <th data-column-index="7" data-sort-order="desc">Seller</th>
                     <th data-column-index="8" data-sort-order="desc">Create time</th>
                     <th data-column-index="9" data-sort-order="desc">Last modify</th>
-                    <th colspan="2">Action</th>
+                    <th>Action</th>
                 </tr>
 
                 <tr>
@@ -316,14 +317,7 @@
                     <th style="max-width: 200px;">
                         <div class="rt-th rthfc-th-fixed rthfc-th-fixed-right rthfc-th-fixed-right-first">
                             <button type="button" data-toggle="tooltip" title="Bỏ lọc" class="mr-1 btn btn-outline-danger" id="clearFilterButton" style="width: 100%;">
-                                <i class="fa fa-remove"></i> Bỏ lọc
-                            </button>
-                        </div>
-                    </th>
-                    <th style="max-width: 200px;">
-                        <div class="rt-th rthfc-th-fixed rthfc-th-fixed-right rthfc-th-fixed-right-first">
-                            <button type="button" data-toggle="tooltip" title="Thu gọn" class="mr-1 btn btn-outline-primary" style="width: 100%;">
-                                Thu gọn >
+                                <i class="fa fa-remove"></i> Filter
                             </button>
                         </div>
                     </th>
@@ -372,7 +366,6 @@
                                 <i class="fas fa-info-circle"></i> Detail
                             </button>
                         </td>
-                        <td>Detail</td>
                     </tr>
                 </c:forEach>
                 <!-- Repeat the above row for 20 records -->
@@ -416,7 +409,7 @@
                 for (let i = 0; i < remainingRows; i++) {
                     const row = table.insertRow();
                     row.style.height = (existingRowHeight * 0.85) + 'px'; // Thiết lập chiều cao cho hàng mới
-                    for (let j = 0; j <= headers.length; j = j + 2) {
+                    for (let j = 0; j < headers.length; j = j + 2) {
                         const cell = row.insertCell();
                     }
                 }
