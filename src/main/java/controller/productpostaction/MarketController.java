@@ -25,6 +25,10 @@ public class MarketController extends HttpServlet {
             req.setAttribute("lPosts", getAllPost);
             req.getRequestDispatcher("WEB-INF/view/market.jsp").forward(req, resp);
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
     }
 }

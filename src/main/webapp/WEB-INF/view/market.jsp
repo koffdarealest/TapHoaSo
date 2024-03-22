@@ -490,7 +490,6 @@
         let inputFields = document.querySelectorAll('input.form-control');
         inputFields.forEach(function(input) {
             input.addEventListener('input', function() {
-                let searchText = this.value.toLowerCase();
                 let columnIndex = this.closest('th').cellIndex;
 
                 // Kiểm tra chỉ số của cột để xử lý tìm kiếm
@@ -509,9 +508,9 @@
                         let feeCell = row.cells[5];
                         let totalSpendCell = row.cells[6];
 
-                        let priceValue = parseFloat(priceCell.textContent.trim());
-                        let feeValue = parseFloat(feeCell.textContent.trim());
-                        let totalSpendValue = parseFloat(totalSpendCell.textContent.trim());
+                        let priceValue = parseFloat(priceCell.textContent.trim().replace(/[.,₫]/g, ''));
+                        let feeValue = parseFloat(feeCell.textContent.trim().replace(/[.,₫]/g, ''));
+                        let totalSpendValue = parseFloat(totalSpendCell.textContent.trim().replace(/[.,₫]/g, ''));
 
                         if (((isNaN(minPrice) || priceValue >= minPrice) && (isNaN(maxPrice) || priceValue <= maxPrice)) &&
                             ((isNaN(minFee) || feeValue >= minFee) && (isNaN(maxFee) || feeValue <= maxFee)) &&
@@ -580,13 +579,20 @@
 
                 // Sắp xếp các hàng dựa trên giá trị của cột tương ứng
                 rows.sort(function(rowA, rowB) {
-                    const valueA = rowA.cells[columnIndex].textContent.trim();
-                    const valueB = rowB.cells[columnIndex].textContent.trim();
-
-                    if (!isNaN(valueA) && !isNaN(valueB)) {
+                    if(columnIndex === 3 || columnIndex === 5 || columnIndex === 6) {
+                        const valueA = rowA.cells[columnIndex].textContent.trim().replace(/[.,₫]/g, '');
+                        const valueB = rowB.cells[columnIndex].textContent.trim().replace(/[.,₫]/g, '');
                         return sortOrder[columnIndex] * (parseFloat(valueA) - parseFloat(valueB));
-                    } else if(isNaN(valueA) && isNaN((valueB))){
-                        return sortOrder[columnIndex] * (valueA.localeCompare(valueB));
+                    }
+                    else if(columnIndex === 0 || columnIndex === 1 || columnIndex === 2 || columnIndex === 4 || columnIndex === 7){
+                        const valueA = rowA.cells[columnIndex].textContent.trim();
+                        const valueB = rowB.cells[columnIndex].textContent.trim();
+                        if(isNaN(valueA) && isNaN((valueB))) {
+                            return sortOrder[columnIndex] * (valueA.localeCompare(valueB));
+                        }
+                        else if (!isNaN(valueA) && !isNaN(valueB)) {
+                            return sortOrder[columnIndex] * (parseFloat(valueA) - parseFloat(valueB));
+                        }
                     }
                 });
 
@@ -600,7 +606,6 @@
             });
         }
     });
-
 </script>
 </body>
 
