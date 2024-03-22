@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: Tung
-  Date: 1/20/2024
-  Time: 3:02 PM
+  Date: 3/22/2024
+  Time: 8:25 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -16,7 +16,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet">
 
-    <title>Fotgot Password</title>
+    <title>Sell Product</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -28,10 +28,11 @@
     <link rel="stylesheet" href="assets/css/animate.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"/>
+
+
+
 </head>
 
-
-<body onload="reloadCaptcha()">
 
 <!-- ***** Preloader Start ***** -->
 <div id="js-preloader" class="js-preloader">
@@ -54,7 +55,11 @@
                 <nav class="main-nav">
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li><a href="#">Sign In</a></li>
+                        <li><a href="home">Home</a></li>
+                        <li><a href="market">Public market</a></li>
+                        <li><a href="sellingPost">Selling posts</a>
+                        </li>
+                        <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
                         <span>Menu</span>
@@ -71,48 +76,45 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
+                <h3>Deposit</h3>
+
             </div>
         </div>
     </div>
 </div>
 
 <div class="row justify-content-center">
-    <div class="login-wrap p-4 p-md-5 col-lg-4">
-        <div class="col-lg-10 mx-auto">
-            <div class="card-header text-center p-3 mb-4">
-                <h2 class="m-0">FORGOT PASSWORD</h2>
-            </div>
-            <form action="forgot" method="post" id="form">
-                <!-- ---------------input email---------------- -->
-                <div class="form-group mb-3">
-                    <label class="label">Email</label>
-                    <input type="email" class="form-control" placeholder="Email" required name="email">
-                </div>
-                <!-- ---------------captcha---------------- -->
-                <div class="form-group mb-3">
-                    <label class="label">Captcha</label>
-                    <div class="d-flex align-content-center">
-                        <div class="content">
-                            <img style="height: 48px; width: 200px; border-radius: 5px" src="generateCaptcha"
-                                 alt="Captcha Image"
-                                 id="captchaImage">
-                        </div>
-                        <button class="btn input-group-prepend" onclick="resetCaptcha(event)">
-                            <i class="fa fa-refresh"></i>
-                        </button>
-                        <input type="text" class="form-control" name="captcha" required placeholder="Enter Captcha"/>
+    <div class="sell-wrap p-4 col-lg-6">
+        <div class="col-lg-12 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <div class="pull-left">
+                        <h4 class="card-title mt-2">New withdraw request</h4>
                     </div>
                 </div>
-                <!-- ---------------message---------------- -->
-                <h6 class="text-danger mb-2">${error}</h6>
-                <h6 class="text-success mb-2">${mess}</h6>
-                <!-- ---------------submit button---------------- -->
-                <div class="form-group mb-3 text-center">
-                    <button type="submit" class="col-lg-5 btn btn-primary btn-lg button-border">SEND TO EMAIL</button>
+                <div class="card-body">
+                    <form action="withdraw" id="frmCreateOrder" method="post">
+                        <!-- -------------Total Amount------------- -->
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="label-form col-md-3">
+                                <label class="label">Amount (=>10000) (*)</label>
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <input placeholder="The amount you need to withdraw" type="text" name="amount" class="form-control" required id="amount">
+                                <p class="text-danger" id="priceError"></p>
+                            </div>
+
+                        </div>
+                        <!-- ---------------Submit--------------- -->
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="form-group col-md-12 text-center">
+                                <button type="submit" class="col-md-3 btn btn-primary p-3">Withdraw</button>
+                                <!-- Submit -->
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </form>
-            <p class="text-center" style="font-size: 15px;">Still remember? <a data-toggle="tab" href="signin">Sign
-                In Here</a></p>
+            </div>
         </div>
     </div>
 </div>
@@ -132,38 +134,26 @@
 
 <!-- Scripts -->
 <script>
-    function reloadCaptcha() {
-        var timestamp = new Date().getTime();
-        var captchaImage = document.getElementById('captchaImage');
-        captchaImage.src = 'generateCaptcha?' + timestamp;
-    }
-
-    function resetCaptcha(event) {
-        event.preventDefault(); // Ngăn chặn hành vi mặc định của button (submit form)
-        reloadCaptcha(); // Gọi hàm tạo mới captcha ở đây
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-        var form = document.getElementById("form");
-        var sendButton = document.querySelector("#form [type=submit]");
-
-        form.addEventListener("keypress", function (event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                sendButton.click();
-            }
-        });
+    withdrawAmount = document.getElementById('amount');
+    priceError = document.getElementById('priceError');
+    withdrawAmount.addEventListener('input', function () {
+        withdrawAmount.value = withdrawAmount.value.replace(/[^0-9]/g, '');
+        if(withdrawAmount.value < 10000){
+            priceError.innerHTML = "The amount must be greater than 10000";
+        } else {
+            priceError.innerHTML = "";
+        }
     });
-
 </script>
-<!-- Bootstrap core JavaScript -->
 
+<!-- Bootstrap core JavaScript -->
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/js/isotope.min.js"></script>
 <script src="assets/js/owl-carousel.js"></script>
 <script src="assets/js/counter.js"></script>
 <script src="assets/js/custom.js"></script>
+
 
 </body>
 

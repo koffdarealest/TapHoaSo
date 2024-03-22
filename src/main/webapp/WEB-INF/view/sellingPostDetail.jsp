@@ -54,7 +54,6 @@
         <div class="row">
             <div class="col-12">
                 <nav class="main-nav">
-                    <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="home">Home</a></li>
@@ -62,8 +61,6 @@
                         <li><a href="sellingPost">Selling posts</a>
                         </li>
                         <li><a href="buyingPost">Buying posts</a>
-                        </li>
-                        <li><a href="">Contact Us</a>
                         </li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
@@ -329,7 +326,7 @@
                                         <div class="form-group col-md-12 text-center">
                                             <button type="submit" class="col-md-3 btn btn-primary p-3 button-border"
                                                     style="background: #b9b700; border: 0">
-                                                <i class="fas fa-pencil"></i> Update
+                                                <i class="fas fa-pencil"></i> UPDATE
                                             </button>
                                             <!-- Submit -->
                                         </div>

@@ -244,7 +244,7 @@ public class UserDAO {
         try {
             Session session = Factory.getSessionFactory().openSession();
             transaction = session.beginTransaction();
-            String hql = "select u from User u join Token t on u.userID = CAST(t.userID as biginteger) where t.token = :token";
+            String hql = "select u from User u join Token t on u.id = CAST(t.userID as biginteger) where t.token = :token";
             user = (User) session.createQuery(hql)
                     .setParameter("token", token)
                     .uniqueResult();

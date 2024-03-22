@@ -37,9 +37,6 @@
         <div class="row">
             <div class="col-12">
                 <nav class="main-nav">
-                    <a href="index.html" class="logo">
-
-                    </a>
                     <ul class="nav">
                         <li><a href="home">Home</a></li>
                         <li><a href="market">Public market</a></li>

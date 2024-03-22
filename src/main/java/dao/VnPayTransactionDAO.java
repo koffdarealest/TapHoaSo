@@ -14,7 +14,7 @@ public class VnPayTransactionDAO {
     }
 
     public VnPayTransactionDAO() {
-        session = session.getSessionFactory().openSession();
+        session = Factory.getSessionFactory().openSession();
     }
 
     public void saveVnPay(VnPayTransaction transaction) {

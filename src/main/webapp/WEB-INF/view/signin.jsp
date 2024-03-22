@@ -54,15 +54,8 @@
         <div class="row">
             <div class="col-12">
                 <nav class="main-nav">
-                    <!-- ***** Logo Start ***** -->
-                    <a href="index.html" class="logo">
-                        <img src="" alt="" style="width: 158px;">
-                    </a>
-                    <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li><a href="contact.html">Contact Us</a>
-                        </li>
                         <li><a href="#">Sign In</a></li>
                     </ul>
                     <a class='menu-trigger'>

@@ -90,6 +90,17 @@ public class TransactionDAO {
         return trans;
     }
 
+    public Transaction createWithdrawTrans(User user, Long amount) {
+        Transaction trans = new Transaction();
+        trans.setUserID(user);
+        trans.setAmount(amount);
+        trans.setType("-");
+        trans.setDescription("Withdraw money");
+        trans.setProcessed(false);
+        trans.setCreatedBy(user.getUserID());
+        return trans;
+    }
+
     public void saveTransaction(Transaction trans) {
         org.hibernate.Transaction transaction = null;
         try (Session session = Factory.getSessionFactory().openSession()) {

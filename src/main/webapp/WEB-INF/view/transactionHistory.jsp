@@ -57,11 +57,6 @@
         <div class="row">
             <div class="col-12">
                 <nav class="main-nav">
-                    <!-- ***** Logo Start ***** -->
-                    <a href="index.html" class="logo">
-                        <img src="" alt="" style="width: 158px;">
-                    </a>
-                    <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="home">Home</a></li>
@@ -93,7 +88,7 @@
     </div>
 </div>
 
-<div class="d-flex mb-4 justify-content-center">
+<div class="d-flex mb-5 justify-content-center">
     <button class="col-md-3 btn btn-primary p-3 button-border" onclick="location.href='deposit'" style="margin-right: 50px; background: #0f6848">DEPOSIT
     </button>
     <button class="col-md-3 btn btn-primary p-3 button-border" onclick="location.href='withdraw'" style="background: #be7000">WITHDRAW

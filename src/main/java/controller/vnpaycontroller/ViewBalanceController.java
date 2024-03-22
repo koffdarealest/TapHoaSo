@@ -10,7 +10,7 @@ import model.User;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"/viewbalance"})
+@WebServlet(urlPatterns = {"/deposit"})
 public class ViewBalanceController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
