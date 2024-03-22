@@ -8,6 +8,11 @@
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+
+<!--        <property name="connection.url"> jdbc:mysql://localhost:3306/ths3?useSSL=false&amp;serverTimezone=Asia/Ho_Chi_Minh</property>-->
+<!--        <property name="connection.username">ths</property>-->
+<!--        <property name="connection.password">thsths</property>-->
+
         <property name="connection.url">jdbc:mysql://localhost:3306/swp?useSSL=false&amp;</property>
         <property name="connection.username">root</property>
         <property name="connection.password">24122003</property>

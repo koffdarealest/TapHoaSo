@@ -41,16 +41,20 @@
     //Begin process return from VNPAY
     Map fields = new HashMap();
     for (Enumeration params = request.getParameterNames(); params.hasMoreElements(); ) {
-        String fieldName = URLEncoder.encode((String) params.nextElement(), StandardCharsets.US_ASCII);
-        String fieldValue = URLEncoder.encode(request.getParameter(fieldName), StandardCharsets.US_ASCII);
+        String fieldName = URLEncoder.encode((String) params.nextElement(), StandardCharsets.US_ASCII.toString());
+        String fieldValue = URLEncoder.encode(request.getParameter(fieldName), StandardCharsets.US_ASCII.toString());
         if ((fieldValue != null) && (fieldValue.length() > 0)) {
             fields.put(fieldName, fieldValue);
         }
     }
 
     String vnp_SecureHash = request.getParameter("vnp_SecureHash");
-    fields.remove("vnp_SecureHashType");
-    fields.remove("vnp_SecureHash");
+    if (fields.containsKey("vnp_SecureHashType")) {
+        fields.remove("vnp_SecureHashType");
+    }
+    if (fields.containsKey("vnp_SecureHash")) {
+        fields.remove("vnp_SecureHash");
+    }
     String signValue = Config.hashAllFields(fields);
 
 %>
@@ -102,7 +106,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h3>transaction result</h3>
+                <h3>deposit</h3>
 
             </div>
         </div>
@@ -115,87 +119,71 @@
             <div class="card">
                 <div class="card-header">
                     <div class="pull-left">
-                        <h4 class="card-title mt-2">Result</h4>
+                        <h4 class="card-title mt-2">VNPAY RESPONSE</h4>
                     </div>
                 </div>
                 <div class="card-body">
 
                     <div class="d-flex mb-3 align-items-center">
-                        <div class="label-form col-md-4"><label class="label">Transaction Code:</label></div>
+                        <div class="label-form col-md-4"><label class="label">Merchant Transaction Code:</label></div>
                         <div class="col-md-8"><input type="text" name="title"
-                                                     value="${vnpayData.transactionCode}"
+                                                     value="<%=request.getParameter("vnp_TxnRef")%>"
                                                      class="form-control" readonly>      <!-- input Title --></div>
                     </div>
 
-                    <%--                    <div class="d-flex mb-3 align-items-center">--%>
-                    <%--                        <div class="label-form col-md-4"><label class="label">Amount:</label></div>--%>
-                    <%--                        <div class="col-md-8"><input type="text" name="title"--%>
-                    <%--                                                     value="${Long.parseLong(vnpayData.amount) / 100}"--%>
-                    <%--                                                     --%>
-                    <%--                                                     class="form-control" readonly>      <!-- input Title --> </div>--%>
-                    <%--                    </div>--%>
-
                     <div class="d-flex mb-3 align-items-center">
                         <div class="label-form col-md-4"><label class="label">Amount:</label></div>
-                        <div class="col-md-8">
-                            <input id="formattedAmount" type="text" name="title" class="form-control" readonly>
-                        </div>
-                    </div>
-
-                    <div class="d-flex mb-3 align-items-center">
-                        <div class="label-form col-md-4"><label class="label">Order info:</label></div>
                         <div class="col-md-8"><input type="text" name="title"
-                                                     value="${vnpayData.orderInfo}"
+                                                     value="<%=Long.parseLong(request.getParameter("vnp_Amount")) / 100%>"
                                                      class="form-control" readonly>      <!-- input Title --> </div>
                     </div>
 
                     <div class="d-flex mb-3 align-items-center">
-                        <div class="label-form col-md-4"><label class="label">Response Code:</label></div>
-                        <div class="col-md-8"><input type="text" name="title"
-                                                     value="${vnpayData.responseCode}"
+                        <div class="label-form col-md-3"><label class="label">Order info:</label></div>
+                        <div class="col-md-9"><input type="text" name="title"
+                                                     value="<%=request.getParameter("vnp_OrderInfo")%>"
                                                      class="form-control" readonly>      <!-- input Title --> </div>
                     </div>
 
                     <div class="d-flex mb-3 align-items-center">
-                        <div class="label-form col-md-4"><label class="label">Transaction Code:</label></div>
-                        <div class="col-md-8"><input type="text" name="title"
-                                                     value="${vnpayData.transactionCode}"
+                        <div class="label-form col-md-3"><label class="label">VNPAY Response Code:</label></div>
+                        <div class="col-md-9"><input type="text" name="title"
+                                                     value="<%=request.getParameter("vnp_ResponseCode")%>"
                                                      class="form-control" readonly>      <!-- input Title --> </div>
                     </div>
 
                     <div class="d-flex mb-3 align-items-center">
-                        <div class="label-form col-md-4"><label class="label">Bank Code:</label></div>
+                        <div class="label-form col-md-4"><label class="label">VNPAY Transaction Code:</label></div>
                         <div class="col-md-8"><input type="text" name="title"
-                                                     value="${vnpayData.bankCode}"
+                                                     value="<%=request.getParameter("vnp_TransactionNo")%>"
                                                      class="form-control" readonly>      <!-- input Title --> </div>
                     </div>
 
-                    <%--                    <div class="d-flex mb-3 align-items-center">--%>
-                    <%--                        <div class="label-form col-md-4"><label class="label">Pay Date:</label></div>--%>
-                    <%--                        <div class="col-md-8"><input type="text" name="title"--%>
-                    <%--                                                     value="${vnpayData.payDate}"--%>
-                    <%--                                                     class="form-control" readonly>      <!-- input Title --> </div>--%>
-                    <%--                    </div>--%>
                     <div class="d-flex mb-3 align-items-center">
-                        <div class="label-form col-md-4"><label class="label">Pay Date:</label></div>
-                        <div class="col-md-8">
-                            <input id="payDate" type="text" name="title" class="form-control" readonly>
-                        </div>
+                        <div class="label-form col-md-3"><label class="label">Bank Code:</label></div>
+                        <div class="col-md-9"><input type="text" name="title"
+                                                     value="<%=request.getParameter("vnp_BankCode")%>"
+                                                     class="form-control" readonly>      <!-- input Title --> </div>
                     </div>
 
-                    <div class="d-flex mb-4 align-items-center">
-                        <div class="label-form col-md-4"><label class="label">Transaction Status:</label></div>
-                        <div class="col-md-8">
-                            <input type="text" name="title" class="form-control" readonly
-                                   value="${vnpayData.transactionStatus == '00' ? 'Success' : 'Failed'}">
-                        </div>
+                    <div class="d-flex mb-3 align-items-center">
+                        <div class="label-form col-md-3"><label class="label">Pay Date:</label></div>
+                        <div class="col-md-9"><input type="text" name="title"
+                                                     value="<%=request.getParameter("vnp_PayDate")%>"
+                                                     class="form-control" readonly>      <!-- input Title --> </div>
                     </div>
 
+                    <div class="d-flex mb-3 align-items-center">
+                        <div class="label-form col-md-3"><label class="label">Pay Date:</label></div>
+                        <div class="col-md-9"><input type="text" name="title"
+                                                     value="<%=request.getParameter("vnp_TransactionStatus")%>"
+                                                     class="form-control" readonly>      <!-- input Title --> </div>
+                    </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 <footer>
     <div class="container">
@@ -213,28 +201,7 @@
 
 </footer>
 <!-- Bootstrap core JavaScript -->
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var amount = "${Long.parseLong(vnpayData.amount) / 100}"; // Lấy giá trị amount từ Thymeleaf
-        var formattedAmount = parseFloat(amount).toLocaleString('vi-VN') + " VNĐ";
-        document.getElementById("formattedAmount").value = formattedAmount; // Gán giá trị đã định dạng vào input
-    });
-</script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var payDateValue = "${vnpayData.payDate}"; // Lấy giá trị payDate từ Thymeleaf
-        var year = payDateValue.substring(0, 4);
-        var month = payDateValue.substring(4, 6);
-        var day = payDateValue.substring(6, 8);
-        var hour = payDateValue.substring(8, 10);
-        var minute = payDateValue.substring(10, 12);
-        var second = payDateValue.substring(12, 14);
-
-        var formattedPayDate = day + "/" + month + "/" + year + " " + hour + ":" + minute + ":" + second; // Tạo chuỗi ngày tháng năm
-        document.getElementById("payDate").value = formattedPayDate; // Gán giá trị đã định dạng vào input
-    });
-</script>
 <!-- Bootstrap core JavaScript -->
 <script src="../vendor/jquery/jquery.min.js"></script>
 <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>

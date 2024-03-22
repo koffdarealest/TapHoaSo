@@ -1,12 +1,17 @@
 package controller;
 
 import com.google.gson.JsonObject;
+import dao.BillDAO;
+import dao.UserDAO;
 import dao.VnPayTransactionDAO;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.Bill;
+import model.User;
 import model.VnPayTransaction;
 import util.Config;
 
@@ -21,7 +26,7 @@ import java.util.*;
 import static org.eclipse.tags.shaded.org.apache.xalan.xsltc.compiler.Constants.CHARACTERS;
 
 @WebServlet(urlPatterns = {"/payment"})
-public class PaymentController  extends HttpServlet {
+public class PaymentController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Chuyển hướng yêu cầu GET sang phương thức doPost
@@ -73,29 +78,31 @@ public class PaymentController  extends HttpServlet {
         }
         vnp_Params.put("vnp_ReturnUrl", Config.vnp_Returnurl);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
-        String vnp_CreateDate = formatter.format(cld.getTime());
+        Calendar currentTime = Calendar.getInstance();
+        currentTime.setTime(new Date());
+        String vnp_CreateDate = formatter.format(currentTime.getTime());
         vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
-        cld.add(Calendar.MINUTE, 15);
-        String vnp_ExpireDate = formatter.format(cld.getTime());
+//        cld.add(Calendar.MINUTE, 15);
+        currentTime.add(Calendar.MINUTE, 15);
+        String vnp_ExpireDate = formatter.format(currentTime.getTime());
         vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
-
-        List fieldNames = new ArrayList(vnp_Params.keySet());
+        List<String> fieldNames = new ArrayList<>(vnp_Params.keySet());
         Collections.sort(fieldNames);
         StringBuilder hashData = new StringBuilder();
         StringBuilder query = new StringBuilder();
         Iterator itr = fieldNames.iterator();
         while (itr.hasNext()) {
             String fieldName = (String) itr.next();
-            String fieldValue = (String) vnp_Params.get(fieldName);
-            if ((fieldValue != null) && (fieldValue.length() > 0)) {
+            String fieldValue = vnp_Params.get(fieldName);
+            if ((fieldValue != null) && (!fieldValue.isEmpty())) {
                 //Build hash data
                 hashData.append(fieldName);
                 hashData.append('=');
-                hashData.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII.toString()));
+                hashData.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII));
                 //Build query
-                query.append(URLEncoder.encode(fieldName, StandardCharsets.US_ASCII.toString()));
+                query.append(URLEncoder.encode(fieldName, StandardCharsets.US_ASCII));
                 query.append('=');
-                query.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII.toString()));
+                query.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII));
                 if (itr.hasNext()) {
                     query.append('&');
                     hashData.append('&');
@@ -111,45 +118,42 @@ public class PaymentController  extends HttpServlet {
         job.addProperty("message", "success");
         job.addProperty("data", paymentUrl);
 
+        HttpSession session = request.getSession();
+        // Lấy giá trị của thuộc tính "username" từ session
+        String username = (String) session.getAttribute("username");
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.getUserByUsername(username);
 
+        Bill bill = new Bill();
+        bill.setId(vnp_TxnRef);
+        bill.setAmount(amount);
+        bill.setType("a");
+        bill.setCommand(Short.parseShort("10"));
+        bill.setPaymentStatus("processing");
+        bill.setUserId(user.getUserID());
+        BillDAO billDAO = new BillDAO();
+        billDAO.save(bill);
 
         VnPayTransaction transaction = new VnPayTransaction();
-        String transactionNumber = generateRandomString();
-        String transactionUUID = generateRandomString();
-// Đặt giá trị cho trường transactionId trong đối tượng VnPayTransaction
-        transaction.setTransactionNo(transactionNumber);
-        transaction.setTransactionId(transactionUUID);
+        transaction.setId(vnp_TxnRef);
+        transaction.setType("a");
         transaction.setVersion(vnp_Params.get("vnp_Version"));
         transaction.setCommand(vnp_Params.get("vnp_Command"));
-//        transaction.setTmnCode(vnp_Params.get("vnp_TmnCode"));
         transaction.setAmount(new BigInteger(vnp_Params.get("vnp_Amount")));
         transaction.setCurrentCode(vnp_Params.get("vnp_CurrCode"));
         transaction.setBankCode(vnp_Params.get("vnp_BankCode"));
-//        transaction.setTxnRef(vnp_Params.get("vnp_TxnRef"));
-        transaction.setOrderInfo(vnp_Params.get("vnp_OrderInfo"));
-        transaction.setOrderType(vnp_Params.get("vnp_OrderType"));
-        transaction.setLocale(vnp_Params.get("vnp_Locale"));
-//        transaction.setReturnUrl(vnp_Params.get("vnp_ReturnUrl"));
+        transaction.setLocale(vnp_Params.get("locale"));
         transaction.setIpAddr(vnp_Params.get("vnp_IpAddr"));
+        transaction.setOrderInfo(vnp_Params.get("vnp_OrderInfo"));
         transaction.setCreateDate(vnp_Params.get("vnp_CreateDate"));
         transaction.setExpireDate(vnp_Params.get("vnp_ExpireDate"));
-        transaction.setType("a");
-        // Đặt các giá trị khác cho đối tượng transaction tương ứng với thông tin thu thập được
-// Tính toán secureHash dựa trên các thông tin trong vnp_Params
-        String secureHash = Config.hmacSHA512(Config.vnp_HashSecret, hashData.toString());
-        transaction.setSecureHash(secureHash);
+        transaction.setSecureHash(vnp_Params.get("vnp_SecureHash"));
+        VnPayTransactionDAO transactionDAO = new VnPayTransactionDAO();
+        transactionDAO.save(transaction);
 
-// Lưu đối tượng VnPayTransaction vào cơ sở dữ liệu
-        try {
-            VnPayTransactionDAO transactionDAO = new VnPayTransactionDAO();
-            transactionDAO.save(transaction);
-        } catch (Exception e) {
-            e.printStackTrace();
-            // Xử lý nếu có lỗi khi lưu vào cơ sở dữ liệu
-        }
-        // Chuyển hướng đến trang thanh toán
         response.sendRedirect(paymentUrl);
     }
+
     public static String generateRandomString() {
         SecureRandom random = new SecureRandom();
         StringBuilder sb = new StringBuilder("6");
