@@ -140,14 +140,32 @@
                                 <!-- Cửa sổ hiển thị thông báo -->
                                 <div id="notificationWindow">
                                     <h3>Thông báo</h3>
-                                    <c:forEach items="${requestScope.listNotice}" var="notice">
+                                    <c:if test="${empty requestScope.listNotice}">
+                                        <p>Không có thông báo mới</p>
+                                    </c:if>
+                                    <%--<c:forEach items="${requestScope.listNotice}" var="notice">
                                         <div class="notification-item">
-                                            <a href="#"><c:out value="${notice.content}" /></a>
+                                            <c:set var="u" value="${session.getAttribute('user')}" />
+                                            <c:choose>
+                                                <c:when test="${notice.getUserIDTo().getUserID() == u.getUserID()}">
+                                                    <a href="sellingPost">You have received a report on the post <c:out value="${notice.getPostID().getTradingCode()}" /></a>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <a href="buyingPost">You have reported the post <c:out value="${notice.getPostID().getTradingCode()}" /></a>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </div>
-                                    </c:forEach>
+                                    </c:forEach>--%>
+                                    <div class="notification-item" id="notificationArea">
+                                        <c:forEach items="${requestScope.listContent}" var="content">
+                                            <a href="#">${content}</a>
+                                        </c:forEach>
+                                    </div>
+
                                 </div>
                             </div>
                         </li>
+
 
                         <!--end notification icon-->
                         <li><a STYLE="font-size: 15px" href="signOut">Sign out</a></li>
@@ -266,23 +284,36 @@
             notificationWindow.style.display = 'none';
         } else {
             notificationWindow.style.display = 'block';
-           /* var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-                if (this.readyState == 4) {
-                    if (this.status == 200) {
-                        notificationWindow.innerHTML = this.responseText;
-                        notificationWindow.style.display = 'block';
-                    } else {
-                        console.error('Error:', this.status);
-                    }
-                }
-            };
-
-            // Sử dụng phương thức GET thay vì POST
-            xhttp.open("GET", "notice", true);
-            xhttp.send();*/
         }
     }
+
+    $(document).ready(function() {
+        // Function to fetch new notifications from the server
+        function fetchNotifications() {
+            $.ajax({
+                url: '/fetchNotifications', // Replace with your server endpoint
+                type: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    updateNotificationArea(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching notifications:', error);
+                }
+            });
+        }
+
+        // Function to update the notification area with new notifications
+        function updateNotificationArea(notifications) {
+            $('#notificationArea').empty(); // Clear existing notifications
+            notifications.forEach(function(notification) {
+                $('#notificationArea').append('<a href="#">' + notification + '</a><br>');
+            });
+        }
+
+        setInterval(fetchNotifications, 3000);
+    });
+
 
 
 

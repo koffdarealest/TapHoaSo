@@ -34,7 +34,8 @@ public class ComplaintController extends HttpServlet {
     private void SetNotice(HttpServletRequest req, HttpServletResponse resp, Post post) {
         try {
             Notice notice = new Notice();
-            notice.setContent("You have report by " + post.getBuyerID().getNickname() + " about the post " + post.getTradingCode() + ". Please check it");
+
+            notice.setContent("Buyer has complained about the product. Please check it out!");
             notice.setAdminReceive(false);
             notice.setPostID(post);
             notice.setUserIDFrom(post.getBuyerID());

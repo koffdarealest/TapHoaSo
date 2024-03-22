@@ -20,6 +20,7 @@ public class NoticeController extends HttpServlet {
         Long UserId = (Long) req.getSession().getAttribute("userId");
 
         List<Notice> listNotice = noticeDAO.getAllNotice();
+        String content = null;
 
         req.setAttribute("listNotice", listNotice);
 
