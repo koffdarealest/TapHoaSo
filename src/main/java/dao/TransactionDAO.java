@@ -125,4 +125,35 @@ public class TransactionDAO {
             return null;
         }
     }
+    public List<Transaction> getAllTransaction() {
+        try (Session session = Factory.getSessionFactory().openSession()) {
+            return session.createQuery("from Transaction", Transaction.class).list();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public Transaction getTransactionByID(long transactionID) {
+        try (Session session = Factory.getSessionFactory().openSession()) {
+            return session.get(Transaction.class, transactionID);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public void update(Transaction transaction){
+        org.hibernate.Transaction transaction1 = null;
+        try (Session session = Factory.getSessionFactory().openSession()) {
+            transaction1 = session.beginTransaction();
+            session.update(transaction);
+            transaction1.commit();
+        } catch (Exception ex) {
+            if (transaction1 == null) {
+                transaction1.rollback();
+            }
+            ex.printStackTrace();
+        }
+    }
 }

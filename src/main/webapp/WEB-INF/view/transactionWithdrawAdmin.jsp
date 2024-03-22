@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Tables</title>
+    <title>Transaction Withdraw</title>
 
     <!-- Custom fonts for this template -->
     <link href="adminContent/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -53,15 +53,21 @@
 
         <!-- Nav Item - Tables -->
         <li class="nav-item active">
+            <a class="nav-link" href="WithdrawTransaction">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Transaction Notification</span></a>
+        </li>
+
+        <li class="nav-item active">
             <a class="nav-link" href="adminManage">
                 <i class="fas fa-fw fa-table"></i>
                 <span>User Manage</span></a>
         </li>
 
         <li class="nav-item active">
-                <a class="nav-link" href="conflictManage">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Conflict Manage</span></a>
+            <a class="nav-link" href="conflictManage">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Conflict Manage</span></a>
         </li>
 
         <!-- Divider -->
@@ -133,17 +139,22 @@
                             <h6 class="dropdown-header">
                                 Alerts Center
                             </h6>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                <div class="mr-3">
-                                    <div class="icon-circle bg-primary">
-                                        <i class="fas fa-file-alt text-white"></i>
+                            <c:if test="${transactions == null}">
+                                <div class="d-lg-flex align-items-center justify-content-center text-bg-dark">Don't have new notification</div>
+                            </c:if>
+                            <c:forEach items="${transactions}" var="trans">
+                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <div class="mr-3">
+                                        <div class="icon-circle bg-primary">
+                                            <i class="fas fa-file-alt text-white"></i>
+                                        </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <div class="small text-gray-500">December 12, 2019</div>
-                                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                                </div>
-                            </a>
+                                    <div>
+                                        <div class="small text-gray-500">${trans.getCreatedAt()}</div>
+                                        <span class="font-weight-bold">${trans.getDescription()} for ${trans.getUserID().getNickname()} with balance: ${trans.getAmount()}</span>
+                                    </div>
+                                </a>
+                            </c:forEach>
                             <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
                         </div>
                     </li>
@@ -226,14 +237,14 @@
                 <div class="card shadow mb-4">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <form action="deleteUser" method="get">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Name</th>
+                                        <th>ID</th>
                                         <th>Username</th>
-                                        <th>Email</th>
+                                        <th>Nickname</th>
+                                        <th>Amount</th>
                                         <th>Date Create</th>
                                         <th>Id Deleted</th>
                                         <th>Action</th>
@@ -241,41 +252,35 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach items="${users}" var="u">
+                                    <c:forEach items="${transactions}" var="u">
                                         <tr>
                                             <td>
                                                 <label>
-                                                    <input value="${u.getUserID()}" name="selectedUser" type="checkbox">
+                                                    <input value="${u.getTransactionID()}" name="selectedTrans" type="checkbox">
                                                 </label>
                                             </td>
-                                            <td>${u.nickname}</td>
-                                            <td>${u.username}</td>
-                                            <td>${u.email}</td>
-                                            <td>${u.createdAt}</td>
-                                            <td>${u.getDelete() ? "1" : "0"}</td>
+                                            <td>${u.getTransactionID()}</td>
+                                            <td>${u.getUserID().getUsername()}</td>
+                                            <td>${u.getUserID().getNickname()}</td>
+                                            <td>${u.getAmount()}</td>
+                                            <td>${u.getCreatedAt()}</td>
+                                            <td>${u.getDelete()}</td>
                                             <td>
-                                                <c:if test="${onlineUsernames.contains(u.username)}">
-                                                    <button style="border-radius: 2px; background-color: rgb(82, 196, 82);">
-                                                        Online
+                                                <div class="dropdown">
+                                                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-radius: 2px; background-color: rgb(82, 196, 82);">
+                                                        ${u.getProcessed() ? "Done" : "Processing"}
                                                     </button>
-                                                </c:if>
-                                                <c:if test="${!onlineUsernames.contains(u.username)}">
-                                                    <button style="border-radius: 2px; background-color: rgb(250, 30, 30);">
-                                                        Offline
-                                                    </button>
-                                                </c:if>
-
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <a class="dropdown-item" href="#" onclick="handleAction('process', '${u.getTransactionID()}')">Processing</a>
+                                                        <a class="dropdown-item" href="#" onclick="handleAction('done', '${u.getTransactionID()}')">Done</a>
+                                                    </div>
+                                                </div>
                                             </td>
-                                            <td><a href="userDetail?id=${u.getUserID()}">Details</a></td>
+                                            <td><a href="#">Details</a></td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
                                 </table>
-                                <button class="btn btn-danger" name="action" value="delete">Delete Selected</button>
-                                <form action="deleteUser" method="get">
-                                    <button class="btn btn-success" name="action" value="open">Open Selected</button>
-                                </form>
-                            </form>
                         </div>
 
                     </div>
@@ -328,7 +333,20 @@
         </div>
     </div>
 </div>
+<script>
+    function handleAction(action, transactionID) {
+        document.getElementById('dropdownMenuButton').innerText = (action === 'done') ? 'Done' : 'Processing';
 
+        if (confirm('Do you want to change the action?')) {
+            window.location.href = 'changeAction?transactionID=' + transactionID + '&action=' + action;
+            console.log('Action changed.');
+        } else {
+            document.getElementById('dropdownMenuButton').innerText = (action === 'done') ? 'Processing' : 'Done';
+            console.log('Action change canceled.');
+        }
+    }
+
+</script>
 <!-- Bootstrap core JavaScript-->
 <script src="adminContent/vendor/jquery/jquery.min.js"></script>
 <script src="adminContent/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

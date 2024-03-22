@@ -23,6 +23,6 @@ public class UserDetailController extends HttpServlet {
         String idUser = req.getParameter("id");
         User listUser = userDAO.getUserByUserID(Long.parseLong(idUser));
         req.setAttribute("user", listUser);
-        req.getRequestDispatcher("/WEB-INF/view/UserDetails.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/view/userDetails.jsp").forward(req, resp);
     }
 }
