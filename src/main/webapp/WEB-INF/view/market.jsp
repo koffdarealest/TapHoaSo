@@ -108,6 +108,54 @@
         #notificationWindow p{
             margin-top: 5px;
         }
+
+
+        input.form-control {
+            width: 100%;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+        #pagination {
+            margin-top: 20px; /* Khoảng cách từ đối tượng trước */
+            text-align: center; /* Căn giữa nút và số trang */
+        }
+
+        #pagination button,
+        #pagination span {
+            margin: 0 5px; /* Khoảng cách giữa các nút và số trang */
+            padding: 8px 12px; /* Kích thước nút và số trang */
+            border: 1px solid #ccc; /* Đường viền */
+            background-color: #f9f9f9; /* Màu nền */
+            cursor: pointer; /* Con trỏ khi rê chuột */
+        }
+
+        #pagination button:hover {
+            background-color: #e9e9e9; /* Màu nền khi di chuột qua */
+        }
+
+        #pagination button:active {
+            background-color: #d9d9d9; /* Màu nền khi nhấn nút */
+        }
+
+        #pagination button:disabled,
+        #pagination span.disabled {
+            color: #aaa; /* Màu chữ xám */
+            border-color: #ddd; /* Đường viền mờ */
+            cursor: not-allowed; /* Không cho phép nhấp chuột */
+        }
+
+        #pagination button#prevPage,
+        #pagination button#nextPage {
+            font-weight: bold; /* Chữ đậm */
+        }
+
     </style>
 </head>
 
@@ -338,7 +386,13 @@
         </div>
     </div>
 </div>
-
+<div id="pagination">
+    <button id="prevPage">Previous</button>
+    <span>1</span>
+    <span>2</span>
+    <span>3</span>
+    <button id="nextPage">Next</button>
+</div>
 <footer>
     <div class="container">
         <div class="row justify-content-center">
@@ -357,7 +411,7 @@
     window.onload = function () {
         const table = document.getElementById('marketTable');
         const headers = table.getElementsByTagName('th');
-        const maxRows = 30; // Số hàng tối đa
+        const maxRows = 10; // Số hàng tối đa
         const existingRowHeight = table.rows[1].offsetHeight; // Chiều cao của hàng thứ hai
         let rowCounter = table.rows.length - 1; // Số hàng hiện có (trừ đi hàng header)
         // Khởi tạo bảng tới số hàng tối đa
@@ -605,6 +659,67 @@
                 });
             });
         }
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        var currentPage = 1;
+        var rowsPerPage = 5; // Số hàng trên mỗi trang
+
+        var tableRows = document.querySelectorAll("#marketTable tbody tr");
+        var totalPages = Math.ceil(tableRows.length / rowsPerPage);
+
+        function showPage(page) {
+            var startIndex = (page - 1) * rowsPerPage;
+            var endIndex = startIndex + rowsPerPage;
+
+            tableRows.forEach(function(row, index) {
+                if (index >= startIndex && index < endIndex) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+
+        function updatePagination() {
+            var paginationDiv = document.getElementById("pagination");
+            paginationDiv.innerHTML = "";
+
+            if (totalPages > 1) {
+                var prevButton = document.createElement("button");
+                prevButton.textContent = "Previous";
+                prevButton.addEventListener("click", function() {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        showPage(currentPage);
+                    }
+                });
+                paginationDiv.appendChild(prevButton);
+
+                for (var i = 1; i <= totalPages; i++) {
+                    var pageNumberSpan = document.createElement("span");
+                    pageNumberSpan.textContent = i;
+                    pageNumberSpan.addEventListener("click", function() {
+                        currentPage = parseInt(this.textContent);
+                        showPage(currentPage);
+                    });
+                    paginationDiv.appendChild(pageNumberSpan);
+                }
+
+                var nextButton = document.createElement("button");
+                nextButton.textContent = "Next";
+                nextButton.addEventListener("click", function() {
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        showPage(currentPage);
+                    }
+                });
+                paginationDiv.appendChild(nextButton);
+            }
+        }
+
+        showPage(currentPage);
+        updatePagination();
     });
 </script>
 </body>
