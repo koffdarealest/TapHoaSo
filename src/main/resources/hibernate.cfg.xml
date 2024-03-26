@@ -8,13 +8,14 @@
 
         <!-- Database connection settings -->
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost:3306/demo?useSSL=false&amp;</property>
-        <property name="connection.username">demo</property>
-        <property name="connection.password">7nrNd2csdJCJAT2K</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/demo4?useSSL=false&amp;</property>
+        <property name="connection.username">demo4</property>
+        <property name="connection.password">demo4</property>
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name=""></property>
         <!-- Names the annotated model class -->
         <mapping class="model.User"/>
         <mapping class="model.Transaction"/>
