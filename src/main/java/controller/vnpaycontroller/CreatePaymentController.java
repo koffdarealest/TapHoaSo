@@ -62,6 +62,7 @@ public class CreatePaymentController extends HttpServlet {
             vnp_Params.put("vnp_Locale", (locate != null && !locate.isEmpty()) ? locate : "vn");
             vnp_Params.put("vnp_ReturnUrl", Config.vnp_Returnurl);
             vnp_Params.put("vnp_IpAddr", Config.getIpAddress(request));
+            cld.add(Calendar.HOUR, 7);
             String vnp_CreateDate = formatter.format(cld.getTime());
             vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
             cld.add(Calendar.MINUTE, 15);

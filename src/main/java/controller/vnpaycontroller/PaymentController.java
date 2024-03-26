@@ -37,7 +37,7 @@ public class PaymentController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //format datetime for vnpay in vietnam
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("VST"));
         String bank_code = request.getParameter("bankCode");
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
