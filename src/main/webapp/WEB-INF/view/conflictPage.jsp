@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,16 +13,16 @@
     <title>SB Admin 2 - Tables</title>
 
     <!-- Custom fonts for this template -->
-    <link href="../adminContent/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="adminContent/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="../adminContent/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="adminContent/css/sb-admin-2.min.css" rel="stylesheet">
 
     <!-- Custom styles for this page -->
-    <link href="../adminContent/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="adminContent/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -52,7 +53,12 @@
 
         <!-- Nav Item - Tables -->
         <li class="nav-item active">
-            <a class="nav-link" href="userManage">
+            <a class="nav-link" href="WithdrawTransaction">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Transaction Notification</span></a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="adminManage">
                 <i class="fas fa-fw fa-table"></i>
                 <span>User Manage</span></a>
         </li>
@@ -163,7 +169,7 @@
                             </h6>
                             <a class="dropdown-item d-flex align-items-center" href="#">
                                 <div class="dropdown-list-image mr-3">
-                                    <img class="rounded-circle" src="../adminContent/img/undraw_profile_1.svg"
+                                    <img class="rounded-circle" src="adminContent/img/undraw_profile_1.svg"
                                          alt="...">
                                     <div class="status-indicator bg-success"></div>
                                 </div>
@@ -235,8 +241,10 @@
                                 </colgroup>
                                 <thead>
                                 <tr>
-                                    <th>Email</th>
+                                    <th>ID</th>
                                     <th>Message</th>
+                                    <th>User Report</th>
+                                    <th>User receive</th>
                                     <th>Date Send</th>
                                     <th>Action</th>
                                     <th>Details</th>
@@ -244,39 +252,32 @@
                                 </thead>
                                 <tfoot>
                                 <tr>
-                                    <th>Email</th>
+                                    <th>ID</th>
                                     <th>Message</th>
+                                    <th>User Report</th>
+                                    <th>User receive</th>
                                     <th>Date Send</th>
                                     <th>Action</th>
                                     <th>Details</th>
                                 </tr>
                                 </tfoot>
                                 <tbody>
-                                <tr>
-                                    <td>hson@gmail.com</td>
-                                    <td>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur doloremque
-                                        quos natus iusto nobis at nemo maiores dolor eius rem officia harum tempora
-                                        ipsum, non odio! Fugit ipsam amet quia!
-                                    </td>
-                                    <td>03-12-2003</td>
-                                    <td>
-                                        <button style="border-radius: 2px; background-color: rgb(82, 196, 82);">
-                                            Process
-                                        </button>
-                                    </td>
-                                    <td><a href="#">Details</a></td>
-                                </tr>
-                                <tr>
-                                    <td>hson@gmail.com</td>
-                                    <td>System Architect</td>
-                                    <td>03-12-2003</td>
-                                    <td>
-                                        <button style="border-radius: 2px; background-color: rgb(82, 196, 82);">
-                                            Process
-                                        </button>
-                                    </td>
-                                    <td><a href="#">Details</a></td>
-                                </tr>
+                                <c:forEach items="${listNotice}" var="l">
+                                    <tr>
+                                        <td>${l.getNoticeID()}</td>
+                                        <td>${l.getContent()}</td>
+                                        <td>${l.getUserIDFrom().getNickname()}</td>
+                                        <td>${l.getUserIDTo().getNickname()}</td>
+                                        <td>${l.createdAt}</td>
+                                        <td>
+                                            <button style="border-radius: 2px; background-color: rgb(82, 196, 82);">
+                                                Process
+                                            </button>
+                                        </td>
+                                        <td><a href="#">Details</a></td>
+                                    </tr>
+                                </c:forEach>
+
                                 </tbody>
                             </table>
                         </div>
@@ -332,21 +333,21 @@
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<script src="../adminContent/vendor/jquery/jquery.min.js"></script>
-<script src="../adminContent/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="adminContent/vendor/jquery/jquery.min.js"></script>
+<script src="adminContent/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
-<script src="../adminContent/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="adminContent/vendor/jquery-easing/jquery.easing.min.js"></script>
 
 <!-- Custom scripts for all pages-->
-<script src="../adminContent/js/sb-admin-2.min.js"></script>
+<script src="adminContent/js/sb-admin-2.min.js"></script>
 
 <!-- Page level plugins -->
-<script src="../adminContent/vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="../adminContent/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="adminContent/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="adminContent/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
 <!-- Page level custom scripts -->
-<script src="../adminContent/js/demo/datatables-demo.js"></script>
+<script src=adminContent/js/demo/datatables-demo.js"></script>
 
 </body>
 

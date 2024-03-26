@@ -54,11 +54,6 @@
         <div class="row">
             <div class="col-12">
                 <nav class="main-nav">
-                    <!-- ***** Logo Start ***** -->
-                    <a href="index.html" class="logo">
-                        <img src="" alt="" style="width: 158px;">
-                    </a>
-                    <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="home">Home</a></li>
@@ -67,8 +62,12 @@
                         </li>
                         <li><a href="buyingPost">Buying posts</a>
                         </li>
-                        <li><a href="">Contact Us</a>
+                        <li>
+                            <div class="icon">
+                                <i class="fas fa-bell" style="color: white"></i>
+                            </div>
                         </li>
+                        <li><a href="" id="money">${user.balance}</a></li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -133,7 +132,7 @@
                         </td>
                         <td id="money-2">${post.fee}</td>
                         <td id="money-3" style="font-weight: bold">${post.totalSpendForBuyer}</td>
-                        <td>${post.status}</td>
+                        <td class="td-overflow">${post.status}</td>
                         <td>
                             <c:set var="createdAt" value="${post.createdAt}"/>
                             <fmt:formatDate value="${createdAt}" pattern="dd/MM/yyyy HH:mm:ss"/>

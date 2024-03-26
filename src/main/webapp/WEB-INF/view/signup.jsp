@@ -51,16 +51,8 @@
         <div class="row">
             <div class="col-12">
                 <nav class="main-nav">
-                    <!-- ***** Logo Start ***** -->
-                    <a href="index.html" class="logo">
-                        <img src="" alt=""
-                             style="width: 158px;">
-                    </a>
-                    <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li><a href="contact.html">Contact Us</a>
-                        </li>
                         <li><a href="signin">Sign In</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -137,7 +129,7 @@
                 <h6 class="text-danger mb-2">${error}</h6>
                 <!-- ---------------button---------------- -->
                 <div class="form-group mb-3 text-center">
-                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg" id="submitBtn">SIGN UP</button>
+                    <button type="submit" class="col-lg-5 btn btn-primary btn-lg button-border" id="submitBtn">SIGN UP</button>
                 </div>
             </form>
             <p class="text-center" style="font-size: 15px;">Already have an account? <a data-toggle="tab"

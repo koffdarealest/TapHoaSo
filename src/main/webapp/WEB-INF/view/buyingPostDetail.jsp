@@ -69,8 +69,7 @@
                         </li>
                         <li><a href="buyingPost">Buying posts</a>
                         </li>
-                        <li><a href="">Contact Us</a>
-                        </li>
+                        <li><a href="" id="money">${user.balance}</a></li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -89,7 +88,6 @@
         <div class="row">
             <div class="col-lg-12">
                 <h3>Buying Product Post</h3>
-
             </div>
         </div>
     </div>
@@ -128,6 +126,16 @@
                             <div class="col-md-9">
                                 <input type="text" class="form-control" disabled
                                        value="${chosenPost.sellerID.nickname}" readonly>      <!-- input Seller -->
+                            </div>
+                        </div>
+                        <!-- ---------------Status--------------- -->
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="label-form col-md-3">
+                                <label class="label">Status </label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" disabled
+                                       value="${chosenPost.status}" readonly>
                             </div>
                         </div>
                         <!-- ---------------Title--------------- -->
@@ -376,7 +384,7 @@
     <div class="popup-content">
         <h6 class="mb-1">Do you really want to complain to the seller?</h6>
         <p class="mb-3">Please check carefully before making a complaint!</p>
-        <button onclick="complaintPostConfirmed()" style="background: #0fae00">Yes</button>
+        <button onclick="complaintPostConfirmed()" style="background: #d21300">Yes</button>
         <button onclick="closePopup()" style="background: #646464">No</button>
     </div>
 </div>
@@ -394,7 +402,9 @@
     <div class="popup-content">
         <h6 class="mb-1">Do you want to report this problem to the admin?</h6>
         <p class="mb-3">We will charge 50000 VND (if your complaint is true, we will refund this amount) Please check carefully before reporting!</p>
-        <button onclick="reportAdminConfirmed()" style="background: #0fae00">Yes</button>
+        <!-- start add notice -->
+            <button onclick="reportAdminConfirmed()" style="background: #0fae00">Yes</button>
+        <!--end add notice -->
         <button onclick="closePopup()" style="background: #646464">No</button>
     </div>
 </div>
@@ -592,6 +602,18 @@
                 isVisible = false;
             }
         });
+    });
+</script>
+
+<!-- ------------------Popup------------------ -->
+<script>
+    document.querySelectorAll("[id^='money']").forEach(function (cell) {
+        var totalSpend = cell.textContent;
+        var formattedTotalSpend = new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND"
+        }).format(totalSpend);
+        cell.textContent = formattedTotalSpend;
     });
 </script>
 

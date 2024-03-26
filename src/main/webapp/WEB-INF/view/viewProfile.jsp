@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
           rel="stylesheet">
 
-    <title>TapHoaSo</title>
+    <title>User Profile</title>
 
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -49,11 +49,6 @@
         <div class="row">
             <div class="col-12">
                 <nav class="main-nav">
-                    <!-- ***** Logo Start ***** -->
-                    <a href="index.html" class="logo">
-                        <img src="" alt="" style="width: 158px;">
-                    </a>
-                    <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="home">Home</a></li>
@@ -62,8 +57,7 @@
                         </li>
                         <li><a href="buyingPost">Buying posts</a>
                         </li>
-                        <li><a href="">Contact Us</a>
-                        </li>
+                        <li><a href="" id="money">${user.balance}</a></li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -107,7 +101,7 @@
                     <!-- ---------------Email--------------- -->
                     <div class="d-flex mb-3 align-items-center">
                         <div class="label-form col-md-3"><label class="label">Email</label></div>
-                        <div class="col-md-9"><input type="text" name="title" value="${user.email}"
+                        <div class="col-md-9"><input type="text" name="title" value="${user.getEmail()}"
                                                      class="form-control" readonly>      <!-- input Title --> </div>
                     </div>
                     <!-- ---------------nickname--------------- -->
@@ -125,8 +119,12 @@
 
                     <div class="d-flex mb-3 align-items-center">
                         <div class="form-group col-md-12 text-center">
-                            <button class="col-md-3 btn btn-primary p-3" onclick="location.href='editProfile'">EDIT
+                            <button class="col-md-3 btn btn-primary p-3 button-border" onclick="location.href='editProfile'" style="margin-right: 10px">EDIT
                                 PROFILE
+                            </button>
+                            <button class="col-md-3 btn btn-primary p-3 button-border" onclick="location.href='deposit'" style="margin-right: 10px; background: #0f6848">DEPOSIT
+                            </button>
+                            <button class="col-md-3 btn btn-primary p-3 button-border" onclick="location.href='withdraw'" style="margin-right: 10px; background: #be7000">WITHDRAW
                             </button>
                         </div>
                     </div>
@@ -151,7 +149,16 @@
 
 </footer>
 <!-- Bootstrap core JavaScript -->
-
+<script>
+    document.querySelectorAll("[id^='money']").forEach(function (cell) {
+        var totalSpend = cell.textContent;
+        var formattedTotalSpend = new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND"
+        }).format(totalSpend);
+        cell.textContent = formattedTotalSpend;
+    });
+</script>
 <!-- Bootstrap core JavaScript -->
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.min.js"></script>

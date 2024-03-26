@@ -54,15 +54,8 @@
         <div class="row">
             <div class="col-12">
                 <nav class="main-nav">
-                    <!-- ***** Logo Start ***** -->
-                    <a href="index.html" class="logo">
-                        <img src="" alt="" style="width: 158px;">
-                    </a>
-                    <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li><a href="contact.html">Contact Us</a>
-                        </li>
                         <li><a href="#">Sign In</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -123,7 +116,7 @@
                 <h6 class="text-danger mb-2">${error}</h6>
                 <!-- -----------------sign in button---------------- -->
                 <div class="form-group mb-3 text-center">
-                    <button type="submit" class="col-lg-8 btn btn-primary btn-lg">SIGN IN</button>
+                    <button type="submit" class="col-lg-5 btn btn-primary btn-lg button-border">SIGN IN</button>
                 </div>
                 <!-- -----------------remember me and forgot---------------- -->
                 <div class="form-group d-md-flex mb-3">
@@ -137,6 +130,13 @@
                     </div>
                 </div>
             </form>
+            <div style="margin: 20px auto; width: fit-content; text-align: center;">
+                <a href="https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20openid&redirect_uri=http://localhost:8080/LoginGoogleHandler&response_type=code
+                        &client_id=293107367869-bh6aqb9gm4vb6sq0hesk9nbnfbltbgtj.apps.googleusercontent.com&approval_prompt=force"
+                   style="border: 1px solid #333; border-radius: 20px; text-decoration: none; padding: 1% 4%;">
+                    <img src="assets/images/Google__G__Logo.svg.png" style="width: 4%;"> Login With Google
+                </a>
+            </div>
             <p class="text-center" style="font-size: 15px;">Not a member? <a data-toggle="tab" href="signup">Sign
                 Up Here</a></p>
         </div>

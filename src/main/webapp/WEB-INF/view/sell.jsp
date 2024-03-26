@@ -54,11 +54,6 @@
         <div class="row">
             <div class="col-12">
                 <nav class="main-nav">
-                    <!-- ***** Logo Start ***** -->
-                    <a href="index.html" class="logo">
-                        <img src="" alt="" style="width: 158px;">
-                    </a>
-                    <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="home">Home</a></li>
@@ -67,8 +62,7 @@
                         </li>
                         <li><a href="buyingPost">Buying posts</a>
                         </li>
-                        <li><a href="">Contact Us</a>
-                        </li>
+                        <li><a href="" id="money">${user.balance}</a></li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -213,10 +207,10 @@
                                 <label class="label">View mode (*)</label>
                             </div>
                             <div class="col-md-9 form-group">
-                                <button type="button" class="col-md-4 btn btn-primary" style="margin-right: 20px" id="publicBtn">
+                                <button type="button" class="col-md-4 btn btn-primary button-border" style="margin-right: 20px" id="publicBtn">
                                     <i class="fas fa-globe"></i> Public</button>
 
-                                <button type="button" class="col-md-4 btn btn-secondary" id="privateBtn">
+                                <button type="button" class="col-md-4 btn btn-secondary button-border" id="privateBtn">
                                     <i class="fas fa-lock"></i> Private</button>
                                 <input type="hidden" name="viewMode" value="public"> <!-- Giá trị mặc định -->
                             </div>
@@ -248,7 +242,7 @@
                         <!-- ---------------Submit--------------- -->
                         <div class="d-flex mb-3 align-items-center">
                             <div class="form-group col-md-12 text-center">
-                                <button type="submit" class="col-md-3 btn btn-primary p-3">
+                                <button type="submit" class="col-md-3 btn btn-primary p-3 button-border">
                                     <i class="fas fa-upload"></i> CREATE POST
                                 </button>
                                 <!-- Submit -->
@@ -398,6 +392,17 @@
             viewModeNotice.innerText = "Your post will be private, only people with private links can view";
             viewModeNotice.style.color = "#99001a";
         });
+    });
+</script>
+
+<script>
+    document.querySelectorAll("[id^='money']").forEach(function (cell) {
+        var totalSpend = cell.textContent;
+        var formattedTotalSpend = new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND"
+        }).format(totalSpend);
+        cell.textContent = formattedTotalSpend;
     });
 </script>
 <!-- Bootstrap core JavaScript -->

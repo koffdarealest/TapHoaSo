@@ -54,11 +54,6 @@
         <div class="row">
             <div class="col-12">
                 <nav class="main-nav">
-                    <!-- ***** Logo Start ***** -->
-                    <a href="index.html" class="logo">
-                        <img src="" alt="" style="width: 158px;">
-                    </a>
-                    <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="home">Home</a></li>
@@ -67,8 +62,7 @@
                         </li>
                         <li><a href="buyingPost">Buying posts</a>
                         </li>
-                        <li><a href="">Contact Us</a>
-                        </li>
+                        <li><a href="" id="money">${user.balance}</a></li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -125,6 +119,26 @@
                                 <div class="col-md-9">
                                     <input type="text" class="form-control" disabled
                                            value="${chosenPost.sellerID.nickname}">      <!-- input Title -->
+                                </div>
+                            </div>
+                            <!-- ---------------Status--------------- -->
+                            <div class="d-flex mb-3 align-items-center">
+                                <div class="label-form col-md-3">
+                                    <label class="label">Status </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" disabled
+                                           value="${chosenPost.status}" readonly>
+                                </div>
+                            </div>
+                            <!-- ---------------Buyer--------------- -->
+                            <div class="d-flex mb-3 align-items-center">
+                                <div class="label-form col-md-3">
+                                    <label class="label">Buyer </label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" disabled
+                                           value="${chosenPost.buyerID.nickname}">      <!-- input Title -->
                                 </div>
                             </div>
                             <!-- ---------------Title--------------- -->
@@ -311,9 +325,9 @@
                                     <!-- ---------------Submit--------------- -->
                                     <div class="d-flex mb-3 align-items-center">
                                         <div class="form-group col-md-12 text-center">
-                                            <button type="submit" class="col-md-3 btn btn-primary p-3"
+                                            <button type="submit" class="col-md-3 btn btn-primary p-3 button-border"
                                                     style="background: #b9b700; border: 0">
-                                                <i class="fas fa-pencil"></i> Update
+                                                <i class="fas fa-pencil"></i> UPDATE
                                             </button>
                                             <!-- Submit -->
                                         </div>
@@ -416,7 +430,7 @@
         <h6 class="mb-1">Are you sure you want to delete this post?</h6>
         <p class="mb-3">Deleted post cannot be recovered!</p>
         <button onclick="deletePostConfirmed()" style="background: #d31e01">Yes</button>
-        <button onclick="closePopup()">No</button>
+        <button onclick="closePopup()" style="background: #646464">No</button>
     </div>
 </div>
 <!-- -----------------Cancel Post Pop-up-----------------  -->
@@ -425,7 +439,7 @@
         <h6 class="mb-1">Are you sure you want to cancel this post?</h6>
         <p class="mb-3">Cancel post cannot be recovered!</p>
         <button onclick="cancelPostConfirmed()" style="background: #d31e01">Yes</button>
-        <button onclick="closePopup()">No</button>
+        <button onclick="closePopup()" style="background: #646464">No</button>
     </div>
 </div>
 <!-- -----------------Confirm Correct Pop-up-----------------  -->
@@ -433,8 +447,8 @@
     <div class="popup-content">
         <h6 class="mb-1">Are you sure the post is correct?</h6>
         <p class="mb-3">The post will be updated to 'readyToSell' status!</p>
-        <button onclick="confirmCorrectPost()" style="background: #b9b700">Yes</button>
-        <button onclick="closePopup()">No</button>
+        <button onclick="confirmCorrectPost()" style="background: #06a500">Yes</button>
+        <button onclick="closePopup()" style="background: #646464">No</button>
     </div>
 </div>
 
@@ -641,6 +655,17 @@
                 notice.style.display = 'block';
             })
         });
+    });
+</script>
+<!-- ------------------Format Money------------------ -->
+<script>
+    document.querySelectorAll("[id^='money']").forEach(function (cell) {
+        var totalSpend = cell.textContent;
+        var formattedTotalSpend = new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND"
+        }).format(totalSpend);
+        cell.textContent = formattedTotalSpend;
     });
 </script>
 <!-- Bootstrap core JavaScript -->

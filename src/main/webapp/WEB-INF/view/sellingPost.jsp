@@ -54,11 +54,6 @@
         <div class="row">
             <div class="col-12">
                 <nav class="main-nav">
-                    <!-- ***** Logo Start ***** -->
-                    <a href="index.html" class="logo">
-                        <img src="" alt="" style="width: 158px;">
-                    </a>
-                    <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="home">Home</a></li>
@@ -67,8 +62,7 @@
                         </li>
                         <li><a href="buyingPost">Buying posts</a>
                         </li>
-                        <li><a href="">Contact Us</a>
-                        </li>
+                        <li><a href="" id="money">${user.balance}</a></li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -101,7 +95,7 @@
                 <tr>
                     <th>Trading code</th>
                     <th>Title</th>
-                    <th>Contact</th>
+                    <th>Buyer</th>
                     <th>Price</th>
                     <th>Fee payer</th>
                     <th>Fee</th>
@@ -117,7 +111,7 @@
                     <tr>
                         <td class="td-overflow">${post.tradingCode}</td>
                         <td class="td-overflow">${post.topic}</td>
-                        <td>${post.contact}</td>
+                        <td>${post.buyerID.nickname}</td>
                         <td id="money-1">${post.price}</td>
                         <td><c:choose>
                             <c:when test="${post.whoPayFee == 'half'}">
@@ -133,7 +127,7 @@
                         </td>
                         <td id="money-2">${post.fee}</td>
                         <td id="money-3" style="font-weight: bold">${post.totalReceiveForSeller}</td>
-                        <td>${post.status}</td>
+                        <td class="td-overflow">${post.status}</td>
                         <td>
                             <c:set var="createdAt" value="${post.createdAt}"/>
                             <fmt:formatDate value="${createdAt}" pattern="dd/MM/yyyy HH:mm:ss"/>

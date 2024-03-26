@@ -31,7 +31,132 @@
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"/>
 
+    <style>
+        #notificationWindow {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            z-index: 9999;
+            max-height: 400px; /* Giới hạn chiều cao của cửa sổ thông báo */
+            overflow-y: auto; /* Cho phép cuộn nếu nội dung vượt quá chiều cao */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+            border-radius: 5px; /* Bo tròn góc */
+            width: 300px; /* Độ rộng của cửa sổ thông báo */
+            margin-left: -255px;
+        }
 
+        #notificationWindow h3 {
+            margin-top: 0;
+            font-size: 16px;
+            color: #333;
+        }
+
+        #notificationWindow p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .notification-item {
+            margin-bottom: 10px;
+        }
+
+        .notification-item a {
+            text-decoration: none;
+            color: #0a53be;
+            transition: color 0.3s ease;
+        }
+
+        .notification-item a:hover {
+            color: #0a53be;
+            text-decoration: underline;
+        }
+
+        #notificationWindow a {
+            text-decoration: none;
+            color: #0a53be;
+            transition: color 0.3s ease;
+            font-size: 13px;
+        }
+
+        .notification-item:nth-child(3n+3) {
+            border-bottom: 1px solid #ccc;
+        }
+        /* Tạo khoảng cách giữa các dòng thông báo */
+        .notification-item a {
+            margin: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        #notificationWindow a:hover {
+            color: #0a53be;
+            text-decoration: underline;
+        }
+
+        .icon:hover {
+            color: #0a53be;
+        }
+
+        .icon {
+            position: relative;
+        }
+
+        #notificationWindow p{
+            margin-top: 5px;
+        }
+
+
+        input.form-control {
+            width: 100%;
+            padding: .375rem .75rem;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: .25rem;
+            transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        }
+        #pagination {
+            margin-top: 20px; /* Khoảng cách từ đối tượng trước */
+            text-align: center; /* Căn giữa nút và số trang */
+        }
+
+        #pagination button,
+        #pagination span {
+            margin: 0 5px; /* Khoảng cách giữa các nút và số trang */
+            padding: 8px 12px; /* Kích thước nút và số trang */
+            border: 1px solid #ccc; /* Đường viền */
+            background-color: #f9f9f9; /* Màu nền */
+            cursor: pointer; /* Con trỏ khi rê chuột */
+        }
+
+        #pagination button:hover {
+            background-color: #e9e9e9; /* Màu nền khi di chuột qua */
+        }
+
+        #pagination button:active {
+            background-color: #d9d9d9; /* Màu nền khi nhấn nút */
+        }
+
+        #pagination button:disabled,
+        #pagination span.disabled {
+            color: #aaa; /* Màu chữ xám */
+            border-color: #ddd; /* Đường viền mờ */
+            cursor: not-allowed; /* Không cho phép nhấp chuột */
+        }
+
+        #pagination button#prevPage,
+        #pagination button#nextPage {
+            font-weight: bold; /* Chữ đậm */
+        }
+
+    </style>
 </head>
 
 
@@ -56,11 +181,6 @@
         <div class="row">
             <div class="col-12">
                 <nav class="main-nav">
-                    <!-- ***** Logo Start ***** -->
-                    <a href="index.html" class="logo">
-                        <img src="" alt="" style="width: 158px;">
-                    </a>
-                    <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="home">Home</a></li>
@@ -69,8 +189,20 @@
                         </li>
                         <li><a href="buyingPost">Buying posts</a>
                         </li>
-                        <li><a href="">Contact Us</a>
-                        </li>
+                        <li>
+                            <div class="icon">
+                                <i class="fas fa-bell" style="color: white" onclick="toggleNotification()"></i>
+                                <!-- Cửa sổ hiển thị thông báo -->
+                                <div id="notificationWindow">
+                                    <h3>Thông báo</h3>
+                                    <c:forEach items="${requestScope.listNotice}" var="notice">
+                                        <div class="notification-item">
+                                            <a href="#"><c:out value="${notice.content}" /></a>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        <li><a href="" id="money">${user.balance}</a></li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -111,7 +243,7 @@
                     <th data-column-index="7" data-sort-order="desc">Seller</th>
                     <th data-column-index="8" data-sort-order="desc">Create time</th>
                     <th data-column-index="9" data-sort-order="desc">Last modify</th>
-                    <th colspan="2">Action</th>
+                    <th>Action</th>
                 </tr>
 
                 <tr>
@@ -185,14 +317,7 @@
                     <th style="max-width: 200px;">
                         <div class="rt-th rthfc-th-fixed rthfc-th-fixed-right rthfc-th-fixed-right-first">
                             <button type="button" data-toggle="tooltip" title="Bỏ lọc" class="mr-1 btn btn-outline-danger" id="clearFilterButton" style="width: 100%;">
-                                <i class="fa fa-remove"></i> Bỏ lọc
-                            </button>
-                        </div>
-                    </th>
-                    <th style="max-width: 200px;">
-                        <div class="rt-th rthfc-th-fixed rthfc-th-fixed-right rthfc-th-fixed-right-first">
-                            <button type="button" data-toggle="tooltip" title="Thu gọn" class="mr-1 btn btn-outline-primary" style="width: 100%;">
-                                Thu gọn >
+                                <i class="fa fa-remove"></i> Filter
                             </button>
                         </div>
                     </th>
@@ -241,7 +366,6 @@
                                 <i class="fas fa-info-circle"></i> Detail
                             </button>
                         </td>
-                        <td>Detail</td>
                     </tr>
                 </c:forEach>
                 <!-- Repeat the above row for 20 records -->
@@ -250,7 +374,13 @@
         </div>
     </div>
 </div>
-
+<div id="pagination">
+    <button id="prevPage">Previous</button>
+    <span>1</span>
+    <span>2</span>
+    <span>3</span>
+    <button id="nextPage">Next</button>
+</div>
 <footer>
     <div class="container">
         <div class="row justify-content-center">
@@ -269,7 +399,7 @@
     window.onload = function () {
         const table = document.getElementById('marketTable');
         const headers = table.getElementsByTagName('th');
-        const maxRows = 30; // Số hàng tối đa
+        const maxRows = 10; // Số hàng tối đa
         const existingRowHeight = table.rows[1].offsetHeight; // Chiều cao của hàng thứ hai
         let rowCounter = table.rows.length - 1; // Số hàng hiện có (trừ đi hàng header)
         // Khởi tạo bảng tới số hàng tối đa
@@ -279,7 +409,7 @@
                 for (let i = 0; i < remainingRows; i++) {
                     const row = table.insertRow();
                     row.style.height = (existingRowHeight * 0.85) + 'px'; // Thiết lập chiều cao cho hàng mới
-                    for (let j = 0; j <= headers.length; j = j + 2) {
+                    for (let j = 0; j < headers.length; j = j + 2) {
                         const cell = row.insertCell();
                     }
                 }
@@ -339,6 +469,30 @@
         cell.textContent = formattedTotalSpend;
     });
 
+    function toggleNotification() {
+        var notificationWindow = document.getElementById('notificationWindow');
+
+        if (notificationWindow.style.display === 'block') {
+            notificationWindow.style.display = 'none';
+        } else {
+            notificationWindow.style.display = 'block';
+            /* var xhttp = new XMLHttpRequest();
+             xhttp.onreadystatechange = function() {
+                 if (this.readyState == 4) {
+                     if (this.status == 200) {
+                         notificationWindow.innerHTML = this.responseText;
+                         notificationWindow.style.display = 'block';
+                     } else {
+                         console.error('Error:', this.status);
+                     }
+                 }
+             };
+
+             // Sử dụng phương thức GET thay vì POST
+             xhttp.open("GET", "notice", true);
+             xhttp.send();*/
+        }
+    }
 </script>
 <!-- Bootstrap core JavaScript -->
 <script src="vendor/jquery/jquery.min.js"></script>
@@ -378,7 +532,6 @@
         let inputFields = document.querySelectorAll('input.form-control');
         inputFields.forEach(function(input) {
             input.addEventListener('input', function() {
-                let searchText = this.value.toLowerCase();
                 let columnIndex = this.closest('th').cellIndex;
 
                 // Kiểm tra chỉ số của cột để xử lý tìm kiếm
@@ -397,9 +550,9 @@
                         let feeCell = row.cells[5];
                         let totalSpendCell = row.cells[6];
 
-                        let priceValue = parseFloat(priceCell.textContent.trim());
-                        let feeValue = parseFloat(feeCell.textContent.trim());
-                        let totalSpendValue = parseFloat(totalSpendCell.textContent.trim());
+                        let priceValue = parseFloat(priceCell.textContent.trim().replace(/[.,₫]/g, ''));
+                        let feeValue = parseFloat(feeCell.textContent.trim().replace(/[.,₫]/g, ''));
+                        let totalSpendValue = parseFloat(totalSpendCell.textContent.trim().replace(/[.,₫]/g, ''));
 
                         if (((isNaN(minPrice) || priceValue >= minPrice) && (isNaN(maxPrice) || priceValue <= maxPrice)) &&
                             ((isNaN(minFee) || feeValue >= minFee) && (isNaN(maxFee) || feeValue <= maxFee)) &&
@@ -468,13 +621,20 @@
 
                 // Sắp xếp các hàng dựa trên giá trị của cột tương ứng
                 rows.sort(function(rowA, rowB) {
-                    const valueA = rowA.cells[columnIndex].textContent.trim();
-                    const valueB = rowB.cells[columnIndex].textContent.trim();
-
-                    if (!isNaN(valueA) && !isNaN(valueB)) {
+                    if(columnIndex === 3 || columnIndex === 5 || columnIndex === 6) {
+                        const valueA = rowA.cells[columnIndex].textContent.trim().replace(/[.,₫]/g, '');
+                        const valueB = rowB.cells[columnIndex].textContent.trim().replace(/[.,₫]/g, '');
                         return sortOrder[columnIndex] * (parseFloat(valueA) - parseFloat(valueB));
-                    } else if(isNaN(valueA) && isNaN((valueB))){
-                        return sortOrder[columnIndex] * (valueA.localeCompare(valueB));
+                    }
+                    else if(columnIndex === 0 || columnIndex === 1 || columnIndex === 2 || columnIndex === 4 || columnIndex === 7){
+                        const valueA = rowA.cells[columnIndex].textContent.trim();
+                        const valueB = rowB.cells[columnIndex].textContent.trim();
+                        if(isNaN(valueA) && isNaN((valueB))) {
+                            return sortOrder[columnIndex] * (valueA.localeCompare(valueB));
+                        }
+                        else if (!isNaN(valueA) && !isNaN(valueB)) {
+                            return sortOrder[columnIndex] * (parseFloat(valueA) - parseFloat(valueB));
+                        }
                     }
                 });
 
@@ -489,6 +649,66 @@
         }
     });
 
+    document.addEventListener("DOMContentLoaded", function() {
+        var currentPage = 1;
+        var rowsPerPage = 5; // Số hàng trên mỗi trang
+
+        var tableRows = document.querySelectorAll("#marketTable tbody tr");
+        var totalPages = Math.ceil(tableRows.length / rowsPerPage);
+
+        function showPage(page) {
+            var startIndex = (page - 1) * rowsPerPage;
+            var endIndex = startIndex + rowsPerPage;
+
+            tableRows.forEach(function(row, index) {
+                if (index >= startIndex && index < endIndex) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+
+        function updatePagination() {
+            var paginationDiv = document.getElementById("pagination");
+            paginationDiv.innerHTML = "";
+
+            if (totalPages > 1) {
+                var prevButton = document.createElement("button");
+                prevButton.textContent = "Previous";
+                prevButton.addEventListener("click", function() {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        showPage(currentPage);
+                    }
+                });
+                paginationDiv.appendChild(prevButton);
+
+                for (var i = 1; i <= totalPages; i++) {
+                    var pageNumberSpan = document.createElement("span");
+                    pageNumberSpan.textContent = i;
+                    pageNumberSpan.addEventListener("click", function() {
+                        currentPage = parseInt(this.textContent);
+                        showPage(currentPage);
+                    });
+                    paginationDiv.appendChild(pageNumberSpan);
+                }
+
+                var nextButton = document.createElement("button");
+                nextButton.textContent = "Next";
+                nextButton.addEventListener("click", function() {
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        showPage(currentPage);
+                    }
+                });
+                paginationDiv.appendChild(nextButton);
+            }
+        }
+
+        showPage(currentPage);
+        updatePagination();
+    });
 </script>
 </body>
 

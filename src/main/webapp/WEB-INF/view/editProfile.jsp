@@ -37,9 +37,6 @@
         <div class="row">
             <div class="col-12">
                 <nav class="main-nav">
-                    <a href="index.html" class="logo">
-
-                    </a>
                     <ul class="nav">
                         <li><a href="home">Home</a></li>
                         <li><a href="market">Public market</a></li>
@@ -47,8 +44,7 @@
                         </li>
                         <li><a href="buyingPost">Buying posts</a>
                         </li>
-                        <li><a href="">Contact Us</a>
-                        </li>
+                        <li><a href="" id="money">${user.balance}</a></li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -174,7 +170,8 @@
                             <!-- --------------submit button-------------- -->
                             <div class="d-flex mb-4 align-items-center">
                                 <div class="form-group col-md-12 text-center">
-                                    <button type="changepassword" class="col-md-5 btn btn-primary p-3" id="submitBtn">CHANGE PASSWORD
+                                    <button type="changepassword" class="col-md-5 btn btn-primary p-3" id="submitBtn">
+                                        CHANGE PASSWORD
                                     </button>
                                 </div>
                             </div>
@@ -225,7 +222,7 @@
 </script>
 
 <script>
-    document.getElementById("submitBtn").addEventListener("click", function(event) {
+    document.getElementById("submitBtn").addEventListener("click", function (event) {
         var password = document.getElementById("password").value;
         var rePassword = document.getElementById("repassword").value;
         var message = document.getElementById("message");
@@ -236,6 +233,16 @@
         } else {
             message.innerHTML = "";
         }
+    });
+</script>
+<script>
+    document.querySelectorAll("[id^='money']").forEach(function (cell) {
+        var totalSpend = cell.textContent;
+        var formattedTotalSpend = new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND"
+        }).format(totalSpend);
+        cell.textContent = formattedTotalSpend;
     });
 </script>
 <script src="vendor/jquery/jquery.min.js"></script>

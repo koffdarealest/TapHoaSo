@@ -4,6 +4,9 @@ import jakarta.persistence.OptimisticLockException;
 import model.Post;
 import model.User;
 import model.Transaction;
+import model.VnPayTransaction;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.hibernate.Session;
 import util.Factory;
 
@@ -41,6 +44,7 @@ public class TransactionDAO {
         trans.setType("-");
         trans.setDescription("Prepost fee for post: " + post.getTradingCode());
         trans.setProcessed(false);
+        trans.setCreatedBy(post.getSellerID().getUserID());
         return trans;
     }
 
@@ -61,6 +65,7 @@ public class TransactionDAO {
         trans.setType("-");
         trans.setDescription("Spend money for buying post: " + post.getTradingCode());
         trans.setProcessed(false);
+        trans.setCreatedBy(post.getBuyerID().getUserID());
         return trans;
     }
 
@@ -71,6 +76,28 @@ public class TransactionDAO {
         trans.setType("+");
         trans.setDescription("Refund money for canceled post: " + post.getTradingCode());
         trans.setProcessed(false);
+        return trans;
+    }
+
+    public Transaction createReportToAdminTrans(Post post) {
+        Transaction trans = new Transaction();
+        trans.setUserID(post.getBuyerID());
+        trans.setAmount(50000L);
+        trans.setType("-");
+        trans.setDescription("Report Admin fee for post: " + post.getTradingCode());
+        trans.setProcessed(false);
+        trans.setCreatedBy(post.getBuyerID().getUserID());
+        return trans;
+    }
+
+    public Transaction createWithdrawTrans(User user, Long amount) {
+        Transaction trans = new Transaction();
+        trans.setUserID(user);
+        trans.setAmount(amount);
+        trans.setType("-");
+        trans.setDescription("Withdraw money");
+        trans.setProcessed(false);
+        trans.setCreatedBy(user.getUserID());
         return trans;
     }
 
@@ -96,6 +123,37 @@ public class TransactionDAO {
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;
+        }
+    }
+    public List<Transaction> getAllTransaction() {
+        try (Session session = Factory.getSessionFactory().openSession()) {
+            return session.createQuery("from Transaction", Transaction.class).list();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public Transaction getTransactionByID(long transactionID) {
+        try (Session session = Factory.getSessionFactory().openSession()) {
+            return session.get(Transaction.class, transactionID);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public void update(Transaction transaction){
+        org.hibernate.Transaction transaction1 = null;
+        try (Session session = Factory.getSessionFactory().openSession()) {
+            transaction1 = session.beginTransaction();
+            session.update(transaction);
+            transaction1.commit();
+        } catch (Exception ex) {
+            if (transaction1 == null) {
+                transaction1.rollback();
+            }
+            ex.printStackTrace();
         }
     }
 }
