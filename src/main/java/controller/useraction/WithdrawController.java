@@ -50,6 +50,7 @@ public class WithdrawController extends HttpServlet {
         Long amountLong = Long.parseLong(amount);
         User user = userDAO.getUserByUsername(username);
         if (amountLong > user.getBalance()) {
+            req.setAttribute("user", user);
             req.setAttribute("error", "You don't have enough money to withdraw!");
             req.getRequestDispatcher("/WEB-INF/view/withdraw.jsp").forward(req, resp);
             return;
