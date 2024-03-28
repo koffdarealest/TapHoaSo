@@ -51,7 +51,7 @@ public class VnpayIPNControlller extends HttpServlet {
         req.setAttribute("VAR_RespCode", vnpResponseCode);
         req.setAttribute("VAR_TransNo", vnpTransactionNo);
         req.setAttribute("VAR_BankCode", vnpBankCode);
-        req.setAttribute("VAR_PayDate", Converter.convertTimestamp(vnpPayDate));
+//        req.setAttribute("VAR_PayDate", Converter.convertTimestamp(vnpPayDate));
         req.setAttribute("IS_SUCCESS", false);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/view/viewVnPayResult.jsp");
