@@ -124,6 +124,16 @@
                                        value="${chosenPost.sellerID.nickname}">      <!-- input Title -->
                             </div>
                         </div>
+                        <!-- ---------------Status--------------- -->
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="label-form col-md-3">
+                                <label class="label">Status </label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" disabled
+                                       value="${status}">      <!-- input Title -->
+                            </div>
+                        </div>
                         <!-- ---------------Title--------------- -->
                         <div class="d-flex mb-3 align-items-center">
                             <div class="label-form col-md-3">

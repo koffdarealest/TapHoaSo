@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Post;
 import model.User;
+import util.StatusFormat;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,6 +32,8 @@ public class BuyingPostDetailController extends HttpServlet {
                 notifyUser(req, resp, "Invalid action! <a href=home>Go back here</a>");
                 return;
             } else {
+                String status = StatusFormat.formatStatus(post.getStatus());
+                req.setAttribute("status", status);
                 req.setAttribute("chosenPost", post);
             }
             getAllPost(req, resp);

@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Post;
+import util.StatusFormat;
 
 import java.io.IOException;
 import java.util.List;
@@ -35,6 +36,8 @@ public class PostDetailController extends HttpServlet {
             }
             UserDAO userDAO = new UserDAO();
             req.setAttribute("user", userDAO.getUserByUsername(username));
+            String status = StatusFormat.formatStatus(post.getStatus());
+            req.setAttribute("status", status);
             req.setAttribute("chosenPost", post);
             getAllPost(req, resp);
             req.getRequestDispatcher("WEB-INF/view/postDetail.jsp").forward(req, resp);

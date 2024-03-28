@@ -127,7 +127,31 @@
                         </td>
                         <td id="money-2">${post.fee}</td>
                         <td id="money-3" style="font-weight: bold">${post.totalReceiveForSeller}</td>
-                        <td class="td-overflow">${post.status}</td>
+                        <td class="td-overflow">
+                            <c:choose>
+                                <c:when test="${post.status eq 'readyToSell'}">
+                                    Selling
+                                </c:when>
+                                <c:when test="${post.status eq 'buyerChecking'}">
+                                    Buyer Checking
+                                </c:when>
+                                <c:when test="${post.status eq 'buyerComplaining'}">
+                                    Buyer Complaining about the product
+                                </c:when>
+                                <c:when test="${post.status eq 'buyerCanceledComplain'}">
+                                    Seller Denied Buyer's Complaint
+                                </c:when>
+                                <c:when test="${post.status eq 'waitingAdmin'}">
+                                    Waiting for Admin
+                                </c:when>
+                                <c:when test="${post.status eq 'done'}">
+                                    Done
+                                </c:when>
+                                <c:when test="${post.status eq 'cancelled'}">
+                                    Cancelled
+                                </c:when>
+                            </c:choose>
+                        </td>
                         <td>
                             <c:set var="createdAt" value="${post.createdAt}"/>
                             <fmt:formatDate value="${createdAt}" pattern="dd/MM/yyyy HH:mm:ss"/>

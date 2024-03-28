@@ -330,7 +330,7 @@
                     <tr>
                         <td class="td-overflow">${post.tradingCode}</td>
                         <td class="td-overflow">${post.topic}</td>
-                        <td>${post.contact}</td>
+                        <td class="td-overflow">${post.contact}</td>
                         <td id="money-1">${post.price}</td>
                         <td><c:choose>
                             <c:when test="${post.whoPayFee == 'half'}">

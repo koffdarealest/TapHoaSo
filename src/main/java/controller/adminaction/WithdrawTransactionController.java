@@ -22,7 +22,7 @@ public class WithdrawTransactionController extends HttpServlet {
         List<Transaction> withdrawTrans = new ArrayList<>();
 
         for(Transaction transaction : transactions) {
-            if(Objects.equals(transaction.getDescription().trim(), "Withdraw money".trim())){
+            if(transaction.getAction().equals("withdraw")){
                 withdrawTrans.add(transaction);
             }
         }

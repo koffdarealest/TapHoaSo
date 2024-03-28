@@ -1,12 +1,19 @@
 package controller.vnpaycontroller;
 
 import dao.BillDAO;
+import dao.TransactionDAO;
 import dao.UserDAO;
+import listener.TransactionProcessor;
 import model.Bill;
+import model.Transaction;
 import model.VnPayReturnData;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,10 +21,17 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.User;
+import wrapper.TransactionWrapper;
 
 @WebServlet(urlPatterns = {"/processVnpayResponse"})
 public class ProcessVnpayResponseController extends HttpServlet {
-
+    //-----------------TransactionProcessor-----------------
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private BlockingQueue<TransactionWrapper> transactionQueue = new LinkedBlockingQueue<>();
+    TransactionProcessor transactionProcessor = new TransactionProcessor(transactionQueue);
+    public void init() {
+        executor.submit(transactionProcessor);
+    }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -66,7 +80,8 @@ public class ProcessVnpayResponseController extends HttpServlet {
                 BillDAO billDAO = new BillDAO();
                 Bill bill = billDAO.getBillByTransactionCode(transactionCode);
                 if (bill == null)
-                    response.sendRedirect(request.getContextPath() + "/transactionFailed");
+                    request.setAttribute("notification", "Invalid Transaction");
+                    response.sendRedirect(request.getContextPath() + "/statusNotification");
                 // Nếu thanh toán đã được xác nhận thành công
                 String username = (String) request.getSession().getAttribute("username");
                 UserDAO userDAO = new UserDAO();
@@ -74,8 +89,7 @@ public class ProcessVnpayResponseController extends HttpServlet {
                 if (Objects.equals(bill.getPaymentStatus(), "processing")) {
                     bill.setPaymentStatus("success");
                     billDAO.update(bill);
-                    user.setBalance(user.getBalance() + Long.parseLong(amount) / 100);
-                    userDAO.updateUser(user);
+                    deposit(user, Long.parseLong(amount) / 100L);
                 }
                 // Gửi thông tin người dùng đến viewVnPayResult.jsp để hiển thị
                 request.setAttribute("user", user);
@@ -85,9 +99,20 @@ public class ProcessVnpayResponseController extends HttpServlet {
             } else {
                 // Giao dịch thất bại
                 // Xử lý tùy ý, ví dụ hiển thị thông báo lỗi cho người dùng
+                request.setAttribute("notification", "Invalid Transaction");
                 response.sendRedirect(request.getContextPath() + "/transactionFailed");
             }
         }
+    }
 
+    private void deposit(User user, long amountLong) {
+        TransactionDAO transactionDAO = new TransactionDAO();
+        try {
+            Transaction trans = transactionDAO.createDepositTrans(user, amountLong);
+            TransactionWrapper transactionWrapper = new TransactionWrapper(trans);
+            transactionQueue.add(transactionWrapper);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

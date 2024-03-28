@@ -16,6 +16,7 @@ public class Transaction extends BaseAuditable {
     @Column(columnDefinition = "TEXT")
     private String description;
     private Boolean isProcessed;
+    private String action;
     public Transaction() {
     }
 
@@ -73,5 +74,13 @@ public class Transaction extends BaseAuditable {
 
     public void setProcessed(Boolean processed) {
         isProcessed = processed;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
     }
 }

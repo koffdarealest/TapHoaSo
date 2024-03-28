@@ -33,7 +33,9 @@ public class TransactionDAO {
                 ex.printStackTrace();
             }
         }
-        trans.setProcessed(true);
+        if(!trans.getAction().equals("withdraw")) {
+            trans.setProcessed(true);
+        }
         return status;
     }
 
@@ -42,6 +44,7 @@ public class TransactionDAO {
         trans.setUserID(post.getSellerID());
         trans.setAmount(500L);
         trans.setType("-");
+        trans.setAction("postfee");
         trans.setDescription("Prepost fee for post: " + post.getTradingCode());
         trans.setProcessed(false);
         trans.setCreatedBy(post.getSellerID().getUserID());
@@ -53,6 +56,7 @@ public class TransactionDAO {
         trans.setUserID(post.getSellerID());
         trans.setAmount(post.getTotalReceiveForSeller());
         trans.setType("+");
+        trans.setAction("payforseller");
         trans.setDescription("Receive money from completed post: " + post.getTradingCode());
         trans.setProcessed(false);
         return trans;
@@ -63,6 +67,7 @@ public class TransactionDAO {
         trans.setUserID(post.getBuyerID());
         trans.setAmount(post.getTotalSpendForBuyer());
         trans.setType("-");
+        trans.setAction("buy");
         trans.setDescription("Spend money for buying post: " + post.getTradingCode());
         trans.setProcessed(false);
         trans.setCreatedBy(post.getBuyerID().getUserID());
@@ -74,6 +79,7 @@ public class TransactionDAO {
         trans.setUserID(post.getBuyerID());
         trans.setAmount(post.getTotalSpendForBuyer());
         trans.setType("+");
+        trans.setAction("refund");
         trans.setDescription("Refund money for canceled post: " + post.getTradingCode());
         trans.setProcessed(false);
         return trans;
@@ -84,6 +90,7 @@ public class TransactionDAO {
         trans.setUserID(post.getBuyerID());
         trans.setAmount(50000L);
         trans.setType("-");
+        trans.setAction("reportadmin");
         trans.setDescription("Report Admin fee for post: " + post.getTradingCode());
         trans.setProcessed(false);
         trans.setCreatedBy(post.getBuyerID().getUserID());
@@ -95,7 +102,20 @@ public class TransactionDAO {
         trans.setUserID(user);
         trans.setAmount(amount);
         trans.setType("-");
+        trans.setAction("withdraw");
         trans.setDescription("Withdraw money");
+        trans.setProcessed(false);
+        trans.setCreatedBy(user.getUserID());
+        return trans;
+    }
+
+    public Transaction createDepositTrans(User user, Long amount) {
+        Transaction trans = new Transaction();
+        trans.setUserID(user);
+        trans.setAmount(amount);
+        trans.setType("+");
+        trans.setAction("deposit");
+        trans.setDescription("Deposit money");
         trans.setProcessed(false);
         trans.setCreatedBy(user.getUserID());
         return trans;

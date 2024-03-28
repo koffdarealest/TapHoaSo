@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Post;
 import model.User;
+import util.StatusFormat;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -37,6 +38,8 @@ public class UpdatePostController extends HttpServlet {
             UserDAO userDAO = new UserDAO();
             User user = userDAO.getUserByUsername(username);
             getAllPost(req, resp);
+            String status = StatusFormat.formatStatus(post.getStatus());
+            req.setAttribute("status", status);
             req.setAttribute("user", user);
             req.getRequestDispatcher("WEB-INF/view/sellingPostDetail.jsp").forward(req, resp);
         }

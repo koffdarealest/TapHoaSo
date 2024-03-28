@@ -135,7 +135,7 @@
                             </div>
                             <div class="col-md-9">
                                 <input type="text" class="form-control" disabled
-                                       value="${chosenPost.status}" readonly>
+                                       value="${status}" readonly>
                             </div>
                         </div>
                         <!-- ---------------Title--------------- -->
