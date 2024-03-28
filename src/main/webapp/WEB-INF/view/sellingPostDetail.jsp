@@ -62,7 +62,7 @@
                         </li>
                         <li><a href="buyingPost">Buying posts</a>
                         </li>
-                        <li><a href="" id="money">${user.balance}</a></li>
+                        <li><a href="transactionHistory" id="money">${user.balance}</a></li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -337,11 +337,11 @@
                                     <div class="d-flex mb-3 align-items-center">
                                         <div class="col-md-12 text-center">
                                             <button type="button" class="col-md-5 btn custom-button p-2" style="font-size: medium; margin-right: 20px; background: #d21300"
-                                                    onclick="openCancelPostPopup('${chosenPost.tradingCode}')">
-                                                <i class="fa fa-cancel" style="margin-right: 4px"></i>CONFIRM ERRORS, CALCEL POST
+                                                    onclick="openCancelPostPopup('${chosenPost.tradingCode}')" id="btnRed">
+                                                <i class="fa fa-cancel" style="margin-right: 4px"></i>CONFIRM ERRORS, CANCEL POST
                                             </button>
                                             <button type="button" class="col-md-5 btn custom-button p-2" style="font-size: medium"
-                                                    onclick="openConfirmCorrectPopup('${chosenPost.tradingCode}')">
+                                                    onclick="openConfirmCorrectPopup('${chosenPost.tradingCode}')" id="btnGreen">
                                                 <i class="fa fa-check-circle" style="margin-right: 4px"></i>
                                                 CONFIRM THE POST IS CORRECT
                                             </button>
@@ -366,7 +366,6 @@
                     <tr>
                         <th>Title</th>
                         <th>Total spend</th>
-                        <th>Status</th>
                         <th colspan="2">Action</th>
                     </tr>
                     </thead>
@@ -375,7 +374,6 @@
                         <tr>
                             <td>${post.topic}</td>
                             <td>${post.totalSpendForBuyer}</td>
-                            <td>${post.status}</td>
                             <td>
                                 <button class="custom-button btn btn-lg"
                                         onclick="viewPostDetailUpdate('${post.tradingCode}')" style="font-size: small">
@@ -667,6 +665,24 @@
         }).format(totalSpend);
         cell.textContent = formattedTotalSpend;
     });
+</script>
+
+<script>
+    window.onload = function () {
+        var btnReport = document.getElementById('btnRed');
+        var btnConfirm = document.getElementById('btnGreen');
+        var initialWidth = btnConfirm.offsetWidth;
+        var initialHeight = btnConfirm.offsetHeight;
+        btnReport.style.width = initialWidth + 'px';
+        btnReport.style.height = initialHeight + 'px';
+
+        window.addEventListener('resize', function () {
+            var newWidth = btnConfirm.offsetWidth;
+            var newHeight = btnConfirm.offsetHeight;
+            btnReport.style.width = newWidth + 'px';
+            btnReport.style.height = newHeight + 'px';
+        });
+    };
 </script>
 <!-- Bootstrap core JavaScript -->
 <script src="https://cdn.tiny.cloud/1/qmw4wavlc4ekzay2c6m9pxxoyvi1ni12vki7sz9clkyfyyo2/tinymce/6/tinymce.min.js"

@@ -8,7 +8,9 @@ public class StatusFormat {
             return "Buyer Checking";
         } else if (status.equals("buyerComplaining")) {
             return "Buyer Complaining about the product";
-        } else if (status.equals("buyerCanceledComplain")) {
+        } else if (status.equals("buyerCanceledComplaint")) {
+            return "Waiting confirm from Buyer";
+        } else if (status.equals("sellerDeniedComplaint")) {
             return "Seller Denied Buyer's Complaint";
         } else if (status.equals("waitingAdmin")) {
             return "Waiting for Admin";

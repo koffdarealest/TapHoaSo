@@ -126,7 +126,7 @@
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="viewProfile">Welcome! ${user.nickname}</a></li>
-                        <li><a href="" id="money">${user.balance}</a></li>
+                        <li><a href="transactionHistory" id="money">${user.balance}</a></li>
                         <!--start notification icon-->
                         <li>
                             <div class="icon">

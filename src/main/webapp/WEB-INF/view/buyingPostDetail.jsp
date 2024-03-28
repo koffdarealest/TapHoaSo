@@ -69,7 +69,7 @@
                         </li>
                         <li><a href="buyingPost">Buying posts</a>
                         </li>
-                        <li><a href="" id="money">${user.balance}</a></li>
+                        <li><a href="transactionHistory" id="money">${user.balance}</a></li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -266,11 +266,11 @@
                                 <div class="d-flex mb-3 align-items-center">
                                     <div class="col-md-12 text-center">
                                         <button class="col-md-5 btn custom-button p-2" style="font-size: medium; margin-right: 20px; background: #d21300"
-                                                onclick="openComplaintPopup('${chosenPost.tradingCode}')">
+                                                onclick="openComplaintPopup('${chosenPost.tradingCode}')" id="btnRed1">
                                             <i class="fa fa-times-circle" style="margin-right: 4px"></i>REPORT PROBLEM
                                         </button>
                                         <button class="col-md-5 btn custom-button p-2" style="font-size: medium"
-                                                onclick="openConfirmationPopup('${chosenPost.tradingCode}')">
+                                                onclick="openConfirmationPopup('${chosenPost.tradingCode}')" id="btnGreen1">
                                             <i class="fa fa-check-circle" style="margin-right: 4px"></i>
                                             CONFIRM PRODUCT RECEIVED
                                         </button>
@@ -302,11 +302,11 @@
                             <c:when test="${chosenPost.status == 'sellerDeniedComplaint'}">
                                 <div class="col-md-12 text-center">
                                     <button class="col-md-5 btn custom-button p-2" style="font-size: medium; margin-right: 20px; background: #d21300"
-                                            onclick="openReportAdminPopup('${chosenPost.tradingCode}')">
+                                            onclick="openReportAdminPopup('${chosenPost.tradingCode}')" id="btnRed">
                                         <i class="fa fa-phone" style="margin-right: 4px"></i>REPORT TO ADMIN
                                     </button>
                                     <button class="col-md-5 btn custom-button p-2" style="font-size: medium"
-                                            onclick="openConfirmationPopup('${chosenPost.tradingCode}')">
+                                            onclick="openConfirmationPopup('${chosenPost.tradingCode}')" id="btnGreen">
                                         <i class="fa fa-check-circle" style="margin-right: 4px"></i>
                                         CONFIRM PRODUCT RECEIVED
                                     </button>
@@ -327,7 +327,6 @@
                     <tr>
                         <th>Title</th>
                         <th>Total spend</th>
-                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -336,7 +335,6 @@
                         <tr>
                             <td>${post.topic}</td>
                             <td>${post.totalSpendForBuyer}</td>
-                            <td>${post.status}</td>
                             <td>
                                 <button class="custom-button btn btn-lg"
                                         onclick="viewBuyingDetail('${post.tradingCode}')" style="font-size: small">
@@ -617,6 +615,34 @@
     });
 </script>
 
+<!-- ------------------Button size------------------ -->
+<script>
+    window.onload = function () {
+        var btnReport = document.getElementById('btnRed');
+        var btnConfirm = document.getElementById('btnGreen');
+        var btnReport1 = document.getElementById('btnRed1');
+        var btnConfirm1 = document.getElementById('btnGreen1');
+        var initialWidth = btnConfirm.offsetWidth;
+        var initialHeight = btnConfirm.offsetHeight;
+        btnReport.style.width = initialWidth + 'px';
+        btnReport.style.height = initialHeight + 'px';
+        var initialWidth1 = btnConfirm1.offsetWidth;
+        var initialHeight1 = btnConfirm1.offsetHeight;
+        btnReport1.style.width = initialWidth1 + 'px';
+        btnReport1.style.height = initialHeight1 + 'px';
+
+        window.addEventListener('resize', function () {
+            var newWidth = btnConfirm.offsetWidth;
+            var newHeight = btnConfirm.offsetHeight;
+            var newWidth1 = btnConfirm1.offsetWidth;
+            var newHeight1 = btnConfirm1.offsetHeight;
+            btnReport.style.width = newWidth + 'px';
+            btnReport.style.height = newHeight + 'px';
+            btnReport1.style.width = newWidth1 + 'px';
+            btnReport1.style.height = newHeight1 + 'px';
+        });
+    };
+</script>
 <!-- Bootstrap core JavaScript -->
 <script src="https://cdn.tiny.cloud/1/qmw4wavlc4ekzay2c6m9pxxoyvi1ni12vki7sz9clkyfyyo2/tinymce/6/tinymce.min.js"
         referrerpolicy="origin"></script>

@@ -240,31 +240,24 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>ID</th>
                                         <th>Username</th>
                                         <th>Nickname</th>
                                         <th>Amount</th>
                                         <th>Date Create</th>
-                                        <th>Id Deleted</th>
+                                        <th>Bank info</th>
                                         <th>Action</th>
-                                        <th>Edit</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <c:forEach items="${transactions}" var="u">
                                         <tr>
-                                            <td>
-                                                <label>
-                                                    <input value="${u.getTransactionID()}" name="selectedTrans" type="checkbox">
-                                                </label>
-                                            </td>
                                             <td>${u.getTransactionID()}</td>
                                             <td>${u.getUserID().getUsername()}</td>
                                             <td>${u.getUserID().getNickname()}</td>
                                             <td>${u.getAmount()}</td>
                                             <td>${u.getCreatedAt()}</td>
-                                            <td>${u.getDelete()}</td>
+                                            <td>${u.getDescription()}</td>
                                             <td>
                                                 <div class="dropdown">
                                                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-radius: 2px; background-color: rgb(82, 196, 82);">
@@ -276,7 +269,6 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td><a href="#">Details</a></td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
@@ -328,7 +320,7 @@
             <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="login.html">Logout</a>
+                <a class="btn btn-primary" href="signOut">Logout</a>
             </div>
         </div>
     </div>

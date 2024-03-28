@@ -26,12 +26,6 @@ public class BaseAuditable {
     private Long updatedBy;
     @Column(name = "deleted_by")
     private Long deletedBy;
-    @Column(name = "create2")
-    private LocalDateTime create2;
-    @Column(name = "update2")
-    private LocalDateTime update2;
-    @Column(name = "delete2")
-    private LocalDateTime delete2;
 
     public Date getCreatedAt() {
         return createdAt;
@@ -89,45 +83,21 @@ public class BaseAuditable {
         this.deletedBy = deletedBy;
     }
 
-    public LocalDateTime getCreate2() {
-        return create2;
-    }
-
-    public void setCreate2(LocalDateTime create2) {
-        this.create2 = create2;
-    }
-
-    public LocalDateTime getUpdate2() {
-        return update2;
-    }
-
-    public void setUpdate2(LocalDateTime update2) {
-        this.update2 = update2;
-    }
-
-    public LocalDateTime getDelete2() {
-        return delete2;
-    }
-
-    public void setDelete2(LocalDateTime delete2) {
-        this.delete2 = delete2;
-    }
-
     @PrePersist
     protected void onCreate() {
         createdAt = new Date();
         isDelete = false;
-        create2 = LocalDateTime.now();
+
     }
 
     @PreUpdate
     protected void onUpdate() {
         updatedAt = new Date();
-        update2 = LocalDateTime.now();
+
     }
     @PreRemove
     protected void onDelete() {
         deletedAt = new Date();
-        delete2 = LocalDateTime.now();
+
     }
 }

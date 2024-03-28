@@ -64,7 +64,7 @@
         </li>
 
         <li class="nav-item active">
-            <a class="nav-link" href="conflict.html">
+            <a class="nav-link" href="conflictManage">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Conflict Manage</span></a>
         </li>
@@ -190,7 +190,7 @@
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">Administrator</span>
                             <img class="img-profile rounded-circle" src="../adminContent/img/undraw_profile.svg">
                         </a>
                         <!-- Dropdown - User Information -->
@@ -209,7 +209,7 @@
                                 Activity Log
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                            <a class="dropdown-item" href="signOut" data-toggle="modal" data-target="#logoutModal">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Logout
                             </a>
@@ -247,7 +247,6 @@
                                     <th>User receive</th>
                                     <th>Date Send</th>
                                     <th>Action</th>
-                                    <th>Details</th>
                                 </tr>
                                 </thead>
                                 <tfoot>
@@ -258,7 +257,6 @@
                                     <th>User receive</th>
                                     <th>Date Send</th>
                                     <th>Action</th>
-                                    <th>Details</th>
                                 </tr>
                                 </tfoot>
                                 <tbody>
@@ -274,7 +272,6 @@
                                                 Process
                                             </button>
                                         </td>
-                                        <td><a href="#">Details</a></td>
                                     </tr>
                                 </c:forEach>
 
@@ -326,7 +323,7 @@
             <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="login.html">Logout</a>
+                <a class="btn btn-primary" href="signOut">Logout</a>
             </div>
         </div>
     </div>

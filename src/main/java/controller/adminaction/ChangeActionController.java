@@ -14,6 +14,15 @@ import java.io.IOException;
 public class ChangeActionController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String username = (String) req.getSession().getAttribute("username");
+        if (username == null) {
+            resp.sendRedirect(req.getContextPath() + "/signin");
+        }
+        if (!username.equals("admin")) {
+            req.setAttribute("notification", "Invalid action! <a href=home>Go back here</a>");
+            req.getRequestDispatcher("/WEB-INF/view/statusNotification.jsp").forward(req, resp);
+        }
+
         TransactionDAO transactionDAO = new TransactionDAO();
 
         String transactionID = req.getParameter("transactionID");

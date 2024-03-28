@@ -62,7 +62,7 @@
                         </li>
                         <li><a href="buyingPost">Buying posts</a>
                         </li>
-                        <li><a href="" id="money">${user.balance}</a></li>
+                        <li><a href="transactionHistory" id="money">${user.balance}</a></li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -111,7 +111,7 @@
                     <tr>
                         <td class="td-overflow">${post.tradingCode}</td>
                         <td class="td-overflow">${post.topic}</td>
-                        <td>${post.buyerID.nickname}</td>
+                        <td class="td-overflow">${post.buyerID.nickname}</td>
                         <td id="money-1">${post.price}</td>
                         <td><c:choose>
                             <c:when test="${post.whoPayFee == 'half'}">
@@ -138,7 +138,10 @@
                                 <c:when test="${post.status eq 'buyerComplaining'}">
                                     Buyer Complaining about the product
                                 </c:when>
-                                <c:when test="${post.status eq 'buyerCanceledComplain'}">
+                                <c:when test="${post.status eq 'buyerCanceledComplaint'}">
+                                    Waiting confirm from Buyer
+                                </c:when>
+                                <c:when test="${post.status eq 'sellerDeniedComplaint'}">
                                     Seller Denied Buyer's Complaint
                                 </c:when>
                                 <c:when test="${post.status eq 'waitingAdmin'}">

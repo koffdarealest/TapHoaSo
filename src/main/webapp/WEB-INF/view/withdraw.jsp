@@ -59,7 +59,7 @@
                         <li><a href="market">Public market</a></li>
                         <li><a href="sellingPost">Selling posts</a>
                         </li>
-                        <li><a href="" id="money">${user.balance}</a></li>
+                        <li><a href="transactionHistory" id="money">${user.balance}</a></li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -77,7 +77,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h3>Deposit</h3>
+                <h3>WITHDRAW</h3>
 
             </div>
         </div>
@@ -96,7 +96,7 @@
                 <div class="card-body">
                     <form action="withdraw" id="frmCreateOrder" method="post">
                         <!-- -------------Total Amount------------- -->
-                        <div class="d-flex mb-3 align-items-center">
+                        <div class="d-flex mb-4 align-items-center">
                             <div class="label-form col-md-3">
                                 <label class="label">Amount (=>10000) (*)</label>
                             </div>
@@ -104,12 +104,24 @@
                                 <input placeholder="The amount you need to withdraw" type="text" name="amount" class="form-control" required id="amount">
                                 <p class="text-danger" id="priceError"></p>
                             </div>
-
                         </div>
+                        <!-- ---------------Bank Account--------------- -->
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="label-form col-md-3">
+                                <label class="label">Bank Account (*)</label>
+                            </div>
+                            <div class="col-md-9 form-group">
+                                <textarea placeholder="Your Bank Account" class="form-control" name="bankingInfo" required></textarea>
+                                <!-- input Contact -->
+                            </div>
+                        </div>
+                        <p class="text-muted mb-3">Write bank information in the form "Bank - account number - owner name". Wrong or confusingly written bank accounts mean LOSE money when the admin processes your withdrawal!</p>
+                        <!-- ---------------Error field--------------- -->
+                        <h6 class="text-danger mb-2">${error}</h6>
                         <!-- ---------------Submit--------------- -->
                         <div class="d-flex mb-3 align-items-center">
                             <div class="form-group col-md-12 text-center">
-                                <button type="submit" class="col-md-3 btn btn-primary p-3">Withdraw</button>
+                                <button type="submit" class="col-md-3 btn btn-primary p-3 button-border">Withdraw</button>
                                 <!-- Submit -->
                             </div>
                         </div>

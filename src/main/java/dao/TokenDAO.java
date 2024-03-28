@@ -62,7 +62,7 @@ public class TokenDAO {
                     Token token = new Token();
                     token.setToken(tokenValue);
                     token.setUserID(user);
-                    token.setExpTime(java.time.LocalDateTime.now().plusMinutes(2));
+                    token.setExpTime(java.time.LocalDateTime.now().plusMinutes(5));
                     token.setTokenType("signup");
                     session.save(token);
                     session.getTransaction().commit();
@@ -87,7 +87,7 @@ public class TokenDAO {
                     Token token = new Token();
                     token.setToken(tokenValue);
                     token.setUserID(user);
-                    token.setExpTime(java.time.LocalDateTime.now().plusMinutes(2));
+                    token.setExpTime(java.time.LocalDateTime.now().plusMinutes(5));
                     token.setTokenType("withdraw");
                     session.save(token);
                     session.getTransaction().commit();

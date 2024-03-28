@@ -65,7 +65,7 @@
                         </li>
                         <li><a href="buyingPost">Buying posts</a>
                         </li>
-                        <li><a href="" id="money">${user.balance}</a></li>
+                        <li><a href="transactionHistory" id="money">${user.balance}</a></li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -79,7 +79,7 @@
 </header>
 <!-- ***** Header Area End ***** -->
 
-<div class="page-heading header-text mb-5">
+<div class="page-heading header-text mb-4">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -89,10 +89,10 @@
     </div>
 </div>
 
-<div class="d-flex mb-5 justify-content-center">
-    <button class="col-md-3 btn btn-primary p-3 button-border" onclick="location.href='deposit'" style="margin-right: 50px; background: #0f6848">DEPOSIT
+<div class="d-flex mb-4 justify-content-center">
+    <button class="col-md-3 btn btn-primary p-3 button-border" onclick="location.href='deposit'" style="margin-right: 50px; background: #0f6848; font-size: x-large"><i class="fa fa-"></i>DEPOSIT
     </button>
-    <button class="col-md-3 btn btn-primary p-3 button-border" onclick="location.href='withdraw'" style="background: #be7000">WITHDRAW
+    <button class="col-md-3 btn btn-primary p-3 button-border" onclick="location.href='withdraw'" style="background: #be7000; font-size: x-large">WITHDRAW
     </button>
 </div>
 

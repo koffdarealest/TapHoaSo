@@ -59,7 +59,7 @@
                         <li><a href="market">Public market</a></li>
                         <li><a href="sellingPost">Selling posts</a>
                         </li>
-                        <li><a href="" id="money">${user.balance}</a></li>
+                        <li><a href="transactionHistory" id="money">${user.balance}</a></li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -138,7 +138,7 @@
                         <!-- ---------------Submit--------------- -->
                         <div class="d-flex mb-3 align-items-center">
                             <div class="form-group col-md-12 text-center">
-                                <button type="submit" class="col-md-3 btn btn-primary p-3">Submit Payment</button>
+                                <button type="submit" class="col-md-3 btn btn-primary p-3 button-border">Submit Payment</button>
                                 <!-- Submit -->
                             </div>
                         </div>

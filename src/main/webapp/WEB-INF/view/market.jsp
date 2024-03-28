@@ -202,7 +202,7 @@
                                     </c:forEach>
                                 </div>
                             </div>
-                        <li><a href="" id="money">${user.balance}</a></li>
+                        <li><a href="transactionHistory" id="money">${user.balance}</a></li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -346,7 +346,7 @@
                         </td>
                         <td id="money-2">${post.fee}</td>
                         <td id="money-3" style="font-weight: bold">${post.totalSpendForBuyer}</td>
-                        <td>${post.sellerID.nickname}</td>
+                        <td class="td-overflow">${post.sellerID.nickname}</td>
                         <td>
                             <c:set var="createdAt" value="${post.createdAt}"/>
                             <fmt:formatDate value="${createdAt}" pattern="dd/MM/yyyy HH:mm:ss"/>
@@ -399,7 +399,7 @@
     window.onload = function () {
         const table = document.getElementById('marketTable');
         const headers = table.getElementsByTagName('th');
-        const maxRows = 10; // Số hàng tối đa
+        const maxRows = 15; // Số hàng tối đa
         const existingRowHeight = table.rows[1].offsetHeight; // Chiều cao của hàng thứ hai
         let rowCounter = table.rows.length - 1; // Số hàng hiện có (trừ đi hàng header)
         // Khởi tạo bảng tới số hàng tối đa

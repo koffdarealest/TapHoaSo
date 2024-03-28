@@ -30,16 +30,14 @@ public class DeleteUserController extends HttpServlet {
         System.out.println(action);
         if (action != null && selectedUser != null) {
             if (action.equals("delete")) {
-                System.out.println("OpendeleteUser");
                 updateDeleteUser(list, selectedUser, userDAO);
             } else if (action.equals("open")) {
-                System.out.println("OpenUser");
                 updateOpenUser(list, selectedUser, userDAO);
             }
         }
 
         // Redirect to userManage page
-        resp.sendRedirect(req.getContextPath() + "/userManage");
+        resp.sendRedirect(req.getContextPath() + "/adminManage");
     }
 
 

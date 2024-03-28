@@ -1,10 +1,7 @@
 package dao;
 
 import jakarta.persistence.OptimisticLockException;
-import model.Post;
-import model.User;
-import model.Transaction;
-import model.VnPayTransaction;
+import model.*;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.hibernate.Session;
@@ -97,15 +94,15 @@ public class TransactionDAO {
         return trans;
     }
 
-    public Transaction createWithdrawTrans(User user, Long amount) {
+    public Transaction createWithdrawTrans(WithdrawRequest withdrawRequest) {
         Transaction trans = new Transaction();
-        trans.setUserID(user);
-        trans.setAmount(amount);
+        trans.setUserID(withdrawRequest.getUserID());
+        trans.setAmount(withdrawRequest.getAmount());
         trans.setType("-");
         trans.setAction("withdraw");
-        trans.setDescription("Withdraw money");
+        trans.setDescription("Withdraw money to: " + withdrawRequest.getBankingInfo());
         trans.setProcessed(false);
-        trans.setCreatedBy(user.getUserID());
+        trans.setCreatedBy(withdrawRequest.getUserID().getUserID());
         return trans;
     }
 

@@ -291,9 +291,6 @@
                             </div>
                         </div>
                     </div>
-                <button type="submit" class="btn btn-danger">Block</button>
-                <button type="submit" class="btn btn-facebook">Open Block</button>
-                <button type="submit" class="btn btn-success">Update</button>
                 <!-- End of Form -->
             </div>
 

@@ -67,7 +67,7 @@
                                 <i class="fas fa-bell" style="color: white"></i>
                             </div>
                         </li>
-                        <li><a href="" id="money">${user.balance}</a></li>
+                        <li><a href="transactionHistory" id="money">${user.balance}</a></li>
                         <li><a href="signOut">Sign Out</a></li>
                     </ul>
                     <a class='menu-trigger'>
@@ -116,7 +116,7 @@
                     <tr>
                         <td class="td-overflow">${post.tradingCode}</td>
                         <td class="td-overflow">${post.topic}</td>
-                        <td>${post.contact}</td>
+                        <td class="td-overflow">${post.contact}</td>
                         <td id="money-1">${post.price}</td>
                         <td><c:choose>
                             <c:when test="${post.whoPayFee == 'half'}">
@@ -132,7 +132,34 @@
                         </td>
                         <td id="money-2">${post.fee}</td>
                         <td id="money-3" style="font-weight: bold">${post.totalSpendForBuyer}</td>
-                        <td class="td-overflow">${post.status}</td>
+                        <td class="td-overflow">
+                            <c:choose>
+                                <c:when test="${post.status eq 'readyToSell'}">
+                                    Selling
+                                </c:when>
+                                <c:when test="${post.status eq 'buyerChecking'}">
+                                    Buyer Checking
+                                </c:when>
+                                <c:when test="${post.status eq 'buyerComplaining'}">
+                                    Buyer Complaining about the product
+                                </c:when>
+                                <c:when test="${post.status eq 'buyerCanceledComplaint'}">
+                                    Waiting confirm from Buyer
+                                </c:when>
+                                <c:when test="${post.status eq 'sellerDeniedComplaint'}">
+                                    Seller Denied Buyer's Complaint
+                                </c:when>
+                                <c:when test="${post.status eq 'waitingAdmin'}">
+                                    Waiting for Admin
+                                </c:when>
+                                <c:when test="${post.status eq 'done'}">
+                                    Done
+                                </c:when>
+                                <c:when test="${post.status eq 'cancelled'}">
+                                    Cancelled
+                                </c:when>
+                            </c:choose>
+                        </td>
                         <td>
                             <c:set var="createdAt" value="${post.createdAt}"/>
                             <fmt:formatDate value="${createdAt}" pattern="dd/MM/yyyy HH:mm:ss"/>

@@ -264,4 +264,7 @@ th {
     font-weight: bold ;
     border: 0;
 }
+.button-height {
+    height: 40px;
+}
 
