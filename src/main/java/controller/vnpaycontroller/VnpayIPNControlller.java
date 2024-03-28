@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import util.Config;
-import util.StringConverter;
+import util.Converter;
 import util.VnPayConstant;
 
 import java.io.IOException;
@@ -51,7 +51,7 @@ public class VnpayIPNControlller extends HttpServlet {
         req.setAttribute("VAR_RespCode", vnpResponseCode);
         req.setAttribute("VAR_TransNo", vnpTransactionNo);
         req.setAttribute("VAR_BankCode", vnpBankCode);
-        req.setAttribute("VAR_PayDate", StringConverter.convertTimestamp(vnpPayDate));
+//        req.setAttribute("VAR_PayDate", Converter.convertTimestamp(vnpPayDate));
         req.setAttribute("IS_SUCCESS", false);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/view/viewVnPayResult.jsp");

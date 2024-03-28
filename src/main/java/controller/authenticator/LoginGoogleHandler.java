@@ -52,6 +52,7 @@ public class LoginGoogleHandler extends HttpServlet {
             String username = user.getUsername();
             boolean isLoginWithGoogle = user.getSigninWithGoogle();
             if (isLoginWithGoogle) {
+                request.setAttribute("user", user);
                 request.getSession().setAttribute("username", username);
                 request.getRequestDispatcher("/WEB-INF/view/home.jsp").forward(request, response);
             } else {
